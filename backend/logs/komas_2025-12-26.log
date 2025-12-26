@@ -150,3 +150,682 @@
 2025-12-26 11:30:36 | INFO     | app.main                  | [1130363021] ERR GET /api/indicator/presets - 404 (1ms)
 2025-12-26 11:30:38 | DEBUG    | app.main                  | [1130380674] POST /api/indicator/calculate
 2025-12-26 11:30:42 | INFO     | app.main                  | [1130380674] OK POST /api/indicator/calculate - 200 (3961ms)
+2025-12-26 11:38:26 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:38:26 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:38:26 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:38:26 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:38:27 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:38:27 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:38:27 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:38:27 | INFO     | app.main                  | ============================================================
+2025-12-26 11:38:27 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:38:27 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:38:27 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:38:27 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:38:27 | INFO     | app.main                  | ============================================================
+2025-12-26 11:38:31 | DEBUG    | app.main                  | [1138313989] GET /api/indicator/presets
+2025-12-26 11:38:31 | INFO     | app.main                  | [1138313989] ERR GET /api/indicator/presets - 404 (0ms)
+2025-12-26 11:38:31 | DEBUG    | app.main                  | [1138314085] GET /api/indicator/presets
+2025-12-26 11:38:31 | INFO     | app.main                  | [1138314085] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 11:38:33 | DEBUG    | app.main                  | [1138336931] POST /api/indicator/calculate
+2025-12-26 11:38:37 | INFO     | app.main                  | [1138336931] OK POST /api/indicator/calculate - 200 (3336ms)
+2025-12-26 11:39:51 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:51 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:39:51 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:53 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:39:53 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:39:53 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:39:53 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:39:53 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:39:53 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:39:53 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:39:53 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:53 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:39:53 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:39:53 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:39:53 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:39:53 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:54 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:39:55 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:39:55 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:39:55 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:39:55 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:39:55 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:39:55 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:39:55 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:55 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:39:55 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:39:55 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:39:55 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:39:55 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:39:59 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:39:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:00 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:00 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:00 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:00 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:00 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:00 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:01 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:01 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:01 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:01 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:01 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:01 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:01 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:02 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:02 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:02 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:02 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:02 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:02 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:02 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:02 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:02 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:02 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:02 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:04 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:04 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:04 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:04 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:04 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:04 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:04 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:04 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:04 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:04 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:04 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:07 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:07 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:07 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:08 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:08 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:08 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:08 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:08 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:08 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:08 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:08 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:08 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:08 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:08 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:08 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:08 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:11 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:11 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:11 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:12 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:12 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:12 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:12 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:12 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:12 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:12 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:12 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:12 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:12 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:12 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:23 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:23 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:23 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:24 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:24 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:24 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:24 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:24 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:24 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:24 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:24 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:24 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:24 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:24 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:24 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:24 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:40 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:42 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:42 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:42 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:42 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:42 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:42 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:42 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:42 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:42 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:42 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:42 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:42 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:42 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:47 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:47 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:47 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:48 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:48 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:48 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:48 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:48 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:48 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:48 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:48 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:48 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:48 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:48 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:48 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:48 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:49 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:49 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:49 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:50 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:50 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:50 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:50 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:50 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:50 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:51 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:51 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:51 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:51 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:51 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:51 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:51 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:52 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:52 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:52 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:52 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:52 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:52 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:52 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:52 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:52 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:52 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:52 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:52 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:52 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:56 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:56 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:40:56 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:57 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:57 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:57 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:57 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:57 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:57 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:57 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:57 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:57 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:57 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:57 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:57 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:57 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:58 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:40:59 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:40:59 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:40:59 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:40:59 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:40:59 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:40:59 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:40:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:40:59 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:40:59 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:40:59 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:40:59 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:40:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:00 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:00 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:00 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:01 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:01 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:01 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:01 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:01 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:01 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:02 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:02 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:02 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:02 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:02 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:03 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:03 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:03 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:03 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:03 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:03 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:03 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:03 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:03 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:03 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:03 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:03 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:03 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:04 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:04 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:04 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:04 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:05 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:05 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:05 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:05 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:05 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:05 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:05 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:05 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:05 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:10 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:10 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:10 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:11 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:12 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:12 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:12 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:12 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:12 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:12 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:12 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:12 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:12 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:12 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:12 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:12 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:13 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:14 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:14 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:14 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:14 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:14 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:14 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:14 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:14 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:14 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:14 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:14 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:14 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:18 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:18 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:18 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:20 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:20 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:20 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:20 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:20 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:20 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:20 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:20 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:20 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:20 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:20 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:20 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:20 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:21 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:22 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:22 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:22 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:22 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:22 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:22 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:22 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:22 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:22 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:22 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:22 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:22 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:23 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:23 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:23 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:23 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:23 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:23 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:24 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:24 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:24 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:24 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:24 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:24 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:24 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:31 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:31 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:31 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:32 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:33 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:33 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:33 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:33 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:33 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:33 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:33 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:33 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:33 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:33 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:33 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:33 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:39 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:40 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:40 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:40 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:40 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:40 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:40 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:40 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:40 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:40 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:40 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:40 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:41 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:41 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:41 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:42 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:42 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:42 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:42 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:42 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:42 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:42 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:42 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:42 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:42 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:42 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:42 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:42 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:50 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:50 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:50 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:51 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:51 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:51 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:51 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:51 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:51 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:52 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:52 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:52 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:52 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:52 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:52 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:52 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:53 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:53 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:53 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:53 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:53 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:53 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:53 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:53 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:53 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:53 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:53 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:53 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:53 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:54 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:41:54 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:41:55 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:41:55 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:41:55 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:41:55 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:41:55 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:41:55 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:55 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:41:55 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:41:55 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:41:55 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:41:55 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:41:59 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:41:59 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:00 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:42:00 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:42:00 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:42:00 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:42:00 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:42:00 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:42:01 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:42:01 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:01 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:42:01 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:42:01 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:42:01 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:42:01 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:02 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:42:02 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:42:02 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:42:02 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:42:02 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:42:02 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:42:02 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:42:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:02 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:42:02 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:42:02 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:42:02 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:42:02 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:03 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:42:04 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:42:04 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:42:04 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:42:04 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:42:04 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:42:04 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:42:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:04 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:42:04 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:42:04 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:42:04 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:42:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:04 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:42:04 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:06 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:42:06 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:42:06 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:42:06 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:42:06 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:42:06 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:42:06 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:42:06 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:06 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:42:06 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:42:06 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:42:06 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:42:06 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:39 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:42:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:40 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:42:40 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:42:40 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:42:40 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:42:40 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:42:40 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:42:40 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:42:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:42:40 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:42:40 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:42:40 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:42:40 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:42:40 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:08 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:08 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:43:08 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:09 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:43:09 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:43:09 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:43:09 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:43:09 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:43:09 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:43:10 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:43:10 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:10 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:43:10 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:43:10 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:43:10 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:43:10 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:18 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:18 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:43:18 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:19 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:43:19 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:43:19 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:43:19 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:43:19 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:43:19 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:43:20 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:43:20 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:20 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:43:20 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:43:20 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:43:20 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:43:20 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:38 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:38 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 11:43:38 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:39 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:43:39 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:43:39 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:43:39 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:43:39 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:43:39 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:43:39 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:43:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:39 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:43:39 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:43:39 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:43:39 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:43:39 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:40 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:43:40 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:43:40 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:43:40 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:43:40 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:43:40 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:43:41 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:43:41 | INFO     | app.main                  | ============================================================
+2025-12-26 11:43:41 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:43:41 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:43:41 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:43:41 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:43:41 | INFO     | app.main                  | ============================================================
+2025-12-26 11:46:59 | DEBUG    | app.main                  | [1146591319] GET /api/indicator/presets
+2025-12-26 11:46:59 | INFO     | app.main                  | [1146591319] ERR GET /api/indicator/presets - 404 (0ms)
+2025-12-26 11:46:59 | DEBUG    | app.main                  | [1146591953] GET /api/indicator/presets
+2025-12-26 11:46:59 | INFO     | app.main                  | [1146591953] ERR GET /api/indicator/presets - 404 (0ms)
+2025-12-26 11:52:32 | DEBUG    | app.main                  | [1152324556] GET /
+2025-12-26 11:52:32 | INFO     | app.main                  | [1152324556] OK GET / - 200 (2ms)
+2025-12-26 11:52:37 | DEBUG    | app.main                  | [1152376625] GET /ads.txt
+2025-12-26 11:52:37 | INFO     | app.main                  | [1152376625] ERR GET /ads.txt - 404 (1ms)
+2025-12-26 11:58:16 | DEBUG    | app.main                  | [1158164450] GET /
+2025-12-26 11:58:16 | INFO     | app.main                  | [1158164450] OK GET / - 200 (1ms)
+2025-12-26 11:58:16 | DEBUG    | app.main                  | [1158168180] GET /
+2025-12-26 11:58:16 | INFO     | app.main                  | [1158168180] OK GET / - 200 (0ms)
+2025-12-26 11:58:17 | DEBUG    | app.main                  | [1158171760] GET /wp-includes/wlwmanifest.xml
+2025-12-26 11:58:17 | INFO     | app.main                  | [1158171760] ERR GET /wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:17 | DEBUG    | app.main                  | [1158175348] GET /xmlrpc.php
+2025-12-26 11:58:17 | INFO     | app.main                  | [1158175348] ERR GET /xmlrpc.php - 404 (1ms)
+2025-12-26 11:58:17 | DEBUG    | app.main                  | [1158179029] GET /
+2025-12-26 11:58:17 | INFO     | app.main                  | [1158179029] OK GET / - 200 (1ms)
+2025-12-26 11:58:18 | DEBUG    | app.main                  | [1158182981] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:18 | INFO     | app.main                  | [1158182981] ERR GET /blog/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:18 | DEBUG    | app.main                  | [1158186751] GET /web/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:18 | INFO     | app.main                  | [1158186751] ERR GET /web/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:19 | DEBUG    | app.main                  | [1158190423] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:19 | INFO     | app.main                  | [1158190423] ERR GET /wordpress/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:19 | DEBUG    | app.main                  | [1158193969] GET /website/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:19 | INFO     | app.main                  | [1158193969] ERR GET /website/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:19 | DEBUG    | app.main                  | [1158197647] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:19 | INFO     | app.main                  | [1158197647] ERR GET /wp/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:20 | DEBUG    | app.main                  | [1158201218] GET /news/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:20 | INFO     | app.main                  | [1158201218] ERR GET /news/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:20 | DEBUG    | app.main                  | [1158205082] GET /2018/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:20 | INFO     | app.main                  | [1158205082] ERR GET /2018/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:20 | DEBUG    | app.main                  | [1158208754] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:20 | INFO     | app.main                  | [1158208754] ERR GET /2019/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:21 | DEBUG    | app.main                  | [1158212276] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:21 | INFO     | app.main                  | [1158212276] ERR GET /shop/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:21 | DEBUG    | app.main                  | [1158215978] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:21 | INFO     | app.main                  | [1158215978] ERR GET /wp1/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:21 | DEBUG    | app.main                  | [1158219639] GET /test/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:21 | INFO     | app.main                  | [1158219639] ERR GET /test/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:22 | DEBUG    | app.main                  | [1158223385] GET /media/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:22 | INFO     | app.main                  | [1158223385] ERR GET /media/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:22 | DEBUG    | app.main                  | [1158227239] GET /wp2/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:22 | INFO     | app.main                  | [1158227239] ERR GET /wp2/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:23 | DEBUG    | app.main                  | [1158230783] GET /site/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:23 | INFO     | app.main                  | [1158230783] ERR GET /site/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 11:58:23 | DEBUG    | app.main                  | [1158234480] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:23 | INFO     | app.main                  | [1158234480] ERR GET /cms/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 11:58:23 | DEBUG    | app.main                  | [1158238157] GET /sito/wp-includes/wlwmanifest.xml
+2025-12-26 11:58:23 | INFO     | app.main                  | [1158238157] ERR GET /sito/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:03:30 | INFO     | app.main                  | ============================================================
+2025-12-26 12:03:30 | INFO     | app.main                  | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 12:03:30 | INFO     | app.main                  | ============================================================
+2025-12-26 12:03:31 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 12:03:31 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 12:03:31 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 12:03:31 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 12:03:31 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 12:03:31 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 12:03:32 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 12:03:32 | INFO     | app.main                  | ============================================================
+2025-12-26 12:03:32 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 12:03:32 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 12:03:32 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 12:03:32 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 12:03:32 | INFO     | app.main                  | ============================================================
+2025-12-26 12:03:32 | DEBUG    | app.main                  | [1203321917] GET /
+2025-12-26 12:03:32 | INFO     | app.main                  | [1203321917] OK GET / - 200 (1ms)
+2025-12-26 12:07:52 | DEBUG    | app.main                  | [1207521931] GET /
+2025-12-26 12:07:52 | INFO     | app.main                  | [1207521931] OK GET / - 200 (0ms)
+2025-12-26 12:07:52 | DEBUG    | app.main                  | [1207526289] GET /
+2025-12-26 12:07:52 | INFO     | app.main                  | [1207526289] OK GET / - 200 (1ms)
+2025-12-26 12:07:53 | DEBUG    | app.main                  | [1207530631] GET /wp-includes/wlwmanifest.xml
+2025-12-26 12:07:53 | INFO     | app.main                  | [1207530631] ERR GET /wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 12:07:53 | DEBUG    | app.main                  | [1207534969] GET /xmlrpc.php
+2025-12-26 12:07:53 | INFO     | app.main                  | [1207534969] ERR GET /xmlrpc.php - 404 (1ms)
+2025-12-26 12:07:53 | DEBUG    | app.main                  | [1207539316] GET /
+2025-12-26 12:07:53 | INFO     | app.main                  | [1207539316] OK GET / - 200 (1ms)
+2025-12-26 12:07:54 | DEBUG    | app.main                  | [1207543670] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:54 | INFO     | app.main                  | [1207543670] ERR GET /blog/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:54 | DEBUG    | app.main                  | [1207548009] GET /web/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:54 | INFO     | app.main                  | [1207548009] ERR GET /web/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:55 | DEBUG    | app.main                  | [1207552560] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:55 | INFO     | app.main                  | [1207552560] ERR GET /wordpress/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:55 | DEBUG    | app.main                  | [1207556839] GET /website/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:55 | INFO     | app.main                  | [1207556839] ERR GET /website/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:56 | DEBUG    | app.main                  | [1207561183] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:56 | INFO     | app.main                  | [1207561183] ERR GET /wp/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:56 | DEBUG    | app.main                  | [1207565517] GET /news/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:56 | INFO     | app.main                  | [1207565517] ERR GET /news/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 12:07:56 | DEBUG    | app.main                  | [1207569862] GET /2020/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:56 | INFO     | app.main                  | [1207569862] ERR GET /2020/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:57 | DEBUG    | app.main                  | [1207574263] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:57 | INFO     | app.main                  | [1207574263] ERR GET /2019/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:57 | DEBUG    | app.main                  | [1207578611] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:57 | INFO     | app.main                  | [1207578611] ERR GET /shop/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:58 | DEBUG    | app.main                  | [1207582974] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:58 | INFO     | app.main                  | [1207582974] ERR GET /wp1/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-26 12:07:58 | DEBUG    | app.main                  | [1207587358] GET /test/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:58 | INFO     | app.main                  | [1207587358] ERR GET /test/wp-includes/wlwmanifest.xml - 404 (2ms)
+2025-12-26 12:07:59 | DEBUG    | app.main                  | [1207591738] GET /wp2/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:59 | INFO     | app.main                  | [1207591738] ERR GET /wp2/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:07:59 | DEBUG    | app.main                  | [1207596343] GET /site/wp-includes/wlwmanifest.xml
+2025-12-26 12:07:59 | INFO     | app.main                  | [1207596343] ERR GET /site/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:08:00 | DEBUG    | app.main                  | [1208000699] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-26 12:08:00 | INFO     | app.main                  | [1208000699] ERR GET /cms/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:08:00 | DEBUG    | app.main                  | [1208004976] GET /sito/wp-includes/wlwmanifest.xml
+2025-12-26 12:08:00 | INFO     | app.main                  | [1208004976] ERR GET /sito/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-26 12:10:16 | DEBUG    | app.main                  | [1210161569] GET /
+2025-12-26 12:10:16 | INFO     | app.main                  | [1210161569] OK GET / - 200 (1ms)
