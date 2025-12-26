@@ -1,0 +1,162 @@
+{
+  "id": "trg",
+  "name": "TRG Indicator",
+  "version": "1.4.0",
+  "description": "Trend Reversal Gauge - ATR-based trend following indicator with multi-level TP/SL and filters",
+  "author": "Komas Trading System",
+  "category": "trend",
+  "enabled": true,
+  
+  "entry_points": {
+    "indicator": "indicator.TRGIndicator",
+    "signals": "signals.TRGSignalGenerator",
+    "trading": "trading.TRGTradingSystem",
+    "filters": "filters.TRGFilterManager",
+    "optimizer": "optimizer.TRGOptimizer",
+    "backtest": "backtest.TRGBacktest"
+  },
+  
+  "parameters": {
+    "indicator": [
+      {
+        "name": "trg_atr_length",
+        "type": "int",
+        "default": 45,
+        "min": 10,
+        "max": 200,
+        "label": "ATR Length (i1)",
+        "description": "Period for ATR calculation"
+      },
+      {
+        "name": "trg_multiplier",
+        "type": "float",
+        "default": 4.0,
+        "min": 1.0,
+        "max": 10.0,
+        "step": 0.5,
+        "label": "Multiplier (i2)",
+        "description": "ATR multiplier for bands"
+      }
+    ],
+    
+    "trading": {
+      "take_profit": {
+        "count": {
+          "default": 4,
+          "min": 1,
+          "max": 10
+        },
+        "levels": [
+          {"percent": 1.05, "amount": 50},
+          {"percent": 1.95, "amount": 30},
+          {"percent": 3.75, "amount": 15},
+          {"percent": 6.0, "amount": 5},
+          {"percent": 8.0, "amount": 0},
+          {"percent": 10.0, "amount": 0},
+          {"percent": 12.0, "amount": 0},
+          {"percent": 15.0, "amount": 0},
+          {"percent": 18.0, "amount": 0},
+          {"percent": 20.0, "amount": 0}
+        ]
+      },
+      "stop_loss": {
+        "percent": {
+          "default": 6.0,
+          "min": 1.0,
+          "max": 50.0
+        },
+        "trailing_mode": {
+          "default": "breakeven",
+          "options": ["fixed", "breakeven", "cascade"]
+        }
+      },
+      "reentry": {
+        "allow": true,
+        "after_sl": true,
+        "after_tp": false
+      },
+      "leverage": {
+        "default": 1.0,
+        "min": 1.0,
+        "max": 125.0
+      },
+      "commission": {
+        "enabled": false,
+        "percent": 0.1
+      }
+    },
+    
+    "filters": {
+      "supertrend": {
+        "enabled": false,
+        "period": 10,
+        "multiplier": 3.0
+      },
+      "rsi": {
+        "enabled": false,
+        "period": 14,
+        "overbought": 70,
+        "oversold": 30
+      },
+      "adx": {
+        "enabled": false,
+        "period": 14,
+        "threshold": 25
+      },
+      "volume": {
+        "enabled": false,
+        "ma_period": 20,
+        "threshold": 1.5
+      }
+    },
+    
+    "optimization": {
+      "modes": ["indicator", "tp", "sl", "filters", "all", "full"],
+      "metrics": ["profit", "winrate", "sharpe", "profit_factor", "advanced"],
+      "parallel": true,
+      "streaming": true,
+      "heatmap": true
+    },
+    
+    "backtest": {
+      "adaptive_modes": [null, "indicator", "tp", "all"],
+      "initial_capital": 10000.0,
+      "monthly_stats": true,
+      "tp_tracking": true,
+      "equity_curve": true
+    }
+  },
+  
+  "ui_schema": {
+    "tabs": [
+      {"id": "chart", "label": "📈 График", "icon": "chart"},
+      {"id": "stats", "label": "📊 Статистика", "icon": "stats"},
+      {"id": "trades", "label": "📋 Сделки", "icon": "list"},
+      {"id": "monthly", "label": "📅 Месяцы", "icon": "calendar"},
+      {"id": "optimize", "label": "🔥 Оптимизация", "icon": "fire"},
+      {"id": "heatmap", "label": "🗺️ Heatmap", "icon": "map"}
+    ],
+    "sidebar": {
+      "sections": [
+        "indicator",
+        "take_profit",
+        "stop_loss",
+        "filters",
+        "advanced"
+      ]
+    }
+  },
+  
+  "dependencies": {
+    "python": ["numpy", "pandas"],
+    "optional": ["lightweight-charts"]
+  },
+  
+  "changelog": {
+    "1.4.0": "Added TRGBacktest engine with full trading simulation",
+    "1.3.0": "Added TRGOptimizer with multi-core support and SSE streaming",
+    "1.2.0": "Added TRGFilterManager with SuperTrend, RSI, ADX, Volume filters",
+    "1.1.0": "Added TRGTradingSystem with 10 TP levels and trailing SL",
+    "1.0.0": "Initial release with TRGIndicator and TRGSignalGenerator"
+  }
+}

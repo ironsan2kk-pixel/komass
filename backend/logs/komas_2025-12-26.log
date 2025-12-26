@@ -1,0 +1,127 @@
+2025-12-26 10:27:07 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 10:27:07 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 10:27:07 | WARNING  | app.main             | <module>             | ✗ Failed to load data routes: No module named 'app.api.data_routes'
+2025-12-26 10:27:07 | WARNING  | app.main             | <module>             | ✗ Failed to load indicator routes: No module named 'app.api.indicator_routes'
+2025-12-26 10:27:07 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\комас\backend\data\komas_signals.db
+2025-12-26 10:27:07 | INFO     | app.main             | <module>             | ✓ Loaded: signals routes
+2025-12-26 10:27:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:27:07 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 10:27:07 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\комас\backend\logs\komas_2025-12-26.log
+2025-12-26 10:27:07 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\комас\backend\logs\errors_2025-12-26.log
+2025-12-26 10:27:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:27:10 | DEBUG    | app.main             | log_requests         | [1027106844] POST /api/data/download
+2025-12-26 10:27:10 | INFO     | app.main             | log_requests         | [1027106844] ✗ POST /api/data/download - 404 (1ms)
+2025-12-26 10:27:12 | DEBUG    | app.main             | log_requests         | [1027123192] GET /api/indicator/presets
+2025-12-26 10:27:12 | INFO     | app.main             | log_requests         | [1027123192] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:27:12 | DEBUG    | app.main             | log_requests         | [1027123255] GET /api/indicator/presets
+2025-12-26 10:27:12 | INFO     | app.main             | log_requests         | [1027123255] ✗ GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:27:14 | DEBUG    | app.main             | log_requests         | [1027143040] POST /api/indicator/calculate
+2025-12-26 10:27:14 | INFO     | app.main             | log_requests         | [1027143040] ✗ POST /api/indicator/calculate - 404 (0ms)
+2025-12-26 10:27:16 | DEBUG    | app.main             | log_requests         | [1027167045] GET /api/data/symbols
+2025-12-26 10:27:16 | DEBUG    | app.main             | log_requests         | [1027167055] GET /api/data/status
+2025-12-26 10:27:16 | INFO     | app.main             | log_requests         | [1027167045] ✗ GET /api/data/symbols - 404 (1ms)
+2025-12-26 10:27:16 | INFO     | app.main             | log_requests         | [1027167055] ✗ GET /api/data/status - 404 (2ms)
+2025-12-26 10:27:16 | DEBUG    | app.main             | log_requests         | [1027167190] GET /api/data/symbols
+2025-12-26 10:27:16 | INFO     | app.main             | log_requests         | [1027167190] ✗ GET /api/data/symbols - 404 (0ms)
+2025-12-26 10:27:16 | DEBUG    | app.main             | log_requests         | [1027169550] GET /api/data/status
+2025-12-26 10:27:16 | INFO     | app.main             | log_requests         | [1027169550] ✗ GET /api/data/status - 404 (0ms)
+2025-12-26 10:27:17 | DEBUG    | app.main             | log_requests         | [1027178033] POST /api/data/download
+2025-12-26 10:27:17 | INFO     | app.main             | log_requests         | [1027178033] ✗ POST /api/data/download - 404 (0ms)
+2025-12-26 10:27:32 | DEBUG    | app.main             | log_requests         | [1027322438] GET /api/indicator/presets
+2025-12-26 10:27:32 | INFO     | app.main             | log_requests         | [1027322438] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:27:32 | DEBUG    | app.main             | log_requests         | [1027325536] GET /api/indicator/presets
+2025-12-26 10:27:32 | INFO     | app.main             | log_requests         | [1027325536] ✗ GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:28:36 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 10:28:36 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 10:28:36 | WARNING  | app.main             | <module>             | ✗ Failed to load data routes: No module named 'app.api.data_routes'
+2025-12-26 10:28:36 | WARNING  | app.main             | <module>             | ✗ Failed to load indicator routes: No module named 'app.api.indicator_routes'
+2025-12-26 10:28:36 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\комас\backend\data\komas_signals.db
+2025-12-26 10:28:36 | INFO     | app.main             | <module>             | ✓ Loaded: signals routes
+2025-12-26 10:28:36 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:28:36 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 10:28:36 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\комас\backend\logs\komas_2025-12-26.log
+2025-12-26 10:28:36 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\комас\backend\logs\errors_2025-12-26.log
+2025-12-26 10:28:36 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:28:41 | DEBUG    | app.main             | log_requests         | [1028414838] GET /api/indicator/presets
+2025-12-26 10:28:41 | INFO     | app.main             | log_requests         | [1028414838] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:28:41 | DEBUG    | app.main             | log_requests         | [1028414937] GET /api/indicator/presets
+2025-12-26 10:28:41 | INFO     | app.main             | log_requests         | [1028414937] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:28:44 | DEBUG    | app.main             | log_requests         | [1028447236] POST /api/indicator/calculate
+2025-12-26 10:28:44 | INFO     | app.main             | log_requests         | [1028447236] ✗ POST /api/indicator/calculate - 404 (1ms)
+2025-12-26 10:28:51 | DEBUG    | app.main             | log_requests         | [1028519492] POST /boaform/admin/formLogin
+2025-12-26 10:28:51 | INFO     | app.main             | log_requests         | [1028519492] ✗ POST /boaform/admin/formLogin - 404 (0ms)
+2025-12-26 10:28:59 | DEBUG    | app.main             | log_requests         | [1028595289] GET /api/data/symbols
+2025-12-26 10:28:59 | INFO     | app.main             | log_requests         | [1028595289] ✗ GET /api/data/symbols - 404 (0ms)
+2025-12-26 10:28:59 | DEBUG    | app.main             | log_requests         | [1028596588] GET /api/data/status
+2025-12-26 10:28:59 | INFO     | app.main             | log_requests         | [1028596588] ✗ GET /api/data/status - 404 (1ms)
+2025-12-26 10:28:59 | DEBUG    | app.main             | log_requests         | [1028596872] GET /api/data/symbols
+2025-12-26 10:28:59 | INFO     | app.main             | log_requests         | [1028596872] ✗ GET /api/data/symbols - 404 (0ms)
+2025-12-26 10:28:59 | DEBUG    | app.main             | log_requests         | [1028597793] GET /api/data/status
+2025-12-26 10:28:59 | INFO     | app.main             | log_requests         | [1028597793] ✗ GET /api/data/status - 404 (0ms)
+2025-12-26 10:29:00 | DEBUG    | app.main             | log_requests         | [1029007565] POST /api/data/download
+2025-12-26 10:29:00 | INFO     | app.main             | log_requests         | [1029007565] ✗ POST /api/data/download - 404 (1ms)
+2025-12-26 10:29:39 | DEBUG    | app.main             | log_requests         | [1029393884] GET /api/indicator/presets
+2025-12-26 10:29:39 | INFO     | app.main             | log_requests         | [1029393884] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:29:39 | DEBUG    | app.main             | log_requests         | [1029396941] GET /api/indicator/presets
+2025-12-26 10:29:39 | INFO     | app.main             | log_requests         | [1029396941] ✗ GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:29:45 | DEBUG    | app.main             | log_requests         | [1029450995] POST /api/indicator/calculate
+2025-12-26 10:29:45 | INFO     | app.main             | log_requests         | [1029450995] ✗ POST /api/indicator/calculate - 404 (0ms)
+2025-12-26 10:32:37 | DEBUG    | app.main             | log_requests         | [1032376046] GET /boaform/admin/formLogin
+2025-12-26 10:32:37 | INFO     | app.main             | log_requests         | [1032376046] ✗ GET /boaform/admin/formLogin - 404 (0ms)
+2025-12-26 10:34:25 | DEBUG    | app.main             | log_requests         | [1034254598] GET /cgi-bin/luci
+2025-12-26 10:34:25 | INFO     | app.main             | log_requests         | [1034254598] ✗ GET /cgi-bin/luci - 404 (0ms)
+2025-12-26 10:36:38 | DEBUG    | app.main             | log_requests         | [1036381584] GET /
+2025-12-26 10:36:38 | INFO     | app.main             | log_requests         | [1036381584] ✓ GET / - 200 (5ms)
+2025-12-26 10:38:03 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 10:38:03 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 10:38:03 | WARNING  | app.main             | <module>             | ✗ Failed to load data routes: No module named 'app.api.data_routes'
+2025-12-26 10:38:03 | WARNING  | app.main             | <module>             | ✗ Failed to load indicator routes: No module named 'app.api.indicator_routes'
+2025-12-26 10:38:03 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\комас\backend\data\komas_signals.db
+2025-12-26 10:38:03 | INFO     | app.main             | <module>             | ✓ Loaded: signals routes
+2025-12-26 10:38:03 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:38:03 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 10:38:03 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\комас\backend\logs\komas_2025-12-26.log
+2025-12-26 10:38:03 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\комас\backend\logs\errors_2025-12-26.log
+2025-12-26 10:38:03 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:38:16 | DEBUG    | app.main             | log_requests         | [1038161361] GET /api/indicator/presets
+2025-12-26 10:38:16 | INFO     | app.main             | log_requests         | [1038161361] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:38:16 | DEBUG    | app.main             | log_requests         | [1038161418] GET /api/indicator/presets
+2025-12-26 10:38:16 | INFO     | app.main             | log_requests         | [1038161418] ✗ GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:38:17 | DEBUG    | app.main             | log_requests         | [1038177213] POST /api/indicator/calculate
+2025-12-26 10:38:17 | INFO     | app.main             | log_requests         | [1038177213] ✗ POST /api/indicator/calculate - 404 (1ms)
+2025-12-26 10:42:22 | INFO     | app.main             | <module>             | [OK] Loaded: data routes
+2025-12-26 10:42:22 | INFO     | app.main             | <module>             | [OK] Loaded: indicator routes
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\комас\backend\logs\komas_2025-12-26.log
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\комас\backend\logs\errors_2025-12-26.log
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | Data dir: C:\Users\Administrator\Desktop\комас\backend\data
+2025-12-26 10:42:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 10:42:35 | DEBUG    | app.main             | log_requests         | [1042356445] GET /api/indicator/presets
+2025-12-26 10:42:35 | INFO     | app.main             | log_requests         | [1042356445] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:42:35 | DEBUG    | app.main             | log_requests         | [1042356514] GET /api/indicator/presets
+2025-12-26 10:42:35 | INFO     | app.main             | log_requests         | [1042356514] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:42:37 | DEBUG    | app.main             | log_requests         | [1042372904] POST /api/indicator/calculate
+2025-12-26 10:42:43 | INFO     | app.main             | log_requests         | [1042372904] OK POST /api/indicator/calculate - 200 (6198ms)
+2025-12-26 10:42:50 | DEBUG    | app.main             | log_requests         | [1042503972] GET /api/indicator/presets
+2025-12-26 10:42:50 | INFO     | app.main             | log_requests         | [1042503972] ERR GET /api/indicator/presets - 404 (0ms)
+2025-12-26 10:42:50 | DEBUG    | app.main             | log_requests         | [1042504034] GET /api/indicator/presets
+2025-12-26 10:42:50 | INFO     | app.main             | log_requests         | [1042504034] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:42:56 | DEBUG    | app.main             | log_requests         | [1042560941] POST /api/indicator/calculate
+2025-12-26 10:42:58 | INFO     | app.main             | log_requests         | [1042560941] OK POST /api/indicator/calculate - 200 (2665ms)
+2025-12-26 10:43:58 | DEBUG    | app.main             | log_requests         | [1043583743] GET /api/data/symbols
+2025-12-26 10:43:58 | DEBUG    | app.main             | log_requests         | [1043583743] GET /api/data/status
+2025-12-26 10:43:58 | INFO     | app.main             | log_requests         | [1043583743] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 10:43:58 | INFO     | app.main             | log_requests         | [1043583743] ERR GET /api/data/status - 404 (2ms)
+2025-12-26 10:43:58 | DEBUG    | app.main             | log_requests         | [1043586253] GET /api/data/status
+2025-12-26 10:43:58 | INFO     | app.main             | log_requests         | [1043586253] ERR GET /api/data/status - 404 (0ms)
+2025-12-26 10:43:58 | DEBUG    | app.main             | log_requests         | [1043586333] GET /api/data/symbols
+2025-12-26 10:43:58 | INFO     | app.main             | log_requests         | [1043586333] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 10:44:03 | DEBUG    | app.main             | log_requests         | [1044039852] POST /api/data/download
+2025-12-26 10:44:03 | INFO     | app.main             | log_requests         | [1044039852] ERR POST /api/data/download - 422 (1ms)
+2025-12-26 10:44:05 | DEBUG    | app.main             | log_requests         | [1044059275] GET /api/indicator/presets
+2025-12-26 10:44:05 | INFO     | app.main             | log_requests         | [1044059275] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:44:05 | DEBUG    | app.main             | log_requests         | [1044059356] GET /api/indicator/presets
+2025-12-26 10:44:05 | INFO     | app.main             | log_requests         | [1044059356] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 10:44:11 | DEBUG    | app.main             | log_requests         | [1044117142] POST /api/indicator/calculate
+2025-12-26 10:44:14 | INFO     | app.main             | log_requests         | [1044117142] OK POST /api/indicator/calculate - 200 (2752ms)

@@ -1,0 +1,45 @@
+{
+    "id": "trg",
+    "name": "TRG Indicator",
+    "version": "1.5.0",
+    "description": "Trend Range Grid indicator with full trading system, optimization, backtesting, and dynamic UI",
+    "author": "Komas Team",
+    "license": "MIT",
+    "category": "trend",
+    
+    "components": {
+        "indicator": {"file": "indicator.py", "class": "TRGIndicator"},
+        "signals": {"file": "signals.py", "class": "TRGSignalGenerator"},
+        "trading": {"file": "trading.py", "class": "TRGTradingSystem"},
+        "filters": {"path": "filters/", "classes": ["TRGFilterManager", "TRGFilterConfig"]},
+        "optimizer": {"file": "optimizer.py", "class": "TRGOptimizer"},
+        "backtest": {"file": "backtest.py", "class": "TRGBacktest"},
+        "ui_schema": {"file": "ui_schema.py", "class": "TRGUISchema"}
+    },
+    
+    "ui_schema": {
+        "sections": [
+            {"id": "data", "title": "Данные", "icon": "📈"},
+            {"id": "indicator", "title": "TRG Indicator", "icon": "📊"},
+            {"id": "take_profit", "title": "Take Profits", "icon": "🎯"},
+            {"id": "stop_loss", "title": "Stop Loss", "icon": "🛑"},
+            {"id": "leverage", "title": "Плечо и комиссия", "icon": "⚡"},
+            {"id": "filters", "title": "Фильтры", "icon": "🔍"},
+            {"id": "reentry", "title": "Повторные входы", "icon": "🔄"},
+            {"id": "adaptive", "title": "Адаптивный режим", "icon": "🧠"},
+            {"id": "capital", "title": "Капитал", "icon": "💰"}
+        ],
+        "tabs": [
+            {"id": "chart", "label": "График", "icon": "📈"},
+            {"id": "stats", "label": "Статистика", "icon": "📊"},
+            {"id": "trades", "label": "Сделки", "icon": "📋"},
+            {"id": "monthly", "label": "Месяцы", "icon": "📅"},
+            {"id": "optimizer", "label": "Оптимизация", "icon": "🔥"},
+            {"id": "heatmap", "label": "Heatmap", "icon": "🗺️"}
+        ]
+    },
+    
+    "changelog": {
+        "1.5.0": "Added ui_schema.py with complete UI schema (9 sections, 6 tabs, 55 fields)"
+    }
+}

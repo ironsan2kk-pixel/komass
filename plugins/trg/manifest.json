@@ -1,0 +1,182 @@
+{
+    "id": "trg",
+    "name": "TRG Indicator",
+    "version": "1.5.0",
+    "description": "Trend Range Grid indicator with full trading system, optimization, backtesting, and dynamic UI",
+    "author": "Komas Team",
+    "license": "MIT",
+    "category": "trend",
+    "tags": ["indicator", "trading", "atr", "trend", "grid", "optimization", "backtest"],
+    
+    "compatibility": {
+        "komas_version": ">=3.0.0",
+        "python": ">=3.11"
+    },
+    
+    "components": {
+        "indicator": {
+            "file": "indicator.py",
+            "class": "TRGIndicator",
+            "description": "Core TRG indicator calculations"
+        },
+        "signals": {
+            "file": "signals.py",
+            "class": "TRGSignalGenerator",
+            "description": "Signal generation from indicator data"
+        },
+        "trading": {
+            "file": "trading.py",
+            "class": "TRGTradingSystem",
+            "description": "Trading logic with TP/SL management"
+        },
+        "filters": {
+            "path": "filters/",
+            "classes": ["TRGFilterManager", "TRGFilterConfig"],
+            "description": "Signal filtering system"
+        },
+        "optimizer": {
+            "file": "optimizer.py",
+            "class": "TRGOptimizer",
+            "description": "Multi-core parameter optimization"
+        },
+        "backtest": {
+            "file": "backtest.py",
+            "class": "TRGBacktest",
+            "description": "Backtesting engine with statistics"
+        },
+        "ui_schema": {
+            "file": "ui_schema.py",
+            "class": "TRGUISchema",
+            "description": "Dynamic UI schema for frontend generation"
+        }
+    },
+    
+    "features": {
+        "indicator": {
+            "parameters": ["atr_length", "multiplier"],
+            "outputs": ["upper", "lower", "line", "trend", "buy_signal", "sell_signal"]
+        },
+        "trading": {
+            "take_profit_levels": 10,
+            "stop_loss_modes": ["fixed", "breakeven", "cascade"],
+            "leverage_max": 125,
+            "re_entry_support": true
+        },
+        "filters": {
+            "available": ["supertrend", "rsi", "adx", "volume"],
+            "presets": 11,
+            "optimization_configs": 45
+        },
+        "optimization": {
+            "modes": ["indicator", "tp", "sl", "filters", "full"],
+            "multi_core": true,
+            "sse_streaming": true,
+            "heatmap": true
+        },
+        "backtest": {
+            "metrics": ["profit", "winrate", "sharpe", "profit_factor", "advanced"],
+            "monthly_stats": true,
+            "equity_curve": true,
+            "parallel_backtest": true
+        },
+        "ui": {
+            "sections": 9,
+            "tabs": 6,
+            "dynamic_fields": true,
+            "validation": true,
+            "presets": true
+        }
+    },
+    
+    "ui_schema": {
+        "endpoint": "/api/plugins/trg/ui-schema",
+        "sections": [
+            {"id": "data", "title": "Данные", "icon": "📈"},
+            {"id": "indicator", "title": "TRG Indicator", "icon": "📊"},
+            {"id": "take_profit", "title": "Take Profits", "icon": "🎯"},
+            {"id": "stop_loss", "title": "Stop Loss", "icon": "🛑"},
+            {"id": "leverage", "title": "Плечо и комиссия", "icon": "⚡"},
+            {"id": "filters", "title": "Фильтры", "icon": "🔍"},
+            {"id": "reentry", "title": "Повторные входы", "icon": "🔄"},
+            {"id": "adaptive", "title": "Адаптивный режим", "icon": "🧠"},
+            {"id": "capital", "title": "Капитал", "icon": "💰"}
+        ],
+        "tabs": [
+            {"id": "chart", "label": "График", "icon": "📈"},
+            {"id": "stats", "label": "Статистика", "icon": "📊"},
+            {"id": "trades", "label": "Сделки", "icon": "📋"},
+            {"id": "monthly", "label": "Месяцы", "icon": "📅"},
+            {"id": "optimizer", "label": "Оптимизация", "icon": "🔥"},
+            {"id": "heatmap", "label": "Heatmap", "icon": "🗺️"}
+        ]
+    },
+    
+    "tests": {
+        "indicator": {"file": "test_indicator.py", "count": 4},
+        "trading": {"file": "test_trading.py", "count": 28},
+        "filters": {"file": "test_filters.py", "count": 11},
+        "optimizer": {"file": "test_optimizer.py", "count": 14},
+        "backtest": {"file": "test_backtest.py", "count": 23},
+        "ui_schema": {"file": "test_ui_schema.py", "count": 35}
+    },
+    
+    "changelog": {
+        "1.5.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Added ui_schema.py with complete UI schema",
+                "9 sidebar sections with 55 fields",
+                "6 tabs with component mappings",
+                "Field validation system",
+                "Filter and TP presets",
+                "Optimization ranges",
+                "JSON export support"
+            ]
+        },
+        "1.4.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Added backtest.py with TRGBacktest",
+                "BacktestConfig and BacktestResult dataclasses",
+                "Monthly stats tracking",
+                "TP accuracy statistics",
+                "Parallel backtest for optimization",
+                "UI helpers for frontend"
+            ]
+        },
+        "1.3.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Added optimizer.py with multi-core support",
+                "5 optimization modes",
+                "SSE streaming",
+                "Heatmap generation"
+            ]
+        },
+        "1.2.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Added filters module",
+                "SuperTrend, RSI, ADX, Volume filters",
+                "11 filter presets",
+                "45 optimization configs"
+            ]
+        },
+        "1.1.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Added trading.py with full TP/SL system",
+                "10 TP levels",
+                "3 SL modes"
+            ]
+        },
+        "1.0.0": {
+            "date": "2025-12-25",
+            "changes": [
+                "Initial release",
+                "TRGIndicator with ATR-based channels",
+                "TRGSignalGenerator"
+            ]
+        }
+    }
+}
