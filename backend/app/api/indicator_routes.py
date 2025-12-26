@@ -12,6 +12,9 @@ from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from pathlib import Path
+import os
+import json as json_lib
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 router = APIRouter(prefix="/api/indicator", tags=["Indicator"])
 
@@ -38,6 +41,9 @@ def find_data_dir():
     return default
 
 DATA_DIR = find_data_dir()
+
+# Parallel processing workers
+NUM_WORKERS = os.cpu_count() or 4
 
 
 async def download_single_symbol(symbol: str, timeframe: str, days: int = 365):
@@ -201,9 +207,9 @@ async def calculate_indicator(settings: IndicatorSettings):
             await download_single_symbol(settings.symbol, settings.timeframe)
             # Check again after download
             if not filepath.exists():
-                raise HTTPException(404, f"Ð”Ð°Ð½Ð½Ñ‹Ðµ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ‹ Ð´Ð»Ñ {settings.symbol} {settings.timeframe}. ÐŸÐµÑ€ÐµÐ¹Ð´Ð¸Ñ‚Ðµ Ð² Ñ€Ð°Ð·Ð´ÐµÐ» 'Ð”Ð°Ð½Ð½Ñ‹Ðµ' Ð¸ ÑÐºÐ°Ñ‡Ð°Ð¹Ñ‚Ðµ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ.")
+                raise HTTPException(404, f"Data not found for {settings.symbol} {settings.timeframe}. Go to Data section and download history.")
         except Exception as e:
-            raise HTTPException(404, f"Ð”Ð°Ð½Ð½Ñ‹Ðµ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ‹ Ð´Ð»Ñ {settings.symbol} {settings.timeframe}. ÐŸÐµÑ€ÐµÐ¹Ð´Ð¸Ñ‚Ðµ Ð² Ñ€Ð°Ð·Ð´ÐµÐ» 'Ð”Ð°Ð½Ð½Ñ‹Ðµ' Ð¸ ÑÐºÐ°Ñ‡Ð°Ð¹Ñ‚Ðµ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ. ÐžÑˆÐ¸Ð±ÐºÐ°: {str(e)}")
+            raise HTTPException(404, f"Data not found for {settings.symbol} {settings.timeframe}. Go to Data section and download history. Error: {str(e)}")
     
     df = pd.read_parquet(filepath)
     
@@ -397,7 +403,7 @@ class AutoOptimizeMode(BaseModel):
     lookback_months: int = 3  # For adaptive mode - optimize on last N months
     reoptimize_period: str = "month"  # "week", "month", "quarter"
     # For tp_custom mode: percentage range from current settings
-    tp_range_percent: float = 50.0  # Â±50% from current TP values
+    tp_range_percent: float = 50.0  # ±50% from current TP values
     tp_step_percent: float = 10.0  # Step 10%
     # For full mode: control search depth
     full_mode_depth: str = "medium"  # "fast", "medium", "deep"
@@ -409,7 +415,7 @@ def calculate_advanced_score(trades: list, equity_curve: list, settings, detaile
     - Profit/Loss
     - Win rate
     - Max drawdown
-    - TP1 hit rate (Ð²Ð°Ð¶Ð½Ð¾ Ð´Ð»Ñ BE ÑÑ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ð¸)
+    - TP1 hit rate (important for BE strategy)
     - Profit factor
     - Risk-adjusted return (Sharpe-like)
     - Re-entry performance
@@ -449,7 +455,7 @@ def calculate_advanced_score(trades: list, equity_curve: list, settings, detaile
     # Risk/Reward ratio
     rr_ratio = (avg_win / avg_loss) if avg_loss > 0 else 999
     
-    # TP1 Hit Rate (ÐºÑ€Ð¸Ñ‚Ð¸Ñ‡Ð½Ð¾ Ð´Ð»Ñ BE ÑÑ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ð¸)
+    # TP1 Hit Rate (critical for BE strategy)
     tp1_hits = sum(1 for t in trades if 1 in t.get('tp_hit', []))
     tp1_hit_rate = (tp1_hits / total_trades * 100) if total_trades > 0 else 0
     
@@ -1144,8 +1150,8 @@ async def auto_optimize(request: AutoOptimizeMode):
                 best_result = metrics
     
     elif mode == "tp_custom":
-        # Optimize TP/SL based on current settings Â±range%
-        tp_custom_configs = generate_tp_custom_configs(settings, 50.0, 10.0)  # Default: Â±50%, step 10%
+        # Optimize TP/SL based on current settings ±range%
+        tp_custom_configs = generate_tp_custom_configs(settings, 50.0, 10.0)  # Default: ±50%, step 10%
         
         for tp_cfg in tp_custom_configs:
             tested_count += 1
@@ -1234,12 +1240,8 @@ async def auto_optimize(request: AutoOptimizeMode):
 
 from fastapi.responses import StreamingResponse
 import asyncio
-import json as json_lib
-from concurrent.futures import ProcessPoolExecutor, as_completed
-import os
 
 # Number of workers for parallel processing
-NUM_WORKERS = os.cpu_count() or 4
 
 
 def run_single_backtest_indicator(params: dict) -> dict:
@@ -1449,7 +1451,7 @@ def run_single_backtest_filters(params: dict) -> dict:
 
 
 def run_single_backtest_tp_custom(params: dict) -> dict:
-    """Run a single backtest for TP_CUSTOM optimization (based on current settings Â±range%)"""
+    """Run a single backtest for TP_CUSTOM optimization (based on current settings ±range%)"""
     try:
         df = params['df'].copy()
         settings = params['settings']
@@ -1508,7 +1510,7 @@ def run_single_backtest_tp_custom(params: dict) -> dict:
 
 def generate_tp_custom_configs(settings: IndicatorSettings, range_pct: float = 50.0, step_pct: float = 10.0) -> list:
     """
-    Generate TP configurations based on current settings Â±range%
+    Generate TP configurations based on current settings ±range%
     
     Example: if TP1=1.0 and range=50%, step=10%
     Will test: 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5
@@ -1776,7 +1778,7 @@ async def auto_optimize_stream(request: AutoOptimizeMode):
         df_original = df_original[~df_original.index.duplicated(keep='first')]
         df_original = df_original.sort_index()
         
-        yield f"data: {json_lib.dumps({'type': 'progress', 'message': f'Ð—Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¾ {len(df_original)} ÑÐ²ÐµÑ‡ÐµÐ¹. Ð Ð°ÑÑ‡Ñ‘Ñ‚ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ñ… Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ð¾Ð²...'})}\n\n"
+        yield f"data: {json_lib.dumps({'type': 'progress', 'message': f'Loaded {len(df_original)} candles. Calculating current params...'})}\n\n"
         await asyncio.sleep(0.01)
         
         # Calculate current performance
@@ -1857,7 +1859,7 @@ async def auto_optimize_stream(request: AutoOptimizeMode):
                 param_list.append({'df': df_original, 'settings': settings, 'filter_cfg': cfg, 'metric': metric})
         
         elif mode == "tp_custom":
-            # Optimize TP/SL based on current settings Â±range%
+            # Optimize TP/SL based on current settings ±range%
             for cfg in tp_custom_configs:
                 param_list.append({'df': df_original, 'settings': settings, 'tp_cfg': cfg, 'metric': metric})
         
@@ -1885,7 +1887,7 @@ async def auto_optimize_stream(request: AutoOptimizeMode):
             full_configs = generate_full_optimization_configs(settings, request.full_mode_depth)
             total_combinations = len(full_configs)
             
-            yield f"data: {json_lib.dumps({'type': 'info', 'message': f'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ: {total_combinations} ÐºÐ¾Ð¼Ð±Ð¸Ð½Ð°Ñ†Ð¸Ð¹ (Ñ€ÐµÐ¶Ð¸Ð¼: {request.full_mode_depth})'})}\n\n"
+            yield f"data: {json_lib.dumps({'type': 'info', 'message': f'Full optimization: {total_combinations} combinations (mode: {request.full_mode_depth})'})}\n\n"
             
             use_advanced = (metric == "advanced")
             for cfg in full_configs:
@@ -2063,7 +2065,7 @@ async def auto_optimize_stream(request: AutoOptimizeMode):
                             if cfg.get('use_adx'):
                                 progress_data['best_config']['filters'].append(f"ADX({cfg.get('adx_threshold')})")
                             if not progress_data['best_config']['filters']:
-                                progress_data['best_config']['filters'] = ['ÐÐµÑ‚']
+                                progress_data['best_config']['filters'] = ['None']
                         elif mode == "indicator":
                             progress_data['best_config'] = {
                                 'trg': f"i1={result.get('i1')} i2={result.get('i2')}"

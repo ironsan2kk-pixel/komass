@@ -21,9 +21,8 @@ import time
 LOGS_DIR = Path(__file__).parent.parent / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
-# Create data directories
+# Create data directory
 Path("data").mkdir(exist_ok=True)
-Path("data/bots").mkdir(exist_ok=True)
 
 # Log files
 LOG_FILE = LOGS_DIR / f"komas_{datetime.now().strftime('%Y-%m-%d')}.log"
@@ -90,7 +89,6 @@ def setup_logging():
     logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    logging.getLogger("apscheduler").setLevel(logging.WARNING)
     
     return logging.getLogger(__name__)
 
@@ -99,47 +97,17 @@ def setup_logging():
 logger = setup_logging()
 
 
-# ============ BOTS RUNNER MANAGEMENT ============
-
-bots_runner = None
-
-def get_runner():
-    global bots_runner
-    return bots_runner
-
-
 # ============ APPLICATION ============
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
-    global bots_runner
-    
     logger.info("=" * 60)
-    logger.info("KOMAS TRADING SERVER v3.5 - STARTING")
+    logger.info("KOMAS TRADING SERVER v3.0 - STARTING")
     logger.info(f"Log file: {LOG_FILE}")
     logger.info(f"Error log: {ERROR_LOG_FILE}")
     logger.info("=" * 60)
-    
-    # Start bots runner
-    try:
-        from app.core.bots.runner import get_bots_runner
-        bots_runner = get_bots_runner()
-        bots_runner.start()
-        logger.info("✓ Bots runner started")
-    except Exception as e:
-        logger.warning(f"✗ Failed to start bots runner: {e}")
-    
     yield
-    
-    # Stop bots runner
-    if bots_runner:
-        try:
-            bots_runner.stop()
-            logger.info("✓ Bots runner stopped")
-        except Exception as e:
-            logger.warning(f"✗ Error stopping bots runner: {e}")
-    
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER - SHUTDOWN")
     logger.info("=" * 60)
@@ -148,8 +116,8 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title="Komas Trading Server",
-    version="3.5",
-    description="Full trading system with indicator, backtesting, optimization, and bots",
+    version="3.0",
+    description="Full trading system with indicator, backtesting, and optimization",
     lifespan=lifespan,
 )
 
@@ -182,7 +150,7 @@ async def log_requests(request: Request, call_next):
         duration = (time.time() - start_time) * 1000  # ms
         
         # Log response
-        status_emoji = "✓" if response.status_code < 400 else "✗"
+        status_emoji = "âœ“" if response.status_code < 400 else "✗"
         logger.info(f"[{request_id}] {status_emoji} {request.method} {request.url.path} - {response.status_code} ({duration:.0f}ms)")
         
         return response
@@ -237,69 +205,33 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # ============ IMPORT ROUTERS ============
 
-# Main routes (optional legacy)
 try:
     from app.api.routes import router as main_router
     app.include_router(main_router, prefix="/api")
-    logger.info("✓ Loaded: main routes")
+    logger.info("âœ“ Loaded: main routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load main routes: {e}")
 
-# Optimizer routes (optional)
 try:
     from app.api.optimizer_routes import router as optimizer_router
     app.include_router(optimizer_router)
-    logger.info("✓ Loaded: optimizer routes")
+    logger.info("âœ“ Loaded: optimizer routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load optimizer routes: {e}")
 
-# Data routes
 try:
     from app.api.data_routes import router as data_router
     app.include_router(data_router)
-    logger.info("✓ Loaded: data routes")
+    logger.info("âœ“ Loaded: data routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load data routes: {e}")
 
-# Indicator routes
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)
-    logger.info("✓ Loaded: indicator routes")
+    logger.info("âœ“ Loaded: indicator routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load indicator routes: {e}")
-
-# Signals routes (optional)
-try:
-    from app.api.signals_routes import router as signals_router
-    app.include_router(signals_router)
-    logger.info("✓ Loaded: signals routes")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load signals routes: {e}")
-
-# Settings routes
-try:
-    from app.api.settings_routes import router as settings_router
-    app.include_router(settings_router)
-    logger.info("✓ Loaded: settings routes")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load settings routes: {e}")
-
-# Notifications routes (optional)
-try:
-    from app.api.notifications_routes import router as notifications_router
-    app.include_router(notifications_router)
-    logger.info("✓ Loaded: notifications routes")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load notifications routes: {e}")
-
-# Bots routes
-try:
-    from app.api.bots_routes import router as bots_router
-    app.include_router(bots_router)
-    logger.info("✓ Loaded: bots routes")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load bots routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -392,7 +324,7 @@ async def health_check():
     return {
         "status": "healthy",
         "app": "Komas Trading Server",
-        "version": "3.5",
+        "version": "3.0",
         "log_file": str(LOG_FILE),
         "timestamp": datetime.now().isoformat()
     }
@@ -402,7 +334,7 @@ async def health_check():
 async def root():
     return {
         "message": "Komas Trading Server",
-        "version": "3.5",
+        "version": "3.0",
         "docs": "/docs",
         "logs": "/api/logs/list"
     }

@@ -219,7 +219,7 @@ async def download_history(
                     print(f"[Data] âœ“ {symbol} {timeframe}: {result['rows']:,} candles ({result['start']} - {result['end']})")
                     
             except Exception as e:
-                print(f"[Data] âœ— Error {symbol}: {e}")
+                print(f"[Data] ✗ Error {symbol}: {e}")
                 download_progress[task_id]["errors"].append({
                     "symbol": symbol, "error": str(e)
                 })
