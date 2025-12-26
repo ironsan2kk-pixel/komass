@@ -1,0 +1,140 @@
+{
+  "events": [
+    {
+      "timestamp": "2025-12-26T17:25:42.584670",
+      "currency": "USD",
+      "impact": "high",
+      "event": "Non-Farm Payrolls",
+      "forecast": "200K",
+      "previous": "175K",
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-27T01:25:42.584670",
+      "currency": "USD",
+      "impact": "high",
+      "event": "FOMC Meeting Minutes",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-27T09:25:42.584670",
+      "currency": "USD",
+      "impact": "medium",
+      "event": "Initial Jobless Claims",
+      "forecast": "210K",
+      "previous": "205K",
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-27T17:25:42.584670",
+      "currency": "EUR",
+      "impact": "high",
+      "event": "ECB Interest Rate Decision",
+      "forecast": "4.25%",
+      "previous": "4.25%",
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-28T01:25:42.584670",
+      "currency": "EUR",
+      "impact": "medium",
+      "event": "German ZEW Economic Sentiment",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-28T09:25:42.584670",
+      "currency": "GBP",
+      "impact": "high",
+      "event": "BOE Interest Rate Decision",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-28T17:25:42.584670",
+      "currency": "GBP",
+      "impact": "medium",
+      "event": "UK CPI",
+      "forecast": "2.3%",
+      "previous": "2.2%",
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-29T01:25:42.584670",
+      "currency": "JPY",
+      "impact": "high",
+      "event": "BOJ Policy Rate",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-29T09:25:42.584670",
+      "currency": "JPY",
+      "impact": "medium",
+      "event": "Japan Trade Balance",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-29T17:25:42.584670",
+      "currency": "AUD",
+      "impact": "medium",
+      "event": "RBA Meeting Minutes",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-30T01:25:42.584670",
+      "currency": "CAD",
+      "impact": "medium",
+      "event": "Canada CPI",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-30T09:25:42.584670",
+      "currency": "CHF",
+      "impact": "low",
+      "event": "Swiss Trade Balance",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-30T17:25:42.584670",
+      "currency": "CNY",
+      "impact": "medium",
+      "event": "China PMI Manufacturing",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-31T01:25:42.584670",
+      "currency": "USD",
+      "impact": "low",
+      "event": "Existing Home Sales",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    },
+    {
+      "timestamp": "2025-12-31T09:25:42.584670",
+      "currency": "EUR",
+      "impact": "low",
+      "event": "Eurozone Consumer Confidence",
+      "forecast": null,
+      "previous": null,
+      "actual": null
+    }
+  ],
+  "updated_at": "2025-12-26T17:25:42.584670"
+}
