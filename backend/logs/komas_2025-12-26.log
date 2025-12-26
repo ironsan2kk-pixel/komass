@@ -1848,3 +1848,18 @@
 2025-12-26 17:09:10 | INFO     | app.main                  | [1709104567] OK GET /api/data/symbols - 200 (2ms)
 2025-12-26 17:09:10 | DEBUG    | app.main                  | [1709105411] GET /api/data/available
 2025-12-26 17:09:10 | INFO     | app.main                  | [1709105411] OK GET /api/data/available - 200 (120ms)
+2025-12-26 17:11:08 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 17:11:08 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 17:11:08 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 17:11:08 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 17:11:08 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 17:11:08 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 17:11:09 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 17:11:09 | WARNING  | app.main                  | [SKIP] settings_routes: No module named 'psutil'
+2025-12-26 17:11:09 | INFO     | app.main                  | [OK] Loaded: calendar_routes
+2025-12-26 17:11:09 | INFO     | app.main                  | ============================================================
+2025-12-26 17:11:09 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 17:11:09 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 17:11:09 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 17:11:09 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 17:11:09 | INFO     | app.main                  | ============================================================
