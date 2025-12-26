@@ -2371,3 +2371,112 @@
 2025-12-26 18:56:05 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
 2025-12-26 18:56:05 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
 2025-12-26 18:56:05 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 19:02:32 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 19:02:32 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 19:02:32 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 19:02:32 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 19:02:32 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 19:02:33 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 19:02:33 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 19:02:33 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 0 bots
+2025-12-26 19:02:33 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 19:02:33 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 19:02:33 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 19:02:33 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 19:02:37 | DEBUG    | app.main             | log_requests         | [1902375097] GET /api/data/symbols
+2025-12-26 19:02:37 | INFO     | app.main             | log_requests         | [1902375097] ✓ GET /api/data/symbols - 200 (3ms)
+2025-12-26 19:02:37 | DEBUG    | app.main             | log_requests         | [1902375173] GET /api/data/symbols
+2025-12-26 19:02:37 | INFO     | app.main             | log_requests         | [1902375173] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 19:03:10 | DEBUG    | app.main             | log_requests         | [1903104527] GET /
+2025-12-26 19:03:10 | INFO     | app.main             | log_requests         | [1903104527] ✓ GET / - 200 (2ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903130845] GET /api/bots/
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903130845] ✓ GET /api/bots/ - 200 (3ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903130929] GET /api/bots/summary
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903130929] ✓ GET /api/bots/summary - 200 (2ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903130992] GET /api/bots/runner/status
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903130992] ✓ GET /api/bots/runner/status - 200 (1ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903131041] GET /api/bots/presets/strategies
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903131041] ✓ GET /api/bots/presets/strategies - 200 (3ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903131089] GET /api/bots/
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903131089] ✓ GET /api/bots/ - 200 (0ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903131147] GET /api/bots/summary
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903131147] ✓ GET /api/bots/summary - 200 (1ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903131184] GET /api/bots/runner/status
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903131184] ✓ GET /api/bots/runner/status - 200 (1ms)
+2025-12-26 19:03:13 | DEBUG    | app.main             | log_requests         | [1903131231] GET /api/bots/presets/strategies
+2025-12-26 19:03:13 | INFO     | app.main             | log_requests         | [1903131231] ✓ GET /api/bots/presets/strategies - 200 (2ms)
+2025-12-26 19:03:15 | DEBUG    | app.main             | log_requests         | [1903151129] POST /api/bots/runner/stop
+2025-12-26 19:03:15 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 19:03:15 | INFO     | app.main             | log_requests         | [1903151129] ✓ POST /api/bots/runner/stop - 200 (2ms)
+2025-12-26 19:03:15 | DEBUG    | app.main             | log_requests         | [1903151202] GET /api/bots/
+2025-12-26 19:03:15 | DEBUG    | app.main             | log_requests         | [1903151213] GET /api/bots/summary
+2025-12-26 19:03:15 | DEBUG    | app.main             | log_requests         | [1903151213] GET /api/bots/runner/status
+2025-12-26 19:03:15 | INFO     | app.main             | log_requests         | [1903151202] ✓ GET /api/bots/ - 200 (2ms)
+2025-12-26 19:03:15 | DEBUG    | app.main             | log_requests         | [1903151229] GET /api/bots/presets/strategies
+2025-12-26 19:03:15 | INFO     | app.main             | log_requests         | [1903151213] ✓ GET /api/bots/summary - 200 (2ms)
+2025-12-26 19:03:15 | INFO     | app.main             | log_requests         | [1903151213] ✓ GET /api/bots/runner/status - 200 (1ms)
+2025-12-26 19:03:15 | INFO     | app.main             | log_requests         | [1903151229] ✓ GET /api/bots/presets/strategies - 200 (2ms)
+2025-12-26 19:03:16 | DEBUG    | app.main             | log_requests         | [1903160398] GET /api/bots/
+2025-12-26 19:03:16 | DEBUG    | app.main             | log_requests         | [1903160408] GET /api/bots/runner/status
+2025-12-26 19:03:16 | DEBUG    | app.main             | log_requests         | [1903160411] GET /api/bots/summary
+2025-12-26 19:03:16 | DEBUG    | app.main             | log_requests         | [1903160411] GET /api/bots/presets/strategies
+2025-12-26 19:03:16 | INFO     | app.main             | log_requests         | [1903160398] ✓ GET /api/bots/ - 200 (3ms)
+2025-12-26 19:03:16 | INFO     | app.main             | log_requests         | [1903160408] ✓ GET /api/bots/runner/status - 200 (1ms)
+2025-12-26 19:03:16 | INFO     | app.main             | log_requests         | [1903160411] ✓ GET /api/bots/summary - 200 (3ms)
+2025-12-26 19:03:16 | INFO     | app.main             | log_requests         | [1903160411] ✓ GET /api/bots/presets/strategies - 200 (4ms)
+2025-12-26 19:03:23 | DEBUG    | app.main             | log_requests         | [1903230861] GET /api/bots/
+2025-12-26 19:03:23 | DEBUG    | app.main             | log_requests         | [1903230871] GET /api/bots/summary
+2025-12-26 19:03:23 | INFO     | app.main             | log_requests         | [1903230861] ✓ GET /api/bots/ - 200 (1ms)
+2025-12-26 19:03:23 | INFO     | app.main             | log_requests         | [1903230871] ✓ GET /api/bots/summary - 200 (1ms)
+2025-12-26 19:03:23 | DEBUG    | app.main             | log_requests         | [1903230898] GET /api/bots/runner/status
+2025-12-26 19:03:23 | INFO     | app.main             | log_requests         | [1903230898] ✓ GET /api/bots/runner/status - 200 (1ms)
+2025-12-26 19:03:23 | DEBUG    | app.main             | log_requests         | [1903230913] GET /api/bots/presets/strategies
+2025-12-26 19:03:23 | INFO     | app.main             | log_requests         | [1903230913] ✓ GET /api/bots/presets/strategies - 200 (1ms)
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243566] OPTIONS /api/bots/
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243566] ✓ OPTIONS /api/bots/ - 200 (0ms)
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243591] POST /api/bots/
+2025-12-26 19:03:24 | DEBUG    | app.core.bots.manager | _save_bots           | Saved 1 bots to storage
+2025-12-26 19:03:24 | INFO     | app.core.bots.manager | create_bot           | Created bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 19:03:24 | INFO     | app.api.bots_routes  | create_bot           | Created bot: 214
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243591] ✓ POST /api/bots/ - 201 (5ms)
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243694] GET /api/bots/
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243705] GET /api/bots/summary
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243694] ✓ GET /api/bots/ - 200 (1ms)
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243725] GET /api/bots/presets/strategies
+2025-12-26 19:03:24 | DEBUG    | app.main             | log_requests         | [1903243725] GET /api/bots/runner/status
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243705] ✓ GET /api/bots/summary - 200 (6ms)
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243725] ✓ GET /api/bots/presets/strategies - 200 (4ms)
+2025-12-26 19:03:24 | INFO     | app.main             | log_requests         | [1903243725] ✓ GET /api/bots/runner/status - 200 (5ms)
+2025-12-26 19:03:27 | DEBUG    | app.main             | log_requests         | [1903278604] POST /api/bots/997a84e3-c774-4f4d-9fe9-b308ee9cc43f/start
+2025-12-26 19:03:27 | DEBUG    | app.core.bots.manager | _save_bots           | Saved 1 bots to storage
+2025-12-26 19:03:27 | INFO     | app.core.bots.manager | start_bot            | Started bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 19:03:27 | INFO     | app.main             | log_requests         | [1903278604] ✓ POST /api/bots/997a84e3-c774-4f4d-9fe9-b308ee9cc43f/start - 200 (3ms)
+2025-12-26 19:03:27 | DEBUG    | app.main             | log_requests         | [1903278682] GET /api/bots/
+2025-12-26 19:03:27 | DEBUG    | app.main             | log_requests         | [1903278697] GET /api/bots/summary
+2025-12-26 19:03:27 | DEBUG    | app.main             | log_requests         | [1903278708] GET /api/bots/runner/status
+2025-12-26 19:03:27 | DEBUG    | app.main             | log_requests         | [1903278708] GET /api/bots/presets/strategies
+2025-12-26 19:03:27 | INFO     | app.main             | log_requests         | [1903278682] ✓ GET /api/bots/ - 200 (2ms)
+2025-12-26 19:03:27 | INFO     | app.main             | log_requests         | [1903278697] ✓ GET /api/bots/summary - 200 (4ms)
+2025-12-26 19:03:27 | INFO     | app.main             | log_requests         | [1903278708] ✓ GET /api/bots/runner/status - 200 (4ms)
+2025-12-26 19:03:27 | INFO     | app.main             | log_requests         | [1903278708] ✓ GET /api/bots/presets/strategies - 200 (7ms)
+2025-12-26 19:03:30 | DEBUG    | app.main             | log_requests         | [1903307456] GET /api/data/symbols
+2025-12-26 19:03:30 | INFO     | app.main             | log_requests         | [1903307456] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 19:03:30 | DEBUG    | app.main             | log_requests         | [1903307565] GET /api/data/symbols
+2025-12-26 19:03:30 | INFO     | app.main             | log_requests         | [1903307565] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 19:03:32 | DEBUG    | app.main             | log_requests         | [1903325648] GET /api/data/symbols
+2025-12-26 19:03:32 | INFO     | app.main             | log_requests         | [1903325648] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 19:03:33 | DEBUG    | app.main             | log_requests         | [1903336184] GET /api/data/symbols
+2025-12-26 19:03:33 | INFO     | app.main             | log_requests         | [1903336184] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 19:03:33 | DEBUG    | app.main             | log_requests         | [1903337844] GET /api/data/symbols
+2025-12-26 19:03:33 | INFO     | app.main             | log_requests         | [1903337844] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 19:03:33 | DEBUG    | app.main             | log_requests         | [1903339693] GET /api/data/symbols
+2025-12-26 19:03:33 | INFO     | app.main             | log_requests         | [1903339693] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 19:03:34 | DEBUG    | app.main             | log_requests         | [1903341688] GET /api/data/symbols
+2025-12-26 19:03:34 | INFO     | app.main             | log_requests         | [1903341688] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 19:05:22 | DEBUG    | app.main             | log_requests         | [1905225463] GET /api/data/symbols
+2025-12-26 19:05:22 | INFO     | app.main             | log_requests         | [1905225463] ✓ GET /api/data/symbols - 200 (0ms)
