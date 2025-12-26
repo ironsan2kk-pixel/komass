@@ -209,6 +209,22 @@ export const signalsApi = {
 };
 
 // ============================================
+// CALENDAR API - Экономический календарь
+// Prefix: /api/calendar (пока заглушка)
+// ============================================
+export const calendarApi = {
+  // Получить события
+  getEvents: (params) => api.get('/calendar/events', { params }),
+  
+  // Обновить календарь
+  refresh: () => api.post('/calendar/refresh'),
+  
+  // Настройки календаря
+  getSettings: () => api.get('/calendar/settings'),
+  saveSettings: (params) => api.post('/calendar/settings', params),
+};
+
+// ============================================
 // SETTINGS API - Настройки приложения
 // Prefix: /api/db (settings хранятся в БД)
 // ============================================
