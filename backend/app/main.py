@@ -2,7 +2,7 @@
 Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
-Version: 3.5.1
+Version: 3.5.2
 """
 import os
 import sys
@@ -247,6 +247,22 @@ try:
 except ImportError as e:
     logger.warning(f"[SKIP] db_routes: {e}")
 
+# Settings Routes
+try:
+    from app.api.settings_routes import router as settings_router
+    app.include_router(settings_router)
+    logger.info("[OK] Loaded: settings_routes")
+except ImportError as e:
+    logger.warning(f"[SKIP] settings_routes: {e}")
+
+# Calendar Routes
+try:
+    from app.api.calendar_routes import router as calendar_router
+    app.include_router(calendar_router)
+    logger.info("[OK] Loaded: calendar_routes")
+except ImportError as e:
+    logger.warning(f"[SKIP] calendar_routes: {e}")
+
 
 # ============ LOG ENDPOINTS ============
 
@@ -349,7 +365,7 @@ async def health_check():
 async def root():
     return {
         "message": "Komas Trading Server",
-        "version": "3.5.1",
+        "version": "3.5.2",
         "docs": "/docs",
         "health": "/health",
         "logs": "/api/logs/list",
@@ -359,7 +375,9 @@ async def root():
             "signals": "/api/signals/",
             "plugins": "/api/plugins/",
             "ws": "/api/ws/",
-            "db": "/api/db/"
+            "db": "/api/db/",
+            "settings": "/api/settings/",
+            "calendar": "/api/calendar/"
         }
     }
 
