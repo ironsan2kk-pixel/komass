@@ -97,14 +97,27 @@ class StrategyConfig(BaseModel):
     def model_post_init(self, __context):
         """Initialize default take profits if not provided"""
         if not self.take_profits:
+            # Default TP levels with proper amount distribution (all > 0)
             defaults = [
-                (1, 1.05, 50), (2, 1.95, 30), (3, 3.75, 15), (4, 6.0, 5),
-                (5, 8.0, 0), (6, 10.0, 0), (7, 12.0, 0), (8, 15.0, 0),
-                (9, 18.0, 0), (10, 20.0, 0)
+                (1, 1.05, 30), (2, 1.95, 20), (3, 3.75, 15), (4, 6.0, 10),
+                (5, 8.0, 10), (6, 10.0, 5), (7, 12.0, 4), (8, 15.0, 3),
+                (9, 18.0, 2), (10, 20.0, 1)
             ]
+            selected = defaults[:self.tp_count]
+            
+            # Redistribute amounts to sum to 100%
+            total_amount = sum(d[2] for d in selected)
+            if total_amount != 100:
+                # Normalize amounts
+                factor = 100.0 / total_amount
+                selected = [(d[0], d[1], max(1, round(d[2] * factor))) for d in selected]
+                # Adjust last one to make exactly 100%
+                current_sum = sum(d[2] for d in selected[:-1])
+                selected[-1] = (selected[-1][0], selected[-1][1], max(1, 100 - current_sum))
+            
             self.take_profits = [
                 TakeProfitLevel(level=d[0], percent=d[1], amount=d[2])
-                for d in defaults[:self.tp_count]
+                for d in selected
             ]
 
 

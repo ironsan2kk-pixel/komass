@@ -2359,3 +2359,15 @@
 2025-12-26 18:51:08 | INFO     | app.main             | log_requests         | [1851083126] ✓ POST /api/data/download - 200 (2ms)
 2025-12-26 18:51:13 | DEBUG    | app.main             | log_requests         | [1851133313] GET /api/data/available
 2025-12-26 18:51:14 | INFO     | app.main             | log_requests         | [1851133313] ✓ GET /api/data/available - 200 (1097ms)
+2025-12-26 18:53:13 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 18:53:13 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 18:53:14 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 18:53:14 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 18:53:14 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 18:53:14 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 18:56:05 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 18:56:05 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 18:56:05 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 18:56:05 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 18:56:05 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 18:56:05 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
