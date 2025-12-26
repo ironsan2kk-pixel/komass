@@ -2822,3 +2822,543 @@
 2025-12-26 20:26:07 | INFO     | app.main             | log_requests         | [2026076670] ✗ GET /vendor/phpunit/Util/PHP/eval-stdin.php - 404 (0ms)
 2025-12-26 20:26:18 | DEBUG    | app.core.bots.runner | _execute_bot_strategy | Executing strategy for bot 214
 2025-12-26 20:26:18 | WARNING  | app.core.bots.runner | _process_symbol      | No data fetcher configured
+2025-12-26 20:34:16 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:16 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:17 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:17 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:17 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:17 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:17 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:17 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:17 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:17 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:17 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:17 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:17 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:17 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:17 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:18 | DEBUG    | app.main             | log_requests         | [2034180161] GET /inputs.php
+2025-12-26 20:34:18 | INFO     | app.main             | log_requests         | [2034180161] ✗ GET /inputs.php - 404 (1ms)
+2025-12-26 20:34:18 | DEBUG    | app.main             | log_requests         | [2034182726] GET /mah.php
+2025-12-26 20:34:18 | INFO     | app.main             | log_requests         | [2034182726] ✗ GET /mah.php - 404 (0ms)
+2025-12-26 20:34:18 | DEBUG    | app.main             | log_requests         | [2034185144] GET /mah/function.php
+2025-12-26 20:34:18 | INFO     | app.main             | log_requests         | [2034185144] ✗ GET /mah/function.php - 404 (0ms)
+2025-12-26 20:34:18 | DEBUG    | app.main             | log_requests         | [2034187567] GET /mini.php
+2025-12-26 20:34:18 | INFO     | app.main             | log_requests         | [2034187567] ✗ GET /mini.php - 404 (0ms)
+2025-12-26 20:34:18 | DEBUG    | app.main             | log_requests         | [2034189998] GET /modules/mod_simplefileuploadv1.3/elements/
+2025-12-26 20:34:19 | INFO     | app.main             | log_requests         | [2034189998] ✗ GET /modules/mod_simplefileuploadv1.3/elements/ - 404 (1ms)
+2025-12-26 20:34:19 | DEBUG    | app.main             | log_requests         | [2034192752] GET /new.php
+2025-12-26 20:34:19 | INFO     | app.main             | log_requests         | [2034192752] ✗ GET /new.php - 404 (2ms)
+2025-12-26 20:34:19 | DEBUG    | app.main             | log_requests         | [2034195286] GET /options-reading.php
+2025-12-26 20:34:19 | INFO     | app.main             | log_requests         | [2034195286] ✗ GET /options-reading.php - 404 (2ms)
+2025-12-26 20:34:19 | DEBUG    | app.main             | log_requests         | [2034197794] GET /simple.php
+2025-12-26 20:34:19 | INFO     | app.main             | log_requests         | [2034197794] ✗ GET /simple.php - 404 (1ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034200225] GET /uploads/
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034200225] ✗ GET /uploads/ - 404 (0ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034203748] GET /modules/mod_simplefileuploadv1.3/elements/index.php
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034203748] ✗ GET /modules/mod_simplefileuploadv1.3/elements/index.php - 404 (1ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034206236] GET /new.php
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034206236] ✗ GET /new.php - 404 (2ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034208665] GET /public/files/index.php
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034208665] ✗ GET /public/files/index.php - 404 (1ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034209620] GET /api/settings/presets
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034209620] ✓ GET /api/settings/presets - 200 (2ms)
+2025-12-26 20:34:20 | DEBUG    | app.main             | log_requests         | [2034209663] GET /api/settings/presets
+2025-12-26 20:34:20 | INFO     | app.main             | log_requests         | [2034209663] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:34:21 | DEBUG    | app.main             | log_requests         | [2034211098] GET /public/wp-content/index.php
+2025-12-26 20:34:21 | INFO     | app.main             | log_requests         | [2034211098] ✗ GET /public/wp-content/index.php - 404 (1ms)
+2025-12-26 20:34:21 | DEBUG    | app.main             | log_requests         | [2034213525] GET /radio.php
+2025-12-26 20:34:21 | INFO     | app.main             | log_requests         | [2034213525] ✗ GET /radio.php - 404 (1ms)
+2025-12-26 20:34:21 | DEBUG    | app.main             | log_requests         | [2034215943] GET /wp-admin/classwithtostring.php
+2025-12-26 20:34:21 | INFO     | app.main             | log_requests         | [2034215943] ✗ GET /wp-admin/classwithtostring.php - 404 (1ms)
+2025-12-26 20:34:21 | DEBUG    | app.main             | log_requests         | [2034218355] GET /wp-admin/includes/colour.php
+2025-12-26 20:34:21 | INFO     | app.main             | log_requests         | [2034218355] ✗ GET /wp-admin/includes/colour.php - 404 (1ms)
+2025-12-26 20:34:22 | DEBUG    | app.main             | log_requests         | [2034220778] GET /wp-admin/index.php
+2025-12-26 20:34:22 | INFO     | app.main             | log_requests         | [2034220778] ✗ GET /wp-admin/index.php - 404 (1ms)
+2025-12-26 20:34:22 | DEBUG    | app.main             | log_requests         | [2034223195] GET /wp-admin/js/index.php
+2025-12-26 20:34:22 | INFO     | app.main             | log_requests         | [2034223195] ✗ GET /wp-admin/js/index.php - 404 (1ms)
+2025-12-26 20:34:22 | DEBUG    | app.main             | log_requests         | [2034225610] GET /wp-admin/js/widgets/
+2025-12-26 20:34:22 | INFO     | app.main             | log_requests         | [2034225610] ✗ GET /wp-admin/js/widgets/ - 404 (0ms)
+2025-12-26 20:34:22 | DEBUG    | app.main             | log_requests         | [2034228029] GET /wp-admin/wp-admins.php
+2025-12-26 20:34:22 | INFO     | app.main             | log_requests         | [2034228029] ✗ GET /wp-admin/wp-admins.php - 404 (1ms)
+2025-12-26 20:34:23 | DEBUG    | app.main             | log_requests         | [2034230459] GET /wp-blog.php
+2025-12-26 20:34:23 | INFO     | app.main             | log_requests         | [2034230459] ✗ GET /wp-blog.php - 404 (1ms)
+2025-12-26 20:34:23 | DEBUG    | app.main             | log_requests         | [2034232880] GET /wp-content/admin.php
+2025-12-26 20:34:23 | INFO     | app.main             | log_requests         | [2034232880] ✗ GET /wp-content/admin.php - 404 (0ms)
+2025-12-26 20:34:23 | DEBUG    | app.main             | log_requests         | [2034235317] GET /wp-content/et-cache/
+2025-12-26 20:34:23 | INFO     | app.main             | log_requests         | [2034235317] ✗ GET /wp-content/et-cache/ - 404 (1ms)
+2025-12-26 20:34:23 | DEBUG    | app.main             | log_requests         | [2034237749] GET /wp-content/index.php
+2025-12-26 20:34:23 | INFO     | app.main             | log_requests         | [2034237749] ✗ GET /wp-content/index.php - 404 (0ms)
+2025-12-26 20:34:24 | DEBUG    | app.main             | log_requests         | [2034240249] GET /wp-content/plugins/pwnd/as.php
+2025-12-26 20:34:24 | INFO     | app.main             | log_requests         | [2034240249] ✗ GET /wp-content/plugins/pwnd/as.php - 404 (1ms)
+2025-12-26 20:34:24 | DEBUG    | app.main             | log_requests         | [2034242671] GET /wp-content/upgrade/index.php
+2025-12-26 20:34:24 | INFO     | app.main             | log_requests         | [2034242671] ✗ GET /wp-content/upgrade/index.php - 404 (1ms)
+2025-12-26 20:34:24 | DEBUG    | app.main             | log_requests         | [2034245088] GET /wp-content/uploads/
+2025-12-26 20:34:24 | INFO     | app.main             | log_requests         | [2034245088] ✗ GET /wp-content/uploads/ - 404 (1ms)
+2025-12-26 20:34:24 | DEBUG    | app.main             | log_requests         | [2034247506] GET /wp-content/uploads/index.php
+2025-12-26 20:34:24 | INFO     | app.main             | log_requests         | [2034247506] ✗ GET /wp-content/uploads/index.php - 404 (1ms)
+2025-12-26 20:34:24 | DEBUG    | app.main             | log_requests         | [2034249925] GET /wp-good.php
+2025-12-26 20:34:24 | INFO     | app.main             | log_requests         | [2034249925] ✗ GET /wp-good.php - 404 (0ms)
+2025-12-26 20:34:25 | DEBUG    | app.main             | log_requests         | [2034252343] GET /wp-includes/Requests/index.php
+2025-12-26 20:34:25 | INFO     | app.main             | log_requests         | [2034252343] ✗ GET /wp-includes/Requests/index.php - 404 (0ms)
+2025-12-26 20:34:25 | DEBUG    | app.main             | log_requests         | [2034254780] GET /wp-includes/Text/Diff/Renderer/index.php
+2025-12-26 20:34:25 | INFO     | app.main             | log_requests         | [2034254780] ✗ GET /wp-includes/Text/Diff/Renderer/index.php - 404 (1ms)
+2025-12-26 20:34:25 | DEBUG    | app.main             | log_requests         | [2034257195] GET /wp-includes/bk/index.php
+2025-12-26 20:34:25 | INFO     | app.main             | log_requests         | [2034257195] ✗ GET /wp-includes/bk/index.php - 404 (0ms)
+2025-12-26 20:34:25 | DEBUG    | app.main             | log_requests         | [2034259604] GET /wp-includes/customize/chosen.php
+2025-12-26 20:34:25 | INFO     | app.main             | log_requests         | [2034259604] ✗ GET /wp-includes/customize/chosen.php - 404 (0ms)
+2025-12-26 20:34:26 | DEBUG    | app.main             | log_requests         | [2034262066] GET /wp-includes/index.php
+2025-12-26 20:34:26 | INFO     | app.main             | log_requests         | [2034262066] ✗ GET /wp-includes/index.php - 404 (2ms)
+2025-12-26 20:34:26 | DEBUG    | app.main             | log_requests         | [2034264490] GET /wp-includes/js/codemirror/index.php
+2025-12-26 20:34:26 | INFO     | app.main             | log_requests         | [2034264490] ✗ GET /wp-includes/js/codemirror/index.php - 404 (0ms)
+2025-12-26 20:34:26 | DEBUG    | app.main             | log_requests         | [2034266922] GET /wp-includes/js/jquery/jquery.php
+2025-12-26 20:34:26 | INFO     | app.main             | log_requests         | [2034266922] ✗ GET /wp-includes/js/jquery/jquery.php - 404 (1ms)
+2025-12-26 20:34:26 | DEBUG    | app.main             | log_requests         | [2034269360] GET /wp-includes/random_compat/index.php
+2025-12-26 20:34:26 | INFO     | app.main             | log_requests         | [2034269360] ✗ GET /wp-includes/random_compat/index.php - 404 (0ms)
+2025-12-26 20:34:27 | DEBUG    | app.main             | log_requests         | [2034271828] GET /wp-includes/rest-api/index.php
+2025-12-26 20:34:27 | INFO     | app.main             | log_requests         | [2034271828] ✗ GET /wp-includes/rest-api/index.php - 404 (1ms)
+2025-12-26 20:34:27 | DEBUG    | app.main             | log_requests         | [2034274251] GET /wp-includes/sitemaps/providers/index.php
+2025-12-26 20:34:27 | INFO     | app.main             | log_requests         | [2034274251] ✗ GET /wp-includes/sitemaps/providers/index.php - 404 (0ms)
+2025-12-26 20:34:27 | DEBUG    | app.main             | log_requests         | [2034276852] GET /wp-includes/style-engine/wp-conflg.php
+2025-12-26 20:34:27 | INFO     | app.main             | log_requests         | [2034276852] ✗ GET /wp-includes/style-engine/wp-conflg.php - 404 (1ms)
+2025-12-26 20:34:27 | INFO     | app.core.bots.runner | _schedule_bot_job    | Scheduled bot 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f) every 3600s
+2025-12-26 20:34:27 | DEBUG    | app.main             | log_requests         | [2034279282] GET /wp-admin/
+2025-12-26 20:34:27 | INFO     | app.main             | log_requests         | [2034279282] ✗ GET /wp-admin/ - 404 (1ms)
+2025-12-26 20:34:28 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:34:28 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:34:28 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:28 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:34:28 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:29 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:29 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:29 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:29 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:29 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:29 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:30 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:30 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:30 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:30 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:30 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:30 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:30 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:30 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:30 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:30 | DEBUG    | app.main             | log_requests         | [2034304585] GET /api/settings/presets
+2025-12-26 20:34:30 | DEBUG    | app.main             | log_requests         | [2034304585] GET /wp-admin/css/
+2025-12-26 20:34:30 | INFO     | app.main             | log_requests         | [2034304585] ✓ GET /api/settings/presets - 200 (2ms)
+2025-12-26 20:34:30 | INFO     | app.main             | log_requests         | [2034304585] ✗ GET /wp-admin/css/ - 404 (2ms)
+2025-12-26 20:34:30 | DEBUG    | app.main             | log_requests         | [2034304654] GET /api/settings/presets
+2025-12-26 20:34:30 | INFO     | app.main             | log_requests         | [2034304654] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:34:30 | DEBUG    | app.main             | log_requests         | [2034307034] GET /wp-admin/includes/index.php
+2025-12-26 20:34:30 | INFO     | app.main             | log_requests         | [2034307034] ✗ GET /wp-admin/includes/index.php - 404 (0ms)
+2025-12-26 20:34:30 | DEBUG    | app.main             | log_requests         | [2034309452] GET /wp-admin/network/admin.php
+2025-12-26 20:34:30 | INFO     | app.main             | log_requests         | [2034309452] ✗ GET /wp-admin/network/admin.php - 404 (1ms)
+2025-12-26 20:34:31 | DEBUG    | app.main             | log_requests         | [2034311885] GET /wp-content/classwithtostring.php
+2025-12-26 20:34:31 | INFO     | app.main             | log_requests         | [2034311885] ✗ GET /wp-content/classwithtostring.php - 404 (1ms)
+2025-12-26 20:34:31 | DEBUG    | app.main             | log_requests         | [2034314311] GET /wp-content/languages/index.php
+2025-12-26 20:34:31 | INFO     | app.main             | log_requests         | [2034314311] ✗ GET /wp-content/languages/index.php - 404 (1ms)
+2025-12-26 20:34:31 | DEBUG    | app.main             | log_requests         | [2034316743] GET /wp-content/plugins/admin.php
+2025-12-26 20:34:31 | INFO     | app.main             | log_requests         | [2034316743] ✗ GET /wp-content/plugins/admin.php - 404 (0ms)
+2025-12-26 20:34:31 | DEBUG    | app.main             | log_requests         | [2034319162] GET /wp-content/themes/admin.php
+2025-12-26 20:34:31 | INFO     | app.main             | log_requests         | [2034319162] ✗ GET /wp-content/themes/admin.php - 404 (1ms)
+2025-12-26 20:34:32 | DEBUG    | app.main             | log_requests         | [2034321601] GET /wp-content/uploads/2023/
+2025-12-26 20:34:32 | INFO     | app.main             | log_requests         | [2034321601] ✗ GET /wp-content/uploads/2023/ - 404 (2ms)
+2025-12-26 20:34:32 | DEBUG    | app.main             | log_requests         | [2034324037] GET /wp-content/uploads/2024/
+2025-12-26 20:34:32 | INFO     | app.main             | log_requests         | [2034324037] ✗ GET /wp-content/uploads/2024/ - 404 (1ms)
+2025-12-26 20:34:32 | DEBUG    | app.main             | log_requests         | [2034326531] GET /wp-content/uploads/2025/
+2025-12-26 20:34:32 | INFO     | app.main             | log_requests         | [2034326531] ✗ GET /wp-content/uploads/2025/ - 404 (1ms)
+2025-12-26 20:34:32 | DEBUG    | app.main             | log_requests         | [2034328968] GET /wp-editor.php
+2025-12-26 20:34:32 | INFO     | app.main             | log_requests         | [2034328968] ✗ GET /wp-editor.php - 404 (1ms)
+2025-12-26 20:34:33 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:34:33 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:34:33 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:33 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:34:33 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:34 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:34 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:34 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:34 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:34 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:34 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:34 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:34 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:34 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:34 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:34 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:34 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:34 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:34 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:34 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:34 | DEBUG    | app.main             | log_requests         | [2034349925] GET /wp-includes/ID3/
+2025-12-26 20:34:34 | INFO     | app.main             | log_requests         | [2034349925] ✗ GET /wp-includes/ID3/ - 404 (1ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034352351] GET /wp-includes/ID3/simi.php
+2025-12-26 20:34:35 | INFO     | app.main             | log_requests         | [2034352351] ✗ GET /wp-includes/ID3/simi.php - 404 (1ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034354795] GET /wp-includes/IXR/
+2025-12-26 20:34:35 | INFO     | app.main             | log_requests         | [2034354795] ✗ GET /wp-includes/IXR/ - 404 (0ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034357218] GET /wp-includes/Requests/about.php
+2025-12-26 20:34:35 | INFO     | app.main             | log_requests         | [2034357218] ✗ GET /wp-includes/Requests/about.php - 404 (0ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034359644] GET /wp-includes/Text/xwx1.php
+2025-12-26 20:34:35 | INFO     | app.main             | log_requests         | [2034359644] ✗ GET /wp-includes/Text/xwx1.php - 404 (0ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034359701] OPTIONS /api/indicator/calculate
+2025-12-26 20:34:35 | INFO     | app.main             | log_requests         | [2034359701] ✓ OPTIONS /api/indicator/calculate - 200 (0ms)
+2025-12-26 20:34:35 | DEBUG    | app.main             | log_requests         | [2034359733] POST /api/indicator/calculate
+2025-12-26 20:34:38 | DEBUG    | app.main             | log_requests         | [2034388945] GET /wp-includes/assets/about.php
+2025-12-26 20:34:38 | INFO     | app.main             | log_requests         | [2034359733] ✓ POST /api/indicator/calculate - 200 (2921ms)
+2025-12-26 20:34:38 | INFO     | app.main             | log_requests         | [2034388945] ✗ GET /wp-includes/assets/about.php - 404 (4ms)
+2025-12-26 20:34:39 | DEBUG    | app.main             | log_requests         | [2034391403] GET /wp-includes/assets/index.php
+2025-12-26 20:34:39 | INFO     | app.main             | log_requests         | [2034391403] ✗ GET /wp-includes/assets/index.php - 404 (0ms)
+2025-12-26 20:34:39 | DEBUG    | app.main             | log_requests         | [2034393829] GET /wp-includes/block-patterns/
+2025-12-26 20:34:39 | INFO     | app.main             | log_requests         | [2034393829] ✗ GET /wp-includes/block-patterns/ - 404 (1ms)
+2025-12-26 20:34:39 | DEBUG    | app.main             | log_requests         | [2034396246] GET /wp-includes/blocks/
+2025-12-26 20:34:39 | INFO     | app.main             | log_requests         | [2034396246] ✗ GET /wp-includes/blocks/ - 404 (1ms)
+2025-12-26 20:34:39 | DEBUG    | app.main             | log_requests         | [2034398672] GET /wp-includes/blocks/calendar/index.php
+2025-12-26 20:34:39 | INFO     | app.main             | log_requests         | [2034398672] ✗ GET /wp-includes/blocks/calendar/index.php - 404 (1ms)
+2025-12-26 20:34:40 | DEBUG    | app.main             | log_requests         | [2034401086] GET /wp-includes/certificates/
+2025-12-26 20:34:40 | INFO     | app.main             | log_requests         | [2034401086] ✗ GET /wp-includes/certificates/ - 404 (0ms)
+2025-12-26 20:34:40 | DEBUG    | app.main             | log_requests         | [2034403502] GET /wp-includes/css/index.php
+2025-12-26 20:34:40 | INFO     | app.main             | log_requests         | [2034403502] ✗ GET /wp-includes/css/index.php - 404 (1ms)
+2025-12-26 20:34:40 | DEBUG    | app.main             | log_requests         | [2034405933] GET /wp-includes/customize/index.php
+2025-12-26 20:34:40 | INFO     | app.main             | log_requests         | [2034405933] ✗ GET /wp-includes/customize/index.php - 404 (1ms)
+2025-12-26 20:34:40 | DEBUG    | app.main             | log_requests         | [2034408364] GET /wp-includes/fonts/admin.php
+2025-12-26 20:34:40 | INFO     | app.main             | log_requests         | [2034408364] ✗ GET /wp-includes/fonts/admin.php - 404 (1ms)
+2025-12-26 20:34:41 | DEBUG    | app.main             | log_requests         | [2034410801] GET /wp-includes/html-api/index.php
+2025-12-26 20:34:41 | INFO     | app.main             | log_requests         | [2034410801] ✗ GET /wp-includes/html-api/index.php - 404 (1ms)
+2025-12-26 20:34:41 | DEBUG    | app.main             | log_requests         | [2034413221] GET /wp-includes/images/media/
+2025-12-26 20:34:41 | INFO     | app.main             | log_requests         | [2034413221] ✗ GET /wp-includes/images/media/ - 404 (0ms)
+2025-12-26 20:34:41 | DEBUG    | app.main             | log_requests         | [2034415733] GET /wp-includes/images/smilies/about.php
+2025-12-26 20:34:41 | INFO     | app.main             | log_requests         | [2034415733] ✗ GET /wp-includes/images/smilies/about.php - 404 (1ms)
+2025-12-26 20:34:41 | DEBUG    | app.main             | log_requests         | [2034418275] GET /wp-includes/js/index.php
+2025-12-26 20:34:41 | INFO     | app.main             | log_requests         | [2034418275] ✗ GET /wp-includes/js/index.php - 404 (1ms)
+2025-12-26 20:34:42 | DEBUG    | app.main             | log_requests         | [2034420700] GET /wp-includes/rest-api/
+2025-12-26 20:34:42 | INFO     | app.main             | log_requests         | [2034420700] ✗ GET /wp-includes/rest-api/ - 404 (1ms)
+2025-12-26 20:34:42 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:34:42 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:34:42 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:42 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:34:42 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:43 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:43 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:43 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:43 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:43 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:43 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:43 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:44 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:44 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:44 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:44 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:44 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:44 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:44 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:44 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:45 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:45 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:45 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:45 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:45 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:45 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:46 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:46 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:46 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:46 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:46 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:46 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:46 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:46 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:46 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:47 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:47 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:47 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:47 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:47 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:47 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:48 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:48 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:48 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:48 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:48 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:48 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:48 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:48 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:48 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:49 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:34:49 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:34:49 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:34:49 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:34:49 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:34:49 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:34:49 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:34:50 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:34:50 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:34:50 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:34:50 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:34:50 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:34:50 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:34:50 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:34:50 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:34:50 | DEBUG    | app.main             | log_requests         | [2034502541] GET /api/data/symbols
+2025-12-26 20:34:50 | DEBUG    | app.main             | log_requests         | [2034502551] GET /wp-includes/rest-api/fields/
+2025-12-26 20:34:50 | DEBUG    | app.main             | log_requests         | [2034502562] GET /api/data/available
+2025-12-26 20:34:51 | DEBUG    | app.main             | log_requests         | [2034514780] GET /api/data/symbols
+2025-12-26 20:34:51 | INFO     | app.main             | log_requests         | [2034502541] ✓ GET /api/data/symbols - 200 (1224ms)
+2025-12-26 20:34:51 | INFO     | app.main             | log_requests         | [2034502551] ✗ GET /wp-includes/rest-api/fields/ - 404 (1224ms)
+2025-12-26 20:34:51 | INFO     | app.main             | log_requests         | [2034502562] ✓ GET /api/data/available - 200 (1224ms)
+2025-12-26 20:34:51 | DEBUG    | app.main             | log_requests         | [2034514827] GET /api/data/available
+2025-12-26 20:34:51 | INFO     | app.main             | log_requests         | [2034514780] ✓ GET /api/data/symbols - 200 (5ms)
+2025-12-26 20:34:52 | INFO     | app.main             | log_requests         | [2034514827] ✓ GET /api/data/available - 200 (1156ms)
+2025-12-26 20:34:52 | DEBUG    | app.main             | log_requests         | [2034526394] GET /wp-includes/rest-api/search/index.php
+2025-12-26 20:34:52 | DEBUG    | app.main             | log_requests         | [2034526406] GET /api/data/available
+2025-12-26 20:34:52 | DEBUG    | app.main             | log_requests         | [2034526406] GET /api/data/symbols
+2025-12-26 20:34:52 | DEBUG    | app.main             | log_requests         | [2034526406] GET /api/settings/presets
+2025-12-26 20:34:53 | INFO     | app.main             | log_requests         | [2034526394] ✗ GET /wp-includes/rest-api/search/index.php - 404 (1115ms)
+2025-12-26 20:34:53 | INFO     | app.main             | log_requests         | [2034526406] ✓ GET /api/data/available - 200 (1115ms)
+2025-12-26 20:34:53 | INFO     | app.main             | log_requests         | [2034526406] ✓ GET /api/data/symbols - 200 (1116ms)
+2025-12-26 20:34:53 | INFO     | app.main             | log_requests         | [2034526406] ✓ GET /api/settings/presets - 200 (1117ms)
+2025-12-26 20:34:53 | DEBUG    | app.main             | log_requests         | [2034537598] GET /api/data/available
+2025-12-26 20:34:54 | DEBUG    | app.main             | log_requests         | [2034549077] GET /api/settings/presets
+2025-12-26 20:34:54 | DEBUG    | app.main             | log_requests         | [2034549077] GET /api/data/symbols
+2025-12-26 20:34:54 | DEBUG    | app.main             | log_requests         | [2034549088] GET /wp-includes/sitemaps/
+2025-12-26 20:34:54 | INFO     | app.main             | log_requests         | [2034537598] ✓ GET /api/data/available - 200 (1149ms)
+2025-12-26 20:34:54 | INFO     | app.main             | log_requests         | [2034549077] ✓ GET /api/settings/presets - 200 (2ms)
+2025-12-26 20:34:54 | INFO     | app.main             | log_requests         | [2034549077] ✓ GET /api/data/symbols - 200 (4ms)
+2025-12-26 20:34:54 | INFO     | app.main             | log_requests         | [2034549088] ✗ GET /wp-includes/sitemaps/ - 404 (4ms)
+2025-12-26 20:34:55 | DEBUG    | app.main             | log_requests         | [2034551547] GET /wp-includes/sitemaps/wp-conflg.php
+2025-12-26 20:34:55 | INFO     | app.main             | log_requests         | [2034551547] ✗ GET /wp-includes/sitemaps/wp-conflg.php - 404 (2ms)
+2025-12-26 20:34:55 | DEBUG    | app.main             | log_requests         | [2034553975] GET /wp-themes.php
+2025-12-26 20:34:55 | INFO     | app.main             | log_requests         | [2034553975] ✗ GET /wp-themes.php - 404 (0ms)
+2025-12-26 20:34:55 | DEBUG    | app.main             | log_requests         | [2034556387] GET /x.php
+2025-12-26 20:34:55 | INFO     | app.main             | log_requests         | [2034556387] ✗ GET /x.php - 404 (1ms)
+2025-12-26 20:34:55 | DEBUG    | app.main             | log_requests         | [2034558800] GET /yas.php
+2025-12-26 20:34:55 | INFO     | app.main             | log_requests         | [2034558800] ✗ GET /yas.php - 404 (1ms)
+2025-12-26 20:35:00 | INFO     | app.core.bots.runner | _schedule_bot_job    | Scheduled bot 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f) every 3600s
+2025-12-26 20:35:07 | DEBUG    | app.main             | log_requests         | [2035078648] GET /api/settings/presets
+2025-12-26 20:35:07 | INFO     | app.main             | log_requests         | [2035078648] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:35:07 | DEBUG    | app.main             | log_requests         | [2035078679] GET /api/settings/presets
+2025-12-26 20:35:07 | INFO     | app.main             | log_requests         | [2035078679] ✓ GET /api/settings/presets - 200 (0ms)
+2025-12-26 20:35:10 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:35:10 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:35:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:10 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:35:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:11 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:11 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:11 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:12 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:12 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:12 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:12 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:12 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:12 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:12 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:12 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:12 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:12 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:12 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:12 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:13 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:13 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:13 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:13 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:13 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:13 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:14 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:14 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:14 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:14 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:14 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:14 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:14 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:14 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:14 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:15 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:15 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:15 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:15 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:15 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:15 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:16 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:16 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:16 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:16 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:16 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:16 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:16 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:16 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:16 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:16 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:16 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:17 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:17 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:17 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:17 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:17 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:17 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:17 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:17 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:17 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:17 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:17 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:17 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:17 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:19 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:19 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:19 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:19 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:19 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:19 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:19 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:19 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:19 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:19 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:19 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:19 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:19 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:19 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:19 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:20 | DEBUG    | app.main             | log_requests         | [2035200060] GET /api/data/symbols
+2025-12-26 20:35:20 | DEBUG    | app.main             | log_requests         | [2035200070] GET /api/data/available
+2025-12-26 20:35:21 | INFO     | app.main             | log_requests         | [2035200060] ✓ GET /api/data/symbols - 200 (1271ms)
+2025-12-26 20:35:21 | INFO     | app.main             | log_requests         | [2035200070] ✓ GET /api/data/available - 200 (1271ms)
+2025-12-26 20:35:21 | DEBUG    | app.main             | log_requests         | [2035212853] GET /api/data/symbols
+2025-12-26 20:35:21 | DEBUG    | app.main             | log_requests         | [2035212873] GET /api/data/available
+2025-12-26 20:35:22 | INFO     | app.main             | log_requests         | [2035212853] ✓ GET /api/data/symbols - 200 (1231ms)
+2025-12-26 20:35:22 | INFO     | app.main             | log_requests         | [2035212873] ✓ GET /api/data/available - 200 (1231ms)
+2025-12-26 20:35:22 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:35:22 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:35:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:22 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:35:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:23 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:23 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:23 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:24 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:24 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:24 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:24 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:24 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:24 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:24 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:24 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:24 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:24 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:24 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:24 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:31 | DEBUG    | app.main             | log_requests         | [2035319089] GET /api/bots/
+2025-12-26 20:35:31 | DEBUG    | app.main             | log_requests         | [2035319109] GET /api/settings/presets
+2025-12-26 20:35:31 | INFO     | app.main             | log_requests         | [2035319089] ✓ GET /api/bots/ - 200 (1ms)
+2025-12-26 20:35:31 | INFO     | app.main             | log_requests         | [2035319109] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:35:31 | DEBUG    | app.main             | log_requests         | [2035319150] GET /api/bots/
+2025-12-26 20:35:31 | INFO     | app.main             | log_requests         | [2035319150] ✓ GET /api/bots/ - 200 (1ms)
+2025-12-26 20:35:31 | DEBUG    | app.main             | log_requests         | [2035319171] GET /api/settings/presets
+2025-12-26 20:35:31 | INFO     | app.main             | log_requests         | [2035319171] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:35:34 | INFO     | app.core.bots.runner | _schedule_bot_job    | Scheduled bot 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f) every 3600s
+2025-12-26 20:35:37 | DEBUG    | app.main             | log_requests         | [2035379111] GET /api/signals/sse/stream
+2025-12-26 20:35:37 | INFO     | app.main             | log_requests         | [2035379111] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-26 20:35:40 | DEBUG    | app.main             | log_requests         | [2035403776] GET /api/data/symbols
+2025-12-26 20:35:40 | INFO     | app.main             | log_requests         | [2035403776] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 20:35:40 | DEBUG    | app.main             | log_requests         | [2035403857] GET /api/data/available
+2025-12-26 20:35:41 | INFO     | app.main             | log_requests         | [2035403857] ✓ GET /api/data/available - 200 (1184ms)
+2025-12-26 20:35:41 | DEBUG    | app.main             | log_requests         | [2035415762] GET /api/settings/presets
+2025-12-26 20:35:41 | DEBUG    | app.main             | log_requests         | [2035415773] GET /api/data/symbols
+2025-12-26 20:35:41 | INFO     | app.main             | log_requests         | [2035415762] ✓ GET /api/settings/presets - 200 (4ms)
+2025-12-26 20:35:41 | INFO     | app.main             | log_requests         | [2035415773] ✓ GET /api/data/symbols - 200 (97ms)
+2025-12-26 20:35:41 | DEBUG    | app.main             | log_requests         | [2035416763] GET /api/data/available
+2025-12-26 20:35:42 | INFO     | app.main             | log_requests         | [2035416763] ✓ GET /api/data/available - 200 (1065ms)
+2025-12-26 20:35:42 | DEBUG    | app.main             | log_requests         | [2035427409] GET /api/settings/presets
+2025-12-26 20:35:42 | INFO     | app.main             | log_requests         | [2035427409] ✓ GET /api/settings/presets - 200 (1ms)
+2025-12-26 20:35:42 | INFO     | app.core.bots.runner | stop                 | BotsRunner stopped
+2025-12-26 20:35:42 | INFO     | app.main             | lifespan             | ✓ Bots runner stopped
+2025-12-26 20:35:42 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:42 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-26 20:35:42 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:44 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 20:35:44 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 20:35:44 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 20:35:44 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 20:35:44 | WARNING  | app.main             | <module>             | ✗ Failed to load signals routes: No module named 'app.api.signals_routes'
+2025-12-26 20:35:44 | INFO     | app.main             | <module>             | ✓ Loaded: settings routes
+2025-12-26 20:35:44 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 20:35:45 | INFO     | app.main             | <module>             | ✓ Loaded: bots routes
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 20:35:45 | DEBUG    | app.core.bots.manager | _load_bots           | Loaded bot: 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f)
+2025-12-26 20:35:45 | INFO     | app.core.bots.manager | _load_bots           | Loaded 1 bots from storage
+2025-12-26 20:35:45 | INFO     | app.core.bots.manager | __init__             | BotsManager initialized with 1 bots
+2025-12-26 20:35:45 | DEBUG    | tzlocal              | _get_localzone_name  | Looking up time zone info from registry
+2025-12-26 20:35:45 | INFO     | app.core.bots.runner | __init__             | BotsRunner initialized
+2025-12-26 20:35:45 | INFO     | app.core.bots.runner | start                | BotsRunner started
+2025-12-26 20:35:45 | INFO     | app.main             | lifespan             | ✓ Bots runner started
+2025-12-26 20:35:45 | DEBUG    | app.main             | log_requests         | [2035451367] GET /api/signals/sse/stream
+2025-12-26 20:35:45 | DEBUG    | app.main             | log_requests         | [2035451367] POST /api/indicator/calculate
+2025-12-26 20:35:45 | INFO     | app.main             | log_requests         | [2035451367] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-26 20:35:48 | INFO     | app.main             | log_requests         | [2035451367] ✓ POST /api/indicator/calculate - 200 (3508ms)
+2025-12-26 20:35:55 | INFO     | app.core.bots.runner | _schedule_bot_job    | Scheduled bot 214 (997a84e3-c774-4f4d-9fe9-b308ee9cc43f) every 3600s

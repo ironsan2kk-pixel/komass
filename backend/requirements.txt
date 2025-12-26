@@ -1,5 +1,5 @@
-# Komas Trading Server - Full (No Docker)
-# ========================================
+# Komas Trading Server v3.0 - Requirements
+# =========================================
 
 # Web Framework
 fastapi==0.104.1
@@ -24,9 +24,6 @@ websockets==12.0
 # Exchanges
 ccxt==4.1.89
 
-# TradingView Data
-tvdatafeed
-
 # Scheduler (replaces Celery)
 apscheduler==3.10.4
 
@@ -44,12 +41,6 @@ lxml==4.9.4
 python-dotenv==1.0.0
 pydantic==2.5.2
 pydantic-settings==2.1.0
-
-# System Monitoring
-psutil==5.9.7
-
-# Security (API key encryption)
-cryptography==41.0.7
 
 # Charts/Data
 plotly==5.18.0
