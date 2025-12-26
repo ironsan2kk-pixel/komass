@@ -2,6 +2,7 @@
 Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
+Version: 3.5.1
 """
 import os
 import sys
@@ -100,7 +101,7 @@ logger = setup_logging()
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     logger.info("=" * 60)
-    logger.info("KOMAS TRADING SERVER v3.5 - STARTING")
+    logger.info("KOMAS TRADING SERVER v3.5.1 - STARTING")
     logger.info(f"Log file: {LOG_FILE}")
     logger.info(f"Error log: {ERROR_LOG_FILE}")
     logger.info(f"Data dir: {DATA_DIR}")
@@ -113,7 +114,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Komas Trading Server",
-    version="3.5",
+    version="3.5.1",
     description="Trading system with indicator, backtesting, and optimization",
     lifespan=lifespan,
 )
@@ -198,19 +199,53 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # ============ IMPORT ROUTERS ============
 
+# Data Routes
 try:
     from app.api.data_routes import router as data_router
     app.include_router(data_router)
-    logger.info("[OK] Loaded: data routes")
+    logger.info("[OK] Loaded: data_routes")
 except ImportError as e:
-    logger.error(f"[FAIL] Failed to load data routes: {e}")
+    logger.error(f"[FAIL] data_routes: {e}")
 
+# Indicator Routes
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)
-    logger.info("[OK] Loaded: indicator routes")
+    logger.info("[OK] Loaded: indicator_routes")
 except ImportError as e:
-    logger.error(f"[FAIL] Failed to load indicator routes: {e}")
+    logger.error(f"[FAIL] indicator_routes: {e}")
+
+# Signals Routes
+try:
+    from app.api.signals import router as signals_router
+    app.include_router(signals_router)
+    logger.info("[OK] Loaded: signals")
+except ImportError as e:
+    logger.warning(f"[SKIP] signals: {e}")
+
+# Plugins Routes
+try:
+    from app.api.plugins import router as plugins_router
+    app.include_router(plugins_router)
+    logger.info("[OK] Loaded: plugins")
+except ImportError as e:
+    logger.warning(f"[SKIP] plugins: {e}")
+
+# WebSocket Routes
+try:
+    from app.api.ws import router as ws_router
+    app.include_router(ws_router)
+    logger.info("[OK] Loaded: ws (websocket)")
+except ImportError as e:
+    logger.warning(f"[SKIP] ws: {e}")
+
+# Database Routes
+try:
+    from app.api.db_routes import router as db_router
+    app.include_router(db_router)
+    logger.info("[OK] Loaded: db_routes")
+except ImportError as e:
+    logger.warning(f"[SKIP] db_routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -264,6 +299,38 @@ async def get_errors(lines: int = 50):
     }
 
 
+@app.get("/api/logs/download/{filename}")
+async def download_log(filename: str):
+    """Download a specific log file"""
+    filepath = LOGS_DIR / filename
+    if not filepath.exists() or not filepath.is_file():
+        raise HTTPException(404, "Log file not found")
+    
+    if not str(filepath).startswith(str(LOGS_DIR)):
+        raise HTTPException(403, "Access denied")
+    
+    return FileResponse(
+        filepath,
+        filename=filename,
+        media_type="text/plain"
+    )
+
+
+@app.get("/api/logs/clear")
+async def clear_old_logs(days: int = 7):
+    """Delete logs older than N days"""
+    cutoff = datetime.now().timestamp() - (days * 24 * 60 * 60)
+    deleted = []
+    
+    for f in LOGS_DIR.glob("*.log"):
+        if f.stat().st_mtime < cutoff:
+            f.unlink()
+            deleted.append(f.name)
+            logger.info(f"Deleted old log: {f.name}")
+    
+    return {"deleted": deleted, "kept_days": days}
+
+
 # ============ HEALTH & INFO ============
 
 @app.get("/health")
@@ -271,7 +338,7 @@ async def health_check():
     return {
         "status": "healthy",
         "app": "Komas Trading Server",
-        "version": "3.5",
+        "version": "3.5.1",
         "log_file": str(LOG_FILE),
         "data_dir": str(DATA_DIR),
         "timestamp": datetime.now().isoformat()
@@ -282,10 +349,37 @@ async def health_check():
 async def root():
     return {
         "message": "Komas Trading Server",
-        "version": "3.5",
+        "version": "3.5.1",
         "docs": "/docs",
         "health": "/health",
-        "logs": "/api/logs/list"
+        "logs": "/api/logs/list",
+        "endpoints": {
+            "data": "/api/data/",
+            "indicator": "/api/indicator/",
+            "signals": "/api/signals/",
+            "plugins": "/api/plugins/",
+            "ws": "/api/ws/",
+            "db": "/api/db/"
+        }
+    }
+
+
+@app.get("/api/info")
+async def api_info():
+    """Get information about loaded API routes"""
+    routes = []
+    for route in app.routes:
+        if hasattr(route, 'path') and hasattr(route, 'methods'):
+            routes.append({
+                "path": route.path,
+                "methods": list(route.methods) if route.methods else [],
+                "name": route.name if hasattr(route, 'name') else None
+            })
+    
+    return {
+        "version": "3.5.1",
+        "total_routes": len(routes),
+        "routes": sorted(routes, key=lambda x: x['path'])
     }
 
 
