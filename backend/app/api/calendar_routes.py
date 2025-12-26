@@ -125,32 +125,27 @@ async def fetch_forex_factory_events() -> List[dict]:
                 return []
             
             raw_events = response.json()
+            print(f"ForexFactory returned {len(raw_events)} raw events")
             
             # Convert to our format
             events = []
             for item in raw_events:
-                # Parse date (format: "2025-12-23T08:30:00-05:00")
                 try:
-                    # Parse ISO format with timezone
+                    # Parse date (format: "2025-12-23T08:30:00-05:00")
                     date_str = item.get("date", "")
-                    if date_str:
-                        # Convert to datetime and then to ISO format
-                        from datetime import datetime
-                        import re
-                        
-                        # Remove timezone offset for parsing
-                        clean_date = re.sub(r'[+-]\d{2}:\d{2}$', '', date_str)
-                        dt = datetime.fromisoformat(clean_date)
-                        
-                        # Adjust for EST (-05:00) to UTC
-                        if "-05:00" in date_str:
-                            dt = dt + timedelta(hours=5)
-                        elif "-04:00" in date_str:  # EDT
-                            dt = dt + timedelta(hours=4)
-                        
-                        timestamp = dt.isoformat()
-                    else:
+                    if not date_str:
                         continue
+                    
+                    # Python 3.11+ handles ISO format with timezone
+                    # Just store as-is, we'll compare properly
+                    # Remove timezone for naive datetime comparison
+                    import re
+                    clean_date = re.sub(r'[+-]\d{2}:\d{2}$', '', date_str)
+                    
+                    # Validate it parses correctly
+                    test_dt = datetime.fromisoformat(clean_date)
+                    timestamp = clean_date  # Store without timezone
+                    
                 except Exception as e:
                     print(f"Error parsing date {item.get('date')}: {e}")
                     continue
@@ -171,11 +166,13 @@ async def fetch_forex_factory_events() -> List[dict]:
                     "actual": None,  # Actual values not in feed
                 })
             
-            print(f"Fetched {len(events)} events from ForexFactory")
+            print(f"Parsed {len(events)} events from ForexFactory (excluding holidays)")
             return events
             
     except Exception as e:
         print(f"Error fetching ForexFactory: {e}")
+        import traceback
+        traceback.print_exc()
         return []
 
 
@@ -300,13 +297,16 @@ def filter_events(
     now = datetime.now()
     cutoff = now + timedelta(hours=hours_ahead)
     
+    # Include events from past 24 hours (to show recent news)
+    past_cutoff = now - timedelta(hours=24)
+    
     filtered = []
     for event in events:
         try:
             event_time = datetime.fromisoformat(event["timestamp"])
             
-            # Time filter - include past hour and future events
-            if event_time < now - timedelta(hours=1):
+            # Time filter - include past 24h and future events up to cutoff
+            if event_time < past_cutoff:
                 continue
             if event_time > cutoff:
                 continue
@@ -322,6 +322,9 @@ def filter_events(
             filtered.append(event)
         except Exception as e:
             print(f"Error filtering event: {e}")
+    
+    # Sort by timestamp
+    filtered.sort(key=lambda x: x.get("timestamp", ""))
     
     return filtered
 
@@ -445,6 +448,23 @@ async def refresh_calendar():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/all")
+async def get_all_events():
+    """
+    Get ALL cached events without any filtering (for debugging)
+    """
+    cache = load_json_file(EVENTS_CACHE_FILE, {})
+    events = cache.get("events", [])
+    
+    return {
+        "events": events,
+        "count": len(events),
+        "source": cache.get("source", "unknown"),
+        "updated_at": cache.get("updated_at"),
+        "server_time": datetime.now().isoformat(),
+    }
 
 
 @router.get("/block-status")
