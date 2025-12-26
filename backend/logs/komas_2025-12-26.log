@@ -829,3 +829,374 @@
 2025-12-26 12:08:00 | INFO     | app.main                  | [1208004976] ERR GET /sito/wp-includes/wlwmanifest.xml - 404 (1ms)
 2025-12-26 12:10:16 | DEBUG    | app.main                  | [1210161569] GET /
 2025-12-26 12:10:16 | INFO     | app.main                  | [1210161569] OK GET / - 200 (1ms)
+2025-12-26 12:19:47 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 12:19:47 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 12:19:47 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 12:19:48 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 12:19:48 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 12:19:48 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 12:19:48 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 12:19:48 | INFO     | app.main                  | ============================================================
+2025-12-26 12:19:48 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 12:19:48 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 12:19:48 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 12:19:48 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 12:19:48 | INFO     | app.main                  | ============================================================
+2025-12-26 12:19:53 | DEBUG    | app.main                  | [1219535593] GET /api/db/presets
+2025-12-26 12:19:53 | INFO     | app.core.database         | Initializing database: C:\Users\Administrator\Desktop\komass\data\komas.db
+2025-12-26 12:19:53 | INFO     | app.core.database         | ✓ Database tables created
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing <function connect.<locals>.connector at 0x0000016DB4919EE0>
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation <function connect.<locals>.connector at 0x0000016DB4919EE0> completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000016DB491F6A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000016DB4900040>, deterministic=True)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000016DB491F6A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000016DB4900040>, deterministic=True) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000016DB491F6A0>, 'floor', 1, <built-in function floor>, deterministic=True)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000016DB491F6A0>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB48F6840>, 'PRAGMA read_uncommitted', [])
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB48F6840>, 'PRAGMA read_uncommitted', []) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB48F6840>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB48F6840>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB48F6840>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB48F6840>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB48F6640>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB48F6640>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB48F6640>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB48F6640>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB48F6640>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB48F6640>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | INFO     | app.main                  | [1219535593] OK GET /api/db/presets - 200 (59ms)
+2025-12-26 12:19:53 | DEBUG    | app.main                  | [1219536199] GET /api/db/presets
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49A93C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49A93C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49A93C0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49A93C0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49A93C0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49A93C0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:19:53 | INFO     | app.main                  | [1219536199] OK GET /api/db/presets - 200 (4ms)
+2025-12-26 12:19:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:20:19 | DEBUG    | app.main                  | [1220196286] GET /api/data/symbols
+2025-12-26 12:20:19 | INFO     | app.main                  | [1220196286] OK GET /api/data/symbols - 200 (3ms)
+2025-12-26 12:20:19 | DEBUG    | app.main                  | [1220196344] GET /api/data/symbols
+2025-12-26 12:20:19 | INFO     | app.main                  | [1220196344] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 12:20:53 | DEBUG    | app.main                  | [1220534076] GET /api/data/symbols
+2025-12-26 12:20:53 | INFO     | app.main                  | [1220534076] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 12:20:54 | DEBUG    | app.main                  | [1220543536] GET /api/data/symbols
+2025-12-26 12:20:54 | INFO     | app.main                  | [1220543536] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 12:21:00 | DEBUG    | app.main                  | [1221005150] GET /api/db/presets
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49ABE40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49ABE40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49ABE40>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49ABE40>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49ABE40>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49ABE40>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | INFO     | app.main                  | [1221005150] OK GET /api/db/presets - 200 (5ms)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | DEBUG    | app.main                  | [1221005221] GET /api/db/presets
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49ABF40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB49ABF40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49ABF40>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB49ABF40>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49ABF40>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB49ABF40>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:00 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:00 | INFO     | app.main                  | [1221005221] OK GET /api/db/presets - 200 (6ms)
+2025-12-26 12:21:02 | DEBUG    | app.main                  | [1221029944] OPTIONS /api/indicator/calculate
+2025-12-26 12:21:02 | INFO     | app.main                  | [1221029944] OK OPTIONS /api/indicator/calculate - 200 (0ms)
+2025-12-26 12:21:02 | DEBUG    | app.main                  | [1221029960] POST /api/indicator/calculate
+2025-12-26 12:21:06 | INFO     | app.main                  | [1221029960] OK POST /api/indicator/calculate - 200 (3136ms)
+2025-12-26 12:21:23 | DEBUG    | app.main                  | [1221231296] GET /api/db/presets
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DA7B68340>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DA7B68340>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DA7B68340>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DA7B68340>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DA7B68340>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DA7B68340>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | INFO     | app.main                  | [1221231296] OK GET /api/db/presets - 200 (7ms)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | DEBUG    | app.main                  | [1221231381] GET /api/db/presets
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB4B34AC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DB4B34AC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB4B34AC0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DB4B34AC0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB4B34AC0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DB4B34AC0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:21:23 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:21:23 | INFO     | app.main                  | [1221231381] OK GET /api/db/presets - 200 (5ms)
+2025-12-26 12:21:26 | DEBUG    | app.main                  | [1221262264] POST /api/indicator/calculate
+2025-12-26 12:21:29 | INFO     | app.main                  | [1221262264] OK POST /api/indicator/calculate - 200 (3092ms)
+2025-12-26 12:24:04 | DEBUG    | app.main                  | [1224047620] GET /
+2025-12-26 12:24:04 | INFO     | app.main                  | [1224047620] OK GET / - 200 (1ms)
+2025-12-26 12:28:14 | DEBUG    | app.main                  | [1228148043] GET /
+2025-12-26 12:28:14 | INFO     | app.main                  | [1228148043] OK GET / - 200 (1ms)
+2025-12-26 12:29:11 | DEBUG    | app.main                  | [1229114049] POST /
+2025-12-26 12:29:11 | INFO     | app.main                  | [1229114049] ERR POST / - 405 (1ms)
+2025-12-26 12:30:13 | DEBUG    | app.main                  | [1230132673] GET /admin/config.php
+2025-12-26 12:30:13 | INFO     | app.main                  | [1230132673] ERR GET /admin/config.php - 404 (1ms)
+2025-12-26 12:34:53 | DEBUG    | app.main                  | [1234534183] GET /api/db/presets
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DF4FF2DC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DF4FF2DC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DF4FF2DC0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DF4FF2DC0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DF4FF2DC0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DF4FF2DC0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | INFO     | app.main                  | [1234534183] OK GET /api/db/presets - 200 (6ms)
+2025-12-26 12:34:53 | DEBUG    | app.main                  | [1234534264] GET /api/db/presets
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DF4FF35C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000016DF4FF35C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DF4FF35C0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000016DF4FF35C0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DF4FF35C0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000016DF4FF35C0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>)
+2025-12-26 12:34:53 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000016DB491F6A0>) completed
+2025-12-26 12:34:53 | INFO     | app.main                  | [1234534264] OK GET /api/db/presets - 200 (5ms)
+2025-12-26 12:34:58 | DEBUG    | app.main                  | [1234583321] GET /api/data/symbols
+2025-12-26 12:34:58 | INFO     | app.main                  | [1234583321] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 12:34:58 | DEBUG    | app.main                  | [1234583369] GET /api/data/symbols
+2025-12-26 12:34:58 | INFO     | app.main                  | [1234583369] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 12:35:01 | DEBUG    | app.main                  | [1235017598] GET /api/signals/
+2025-12-26 12:35:01 | DEBUG    | app.main                  | [1235017652] GET /api/signals/stats
+2025-12-26 12:35:01 | INFO     | app.main                  | [1235017598] ERR GET /api/signals/ - 422 (6ms)
+2025-12-26 12:35:01 | INFO     | app.main                  | [1235017652] OK GET /api/signals/stats - 200 (8ms)
+2025-12-26 12:35:01 | DEBUG    | app.main                  | [1235017747] GET /api/signals/symbols
+2025-12-26 12:35:01 | INFO     | app.main                  | [1235017747] ERR GET /api/signals/symbols - 422 (2ms)
+2025-12-26 12:35:01 | DEBUG    | app.main                  | [1235017814] GET /api/signals/sse/stream
+2025-12-26 12:35:01 | INFO     | app.main                  | [1235017814] OK GET /api/signals/sse/stream - 200 (2ms)
+2025-12-26 12:35:02 | DEBUG    | app.main                  | [1235027793] GET /api/signals/
+2025-12-26 12:35:02 | INFO     | app.main                  | [1235027793] ERR GET /api/signals/ - 422 (1ms)
+2025-12-26 12:35:02 | DEBUG    | app.main                  | [1235027853] GET /api/signals/symbols
+2025-12-26 12:35:02 | INFO     | app.main                  | [1235027853] ERR GET /api/signals/symbols - 422 (0ms)
+2025-12-26 12:35:12 | DEBUG    | app.main                  | [1235127881] GET /api/signals/
+2025-12-26 12:35:12 | INFO     | app.main                  | [1235127881] ERR GET /api/signals/ - 422 (1ms)
+2025-12-26 12:35:13 | DEBUG    | app.main                  | [1235137929] GET /api/signals/
+2025-12-26 12:35:13 | INFO     | app.main                  | [1235137929] ERR GET /api/signals/ - 422 (0ms)
+2025-12-26 12:35:24 | DEBUG    | app.main                  | [1235241014] GET /api/signals/
+2025-12-26 12:35:24 | INFO     | app.main                  | [1235241014] ERR GET /api/signals/ - 422 (2ms)
+2025-12-26 12:35:25 | DEBUG    | app.main                  | [1235251081] GET /api/signals/
+2025-12-26 12:35:25 | INFO     | app.main                  | [1235251081] ERR GET /api/signals/ - 422 (0ms)
+2025-12-26 12:35:31 | DEBUG    | app.main                  | [1235317791] GET /api/signals/stats
+2025-12-26 12:35:31 | INFO     | app.main                  | [1235317791] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:36:02 | DEBUG    | app.main                  | [1236020879] GET /api/signals/stats
+2025-12-26 12:36:02 | INFO     | app.main                  | [1236020879] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:36:32 | DEBUG    | app.main                  | [1236320975] GET /api/signals/stats
+2025-12-26 12:36:32 | INFO     | app.main                  | [1236320975] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:37:02 | DEBUG    | app.main                  | [1237024052] GET /api/signals/stats
+2025-12-26 12:37:02 | INFO     | app.main                  | [1237024052] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:37:32 | DEBUG    | app.main                  | [1237324114] GET /api/signals/stats
+2025-12-26 12:37:32 | INFO     | app.main                  | [1237324114] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:38:02 | DEBUG    | app.main                  | [1238027209] GET /api/signals/stats
+2025-12-26 12:38:02 | INFO     | app.main                  | [1238027209] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:38:32 | DEBUG    | app.main                  | [1238327287] GET /api/signals/stats
+2025-12-26 12:38:32 | INFO     | app.main                  | [1238327287] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:39:03 | DEBUG    | app.main                  | [1239030354] GET /api/signals/stats
+2025-12-26 12:39:03 | INFO     | app.main                  | [1239030354] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:39:33 | DEBUG    | app.main                  | [1239330420] GET /api/signals/stats
+2025-12-26 12:39:33 | INFO     | app.main                  | [1239330420] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:40:03 | DEBUG    | app.main                  | [1240033510] GET /api/signals/stats
+2025-12-26 12:40:03 | INFO     | app.main                  | [1240033510] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:40:33 | DEBUG    | app.main                  | [1240333581] GET /api/signals/stats
+2025-12-26 12:40:33 | INFO     | app.main                  | [1240333581] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:41:03 | DEBUG    | app.main                  | [1241036670] GET /api/signals/stats
+2025-12-26 12:41:03 | INFO     | app.main                  | [1241036670] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:41:33 | DEBUG    | app.main                  | [1241336757] GET /api/signals/stats
+2025-12-26 12:41:33 | INFO     | app.main                  | [1241336757] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:42:03 | DEBUG    | app.main                  | [1242039848] GET /api/signals/stats
+2025-12-26 12:42:03 | INFO     | app.main                  | [1242039848] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:42:33 | DEBUG    | app.main                  | [1242339911] GET /api/signals/stats
+2025-12-26 12:42:33 | INFO     | app.main                  | [1242339911] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:43:04 | DEBUG    | app.main                  | [1243043010] GET /api/signals/stats
+2025-12-26 12:43:04 | INFO     | app.main                  | [1243043010] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:43:34 | DEBUG    | app.main                  | [1243343113] GET /api/signals/stats
+2025-12-26 12:43:34 | INFO     | app.main                  | [1243343113] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:44:04 | DEBUG    | app.main                  | [1244046198] GET /api/signals/stats
+2025-12-26 12:44:04 | INFO     | app.main                  | [1244046198] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:44:34 | DEBUG    | app.main                  | [1244346284] GET /api/signals/stats
+2025-12-26 12:44:34 | INFO     | app.main                  | [1244346284] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:45:04 | DEBUG    | app.main                  | [1245049362] GET /api/signals/stats
+2025-12-26 12:45:04 | INFO     | app.main                  | [1245049362] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:45:24 | DEBUG    | app.main                  | [1245244946] GET /
+2025-12-26 12:45:24 | INFO     | app.main                  | [1245244946] OK GET / - 200 (1ms)
+2025-12-26 12:45:34 | DEBUG    | app.main                  | [1245349446] GET /api/signals/stats
+2025-12-26 12:45:34 | INFO     | app.main                  | [1245349446] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:46:05 | DEBUG    | app.main                  | [1246052538] GET /api/signals/stats
+2025-12-26 12:46:05 | INFO     | app.main                  | [1246052538] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:46:35 | DEBUG    | app.main                  | [1246352622] GET /api/signals/stats
+2025-12-26 12:46:35 | INFO     | app.main                  | [1246352622] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:47:05 | DEBUG    | app.main                  | [1247055710] GET /api/signals/stats
+2025-12-26 12:47:05 | INFO     | app.main                  | [1247055710] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:47:35 | DEBUG    | app.main                  | [1247355782] GET /api/signals/stats
+2025-12-26 12:47:35 | INFO     | app.main                  | [1247355782] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:48:05 | DEBUG    | app.main                  | [1248058897] GET /api/signals/stats
+2025-12-26 12:48:05 | INFO     | app.main                  | [1248058897] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:48:35 | DEBUG    | app.main                  | [1248358997] GET /api/signals/stats
+2025-12-26 12:48:35 | INFO     | app.main                  | [1248358997] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:49:06 | DEBUG    | app.main                  | [1249062084] GET /api/signals/stats
+2025-12-26 12:49:06 | INFO     | app.main                  | [1249062084] OK GET /api/signals/stats - 200 (4ms)
+2025-12-26 12:49:36 | DEBUG    | app.main                  | [1249362168] GET /api/signals/stats
+2025-12-26 12:49:36 | INFO     | app.main                  | [1249362168] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:50:06 | DEBUG    | app.main                  | [1250065254] GET /api/signals/stats
+2025-12-26 12:50:06 | INFO     | app.main                  | [1250065254] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:50:36 | DEBUG    | app.main                  | [1250365329] GET /api/signals/stats
+2025-12-26 12:50:36 | INFO     | app.main                  | [1250365329] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:51:06 | DEBUG    | app.main                  | [1251068415] GET /api/signals/stats
+2025-12-26 12:51:06 | INFO     | app.main                  | [1251068415] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:51:36 | DEBUG    | app.main                  | [1251368504] GET /api/signals/stats
+2025-12-26 12:51:36 | INFO     | app.main                  | [1251368504] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:52:07 | DEBUG    | app.main                  | [1252071595] GET /api/signals/stats
+2025-12-26 12:52:07 | INFO     | app.main                  | [1252071595] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:52:37 | DEBUG    | app.main                  | [1252371673] GET /api/signals/stats
+2025-12-26 12:52:37 | INFO     | app.main                  | [1252371673] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:53:07 | DEBUG    | app.main                  | [1253074772] GET /api/signals/stats
+2025-12-26 12:53:07 | INFO     | app.main                  | [1253074772] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:53:37 | DEBUG    | app.main                  | [1253374859] GET /api/signals/stats
+2025-12-26 12:53:37 | INFO     | app.main                  | [1253374859] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:54:07 | DEBUG    | app.main                  | [1254077947] GET /api/signals/stats
+2025-12-26 12:54:07 | INFO     | app.main                  | [1254077947] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:54:37 | DEBUG    | app.main                  | [1254378035] GET /api/signals/stats
+2025-12-26 12:54:37 | INFO     | app.main                  | [1254378035] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:55:08 | DEBUG    | app.main                  | [1255081120] GET /api/signals/stats
+2025-12-26 12:55:08 | INFO     | app.main                  | [1255081120] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:55:38 | DEBUG    | app.main                  | [1255381175] GET /api/signals/stats
+2025-12-26 12:55:38 | INFO     | app.main                  | [1255381175] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:56:08 | DEBUG    | app.main                  | [1256084241] GET /api/signals/stats
+2025-12-26 12:56:08 | INFO     | app.main                  | [1256084241] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:56:38 | DEBUG    | app.main                  | [1256384313] GET /api/signals/stats
+2025-12-26 12:56:38 | INFO     | app.main                  | [1256384313] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:57:08 | DEBUG    | app.main                  | [1257087408] GET /api/signals/stats
+2025-12-26 12:57:08 | INFO     | app.main                  | [1257087408] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:57:38 | DEBUG    | app.main                  | [1257387568] GET /api/signals/stats
+2025-12-26 12:57:38 | INFO     | app.main                  | [1257387568] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:58:09 | DEBUG    | app.main                  | [1258090667] GET /api/signals/stats
+2025-12-26 12:58:09 | INFO     | app.main                  | [1258090667] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 12:58:39 | DEBUG    | app.main                  | [1258390740] GET /api/signals/stats
+2025-12-26 12:58:39 | INFO     | app.main                  | [1258390740] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 12:59:09 | DEBUG    | app.main                  | [1259093822] GET /api/signals/stats
+2025-12-26 12:59:09 | INFO     | app.main                  | [1259093822] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 12:59:39 | DEBUG    | app.main                  | [1259393914] GET /api/signals/stats
+2025-12-26 12:59:39 | INFO     | app.main                  | [1259393914] OK GET /api/signals/stats - 200 (4ms)
+2025-12-26 13:00:09 | DEBUG    | app.main                  | [1300097015] GET /api/signals/stats
+2025-12-26 13:00:09 | INFO     | app.main                  | [1300097015] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:00:39 | DEBUG    | app.main                  | [1300397096] GET /api/signals/stats
+2025-12-26 13:00:39 | INFO     | app.main                  | [1300397096] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:01:10 | DEBUG    | app.main                  | [1301100177] GET /api/signals/stats
+2025-12-26 13:01:10 | INFO     | app.main                  | [1301100177] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:01:40 | DEBUG    | app.main                  | [1301400256] GET /api/signals/stats
+2025-12-26 13:01:40 | INFO     | app.main                  | [1301400256] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:02:10 | DEBUG    | app.main                  | [1302103361] GET /api/signals/stats
+2025-12-26 13:02:10 | INFO     | app.main                  | [1302103361] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:02:40 | DEBUG    | app.main                  | [1302403462] GET /api/signals/stats
+2025-12-26 13:02:40 | INFO     | app.main                  | [1302403462] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:03:10 | DEBUG    | app.main                  | [1303106564] GET /api/signals/stats
+2025-12-26 13:03:10 | INFO     | app.main                  | [1303106564] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:03:40 | DEBUG    | app.main                  | [1303406642] GET /api/signals/stats
+2025-12-26 13:03:40 | INFO     | app.main                  | [1303406642] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:04:10 | DEBUG    | app.main                  | [1304109738] GET /api/signals/stats
+2025-12-26 13:04:10 | INFO     | app.main                  | [1304109738] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:04:40 | DEBUG    | app.main                  | [1304409837] GET /api/signals/stats
+2025-12-26 13:04:40 | INFO     | app.main                  | [1304409837] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:05:11 | DEBUG    | app.main                  | [1305112925] GET /api/signals/stats
+2025-12-26 13:05:11 | INFO     | app.main                  | [1305112925] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:05:41 | DEBUG    | app.main                  | [1305412998] GET /api/signals/stats
+2025-12-26 13:05:41 | INFO     | app.main                  | [1305412998] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:06:11 | DEBUG    | app.main                  | [1306116105] GET /api/signals/stats
+2025-12-26 13:06:11 | INFO     | app.main                  | [1306116105] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:06:41 | DEBUG    | app.main                  | [1306416171] GET /api/signals/stats
+2025-12-26 13:06:41 | INFO     | app.main                  | [1306416171] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:07:11 | DEBUG    | app.main                  | [1307119271] GET /api/signals/stats
+2025-12-26 13:07:11 | INFO     | app.main                  | [1307119271] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:07:41 | DEBUG    | app.main                  | [1307419342] GET /api/signals/stats
+2025-12-26 13:07:41 | INFO     | app.main                  | [1307419342] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:08:12 | DEBUG    | app.main                  | [1308122454] GET /api/signals/stats
+2025-12-26 13:08:12 | INFO     | app.main                  | [1308122454] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:08:42 | DEBUG    | app.main                  | [1308422537] GET /api/signals/stats
+2025-12-26 13:08:42 | INFO     | app.main                  | [1308422537] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:09:12 | DEBUG    | app.main                  | [1309125644] GET /api/signals/stats
+2025-12-26 13:09:12 | INFO     | app.main                  | [1309125644] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:09:42 | DEBUG    | app.main                  | [1309425718] GET /api/signals/stats
+2025-12-26 13:09:42 | INFO     | app.main                  | [1309425718] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:10:12 | DEBUG    | app.main                  | [1310128791] GET /api/signals/stats
+2025-12-26 13:10:12 | INFO     | app.main                  | [1310128791] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:10:42 | DEBUG    | app.main                  | [1310428872] GET /api/signals/stats
+2025-12-26 13:10:42 | INFO     | app.main                  | [1310428872] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:11:13 | DEBUG    | app.main                  | [1311131954] GET /api/signals/stats
+2025-12-26 13:11:13 | INFO     | app.main                  | [1311131954] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:11:43 | DEBUG    | app.main                  | [1311432037] GET /api/signals/stats
+2025-12-26 13:11:43 | INFO     | app.main                  | [1311432037] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:12:13 | DEBUG    | app.main                  | [1312135127] GET /api/signals/stats
+2025-12-26 13:12:13 | INFO     | app.main                  | [1312135127] OK GET /api/signals/stats - 200 (4ms)
+2025-12-26 13:12:43 | DEBUG    | app.main                  | [1312435235] GET /api/signals/stats
+2025-12-26 13:12:43 | INFO     | app.main                  | [1312435235] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:12:47 | DEBUG    | app.main                  | [1312478227] GET /
+2025-12-26 13:12:47 | INFO     | app.main                  | [1312478227] OK GET / - 200 (1ms)
+2025-12-26 13:13:13 | DEBUG    | app.main                  | [1313138323] GET /api/signals/stats
+2025-12-26 13:13:13 | INFO     | app.main                  | [1313138323] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:13:43 | DEBUG    | app.main                  | [1313438416] GET /api/signals/stats
+2025-12-26 13:13:43 | INFO     | app.main                  | [1313438416] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 13:14:14 | DEBUG    | app.main                  | [1314141489] GET /api/signals/stats
+2025-12-26 13:14:14 | INFO     | app.main                  | [1314141489] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:14:44 | DEBUG    | app.main                  | [1314441572] GET /api/signals/stats
+2025-12-26 13:14:44 | INFO     | app.main                  | [1314441572] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:15:14 | DEBUG    | app.main                  | [1315144663] GET /api/signals/stats
+2025-12-26 13:15:14 | INFO     | app.main                  | [1315144663] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:15:44 | DEBUG    | app.main                  | [1315444728] GET /api/signals/stats
+2025-12-26 13:15:44 | INFO     | app.main                  | [1315444728] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:16:14 | DEBUG    | app.main                  | [1316147806] GET /api/signals/stats
+2025-12-26 13:16:14 | INFO     | app.main                  | [1316147806] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:16:44 | DEBUG    | app.main                  | [1316447891] GET /api/signals/stats
+2025-12-26 13:16:44 | INFO     | app.main                  | [1316447891] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:17:15 | DEBUG    | app.main                  | [1317150980] GET /api/signals/stats
+2025-12-26 13:17:15 | INFO     | app.main                  | [1317150980] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:17:45 | DEBUG    | app.main                  | [1317451071] GET /api/signals/stats
+2025-12-26 13:17:45 | INFO     | app.main                  | [1317451071] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:18:15 | DEBUG    | app.main                  | [1318154140] GET /api/signals/stats
+2025-12-26 13:18:15 | INFO     | app.main                  | [1318154140] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:18:45 | DEBUG    | app.main                  | [1318454236] GET /api/signals/stats
+2025-12-26 13:18:45 | INFO     | app.main                  | [1318454236] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 13:19:15 | DEBUG    | app.main                  | [1319157337] GET /api/signals/stats
+2025-12-26 13:19:15 | INFO     | app.main                  | [1319157337] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 13:19:45 | DEBUG    | app.main                  | [1319457421] GET /api/signals/stats
+2025-12-26 13:19:45 | INFO     | app.main                  | [1319457421] OK GET /api/signals/stats - 200 (2ms)

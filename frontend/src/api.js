@@ -1,22 +1,24 @@
 /**
- * Komas Trading Server v3 - API Client
- * Полная интеграция со всеми backend endpoints
+ * KOMAS Trading Server - API Client v3.5.1
+ * =========================================
+ * Централизованный API клиент с поддержкой SSE streaming
+ * 
+ * FIXED: Исправлены пути к API endpoints
  */
-
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = '/api';
 
-// Базовый экземпляр axios
+// Create axios instance with default config
 export const api = axios.create({
   baseURL: API_BASE,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 30000,
+  timeout: 60000, // 60 секунд для длительных операций
 });
 
-// Интерцептор для логирования ошибок
+// Response interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -26,267 +28,342 @@ api.interceptors.response.use(
 );
 
 // ============================================
-// Data API - Управление данными
+// DATA API - Управление рыночными данными
+// Prefix: /api/data
 // ============================================
 export const dataApi = {
-  // Список доступных символов
-  getSymbols: () => api.get('/api/data/symbols'),
+  // Получить список доступных символов
+  getSymbols: () => api.get('/data/symbols'),
   
-  // Список таймфреймов
-  getTimeframes: () => api.get('/api/data/timeframes'),
+  // Получить список загруженных файлов
+  getAvailable: () => api.get('/data/available'),
   
-  // Загрузка данных с биржи
-  downloadData: (params) => api.post('/api/data/download', params),
+  // Скачать данные с биржи
+  download: (params) => api.post('/data/download', params),
   
   // Прогресс загрузки
-  getDownloadProgress: (taskId) => api.get(`/api/data/download/progress/${taskId}`),
+  getDownloadProgress: () => api.get('/data/download/progress'),
   
-  // Информация о загруженных данных
-  getDataInfo: (symbol, timeframe) => api.get(`/api/data/info/${symbol}/${timeframe}`),
-  
-  // Список загруженных файлов
-  getAvailable: () => api.get('/api/data/available'),
+  // Отменить загрузку
+  cancelDownload: (taskId) => api.post(`/data/download/cancel/${taskId}`),
   
   // Синхронизация данных
-  sync: (params) => api.post('/api/data/sync', params),
+  sync: (params) => api.post('/data/sync', params),
   
-  // Удаление данных
-  deleteData: (symbol, timeframe) => api.delete(`/api/data/${symbol}/${timeframe}`),
+  // Удалить файл данных
+  deleteFile: (filename) => api.delete(`/data/file/${filename}`),
+  
+  // Продолжить загрузку
+  continue: (symbol, timeframe) => api.post(`/data/continue/${symbol}/${timeframe}`),
+  
+  // Debug информация
+  debug: () => api.get('/data/debug'),
 };
 
 // ============================================
-// Symbols API - Работа с торговыми парами
-// ============================================
-export const symbolsApi = {
-  getAll: () => api.get('/api/data/symbols'),
-  getInfo: (symbol) => api.get(`/api/data/symbol/${symbol}`),
-  search: (query) => api.get('/api/data/symbols/search', { params: { q: query } }),
-};
-
-// ============================================
-// Indicator API - Расчёт индикатора и бэктест
+// INDICATOR API - Расчёты и оптимизация
+// Prefix: /api/indicator
 // ============================================
 export const indicatorApi = {
   // Основной расчёт индикатора + бэктест
-  calculate: (params) => api.post('/api/indicator/calculate', params),
+  calculate: (params) => api.post('/indicator/calculate', params),
   
-  // Полный бэктест
-  backtest: (params) => api.post('/api/indicator/backtest', params),
+  // Получить свечи для графика
+  getCandles: (symbol, timeframe, limit = 500) => 
+    api.get(`/indicator/candles/${symbol}/${timeframe}`, { params: { limit } }),
   
-  // Автооптимизация (обычный POST)
-  autoOptimize: (params) => api.post('/api/indicator/auto-optimize', params),
+  // Replay mode - пошаговое воспроизведение
+  replay: (params) => api.post('/indicator/replay', params),
   
-  // Автооптимизация с SSE стримингом
-  autoOptimizeStream: (params) => {
-    const queryString = new URLSearchParams(params).toString();
-    return new EventSource(`${API_BASE}/api/indicator/auto-optimize-stream?${queryString}`);
+  // Heatmap - тепловая карта i1/i2
+  heatmap: (params) => api.post('/indicator/heatmap', params),
+  
+  // Автооптимизация
+  autoOptimize: (params) => api.post('/indicator/auto-optimize', params),
+  
+  // Автооптимизация (SSE streaming) - использует fetch для POST
+  autoOptimizeFetch: async (params, onMessage, onError, onComplete) => {
+    try {
+      const response = await fetch('/api/indicator/auto-optimize-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params),
+      });
+      
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop() || '';
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              onMessage(data);
+              
+              if (data.type === 'done' && onComplete) {
+                onComplete(data);
+              }
+            } catch (e) {
+              console.error('Parse error:', e);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      if (onError) onError(error);
+    }
   },
-  
-  // Heatmap генерация
-  heatmap: (params) => api.post('/api/indicator/heatmap', params),
-  
-  // UI Schema для динамической генерации форм
-  getUISchema: (plugin = 'trg') => api.get(`/api/indicator/ui-schema/${plugin}`),
-  
-  // Пресеты настроек
-  getPresets: () => api.get('/api/indicator/presets'),
-  
-  // Replay mode
-  replay: (params) => api.post('/api/indicator/replay', params),
-  
-  // Статистика
-  getStats: () => api.get('/api/indicator/stats'),
-  
-  // Экспорт результатов
-  export: (params) => api.post('/api/indicator/export', params, { responseType: 'blob' }),
-  
-  // Доступные символы для индикатора
-  getSymbols: () => api.get('/api/indicator/symbols'),
 };
 
 // ============================================
-// Backtest API - История бэктестов
-// ============================================
-export const backtestApi = {
-  run: (params) => api.post('/api/indicator/backtest', params),
-  getResults: (id) => api.get(`/api/backtest/${id}`),
-  getHistory: (params) => api.get('/api/backtest/history', { params }),
-  delete: (id) => api.delete(`/api/backtest/${id}`),
-};
-
-// ============================================
-// Signals API - Торговые сигналы
-// ============================================
-export const signalsApi = {
-  // Список сигналов с фильтрацией
-  getAll: (params) => api.get('/api/signals/', { params }),
-  
-  // Детали сигнала
-  get: (id) => api.get(`/api/signals/${id}`),
-  
-  // Создать сигнал
-  create: (data) => api.post('/api/signals/', data),
-  
-  // Обновить сигнал
-  update: (id, data) => api.put(`/api/signals/${id}`, data),
-  
-  // Удалить сигнал
-  delete: (id) => api.delete(`/api/signals/${id}`),
-  
-  // Закрыть сигнал
-  close: (id, data = {}) => api.post(`/api/signals/${id}/close`, data),
-  
-  // Активные сигналы
-  getActive: () => api.get('/api/signals/active'),
-  
-  // История сигналов
-  getHistory: (params) => api.get('/api/signals/history', { params }),
-  
-  // Batch операции
-  batch: (data) => api.post('/api/signals/batch', data),
-  
-  // Статистика сигналов
-  getStats: () => api.get('/api/signals/stats'),
-  
-  // Экспорт
-  export: (params) => api.post('/api/signals/export', params, { responseType: 'blob' }),
-  
-  // SSE стрим уведомлений (возвращает EventSource)
-  streamSSE: () => new EventSource(`${API_BASE}/api/signals/sse/stream`),
-  
-  // Список символов с сигналами
-  getSymbols: () => api.get('/api/signals/symbols'),
-};
-
-// ============================================
-// Presets API - Пресеты настроек
+// PRESETS API - Сохранённые настройки
+// Prefix: /api/db (НЕ /api/indicator!)
 // ============================================
 export const presetsApi = {
-  getAll: () => api.get('/api/db/presets'),
-  get: (id) => api.get(`/api/db/presets/${id}`),
-  create: (data) => api.post('/api/db/presets', data),
-  update: (id, data) => api.put(`/api/db/presets/${id}`, data),
-  delete: (id) => api.delete(`/api/db/presets/${id}`),
-  duplicate: (id) => api.post(`/api/db/presets/${id}/duplicate`),
+  // Получить все пресеты
+  getAll: () => api.get('/db/presets'),
+  
+  // Получить пресет по ID
+  get: (id) => api.get(`/db/presets/${id}`),
+  
+  // Сохранить пресет
+  save: (params) => api.post('/db/presets', params),
+  
+  // Обновить пресет
+  update: (id, params) => api.put(`/db/presets/${id}`, params),
+  
+  // Удалить пресет
+  delete: (id) => api.delete(`/db/presets/${id}`),
+  
+  // Добавить в избранное
+  favorite: (id) => api.post(`/db/presets/${id}/favorite`),
+  
+  // Обновить статистику производительности
+  updatePerformance: (id, stats) => api.put(`/db/presets/${id}/performance`, stats),
 };
 
 // ============================================
-// Settings API - Системные настройки
+// SIGNALS API - Торговые сигналы
+// Prefix: /api/signals
+// ============================================
+export const signalsApi = {
+  // Получить сигналы с фильтрами
+  getSignals: (params) => api.get('/signals', { params }),
+  
+  // Получить сигнал по ID
+  getSignal: (id) => api.get(`/signals/${id}`),
+  
+  // Создать сигнал
+  create: (params) => api.post('/signals', params),
+  
+  // Обновить сигнал
+  update: (id, params) => api.put(`/signals/${id}`, params),
+  
+  // Удалить сигнал
+  delete: (id) => api.delete(`/signals/${id}`),
+  
+  // Активные сигналы
+  getActive: () => api.get('/signals/active'),
+  
+  // История сигналов
+  getHistory: (params) => api.get('/signals/history', { params }),
+  
+  // Статистика сигналов
+  getStats: () => api.get('/signals/stats'),
+  
+  // Экспорт сигналов
+  export: (params) => api.post('/signals/export', params),
+  
+  // Batch операции
+  batch: (params) => api.post('/signals/batch', params),
+  
+  // SSE подписка на новые сигналы
+  subscribe: (onSignal, onError) => {
+    const eventSource = new EventSource('/api/signals/sse/stream');
+    
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        onSignal(data);
+      } catch (e) {
+        console.error('Signal parse error:', e);
+      }
+    };
+    
+    eventSource.onerror = (error) => {
+      console.error('Signal stream error:', error);
+      if (onError) onError(error);
+    };
+    
+    return eventSource;
+  },
+};
+
+// ============================================
+// SETTINGS API - Настройки приложения
+// Prefix: /api/db (settings хранятся в БД)
 // ============================================
 export const settingsApi = {
-  // Общие настройки
-  getAll: () => api.get('/api/db/settings'),
-  save: (data) => api.post('/api/db/settings', data),
+  // Получить все настройки
+  getAll: () => api.get('/db/settings'),
   
-  // API ключи
-  getApiKeys: () => api.get('/api/settings/api-keys'),
-  saveApiKey: (exchange, data) => api.post(`/api/settings/api-keys/${exchange}`, data),
-  testConnection: (exchange) => api.post(`/api/settings/api-keys/${exchange}/test`),
+  // Получить настройку по ключу
+  get: (key) => api.get(`/db/settings/${key}`),
   
-  // Уведомления
-  getNotifications: () => api.get('/api/settings/notifications'),
-  saveNotifications: (data) => api.post('/api/settings/notifications', data),
-  testNotification: (type) => api.post(`/api/settings/notifications/${type}/test`),
+  // Сохранить настройки
+  save: (params) => api.post('/db/settings', params),
   
-  // Системные настройки
-  getSystem: () => api.get('/api/settings/system'),
-  saveSystem: (data) => api.post('/api/settings/system', data),
-  getSystemInfo: () => api.get('/api/settings/system/info'),
-  clearCache: () => api.post('/api/settings/system/clear-cache'),
-  
-  // Настройки календаря
-  getCalendarSettings: () => api.get('/api/settings/calendar'),
-  saveCalendarSettings: (data) => api.post('/api/settings/calendar', data),
+  // Удалить настройку
+  delete: (key) => api.delete(`/db/settings/${key}`),
 };
 
 // ============================================
-// Calendar API - Экономический календарь
-// ============================================
-export const calendarApi = {
-  // События
-  getEvents: (params) => api.get('/api/calendar/events', { params }),
-  
-  // Важные события сегодня
-  getHighImpactToday: () => api.get('/api/calendar/high-impact-today'),
-  
-  // Обновить календарь
-  refresh: () => api.post('/api/calendar/refresh'),
-  
-  // Статус блокировки торговли
-  getBlockStatus: () => api.get('/api/calendar/block-status'),
-};
-
-// ============================================
-// Trades API - Сделки
-// ============================================
-export const tradesApi = {
-  getTrades: (params) => api.get('/api/trades', { params }),
-  getStats: () => api.get('/api/trades/stats'),
-  getMonthly: () => api.get('/api/trades/monthly'),
-  export: (params) => api.post('/api/trades/export', params, { responseType: 'blob' }),
-};
-
-// ============================================
-// Performance API - Производительность
-// ============================================
-export const performanceApi = {
-  getSummary: () => api.get('/api/performance/summary'),
-  getMonthly: () => api.get('/api/performance/monthly'),
-  getEquity: () => api.get('/api/performance/equity'),
-  getDrawdown: () => api.get('/api/performance/drawdown'),
-};
-
-// ============================================
-// Plugins API - Управление плагинами
-// ============================================
-export const pluginsApi = {
-  getAll: () => api.get('/api/plugins/'),
-  get: (id) => api.get(`/api/plugins/${id}`),
-  getParameters: (id) => api.get(`/api/plugins/${id}/parameters`),
-  getUISchema: (id) => api.get(`/api/plugins/${id}/ui-schema`),
-  reload: () => api.post('/api/plugins/reload'),
-};
-
-// ============================================
-// WebSocket API - Real-time данные
-// ============================================
-export const wsApi = {
-  getStatus: () => api.get('/api/ws/status'),
-  connect: () => api.post('/api/ws/connect'),
-  disconnect: () => api.post('/api/ws/disconnect'),
-  subscribe: (params) => api.post('/api/ws/subscribe', params),
-  unsubscribe: (params) => api.post('/api/ws/unsubscribe', params),
-  getPrices: () => api.get('/api/ws/prices'),
-  
-  // SSE стримы
-  streamPrices: () => new EventSource(`${API_BASE}/api/ws/sse/prices`),
-  streamKlines: (symbol, timeframe) => 
-    new EventSource(`${API_BASE}/api/ws/sse/klines?symbol=${symbol}&timeframe=${timeframe}`),
-};
-
-// ============================================
-// Database API - База данных
+// DATABASE API - Управление БД и кэшем
+// Prefix: /api/db
 // ============================================
 export const databaseApi = {
-  getInfo: () => api.get('/api/db/info'),
-  backup: () => api.post('/api/db/backup'),
-  restore: (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    return api.post('/api/db/restore', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-  },
-  optimize: () => api.post('/api/db/optimize'),
+  // Информация о БД
+  getInfo: () => api.get('/db/info'),
+  
+  // Кэш данных
+  getCache: () => api.get('/db/cache'),
+  
+  // Информация о кэше символа
+  getCacheInfo: (symbol, timeframe) => api.get(`/db/cache/${symbol}/${timeframe}`),
+  
+  // Очистить кэш символа
+  clearCache: (symbol, timeframe) => api.delete(`/db/cache/${symbol}/${timeframe}`),
 };
 
 // ============================================
-// Health & Info
+// PLUGINS API - Управление плагинами
+// Prefix: /api/plugins
+// ============================================
+export const pluginsApi = {
+  // Список плагинов
+  getAll: () => api.get('/plugins'),
+  
+  // Информация о плагине
+  get: (name) => api.get(`/plugins/${name}`),
+  
+  // UI Schema плагина
+  getUISchema: (name) => api.get(`/plugins/${name}/ui-schema`),
+  
+  // Значения по умолчанию
+  getDefaults: (name) => api.get(`/plugins/${name}/defaults`),
+  
+  // Валидация параметров
+  validate: (name, params) => api.post(`/plugins/${name}/validate`, params),
+};
+
+// ============================================
+// WEBSOCKET API - Realtime данные
+// Prefix: /api/ws
+// ============================================
+export const wsApi = {
+  // Статус подключения
+  getStatus: () => api.get('/ws/status'),
+  
+  // Подключиться к WebSocket
+  connect: () => api.post('/ws/connect'),
+  
+  // Отключиться
+  disconnect: () => api.post('/ws/disconnect'),
+  
+  // Подписаться на стрим
+  subscribe: (params) => api.post('/ws/subscribe', params),
+  
+  // Отписаться
+  unsubscribe: (params) => api.post('/ws/unsubscribe', params),
+  
+  // Отписаться от всего
+  unsubscribeAll: () => api.post('/ws/unsubscribe-all'),
+  
+  // Активные стримы
+  getStreams: () => api.get('/ws/streams'),
+  
+  // Кэшированные цены
+  getPrices: () => api.get('/ws/prices'),
+  
+  // SSE стрим цен
+  subscribePrices: (onPrice, onError) => {
+    const eventSource = new EventSource('/api/ws/sse/prices');
+    
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        onPrice(data);
+      } catch (e) {
+        console.error('Price parse error:', e);
+      }
+    };
+    
+    eventSource.onerror = (error) => {
+      console.error('Price stream error:', error);
+      if (onError) onError(error);
+    };
+    
+    return eventSource;
+  },
+  
+  // SSE стрим свечей
+  subscribeKlines: (onKline, onError) => {
+    const eventSource = new EventSource('/api/ws/sse/klines');
+    
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        onKline(data);
+      } catch (e) {
+        console.error('Kline parse error:', e);
+      }
+    };
+    
+    eventSource.onerror = (error) => {
+      console.error('Kline stream error:', error);
+      if (onError) onError(error);
+    };
+    
+    return eventSource;
+  },
+};
+
+// ============================================
+// LOGS API - Логи сервера
+// Endpoints в main.py
+// ============================================
+export const logsApi = {
+  // Список лог-файлов
+  list: () => api.get('/logs/list'),
+  
+  // Сегодняшний лог
+  today: (lines = 100) => api.get('/logs/today', { params: { lines } }),
+  
+  // Логи ошибок
+  errors: (lines = 50) => api.get('/logs/errors', { params: { lines } }),
+  
+  // Скачать лог-файл
+  download: (filename) => api.get(`/logs/download/${filename}`, { responseType: 'blob' }),
+  
+  // Очистить старые логи
+  clear: (days = 7) => api.get('/logs/clear', { params: { days } }),
+};
+
+// ============================================
+// HEALTH API
 // ============================================
 export const healthApi = {
   check: () => api.get('/health'),
-  info: () => api.get('/api/info'),
-  version: () => api.get('/api/version'),
+  info: () => api.get('/info'),
 };
 
 export default api;

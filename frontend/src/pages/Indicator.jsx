@@ -186,7 +186,8 @@ export default function Indicator() {
   const loadPresets = useCallback(async () => {
     try {
       const res = await presetsApi.getAll();
-      setPresets(res.data?.presets || []);
+      // API returns array directly, not {presets: [...]}
+      setPresets(Array.isArray(res.data) ? res.data : res.data?.presets || []);
     } catch (err) {
       // Silently fail - presets endpoint may not exist yet
       // console.error('Failed to load presets:', err);
