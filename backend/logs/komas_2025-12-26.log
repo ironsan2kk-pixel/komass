@@ -1606,3 +1606,152 @@
 2025-12-26 15:47:12 | INFO     | app.main                  | ============================================================
 2025-12-26 15:49:00 | DEBUG    | app.main                  | [1549002500] POST /
 2025-12-26 15:49:00 | INFO     | app.main                  | [1549002500] ERR POST / - 405 (0ms)
+2025-12-26 15:50:21 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 15:50:21 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 15:50:21 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 15:50:21 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 15:50:22 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 15:50:22 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 15:50:22 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 15:50:22 | INFO     | app.main                  | ============================================================
+2025-12-26 15:50:22 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 15:50:22 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 15:50:22 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 15:50:22 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 15:50:22 | INFO     | app.main                  | ============================================================
+2025-12-26 15:50:25 | DEBUG    | app.main                  | [1550257097] GET /api/db/presets
+2025-12-26 15:50:25 | INFO     | app.core.database         | Initializing database: C:\Users\Administrator\Desktop\komass\data\komas.db
+2025-12-26 15:50:25 | INFO     | app.core.database         | ✓ Database tables created
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing <function connect.<locals>.connector at 0x000002AD76A09EE0>
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation <function connect.<locals>.connector at 0x000002AD76A09EE0> completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002AD76A0F6A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002AD769F4040>, deterministic=True)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002AD76A0F6A0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000002AD769F4040>, deterministic=True) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002AD76A0F6A0>, 'floor', 1, <built-in function floor>, deterministic=True)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000002AD76A0F6A0>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD769EA840>, 'PRAGMA read_uncommitted', [])
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD769EA840>, 'PRAGMA read_uncommitted', []) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD769EA840>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD769EA840>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD769EA840>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD769EA840>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD769EA640>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD769EA640>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD769EA640>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD769EA640>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD769EA640>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD769EA640>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | INFO     | app.main                  | [1550257097] OK GET /api/db/presets - 200 (41ms)
+2025-12-26 15:50:25 | DEBUG    | app.main                  | [1550257627] GET /api/db/presets
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD76A997C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD76A997C0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD76A997C0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD76A997C0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD76A997C0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD76A997C0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 15:50:25 | INFO     | app.main                  | [1550257627] OK GET /api/db/presets - 200 (7ms)
+2025-12-26 15:50:25 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 15:50:40 | DEBUG    | app.main                  | [1550401407] POST /api/indicator/calculate
+2025-12-26 15:50:43 | INFO     | app.main                  | [1550401407] OK POST /api/indicator/calculate - 200 (3534ms)
+2025-12-26 16:08:32 | DEBUG    | app.main                  | [1608328581] GET /
+2025-12-26 16:08:32 | INFO     | app.main                  | [1608328581] OK GET / - 200 (3ms)
+2025-12-26 16:30:01 | DEBUG    | app.main                  | [1630011056] GET /
+2025-12-26 16:30:01 | INFO     | app.main                  | [1630011056] OK GET / - 200 (2ms)
+2025-12-26 16:30:34 | DEBUG    | app.main                  | [1630344548] GET /
+2025-12-26 16:30:34 | INFO     | app.main                  | [1630344548] OK GET / - 200 (2ms)
+2025-12-26 16:30:44 | DEBUG    | app.main                  | [1630442598] POST /boaform/admin/formLogin
+2025-12-26 16:30:44 | INFO     | app.main                  | [1630442598] ERR POST /boaform/admin/formLogin - 404 (1ms)
+2025-12-26 16:33:45 | DEBUG    | app.main                  | [1633457963] GET /
+2025-12-26 16:33:45 | INFO     | app.main                  | [1633457963] OK GET / - 200 (0ms)
+2025-12-26 16:33:53 | DEBUG    | app.main                  | [1633539449] GET /
+2025-12-26 16:33:53 | INFO     | app.main                  | [1633539449] OK GET / - 200 (0ms)
+2025-12-26 16:39:36 | DEBUG    | app.main                  | [1639366740] GET /api/calendar/events
+2025-12-26 16:39:36 | INFO     | app.main                  | [1639366740] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 16:39:37 | DEBUG    | app.main                  | [1639376847] GET /api/calendar/events
+2025-12-26 16:39:37 | INFO     | app.main                  | [1639376847] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 16:39:38 | DEBUG    | app.main                  | [1639389024] GET /api/signals/stats
+2025-12-26 16:39:38 | INFO     | app.main                  | [1639389024] OK GET /api/signals/stats - 200 (8ms)
+2025-12-26 16:39:39 | DEBUG    | app.main                  | [1639392280] GET /api/signals/sse/stream
+2025-12-26 16:39:39 | INFO     | app.main                  | [1639392280] OK GET /api/signals/sse/stream - 200 (2ms)
+2025-12-26 16:39:41 | DEBUG    | app.main                  | [1639415533] GET /api/data/symbols
+2025-12-26 16:39:41 | INFO     | app.main                  | [1639415533] OK GET /api/data/symbols - 200 (3ms)
+2025-12-26 16:39:41 | DEBUG    | app.main                  | [1639415611] GET /api/data/symbols
+2025-12-26 16:39:41 | INFO     | app.main                  | [1639415611] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 16:39:43 | DEBUG    | app.main                  | [1639430487] POST /api/data/download
+2025-12-26 16:39:43 | INFO     | app.main                  | [1639430487] ERR POST /api/data/download - 422 (3ms)
+2025-12-26 16:39:47 | DEBUG    | app.main                  | [1639479398] GET /api/data/symbols
+2025-12-26 16:39:47 | INFO     | app.main                  | [1639479398] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 16:40:50 | DEBUG    | app.main                  | [1640507442] GET /api/signals/stats
+2025-12-26 16:40:50 | INFO     | app.main                  | [1640507442] OK GET /api/signals/stats - 200 (3ms)
+2025-12-26 16:40:50 | DEBUG    | app.main                  | [1640507529] GET /api/signals/sse/stream
+2025-12-26 16:40:50 | INFO     | app.main                  | [1640507529] OK GET /api/signals/sse/stream - 200 (1ms)
+2025-12-26 16:40:52 | DEBUG    | app.main                  | [1640528593] GET /api/calendar/events
+2025-12-26 16:40:52 | INFO     | app.main                  | [1640528593] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 16:40:53 | DEBUG    | app.main                  | [1640538728] GET /api/calendar/events
+2025-12-26 16:40:53 | INFO     | app.main                  | [1640538728] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 16:40:59 | DEBUG    | app.main                  | [1640596388] GET /api/db/presets
+2025-12-26 16:40:59 | DEBUG    | app.main                  | [1640596420] GET /api/data/symbols
+2025-12-26 16:40:59 | INFO     | app.main                  | [1640596420] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A98D40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A98D40>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A98D40>)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A98D40>) completed
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A98D40>)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A98D40>) completed
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:40:59 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:40:59 | INFO     | app.main                  | [1640596388] OK GET /api/db/presets - 200 (8ms)
+2025-12-26 16:42:05 | DEBUG    | app.main                  | [1642052276] GET /api/db/presets
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A9BBC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A9BBC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A9BBC0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A9BBC0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A9BBC0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A9BBC0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | INFO     | app.main                  | [1642052276] OK GET /api/db/presets - 200 (4ms)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | DEBUG    | app.main                  | [1642052834] GET /api/db/presets
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A9AFC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000002AD77A9AFC0>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A9AFC0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000002AD77A9AFC0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A9AFC0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000002AD77A9AFC0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>)
+2025-12-26 16:42:05 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000002AD76A0F6A0>) completed
+2025-12-26 16:42:05 | INFO     | app.main                  | [1642052834] OK GET /api/db/presets - 200 (4ms)
+2025-12-26 16:42:09 | DEBUG    | app.main                  | [1642090827] POST /api/indicator/calculate
+2025-12-26 16:42:15 | DEBUG    | app.main                  | [1642152049] POST /api/indicator/auto-optimize-stream
+2025-12-26 16:42:15 | INFO     | app.main                  | [1642152049] OK POST /api/indicator/auto-optimize-stream - 200 (12ms)
+2025-12-26 16:42:23 | INFO     | app.main                  | [1642090827] OK POST /api/indicator/calculate - 200 (14726ms)
+2025-12-26 16:42:23 | DEBUG    | app.main                  | [1642238170] POST /api/indicator/auto-optimize-stream
+2025-12-26 16:42:23 | INFO     | app.main                  | [1642238170] OK POST /api/indicator/auto-optimize-stream - 200 (10ms)
+2025-12-26 16:43:40 | DEBUG    | app.main                  | [1643403699] POST /api/indicator/auto-optimize-stream
+2025-12-26 16:43:40 | INFO     | app.main                  | [1643403699] OK POST /api/indicator/auto-optimize-stream - 200 (7ms)

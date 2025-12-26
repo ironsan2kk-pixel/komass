@@ -1,62 +1,47 @@
-# KOMAS Fix #5 - Complete API Exports
+# KOMAS Fix #6 - Data Page v3.5.2
 
-## Проблемы:
-1. `Calendar.jsx:8` - не было `calendarApi`
-2. `Settings.jsx:9` - не было `symbolsApi`
+## Новые функции:
 
-## Решение:
-Добавлены ВСЕ недостающие API экспорты:
+### 1. Фильтр Top 20/50/100/Все
+- Быстрый выбор самых популярных пар
+- Top 20 — самые ликвидные
 
-### calendarApi
-```javascript
-export const calendarApi = {
-  getEvents: (params) => api.get('/calendar/events', { params }),
-  refresh: () => api.post('/calendar/refresh'),
-  getSettings: () => api.get('/calendar/settings'),
-  saveSettings: (params) => api.post('/calendar/settings', params),
-};
-```
+### 2. Поиск по символу
+- Мгновенный поиск по названию
+- Например: "SOL" найдёт SOLUSDT
 
-### symbolsApi
-```javascript
-export const symbolsApi = {
-  getAll: () => api.get('/data/symbols'),
-  getFavorites: () => api.get('/data/symbols/favorites'),
-  addFavorite: (symbol) => api.post(`/data/symbols/favorites/${symbol}`),
-  removeFavorite: (symbol) => api.delete(`/data/symbols/favorites/${symbol}`),
-};
-```
+### 3. Multi-select
+- Выбор нескольких пар одновременно
+- Кнопки "Выбрать все" / "Сбросить"
+- Batch загрузка
 
-## Полный список API в api.js:
-- ✅ dataApi
-- ✅ indicatorApi  
-- ✅ presetsApi
-- ✅ signalsApi
-- ✅ calendarApi (NEW)
-- ✅ settingsApi
-- ✅ databaseApi
-- ✅ pluginsApi
-- ✅ wsApi
-- ✅ logsApi
-- ✅ healthApi
-- ✅ symbolsApi (NEW)
+### 4. Визуальные индикаторы
+- 🟢 Зелёные — уже загружены
+- 🔵 Синие — выбраны для загрузки
+- ⬜ Серые — не загружены
+
+### 5. Spot/Futures
+- Выбор источника данных
+
+## Исправления:
+- `getStatus()` → `getAvailable()`
+- `symbol` → `symbols[]` 
+- Правильное удаление файлов
 
 ## Как применить:
 
-1. Замени файл:
-   ```
-   frontend/src/api.js
-   ```
-
-2. Обнови страницу браузера (F5)
-
----
+```
+frontend/src/pages/Data.jsx
+```
 
 ## Git commit:
 ```
-Fix: Add missing calendarApi and symbolsApi exports
+Feature: Data page with Top 20/50/100 filter and multi-select
 
-- Add calendarApi for Calendar.jsx
-- Add symbolsApi for Settings.jsx  
-- Fixes white screen caused by missing exports
+- Add Top filter (20/50/100/All)
+- Add symbol search
+- Add multi-select with batch download
+- Add Spot/Futures selector
+- Show downloaded symbols in green
+- Fix API calls
 ```
