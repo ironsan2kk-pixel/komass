@@ -1,38 +1,39 @@
 @echo off
 chcp 65001 >nul
-echo ========================================
-echo   KOMAS Frontend v3.5 - Installation
-echo ========================================
+echo ============================================
+echo  KOMAS TELEGRAM NOTIFICATIONS - INSTALL
+echo ============================================
 echo.
 
-cd /d "%~dp0frontend"
-
-echo [1/2] Checking Node.js...
-node -v >nul 2>&1
-if errorlevel 1 (
-    echo ERROR: Node.js not found!
-    echo Please install Node.js from https://nodejs.org/
-    pause
-    exit /b 1
+echo [1/3] Installing Python dependencies...
+cd backend
+if not exist venv (
+    python -m venv venv
 )
-echo OK: Node.js found
+call venv\Scripts\activate
+pip install python-telegram-bot==20.7 --quiet
+echo      ✓ python-telegram-bot installed
+pip install pytest pytest-asyncio --quiet
+echo      ✓ pytest installed
 
 echo.
-echo [2/2] Installing dependencies...
-call npm install
-
-if errorlevel 1 (
-    echo.
-    echo ERROR: npm install failed!
-    pause
-    exit /b 1
-)
+echo [2/3] Creating data directory...
+if not exist data mkdir data
+echo      ✓ data directory ready
 
 echo.
-echo ========================================
-echo   Installation complete!
-echo ========================================
+echo [3/3] Running tests...
+cd ..
+call run_tests.bat
+
 echo.
-echo To start: run start.bat
+echo ============================================
+echo  INSTALLATION COMPLETE!
+echo ============================================
+echo.
+echo Next steps:
+echo   1. Get bot token from @BotFather
+echo   2. Configure in Settings → Notifications
+echo   3. Send /start to your bot to get chat ID
 echo.
 pause

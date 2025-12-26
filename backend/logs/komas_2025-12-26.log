@@ -2112,3 +2112,185 @@
 2025-12-26 17:43:44 | INFO     | app.main                  | [1743443216] OK GET /api/db/presets - 200 (52ms)
 2025-12-26 17:43:44 | DEBUG    | app.main                  | [1743446240] GET /api/data/symbols
 2025-12-26 17:43:44 | INFO     | app.main                  | [1743446240] OK GET /api/data/symbols - 200 (3ms)
+2025-12-26 17:46:37 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 17:46:37 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 17:46:37 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 17:46:37 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 17:46:37 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 17:46:37 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 17:46:37 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 17:46:37 | INFO     | app.main                  | [OK] Loaded: settings_routes
+2025-12-26 17:46:37 | INFO     | app.main                  | ============================================================
+2025-12-26 17:46:37 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 17:46:37 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 17:46:37 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 17:46:37 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 17:46:37 | INFO     | app.main                  | ============================================================
+2025-12-26 17:46:41 | DEBUG    | app.main                  | [1746418366] GET /api/db/presets
+2025-12-26 17:46:41 | INFO     | app.core.database         | Initializing database: C:\Users\Administrator\Desktop\komass\data\komas.db
+2025-12-26 17:46:41 | INFO     | app.core.database         | ✓ Database tables created
+2025-12-26 17:46:41 | DEBUG    | app.main                  | [1746418632] GET /api/data/symbols
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing <function connect.<locals>.connector at 0x0000019F42CAAD40>
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation <function connect.<locals>.connector at 0x0000019F42CAAD40> completed
+2025-12-26 17:46:41 | INFO     | app.main                  | [1746418632] OK GET /api/data/symbols - 200 (4ms)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000019F42CB4B80>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000019F42C8CEA0>, deterministic=True)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000019F42CB4B80>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x0000019F42C8CEA0>, deterministic=True) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000019F42CB4B80>, 'floor', 1, <built-in function floor>, deterministic=True)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x0000019F42CB4B80>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000019F42CB4B80>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000019F42CB4B80>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000019F42C91840>, 'PRAGMA read_uncommitted', [])
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000019F42C91840>, 'PRAGMA read_uncommitted', []) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000019F42C91840>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000019F42C91840>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000019F42C91840>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000019F42C91840>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000019F42CB4B80>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000019F42CB4B80>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000019F42CB4B80>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x0000019F42CB4B80>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000019F42C90940>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x0000019F42C90940>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000019F42C90940>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x0000019F42C90940>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000019F42C90940>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x0000019F42C90940>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000019F42CB4B80>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x0000019F42CB4B80>) completed
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000019F42CB4B80>)
+2025-12-26 17:46:41 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x0000019F42CB4B80>) completed
+2025-12-26 17:46:41 | INFO     | app.main                  | [1746418366] OK GET /api/db/presets - 200 (59ms)
+2025-12-26 17:46:45 | DEBUG    | app.main                  | [1746450732] GET /api/calendar/events
+2025-12-26 17:46:45 | INFO     | app.main                  | [1746450732] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:46:46 | DEBUG    | app.main                  | [1746460820] GET /api/calendar/events
+2025-12-26 17:46:46 | INFO     | app.main                  | [1746460820] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:47:46 | DEBUG    | app.main                  | [1747463950] GET /api/calendar/events
+2025-12-26 17:47:46 | INFO     | app.main                  | [1747463950] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:47:47 | DEBUG    | app.main                  | [1747474056] GET /api/calendar/events
+2025-12-26 17:47:47 | INFO     | app.main                  | [1747474056] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 17:48:47 | DEBUG    | app.main                  | [1748477186] GET /api/calendar/events
+2025-12-26 17:48:47 | INFO     | app.main                  | [1748477186] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:48:48 | DEBUG    | app.main                  | [1748487282] GET /api/calendar/events
+2025-12-26 17:48:48 | INFO     | app.main                  | [1748487282] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:49:49 | DEBUG    | app.main                  | [1749490393] GET /api/calendar/events
+2025-12-26 17:49:49 | INFO     | app.main                  | [1749490393] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 17:49:50 | DEBUG    | app.main                  | [1749500501] GET /api/calendar/events
+2025-12-26 17:49:50 | INFO     | app.main                  | [1749500501] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:50:50 | DEBUG    | app.main                  | [1750503623] GET /api/calendar/events
+2025-12-26 17:50:50 | INFO     | app.main                  | [1750503623] ERR GET /api/calendar/events - 404 (1ms)
+2025-12-26 17:50:51 | DEBUG    | app.main                  | [1750513706] GET /api/calendar/events
+2025-12-26 17:50:51 | INFO     | app.main                  | [1750513706] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 17:51:51 | DEBUG    | app.main                  | [1751516813] GET /api/calendar/events
+2025-12-26 17:51:51 | INFO     | app.main                  | [1751516813] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 17:51:52 | DEBUG    | app.main                  | [1751526909] GET /api/calendar/events
+2025-12-26 17:51:52 | INFO     | app.main                  | [1751526909] ERR GET /api/calendar/events - 404 (0ms)
+2025-12-26 17:52:12 | DEBUG    | app.main                  | [1752127086] GET /
+2025-12-26 17:52:12 | INFO     | app.main                  | [1752127086] OK GET / - 200 (2ms)
+2025-12-26 17:53:19 | DEBUG    | app.main                  | [1753196302] GET /api/signals/stats
+2025-12-26 17:53:19 | INFO     | app.main                  | [1753196302] OK GET /api/signals/stats - 200 (7ms)
+2025-12-26 17:53:19 | DEBUG    | app.main                  | [1753196437] GET /api/signals/sse/stream
+2025-12-26 17:53:19 | INFO     | app.main                  | [1753196437] OK GET /api/signals/sse/stream - 200 (2ms)
+2025-12-26 17:53:49 | DEBUG    | app.main                  | [1753496438] GET /api/signals/stats
+2025-12-26 17:53:49 | INFO     | app.main                  | [1753496438] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 17:54:19 | DEBUG    | app.main                  | [1754199578] GET /api/signals/stats
+2025-12-26 17:54:19 | INFO     | app.main                  | [1754199578] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 17:54:50 | DEBUG    | app.main                  | [1754502692] GET /api/signals/stats
+2025-12-26 17:54:50 | INFO     | app.main                  | [1754502692] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 17:55:20 | DEBUG    | app.main                  | [1755205807] GET /api/signals/stats
+2025-12-26 17:55:20 | INFO     | app.main                  | [1755205807] OK GET /api/signals/stats - 200 (1ms)
+2025-12-26 17:55:50 | DEBUG    | app.main                  | [1755508924] GET /api/signals/stats
+2025-12-26 17:55:50 | INFO     | app.main                  | [1755508924] OK GET /api/signals/stats - 200 (2ms)
+2025-12-26 17:56:05 | DEBUG    | app.main                  | [1756055088] POST /
+2025-12-26 17:56:05 | INFO     | app.main                  | [1756055088] ERR POST / - 405 (0ms)
+2025-12-26 17:56:10 | DEBUG    | app.main                  | [1756106853] GET /api/data/symbols
+2025-12-26 17:56:10 | DEBUG    | app.main                  | [1756106863] GET /api/data/available
+2025-12-26 17:56:10 | INFO     | app.main                  | [1756106853] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 17:56:10 | INFO     | app.main                  | [1756106863] OK GET /api/data/available - 200 (208ms)
+2025-12-26 17:56:10 | DEBUG    | app.main                  | [1756108990] GET /api/data/symbols
+2025-12-26 17:56:10 | INFO     | app.main                  | [1756108990] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 17:56:11 | DEBUG    | app.main                  | [1756112020] GET /api/data/available
+2025-12-26 17:56:11 | INFO     | app.main                  | [1756112020] OK GET /api/data/available - 200 (127ms)
+2025-12-26 17:56:32 | DEBUG    | app.main                  | [1756325888] GET /api/data/symbols
+2025-12-26 17:56:32 | INFO     | app.main                  | [1756325888] OK GET /api/data/symbols - 200 (3ms)
+2025-12-26 17:56:32 | DEBUG    | app.main                  | [1756325926] GET /api/data/available
+2025-12-26 17:56:32 | INFO     | app.main                  | [1756325926] OK GET /api/data/available - 200 (166ms)
+2025-12-26 17:56:32 | DEBUG    | app.main                  | [1756327604] GET /api/data/symbols
+2025-12-26 17:56:32 | INFO     | app.main                  | [1756327604] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 17:56:32 | DEBUG    | app.main                  | [1756328354] GET /api/data/available
+2025-12-26 17:56:32 | INFO     | app.main                  | [1756328354] OK GET /api/data/available - 200 (114ms)
+2025-12-26 17:56:59 | DEBUG    | app.main                  | [1756597027] POST /api/data/download
+2025-12-26 17:56:59 | INFO     | app.main                  | [1756597027] OK POST /api/data/download - 200 (3ms)
+2025-12-26 17:57:04 | DEBUG    | app.main                  | [1757047158] GET /api/data/available
+2025-12-26 17:57:04 | INFO     | app.main                  | [1757047158] OK GET /api/data/available - 200 (133ms)
+2025-12-26 17:57:19 | DEBUG    | app.main                  | [1757191470] POST /api/data/download
+2025-12-26 17:57:19 | INFO     | app.main                  | [1757191470] OK POST /api/data/download - 200 (1ms)
+2025-12-26 17:57:24 | DEBUG    | app.main                  | [1757244575] GET /api/data/available
+2025-12-26 17:57:24 | INFO     | app.main                  | [1757244575] OK GET /api/data/available - 200 (113ms)
+2025-12-26 17:57:30 | DEBUG    | app.main                  | [1757300084] POST /api/data/download
+2025-12-26 17:57:30 | INFO     | app.main                  | [1757300084] OK POST /api/data/download - 200 (1ms)
+2025-12-26 17:57:35 | DEBUG    | app.main                  | [1757353273] GET /api/data/available
+2025-12-26 17:57:35 | INFO     | app.main                  | [1757353273] OK GET /api/data/available - 200 (129ms)
+2025-12-26 17:57:35 | DEBUG    | app.main                  | [1757355772] POST /api/data/download
+2025-12-26 17:57:35 | INFO     | app.main                  | [1757355772] OK POST /api/data/download - 200 (1ms)
+2025-12-26 17:57:40 | DEBUG    | app.main                  | [1757405857] GET /api/data/available
+2025-12-26 17:57:40 | INFO     | app.main                  | [1757405857] OK GET /api/data/available - 200 (134ms)
+2025-12-26 17:57:41 | DEBUG    | app.main                  | [1757411139] POST /api/data/download
+2025-12-26 17:57:41 | INFO     | app.main                  | [1757411139] OK POST /api/data/download - 200 (1ms)
+2025-12-26 17:57:46 | DEBUG    | app.main                  | [1757461240] GET /api/data/available
+2025-12-26 17:57:46 | INFO     | app.main                  | [1757461240] OK GET /api/data/available - 200 (208ms)
+2025-12-26 17:57:48 | DEBUG    | app.main                  | [1757489385] POST /api/data/download
+2025-12-26 17:57:48 | INFO     | app.main                  | [1757489385] OK POST /api/data/download - 200 (2ms)
+2025-12-26 17:57:53 | DEBUG    | app.main                  | [1757539485] GET /api/data/available
+2025-12-26 17:57:54 | INFO     | app.main                  | [1757539485] OK GET /api/data/available - 200 (186ms)
+2025-12-26 17:57:54 | DEBUG    | app.main                  | [1757547208] POST /api/data/download
+2025-12-26 17:57:54 | INFO     | app.main                  | [1757547208] OK POST /api/data/download - 200 (0ms)
+2025-12-26 17:57:59 | DEBUG    | app.main                  | [1757597312] GET /api/data/available
+2025-12-26 17:57:59 | INFO     | app.main                  | [1757597312] OK GET /api/data/available - 200 (173ms)
+2025-12-26 17:58:09 | DEBUG    | app.main                  | [1758097653] POST /api/data/download
+2025-12-26 17:58:09 | INFO     | app.main                  | [1758097653] OK POST /api/data/download - 200 (1ms)
+2025-12-26 17:58:14 | DEBUG    | app.main                  | [1758147760] GET /api/data/available
+2025-12-26 17:58:14 | INFO     | app.main                  | [1758147760] OK GET /api/data/available - 200 (129ms)
+2025-12-26 18:02:27 | DEBUG    | app.main                  | [1802276822] GET /api/data/symbols
+2025-12-26 18:02:27 | DEBUG    | app.main                  | [1802276854] GET /api/data/available
+2025-12-26 18:02:27 | INFO     | app.main                  | [1802276822] OK GET /api/data/symbols - 200 (3ms)
+2025-12-26 18:02:28 | INFO     | app.main                  | [1802276854] OK GET /api/data/available - 200 (395ms)
+2025-12-26 18:03:18 | DEBUG    | app.main                  | [1803187230] GET /api/data/symbols
+2025-12-26 18:03:18 | INFO     | app.main                  | [1803187230] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 18:03:19 | DEBUG    | app.main                  | [1803190229] GET /api/data/available
+2025-12-26 18:03:19 | INFO     | app.main                  | [1803190229] OK GET /api/data/available - 200 (387ms)
+2025-12-26 18:03:20 | DEBUG    | app.main                  | [1803205528] GET /api/data/symbols
+2025-12-26 18:03:20 | DEBUG    | app.main                  | [1803205548] GET /api/data/available
+2025-12-26 18:03:20 | INFO     | app.main                  | [1803205528] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 18:03:20 | INFO     | app.main                  | [1803205548] OK GET /api/data/available - 200 (382ms)
+2025-12-26 18:11:07 | DEBUG    | app.main                  | [1811070863] GET /api/data/symbols
+2025-12-26 18:11:07 | DEBUG    | app.main                  | [1811070883] GET /api/data/available
+2025-12-26 18:11:07 | INFO     | app.main                  | [1811070863] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 18:11:07 | INFO     | app.main                  | [1811070883] OK GET /api/data/available - 200 (865ms)
+2025-12-26 18:11:20 | DEBUG    | app.main                  | [1811202826] GET /api/data/symbols
+2025-12-26 18:11:20 | INFO     | app.main                  | [1811202826] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 18:11:20 | DEBUG    | app.main                  | [1811205858] GET /api/data/available
+2025-12-26 18:11:21 | INFO     | app.main                  | [1811205858] OK GET /api/data/available - 200 (812ms)
+2025-12-26 18:11:23 | DEBUG    | app.main                  | [1811233656] GET /api/data/available
+2025-12-26 18:11:23 | DEBUG    | app.main                  | [1811233656] GET /api/data/symbols
+2025-12-26 18:11:24 | INFO     | app.main                  | [1811233656] OK GET /api/data/available - 200 (842ms)
+2025-12-26 18:11:24 | INFO     | app.main                  | [1811233656] OK GET /api/data/symbols - 200 (843ms)
+2025-12-26 18:11:27 | DEBUG    | app.main                  | [1811273930] GET /api/data/symbols
+2025-12-26 18:11:27 | INFO     | app.main                  | [1811273930] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 18:11:27 | DEBUG    | app.main                  | [1811276860] GET /api/data/available
+2025-12-26 18:11:28 | INFO     | app.main                  | [1811276860] OK GET /api/data/available - 200 (741ms)
+2025-12-26 18:11:29 | DEBUG    | app.main                  | [1811298543] GET /api/data/symbols
+2025-12-26 18:11:29 | DEBUG    | app.main                  | [1811298564] GET /api/data/available
+2025-12-26 18:11:30 | INFO     | app.main                  | [1811298543] OK GET /api/data/symbols - 200 (767ms)
+2025-12-26 18:11:30 | INFO     | app.main                  | [1811298564] OK GET /api/data/available - 200 (773ms)
+2025-12-26 18:11:43 | DEBUG    | app.main                  | [1811435598] GET /api/data/symbols
+2025-12-26 18:11:43 | INFO     | app.main                  | [1811435598] OK GET /api/data/symbols - 200 (2ms)
+2025-12-26 18:11:43 | DEBUG    | app.main                  | [1811438617] GET /api/data/available
+2025-12-26 18:11:44 | INFO     | app.main                  | [1811438617] OK GET /api/data/available - 200 (699ms)
+2025-12-26 18:11:46 | DEBUG    | app.main                  | [1811466893] GET /api/data/available
+2025-12-26 18:11:46 | DEBUG    | app.main                  | [1811466893] GET /api/data/symbols
+2025-12-26 18:11:47 | INFO     | app.main                  | [1811466893] OK GET /api/data/available - 200 (804ms)
+2025-12-26 18:11:47 | INFO     | app.main                  | [1811466893] OK GET /api/data/symbols - 200 (803ms)
+2025-12-26 18:15:37 | DEBUG    | app.main                  | [1815376097] GET /api/data/symbols
+2025-12-26 18:15:37 | DEBUG    | app.main                  | [1815376119] GET /api/data/available
+2025-12-26 18:15:37 | INFO     | app.main                  | [1815376097] OK GET /api/data/symbols - 200 (1ms)
+2025-12-26 18:15:38 | INFO     | app.main                  | [1815376119] OK GET /api/data/available - 200 (927ms)

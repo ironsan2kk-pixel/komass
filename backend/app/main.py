@@ -2,7 +2,6 @@
 Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
-Version: 3.5.2
 """
 import os
 import sys
@@ -23,8 +22,7 @@ LOGS_DIR = Path(__file__).parent.parent / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
 # Create data directory
-DATA_DIR = Path(__file__).parent.parent / "data"
-DATA_DIR.mkdir(exist_ok=True)
+Path("data").mkdir(exist_ok=True)
 
 # Log files
 LOG_FILE = LOGS_DIR / f"komas_{datetime.now().strftime('%Y-%m-%d')}.log"
@@ -35,11 +33,11 @@ class ColorFormatter(logging.Formatter):
     """Colored formatter for console output"""
     
     COLORS = {
-        logging.DEBUG: "\x1b[38;5;244m",
-        logging.INFO: "\x1b[38;5;39m",
-        logging.WARNING: "\x1b[38;5;226m",
-        logging.ERROR: "\x1b[38;5;196m",
-        logging.CRITICAL: "\x1b[31;1m",
+        logging.DEBUG: "\x1b[38;5;244m",     # Gray
+        logging.INFO: "\x1b[38;5;39m",        # Blue
+        logging.WARNING: "\x1b[38;5;226m",    # Yellow
+        logging.ERROR: "\x1b[38;5;196m",      # Red
+        logging.CRITICAL: "\x1b[31;1m",       # Bold Red
     }
     RESET = "\x1b[0m"
     
@@ -52,46 +50,51 @@ class ColorFormatter(logging.Formatter):
 def setup_logging():
     """Setup comprehensive logging to file and console"""
     
+    # Clear existing handlers
     root = logging.getLogger()
     root.handlers = []
     root.setLevel(logging.DEBUG)
     
+    # File format (detailed)
     file_format = logging.Formatter(
         '%(asctime)s | %(levelname)-8s | %(name)-20s | %(funcName)-20s | %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     
+    # Console format (compact)
     console_format = ColorFormatter(
         '%(asctime)s | %(levelname)-8s | %(message)s',
         datefmt='%H:%M:%S'
     )
     
-    # Main log file
+    # Main log file handler (all logs)
     file_handler = logging.FileHandler(LOG_FILE, encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_format)
     root.addHandler(file_handler)
     
-    # Error log file
+    # Error log file handler (errors only)
     error_handler = logging.FileHandler(ERROR_LOG_FILE, encoding='utf-8')
     error_handler.setLevel(logging.ERROR)
     error_handler.setFormatter(file_format)
     root.addHandler(error_handler)
     
-    # Console
+    # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(console_format)
     root.addHandler(console_handler)
     
-    # Reduce noise
+    # Reduce noise from libraries
     logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
+    logging.getLogger("telegram").setLevel(logging.WARNING)
     
     return logging.getLogger(__name__)
 
 
+# Initialize logging
 logger = setup_logging()
 
 
@@ -101,21 +104,31 @@ logger = setup_logging()
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     logger.info("=" * 60)
-    logger.info("KOMAS TRADING SERVER v3.5.1 - STARTING")
+    logger.info("KOMAS TRADING SERVER v3.5 - STARTING")
     logger.info(f"Log file: {LOG_FILE}")
     logger.info(f"Error log: {ERROR_LOG_FILE}")
-    logger.info(f"Data dir: {DATA_DIR}")
     logger.info("=" * 60)
+    
+    # Initialize notifications
+    try:
+        from app.core.notifications import init_notifier
+        notifier = init_notifier()
+        logger.info("✓ Telegram notifications initialized")
+    except Exception as e:
+        logger.warning(f"✗ Failed to initialize notifications: {e}")
+    
     yield
+    
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER - SHUTDOWN")
     logger.info("=" * 60)
 
 
+# Create FastAPI app
 app = FastAPI(
     title="Komas Trading Server",
-    version="3.5.1",
-    description="Trading system with indicator, backtesting, and optimization",
+    version="3.5",
+    description="Full trading system with indicator, backtesting, optimization, and notifications",
     lifespan=lifespan,
 )
 
@@ -129,35 +142,39 @@ app.add_middleware(
 )
 
 
-# ============ REQUEST LOGGING ============
+# ============ REQUEST LOGGING MIDDLEWARE ============
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """Log all requests with timing"""
     request_id = datetime.now().strftime('%H%M%S%f')[:10]
     
+    # Log request
     logger.debug(f"[{request_id}] {request.method} {request.url.path}")
     
     start_time = time.time()
     
     try:
         response = await call_next(request)
-        duration = (time.time() - start_time) * 1000
         
-        status_emoji = "OK" if response.status_code < 400 else "ERR"
+        # Calculate duration
+        duration = (time.time() - start_time) * 1000  # ms
+        
+        # Log response
+        status_emoji = "✓" if response.status_code < 400 else "✗"
         logger.info(f"[{request_id}] {status_emoji} {request.method} {request.url.path} - {response.status_code} ({duration:.0f}ms)")
         
         return response
         
     except Exception as e:
         duration = (time.time() - start_time) * 1000
-        logger.error(f"[{request_id}] ERR {request.method} {request.url.path} - ERROR ({duration:.0f}ms)")
+        logger.error(f"[{request_id}] ✗ {request.method} {request.url.path} - ERROR ({duration:.0f}ms)")
         logger.error(f"[{request_id}] Exception: {str(e)}")
         logger.error(f"[{request_id}] Traceback:\n{traceback.format_exc()}")
         raise
 
 
-# ============ EXCEPTION HANDLERS ============
+# ============ GLOBAL EXCEPTION HANDLER ============
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -199,61 +216,41 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # ============ IMPORT ROUTERS ============
 
-# Data Routes
+try:
+    from app.api.routes import router as main_router
+    app.include_router(main_router, prefix="/api")
+    logger.info("✓ Loaded: main routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load main routes: {e}")
+
+try:
+    from app.api.optimizer_routes import router as optimizer_router
+    app.include_router(optimizer_router)
+    logger.info("✓ Loaded: optimizer routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load optimizer routes: {e}")
+
 try:
     from app.api.data_routes import router as data_router
     app.include_router(data_router)
-    logger.info("[OK] Loaded: data_routes")
+    logger.info("✓ Loaded: data routes")
 except ImportError as e:
-    logger.error(f"[FAIL] data_routes: {e}")
+    logger.warning(f"✗ Failed to load data routes: {e}")
 
-# Indicator Routes
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)
-    logger.info("[OK] Loaded: indicator_routes")
+    logger.info("✓ Loaded: indicator routes")
 except ImportError as e:
-    logger.error(f"[FAIL] indicator_routes: {e}")
+    logger.warning(f"✗ Failed to load indicator routes: {e}")
 
-# Signals Routes
+# NEW: Notifications routes
 try:
-    from app.api.signals import router as signals_router
-    app.include_router(signals_router)
-    logger.info("[OK] Loaded: signals")
+    from app.api.notifications_routes import router as notifications_router
+    app.include_router(notifications_router)
+    logger.info("✓ Loaded: notifications routes")
 except ImportError as e:
-    logger.warning(f"[SKIP] signals: {e}")
-
-# Plugins Routes
-try:
-    from app.api.plugins import router as plugins_router
-    app.include_router(plugins_router)
-    logger.info("[OK] Loaded: plugins")
-except ImportError as e:
-    logger.warning(f"[SKIP] plugins: {e}")
-
-# WebSocket Routes
-try:
-    from app.api.ws import router as ws_router
-    app.include_router(ws_router)
-    logger.info("[OK] Loaded: ws (websocket)")
-except ImportError as e:
-    logger.warning(f"[SKIP] ws: {e}")
-
-# Database Routes
-try:
-    from app.api.db_routes import router as db_router
-    app.include_router(db_router)
-    logger.info("[OK] Loaded: db_routes")
-except ImportError as e:
-    logger.warning(f"[SKIP] db_routes: {e}")
-
-# Settings Routes
-try:
-    from app.api.settings_routes import router as settings_router
-    app.include_router(settings_router)
-    logger.info("[OK] Loaded: settings_routes")
-except ImportError as e:
-    logger.warning(f"[SKIP] settings_routes: {e}")
+    logger.warning(f"✗ Failed to load notifications routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -346,9 +343,8 @@ async def health_check():
     return {
         "status": "healthy",
         "app": "Komas Trading Server",
-        "version": "3.5.1",
+        "version": "3.5",
         "log_file": str(LOG_FILE),
-        "data_dir": str(DATA_DIR),
         "timestamp": datetime.now().isoformat()
     }
 
@@ -357,38 +353,10 @@ async def health_check():
 async def root():
     return {
         "message": "Komas Trading Server",
-        "version": "3.5.2",
+        "version": "3.5",
         "docs": "/docs",
-        "health": "/health",
         "logs": "/api/logs/list",
-        "endpoints": {
-            "data": "/api/data/",
-            "indicator": "/api/indicator/",
-            "signals": "/api/signals/",
-            "plugins": "/api/plugins/",
-            "ws": "/api/ws/",
-            "db": "/api/db/",
-            "settings": "/api/settings/"
-        }
-    }
-
-
-@app.get("/api/info")
-async def api_info():
-    """Get information about loaded API routes"""
-    routes = []
-    for route in app.routes:
-        if hasattr(route, 'path') and hasattr(route, 'methods'):
-            routes.append({
-                "path": route.path,
-                "methods": list(route.methods) if route.methods else [],
-                "name": route.name if hasattr(route, 'name') else None
-            })
-    
-    return {
-        "version": "3.5.1",
-        "total_routes": len(routes),
-        "routes": sorted(routes, key=lambda x: x['path'])
+        "notifications": "/api/notifications/settings"
     }
 
 

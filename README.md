@@ -1,113 +1,184 @@
-# KOMAS Settings API v1.0
+# Komas Trading Server - Telegram Notifications
 
-## Settings API (`backend/app/api/settings_routes.py`)
+## Chat #17 — Telegram Integration
 
-**Endpoints:**
+### 📦 Содержимое
+
+```
+komas_telegram/
+├── backend/
+│   └── app/
+│       ├── main.py                    # Обновлённый main с notifications
+│       ├── api/
+│       │   └── notifications_routes.py # API endpoints (20+)
+│       └── core/
+│           └── notifications/
+│               ├── __init__.py
+│               ├── models.py          # Pydantic модели
+│               ├── formatters.py      # Simple/Cornix/Custom
+│               └── telegram.py        # TelegramNotifier клиент
+├── frontend/
+│   └── src/
+│       ├── pages/
+│       │   └── Settings.jsx           # 3 вкладки: Presets/Notifications/API Keys
+│       └── services/
+│           └── api.js                 # notificationsApi
+├── tests/
+│   └── test_notifications.py          # 25+ тестов
+├── install.bat
+├── run_tests.bat
+└── README.md
+```
+
+### 🚀 Установка
+
+```batch
+install.bat
+```
+
+### 🔧 Интеграция
+
+#### 1. Скопировать файлы:
+
+```
+backend/app/core/notifications/ → komas_indicator/backend/app/core/notifications/
+backend/app/api/notifications_routes.py → komas_indicator/backend/app/api/
+frontend/src/pages/Settings.jsx → komas_indicator/frontend/src/pages/
+frontend/src/services/api.js → komas_indicator/frontend/src/services/
+```
+
+#### 2. Обновить main.py:
+
+Добавить в секцию импорта роутеров:
+
+```python
+# NEW: Notifications routes
+try:
+    from app.api.notifications_routes import router as notifications_router
+    app.include_router(notifications_router)
+    logger.info("✓ Loaded: notifications routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load notifications routes: {e}")
+```
+
+### 📡 API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/settings/api-keys` | Get API keys (masked) |
-| POST | `/api/settings/api-keys/{exchange}` | Save API key |
-| POST | `/api/settings/api-keys/{exchange}/test` | Test connection |
-| GET | `/api/settings/notifications` | Get notification settings |
-| POST | `/api/settings/notifications` | Save notification settings |
-| POST | `/api/settings/notifications/{type}/test` | Send test notification |
-| GET | `/api/settings/system` | Get system settings |
-| POST | `/api/settings/system` | Save system settings |
-| GET | `/api/settings/system/info` | Get system info (CPU, RAM, etc) |
-| POST | `/api/settings/system/clear-cache` | Clear cache |
+| GET | `/api/notifications/settings` | Get settings |
+| POST | `/api/notifications/settings` | Update settings |
+| POST | `/api/notifications/validate-bot` | Validate bot token |
+| POST | `/api/notifications/test` | Send test message |
+| GET | `/api/notifications/stats` | Get statistics |
+| POST | `/api/notifications/send/signal` | Send signal notification |
+| POST | `/api/notifications/send/tp-hit` | Send TP hit notification |
+| POST | `/api/notifications/send/sl-hit` | Send SL hit notification |
+| POST | `/api/notifications/send/closed` | Send closed notification |
+| GET | `/api/notifications/formats` | Get available formats |
+| GET | `/api/notifications/preview/{format}` | Preview format |
+| POST | `/api/notifications/enable` | Enable notifications |
+| POST | `/api/notifications/disable` | Disable notifications |
 
-**Features:**
-- API key encryption (using cryptography.Fernet)
-- Binance/Bybit/OKX support with testnet mode
-- Telegram/Discord notifications
-- System monitoring (CPU, RAM, disk)
+### 💬 Форматы сообщений
 
----
-
-## Installation
-
-### Step 1: Extract Archive
-
-Extract to your project root. Files will be placed in:
+#### Simple (по умолчанию):
 ```
-backend/
-  app/
-    main.py              # UPDATED with settings route
-    api/
-      settings_routes.py # NEW
-  requirements.txt       # UPDATED with new dependencies
+📈 NEW SIGNAL 📈
+
+🟢 LONG BTCUSDT
+
+📍 Entry Zone: 42000.0000 - 42500.0000
+
+🎯 Targets:
+  TP1: 43500.0000 (+2.35%) [50%]
+  TP2: 44500.0000 (+4.71%) [30%]
+  TP3: 46000.0000 (+8.24%) [15%]
+  TP4: 48000.0000 (+12.94%) [5%]
+
+🛑 Stop Loss: 41000.0000 (-3.53%)
+⚡ Leverage: 10x
+
+📊 TRG | 4h | BINANCE
 ```
 
-### Step 2: Install Dependencies
+#### Cornix:
+```
+📈 LONG BTCUSDT
+
+Entry: 42000.0000 - 42500.0000
+
+Targets:
+1) 43500.0000
+2) 44500.0000
+3) 46000.0000
+4) 48000.0000
+
+SL: 41000.0000
+
+Leverage: 10x
+
+Exchange: BINANCE
+```
+
+### 🤖 Команды бота
+
+| Команда | Описание |
+|---------|----------|
+| /start | Приветствие, сохранение chat ID |
+| /status | Статус системы и статистика |
+| /signals | Активные сигналы |
+| /stop | Приостановить уведомления |
+
+### ⚙️ Настройки
+
+Доступны через Settings → Notifications:
+
+- **Bot Token** — токен от @BotFather
+- **Chat ID** — ID чата/канала (@channel или -1001234567890)
+- **Message Format** — Simple / Cornix / Custom
+- **Triggers** — какие события отправлять:
+  - Новый сигнал
+  - TP достигнут
+  - SL сработал
+  - Сигнал закрыт
+  - Ошибки системы
+- **Display Options**:
+  - Показывать зону входа
+  - Показывать плечо
+  - Все таргеты / только первые 4
+  - Ссылка на график
+
+### 🧪 Тесты
 
 ```batch
-install_settings_deps.bat
+run_tests.bat
 ```
 
-### Step 3: Run Tests
+Покрытие:
+- ✅ Models (5 tests)
+- ✅ SimpleFormatter (5 tests)
+- ✅ CornixFormatter (2 tests)
+- ✅ CustomFormatter (2 tests)
+- ✅ FormatterFactory (3 tests)
+- ✅ UtilityFormatters (2 tests)
+- ✅ TelegramNotifier (6 tests)
 
-```batch
-test_settings.bat
-```
-
-### Step 4: Start Server
-
-```batch
-start_backend.bat
-```
-
----
-
-## File Storage
-
-Settings are stored in `data/settings/`:
+### 📝 Git Commit
 
 ```
-data/
-  settings/
-    api_keys.json       # Encrypted API keys
-    notifications.json  # Telegram/Discord settings
-    system.json         # System settings
-    .encryption_key     # Fernet encryption key (auto-generated)
+feat(notifications): add Telegram integration
+
+- Add TelegramNotifier client with python-telegram-bot
+- Add message formatters (Simple, Cornix, Custom)
+- Add notifications API routes (20+ endpoints)
+- Add Settings page with Notifications tab
+- Add comprehensive test suite (25+ tests)
+- Support for signals, TP hits, SL hits, closed signals
+- Bot commands: /start, /status, /signals, /stop
 ```
 
 ---
 
-## API Examples
-
-### Test Binance Connection
-
-```bash
-curl -X POST http://localhost:8000/api/settings/api-keys/binance/test
-```
-
-### Get System Info
-
-```bash
-curl http://localhost:8000/api/settings/system/info
-```
-
-### Save Telegram Settings
-
-```bash
-curl -X POST http://localhost:8000/api/settings/notifications \
-  -H "Content-Type: application/json" \
-  -d '{"telegram_enabled": true, "telegram_bot_token": "123:ABC", "telegram_chat_id": "456"}'
-```
-
----
-
-## Git Commit Message
-
-```
-feat(api): Add Settings API module
-
-- settings_routes.py: API keys, notifications, system settings
-- main.py: Updated with settings route, version 3.5.2
-- requirements.txt: Added cryptography, psutil
-- Encrypted storage for sensitive data
-- Binance/Bybit/OKX connection testing
-- Telegram/Discord notification testing
-- 12 new endpoints
-```
+**Version:** 1.0.0  
+**Chat:** #17  
+**Date:** 2025-12-26
