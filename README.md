@@ -1,16 +1,13 @@
-# KOMAS Fix #4 - Missing calendarApi Export
+# KOMAS Fix #5 - Complete API Exports
 
-## Проблема:
-```
-Uncaught SyntaxError: The requested module '/src/api.js' 
-does not provide an export named 'calendarApi' (at Calendar.jsx:8:10)
-```
-
-Calendar.jsx импортирует `calendarApi`, но его не было в api.js.
+## Проблемы:
+1. `Calendar.jsx:8` - не было `calendarApi`
+2. `Settings.jsx:9` - не было `symbolsApi`
 
 ## Решение:
-Добавлен `calendarApi` в api.js:
+Добавлены ВСЕ недостающие API экспорты:
 
+### calendarApi
 ```javascript
 export const calendarApi = {
   getEvents: (params) => api.get('/calendar/events', { params }),
@@ -19,6 +16,30 @@ export const calendarApi = {
   saveSettings: (params) => api.post('/calendar/settings', params),
 };
 ```
+
+### symbolsApi
+```javascript
+export const symbolsApi = {
+  getAll: () => api.get('/data/symbols'),
+  getFavorites: () => api.get('/data/symbols/favorites'),
+  addFavorite: (symbol) => api.post(`/data/symbols/favorites/${symbol}`),
+  removeFavorite: (symbol) => api.delete(`/data/symbols/favorites/${symbol}`),
+};
+```
+
+## Полный список API в api.js:
+- ✅ dataApi
+- ✅ indicatorApi  
+- ✅ presetsApi
+- ✅ signalsApi
+- ✅ calendarApi (NEW)
+- ✅ settingsApi
+- ✅ databaseApi
+- ✅ pluginsApi
+- ✅ wsApi
+- ✅ logsApi
+- ✅ healthApi
+- ✅ symbolsApi (NEW)
 
 ## Как применить:
 
@@ -33,8 +54,9 @@ export const calendarApi = {
 
 ## Git commit:
 ```
-Fix: Add missing calendarApi export to api.js
+Fix: Add missing calendarApi and symbolsApi exports
 
-- Add calendarApi with events, refresh, settings endpoints
-- Fixes white screen caused by import error in Calendar.jsx
+- Add calendarApi for Calendar.jsx
+- Add symbolsApi for Settings.jsx  
+- Fixes white screen caused by missing exports
 ```

@@ -382,4 +382,21 @@ export const healthApi = {
   info: () => api.get('/info'),
 };
 
+// ============================================
+// SYMBOLS API - Управление символами
+// ============================================
+export const symbolsApi = {
+  // Получить все символы
+  getAll: () => api.get('/data/symbols'),
+  
+  // Получить избранные символы
+  getFavorites: () => api.get('/data/symbols/favorites'),
+  
+  // Добавить в избранное
+  addFavorite: (symbol) => api.post(`/data/symbols/favorites/${symbol}`),
+  
+  // Удалить из избранного
+  removeFavorite: (symbol) => api.delete(`/data/symbols/favorites/${symbol}`),
+};
+
 export default api;
