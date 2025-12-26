@@ -1,50 +1,23 @@
 import { Routes, Route, NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { 
-  BarChart2, Database, Bell, Calendar, Settings,
-  ChevronLeft, ChevronRight
-} from 'lucide-react';
 
 // Pages
 import Indicator from './pages/Indicator';
 import Data from './pages/Data';
+import Settings from './pages/Settings';
+import Calendar from './pages/Calendar';
 import Signals from './pages/Signals';
-import CalendarPage from './pages/Calendar';
-import SettingsPage from './pages/Settings';
+import Bots from './pages/Bots';
 
 const NAV_ITEMS = [
-  { 
-    path: '/', 
-    name: 'Индикатор', 
-    icon: BarChart2,
-    component: Indicator 
-  },
-  { 
-    path: '/data', 
-    name: 'Данные', 
-    icon: Database,
-    component: Data 
-  },
+  { path: '/', name: '📊 Индикатор', component: Indicator },
+  { path: '/data', name: '📁 Данные', component: Data },
   { divider: true },
-  { 
-    path: '/signals', 
-    name: 'Сигналы', 
-    icon: Bell,
-    component: Signals 
-  },
-  { 
-    path: '/calendar', 
-    name: 'Календарь', 
-    icon: Calendar,
-    component: CalendarPage 
-  },
+  { path: '/bots', name: '🤖 Боты', component: Bots, highlight: true },
+  { path: '/signals', name: '🔔 Сигналы', component: Signals },
+  { path: '/calendar', name: '📅 Календарь', component: Calendar },
   { divider: true },
-  { 
-    path: '/settings', 
-    name: 'Настройки', 
-    icon: Settings,
-    component: SettingsPage 
-  },
+  { path: '/settings', name: '⚙️ Настройки', component: Settings },
 ];
 
 export default function App() {
@@ -53,7 +26,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-900 flex">
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-gray-800 transition-all duration-300 flex flex-col border-r border-gray-700`}>
+      <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-gray-800 transition-all duration-300 flex flex-col`}>
         {/* Logo */}
         <div className="p-4 border-b border-gray-700">
           <div className="flex items-center justify-between">
@@ -65,9 +38,9 @@ export default function App() {
             )}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition-colors"
+              className="text-gray-400 hover:text-white p-2"
             >
-              {sidebarOpen ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+              {sidebarOpen ? '◀' : '▶'}
             </button>
           </div>
         </div>
@@ -76,23 +49,23 @@ export default function App() {
         <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
           {NAV_ITEMS.map((item, index) => 
             item.divider ? (
-              <div key={index} className="border-t border-gray-700 my-3" />
+              <div key={index} className="border-t border-gray-700 my-2" />
             ) : (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                  `flex items-center px-3 py-2 rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                      : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
+                      ? 'bg-blue-600 text-white'
+                      : item.highlight
+                      ? 'bg-gradient-to-r from-purple-600/30 to-blue-600/30 text-purple-300 hover:from-purple-600/50 hover:to-blue-600/50'
+                      : 'text-gray-400 hover:bg-gray-700 hover:text-white'
                   }`
                 }
               >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                {sidebarOpen && (
-                  <span className="font-medium">{item.name}</span>
-                )}
+                <span className={sidebarOpen ? '' : 'mx-auto'}>{item.name.split(' ')[0]}</span>
+                {sidebarOpen && <span className="ml-2">{item.name.split(' ').slice(1).join(' ')}</span>}
               </NavLink>
             )
           )}
@@ -100,18 +73,14 @@ export default function App() {
 
         {/* Footer */}
         {sidebarOpen && (
-          <div className="p-4 border-t border-gray-700">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-xs text-gray-500">Система активна</span>
-            </div>
-            <p className="text-xs text-gray-600 mt-2">© 2024 Komas Trading</p>
+          <div className="p-4 border-t border-gray-700 text-xs text-gray-500">
+            <p>© 2024 Komas Trading</p>
           </div>
         )}
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-gray-900">
+      <main className="flex-1 overflow-auto">
         <Routes>
           {NAV_ITEMS.filter(item => !item.divider).map(item => (
             <Route key={item.path} path={item.path} element={<item.component />} />

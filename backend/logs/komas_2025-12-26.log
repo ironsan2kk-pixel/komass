@@ -2294,3 +2294,68 @@
 2025-12-26 18:15:37 | DEBUG    | app.main                  | [1815376119] GET /api/data/available
 2025-12-26 18:15:37 | INFO     | app.main                  | [1815376097] OK GET /api/data/symbols - 200 (1ms)
 2025-12-26 18:15:38 | INFO     | app.main                  | [1815376119] OK GET /api/data/available - 200 (927ms)
+2025-12-26 18:21:17 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-26 18:21:17 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-26 18:21:17 | INFO     | app.main             | <module>             | ✓ Loaded: data routes
+2025-12-26 18:21:17 | INFO     | app.main             | <module>             | ✓ Loaded: indicator routes
+2025-12-26 18:21:17 | INFO     | app.main             | <module>             | ✓ Loaded: notifications routes
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.5 - STARTING
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-26 18:21:17 | INFO     | app.main             | lifespan             | ✓ Telegram notifications initialized
+2025-12-26 18:21:22 | DEBUG    | app.main             | log_requests         | [1821221669] GET /api/data/symbols
+2025-12-26 18:21:22 | DEBUG    | app.main             | log_requests         | [1821221679] GET /api/data/available
+2025-12-26 18:21:23 | INFO     | app.main             | log_requests         | [1821221669] ✓ GET /api/data/symbols - 200 (1314ms)
+2025-12-26 18:21:23 | INFO     | app.main             | log_requests         | [1821221679] ✓ GET /api/data/available - 200 (1315ms)
+2025-12-26 18:21:23 | DEBUG    | app.main             | log_requests         | [1821234902] GET /api/data/symbols
+2025-12-26 18:21:23 | INFO     | app.main             | log_requests         | [1821234902] ✓ GET /api/data/symbols - 200 (1ms)
+2025-12-26 18:21:23 | DEBUG    | app.main             | log_requests         | [1821234955] GET /api/data/available
+2025-12-26 18:21:24 | INFO     | app.main             | log_requests         | [1821234955] ✓ GET /api/data/available - 200 (1110ms)
+2025-12-26 18:21:24 | DEBUG    | app.main             | log_requests         | [1821248854] GET /api/data/symbols
+2025-12-26 18:21:24 | INFO     | app.main             | log_requests         | [1821248854] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 18:21:24 | DEBUG    | app.main             | log_requests         | [1821248902] GET /api/data/available
+2025-12-26 18:21:25 | INFO     | app.main             | log_requests         | [1821248902] ✓ GET /api/data/available - 200 (903ms)
+2025-12-26 18:21:25 | DEBUG    | app.main             | log_requests         | [1821257942] GET /api/data/symbols
+2025-12-26 18:21:25 | INFO     | app.main             | log_requests         | [1821257942] ✓ GET /api/data/symbols - 200 (2ms)
+2025-12-26 18:21:25 | DEBUG    | app.main             | log_requests         | [1821257978] GET /api/data/available
+2025-12-26 18:21:26 | INFO     | app.main             | log_requests         | [1821257978] ✓ GET /api/data/available - 200 (1038ms)
+2025-12-26 18:21:30 | DEBUG    | app.main             | log_requests         | [1821307355] GET /api/data/symbols
+2025-12-26 18:21:30 | DEBUG    | app.main             | log_requests         | [1821307355] GET /api/data/available
+2025-12-26 18:21:31 | INFO     | app.main             | log_requests         | [1821307355] ✓ GET /api/data/symbols - 200 (962ms)
+2025-12-26 18:21:31 | INFO     | app.main             | log_requests         | [1821307355] ✓ GET /api/data/available - 200 (962ms)
+2025-12-26 18:21:37 | DEBUG    | app.main             | log_requests         | [1821378564] OPTIONS /api/notifications/settings
+2025-12-26 18:21:37 | INFO     | app.main             | log_requests         | [1821378564] ✓ OPTIONS /api/notifications/settings - 200 (1ms)
+2025-12-26 18:21:37 | DEBUG    | app.main             | log_requests         | [1821378586] OPTIONS /api/notifications/settings
+2025-12-26 18:21:37 | INFO     | app.main             | log_requests         | [1821378586] ✓ OPTIONS /api/notifications/settings - 200 (0ms)
+2025-12-26 18:21:37 | DEBUG    | app.main             | log_requests         | [1821378603] GET /api/notifications/settings
+2025-12-26 18:21:37 | INFO     | app.main             | log_requests         | [1821378603] ✓ GET /api/notifications/settings - 200 (2ms)
+2025-12-26 18:21:37 | DEBUG    | app.main             | log_requests         | [1821378644] GET /api/notifications/settings
+2025-12-26 18:21:37 | INFO     | app.main             | log_requests         | [1821378644] ✓ GET /api/notifications/settings - 200 (1ms)
+2025-12-26 18:28:01 | DEBUG    | app.main             | log_requests         | [1828017151] GET /
+2025-12-26 18:28:01 | INFO     | app.main             | log_requests         | [1828017151] ✓ GET / - 200 (1ms)
+2025-12-26 18:34:23 | DEBUG    | app.main             | log_requests         | [1834234521] GET /txets.php
+2025-12-26 18:34:23 | INFO     | app.main             | log_requests         | [1834234521] ✗ GET /txets.php - 404 (0ms)
+2025-12-26 18:48:53 | DEBUG    | app.main             | log_requests         | [1848530087] GET /
+2025-12-26 18:48:53 | INFO     | app.main             | log_requests         | [1848530087] ✓ GET / - 200 (0ms)
+2025-12-26 18:50:33 | DEBUG    | app.main             | log_requests         | [1850338220] GET /api/data/symbols
+2025-12-26 18:50:33 | DEBUG    | app.main             | log_requests         | [1850338233] GET /api/data/available
+2025-12-26 18:50:34 | INFO     | app.main             | log_requests         | [1850338220] ✓ GET /api/data/symbols - 200 (1072ms)
+2025-12-26 18:50:34 | INFO     | app.main             | log_requests         | [1850338233] ✓ GET /api/data/available - 200 (1072ms)
+2025-12-26 18:50:34 | DEBUG    | app.main             | log_requests         | [1850349022] GET /api/data/available
+2025-12-26 18:50:35 | DEBUG    | app.main             | log_requests         | [1850358681] GET /api/data/symbols
+2025-12-26 18:50:35 | INFO     | app.main             | log_requests         | [1850349022] ✓ GET /api/data/available - 200 (966ms)
+2025-12-26 18:50:35 | INFO     | app.main             | log_requests         | [1850358681] ✓ GET /api/data/symbols - 200 (3ms)
+2025-12-26 18:50:51 | DEBUG    | app.main             | log_requests         | [1850510024] POST /api/data/download
+2025-12-26 18:50:51 | INFO     | app.main             | log_requests         | [1850510024] ✓ POST /api/data/download - 200 (2ms)
+2025-12-26 18:50:56 | DEBUG    | app.main             | log_requests         | [1850560381] GET /api/data/available
+2025-12-26 18:50:56 | INFO     | app.main             | log_requests         | [1850560381] ✓ GET /api/data/available - 200 (919ms)
+2025-12-26 18:51:00 | DEBUG    | app.main             | log_requests         | [1851005771] POST /api/data/download
+2025-12-26 18:51:00 | INFO     | app.main             | log_requests         | [1851005771] ✓ POST /api/data/download - 200 (1ms)
+2025-12-26 18:51:05 | DEBUG    | app.main             | log_requests         | [1851055954] GET /api/data/available
+2025-12-26 18:51:06 | INFO     | app.main             | log_requests         | [1851055954] ✓ GET /api/data/available - 200 (922ms)
+2025-12-26 18:51:08 | DEBUG    | app.main             | log_requests         | [1851083126] POST /api/data/download
+2025-12-26 18:51:08 | INFO     | app.main             | log_requests         | [1851083126] ✓ POST /api/data/download - 200 (2ms)
+2025-12-26 18:51:13 | DEBUG    | app.main             | log_requests         | [1851133313] GET /api/data/available
+2025-12-26 18:51:14 | INFO     | app.main             | log_requests         | [1851133313] ✓ GET /api/data/available - 200 (1097ms)

@@ -23,6 +23,7 @@ LOGS_DIR.mkdir(exist_ok=True)
 
 # Create data directory
 Path("data").mkdir(exist_ok=True)
+Path("data/bots").mkdir(exist_ok=True)
 
 # Log files
 LOG_FILE = LOGS_DIR / f"komas_{datetime.now().strftime('%Y-%m-%d')}.log"
@@ -89,7 +90,7 @@ def setup_logging():
     logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    logging.getLogger("telegram").setLevel(logging.WARNING)
+    logging.getLogger("apscheduler").setLevel(logging.WARNING)
     
     return logging.getLogger(__name__)
 
@@ -109,15 +110,25 @@ async def lifespan(app: FastAPI):
     logger.info(f"Error log: {ERROR_LOG_FILE}")
     logger.info("=" * 60)
     
-    # Initialize notifications
+    # Start bots runner
     try:
-        from app.core.notifications import init_notifier
-        notifier = init_notifier()
-        logger.info("✓ Telegram notifications initialized")
+        from app.core.bots import get_bots_runner
+        runner = get_bots_runner()
+        runner.start()
+        logger.info("✓ Bots runner started")
     except Exception as e:
-        logger.warning(f"✗ Failed to initialize notifications: {e}")
+        logger.warning(f"✗ Failed to start bots runner: {e}")
     
     yield
+    
+    # Stop bots runner
+    try:
+        from app.core.bots import get_bots_runner
+        runner = get_bots_runner()
+        runner.stop()
+        logger.info("✓ Bots runner stopped")
+    except Exception as e:
+        logger.warning(f"✗ Failed to stop bots runner: {e}")
     
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER - SHUTDOWN")
@@ -128,7 +139,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Komas Trading Server",
     version="3.5",
-    description="Full trading system with indicator, backtesting, optimization, and notifications",
+    description="Full trading system with indicator, backtesting, optimization, and automated bots",
     lifespan=lifespan,
 )
 
@@ -244,13 +255,26 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load indicator routes: {e}")
 
-# NEW: Notifications routes
+try:
+    from app.api.signals_routes import router as signals_router
+    app.include_router(signals_router)
+    logger.info("✓ Loaded: signals routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load signals routes: {e}")
+
 try:
     from app.api.notifications_routes import router as notifications_router
     app.include_router(notifications_router)
     logger.info("✓ Loaded: notifications routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load notifications routes: {e}")
+
+try:
+    from app.api.bots_routes import router as bots_router
+    app.include_router(bots_router)
+    logger.info("✓ Loaded: bots routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load bots routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -356,7 +380,7 @@ async def root():
         "version": "3.5",
         "docs": "/docs",
         "logs": "/api/logs/list",
-        "notifications": "/api/notifications/settings"
+        "bots": "/api/bots/"
     }
 
 
