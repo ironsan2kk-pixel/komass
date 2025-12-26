@@ -9,11 +9,40 @@ export const api = axios.create({
   },
 });
 
-// Data API
+// Data API - полный набор методов
 export const dataApi = {
+  // Получить список символов
   getSymbols: () => api.get('/api/data/symbols'),
+  
+  // Скачать данные (ОРИГИНАЛЬНОЕ ИМЯ)
   downloadData: (params) => api.post('/api/data/download', params),
+  
+  // Скачать данные (АЛИАС для совместимости)
+  download: (params) => api.post('/api/data/download', params),
+  
+  // Получить информацию о загруженных данных
   getDataInfo: (symbol, timeframe) => api.get(`/api/data/info/${symbol}/${timeframe}`),
+  
+  // Получить список загруженных файлов
+  getAvailable: () => api.get('/api/data/available'),
+  
+  // Получить прогресс загрузки
+  getProgress: () => api.get('/api/data/download/progress'),
+  
+  // Отменить загрузку
+  cancel: (taskId) => api.post(`/api/data/download/cancel/${taskId}`),
+  
+  // Синхронизировать последние данные
+  sync: (params) => api.post('/api/data/sync', params),
+  
+  // Удалить файл
+  deleteFile: (filename) => api.delete(`/api/data/file/${filename}`),
+  
+  // Продолжить загрузку
+  continue: (symbol, timeframe) => api.post(`/api/data/continue/${symbol}/${timeframe}`),
+  
+  // Debug endpoint
+  debug: () => api.get('/api/data/debug'),
 };
 
 // Symbols API
@@ -33,6 +62,8 @@ export const indicatorApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params),
     }),
+  getSchema: () => api.get('/api/indicator/ui-schema'),
+  heatmap: (params) => api.post('/api/indicator/heatmap', params),
 };
 
 // Backtest API
