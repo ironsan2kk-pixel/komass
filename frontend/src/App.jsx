@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Indicator from './pages/Indicator';
 import Data from './pages/Data';
 import Settings from './pages/Settings';
-import Calendar from './pages/Calendar';
 import Signals from './pages/Signals';
 import Bots from './pages/Bots';
 
@@ -13,9 +12,8 @@ const NAV_ITEMS = [
   { path: '/', name: '📊 Индикатор', component: Indicator },
   { path: '/data', name: '📁 Данные', component: Data },
   { divider: true },
-  { path: '/bots', name: '🤖 Боты', component: Bots, highlight: true },
   { path: '/signals', name: '🔔 Сигналы', component: Signals },
-  { path: '/calendar', name: '📅 Календарь', component: Calendar },
+  { path: '/bots', name: '🤖 Боты', component: Bots },
   { divider: true },
   { path: '/settings', name: '⚙️ Настройки', component: Settings },
 ];
@@ -33,7 +31,7 @@ export default function App() {
             {sidebarOpen && (
               <div>
                 <h1 className="text-xl font-bold text-white">KOMAS</h1>
-                <p className="text-xs text-gray-400">Trading Server v3.5</p>
+                <p className="text-xs text-gray-400">Trading Server v3.0</p>
               </div>
             )}
             <button
@@ -74,7 +72,7 @@ export default function App() {
         {/* Footer */}
         {sidebarOpen && (
           <div className="p-4 border-t border-gray-700 text-xs text-gray-500">
-            <p>© 2024 Komas Trading</p>
+            <p>© 2025 Komas Trading</p>
           </div>
         )}
       </aside>

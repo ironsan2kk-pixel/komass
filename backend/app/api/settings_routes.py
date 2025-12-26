@@ -1,644 +1,344 @@
 """
-KOMAS Settings API v1.0
-=======================
-API для управления настройками системы:
-- API ключи бирж (Binance, Bybit, OKX)
-- Уведомления (Telegram, Discord)
-- Системные настройки
-- Настройки календаря
-
-Endpoints:
-- GET/POST /api/settings/api-keys
-- POST /api/settings/api-keys/{exchange}/test
-- GET/POST /api/settings/notifications
-- POST /api/settings/notifications/{type}/test
-- GET/POST /api/settings/system
-- GET /api/settings/system/info
-- POST /api/settings/system/clear-cache
-- GET/POST /api/settings/calendar
+Komas Trading Server - Settings API
+===================================
+User settings and presets management
 """
-
-import os
 import json
-import time
-import hashlib
-import platform
-import psutil
 from datetime import datetime
-from pathlib import Path
-from typing import Optional, Dict, Any, List
-from pydantic import BaseModel, Field
+from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
+from pathlib import Path
 
-# Cryptography for API keys encryption
-try:
-    from cryptography.fernet import Fernet
-    CRYPTO_AVAILABLE = True
-except ImportError:
-    CRYPTO_AVAILABLE = False
+router = APIRouter(prefix="/api/settings", tags=["Settings"])
 
-router = APIRouter(prefix="/api/settings", tags=["settings"])
+# Data directory for storing settings
+DATA_DIR = Path(__file__).parent.parent.parent / "data"
+DATA_DIR.mkdir(exist_ok=True)
 
-# === Paths ===
-DATA_DIR = Path("data")
-SETTINGS_DIR = DATA_DIR / "settings"
-SETTINGS_DIR.mkdir(parents=True, exist_ok=True)
+PRESETS_FILE = DATA_DIR / "presets.json"
+SETTINGS_FILE = DATA_DIR / "settings.json"
 
-API_KEYS_FILE = SETTINGS_DIR / "api_keys.json"
-NOTIFICATIONS_FILE = SETTINGS_DIR / "notifications.json"
-SYSTEM_FILE = SETTINGS_DIR / "system.json"
-CALENDAR_FILE = SETTINGS_DIR / "calendar.json"
 
-# === Encryption Key (generate once and store) ===
-ENCRYPTION_KEY_FILE = SETTINGS_DIR / ".encryption_key"
+# ============ MODELS ============
 
-def get_encryption_key() -> bytes:
-    """Get or generate encryption key for API secrets"""
-    if not CRYPTO_AVAILABLE:
-        return b""
+class IndicatorPreset(BaseModel):
+    """Indicator preset configuration"""
+    id: Optional[str] = None
+    name: str
+    description: str = ""
     
-    if ENCRYPTION_KEY_FILE.exists():
-        return ENCRYPTION_KEY_FILE.read_bytes()
-    else:
-        key = Fernet.generate_key()
-        ENCRYPTION_KEY_FILE.write_bytes(key)
-        return key
+    # TRG Indicator
+    trg_atr_length: int = Field(default=45, ge=10, le=200)
+    trg_multiplier: float = Field(default=4.0, ge=1.0, le=10.0)
+    
+    # Take Profits
+    tp_count: int = Field(default=4, ge=1, le=10)
+    tp1_percent: float = Field(default=1.05)
+    tp1_amount: float = Field(default=50)
+    tp2_percent: float = Field(default=1.95)
+    tp2_amount: float = Field(default=30)
+    tp3_percent: float = Field(default=3.75)
+    tp3_amount: float = Field(default=15)
+    tp4_percent: float = Field(default=6.0)
+    tp4_amount: float = Field(default=5)
+    
+    # Stop Loss
+    sl_percent: float = Field(default=2.0)
+    sl_mode: str = Field(default="fixed")  # fixed, breakeven, cascade
+    
+    # Filters
+    use_supertrend: bool = False
+    supertrend_period: int = 10
+    supertrend_multiplier: float = 3.0
+    
+    use_rsi: bool = False
+    rsi_period: int = 14
+    rsi_overbought: int = 70
+    rsi_oversold: int = 30
+    
+    use_adx: bool = False
+    adx_period: int = 14
+    adx_threshold: int = 25
+    
+    use_volume: bool = False
+    volume_multiplier: float = 1.5
+    
+    # Trading
+    leverage: int = Field(default=1, ge=1, le=125)
+    commission_enabled: bool = True
+    commission_percent: float = 0.075
+    
+    # Timestamps
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
-def encrypt_value(value: str) -> str:
-    """Encrypt sensitive value"""
-    if not CRYPTO_AVAILABLE or not value:
-        return value
-    try:
-        f = Fernet(get_encryption_key())
-        return f.encrypt(value.encode()).decode()
-    except Exception:
-        return value
 
-def decrypt_value(value: str) -> str:
-    """Decrypt sensitive value"""
-    if not CRYPTO_AVAILABLE or not value:
-        return value
-    try:
-        f = Fernet(get_encryption_key())
-        return f.decrypt(value.encode()).decode()
-    except Exception:
-        return value
-
-def mask_key(key: str) -> str:
-    """Mask API key for display"""
-    if not key or len(key) < 8:
-        return "****"
-    return key[:4] + "****" + key[-4:]
-
-
-# ===========================================
-# Pydantic Models
-# ===========================================
-
-class ExchangeApiKey(BaseModel):
-    api_key: str = ""
-    api_secret: str = ""
-    passphrase: str = ""  # OKX only
-    testnet: bool = False
-
-class ApiKeysRequest(BaseModel):
-    binance: Optional[ExchangeApiKey] = None
-    bybit: Optional[ExchangeApiKey] = None
-    okx: Optional[ExchangeApiKey] = None
-
-class NotificationSettings(BaseModel):
-    enabled: bool = False
+class UserSettings(BaseModel):
+    """User settings"""
+    default_symbol: str = "BTCUSDT"
+    default_timeframe: str = "1h"
+    default_preset_id: Optional[str] = None
+    
+    # UI preferences
+    theme: str = "dark"
+    auto_refresh: bool = True
+    refresh_interval: int = 30  # seconds
+    
+    # Notifications
     notify_signals: bool = True
-    notify_trades: bool = True
-    notify_errors: bool = True
-
-class TelegramSettings(NotificationSettings):
-    bot_token: str = ""
-    chat_id: str = ""
-
-class DiscordSettings(NotificationSettings):
-    webhook_url: str = ""
-
-class NotificationsRequest(BaseModel):
-    telegram: Optional[TelegramSettings] = None
-    discord: Optional[DiscordSettings] = None
-
-class SystemSettings(BaseModel):
-    auto_start: bool = False
-    log_level: str = "INFO"
-    max_log_size_mb: int = 100
-    data_retention_days: int = 90
-    backup_enabled: bool = False
-    backup_interval_hours: int = 24
-
-class CalendarSettings(BaseModel):
-    block_trading: bool = False
-    minutes_before: int = 15
-    minutes_after: int = 15
-    min_impact: str = "high"  # high, medium, low
+    notify_tp_hit: bool = True
+    notify_sl_hit: bool = True
+    telegram_enabled: bool = False
+    telegram_chat_id: Optional[str] = None
 
 
-# ===========================================
-# Helper Functions
-# ===========================================
+# ============ HELPER FUNCTIONS ============
 
-def load_json_file(filepath: Path, default: dict = None) -> dict:
-    """Load JSON file with UTF-8 encoding"""
-    if default is None:
-        default = {}
-    try:
-        if filepath.exists():
-            with open(filepath, 'r', encoding='utf-8') as f:
-                return json.load(f)
-    except Exception as e:
-        print(f"Error loading {filepath}: {e}")
-    return default
-
-def save_json_file(filepath: Path, data: dict) -> bool:
-    """Save JSON file with UTF-8 encoding"""
-    try:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-        return True
-    except Exception as e:
-        print(f"Error saving {filepath}: {e}")
-        return False
+def load_presets() -> List[Dict]:
+    """Load presets from file"""
+    if PRESETS_FILE.exists():
+        with open(PRESETS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return get_default_presets()
 
 
-# ===========================================
-# API Keys Endpoints
-# ===========================================
-
-@router.get("/api-keys")
-async def get_api_keys():
-    """Get API keys (masked for security)"""
-    data = load_json_file(API_KEYS_FILE, {
-        "binance": {"api_key": "", "api_secret": "", "testnet": False, "connected": False},
-        "bybit": {"api_key": "", "api_secret": "", "testnet": False, "connected": False},
-        "okx": {"api_key": "", "api_secret": "", "passphrase": "", "testnet": False, "connected": False},
-    })
-    
-    # Mask secrets for response
-    result = {}
-    for exchange, keys in data.items():
-        result[exchange] = {
-            "api_key": mask_key(decrypt_value(keys.get("api_key", ""))),
-            "api_secret": "****" if keys.get("api_secret") else "",
-            "passphrase": "****" if keys.get("passphrase") else "",
-            "testnet": keys.get("testnet", False),
-            "connected": keys.get("connected", False),
-        }
-    
-    return result
+def save_presets(presets: List[Dict]):
+    """Save presets to file"""
+    with open(PRESETS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(presets, f, indent=2, ensure_ascii=False)
 
 
-@router.post("/api-keys/{exchange}")
-async def save_api_key(exchange: str, data: ExchangeApiKey):
-    """Save API key for exchange"""
-    if exchange not in ["binance", "bybit", "okx"]:
-        raise HTTPException(status_code=400, detail=f"Unknown exchange: {exchange}")
-    
-    current = load_json_file(API_KEYS_FILE, {})
-    
-    # Encrypt sensitive data
-    current[exchange] = {
-        "api_key": encrypt_value(data.api_key) if data.api_key else "",
-        "api_secret": encrypt_value(data.api_secret) if data.api_secret else "",
-        "passphrase": encrypt_value(data.passphrase) if data.passphrase else "",
-        "testnet": data.testnet,
-        "connected": False,
-    }
-    
-    if save_json_file(API_KEYS_FILE, current):
-        return {"success": True, "message": f"{exchange.upper()} API keys saved"}
-    else:
-        raise HTTPException(status_code=500, detail="Failed to save API keys")
+def load_settings() -> Dict:
+    """Load user settings from file"""
+    if SETTINGS_FILE.exists():
+        with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return UserSettings().model_dump()
 
 
-@router.post("/api-keys/{exchange}/test")
-async def test_api_connection(exchange: str):
-    """Test API connection for exchange"""
-    if exchange not in ["binance", "bybit", "okx"]:
-        raise HTTPException(status_code=400, detail=f"Unknown exchange: {exchange}")
-    
-    current = load_json_file(API_KEYS_FILE, {})
-    keys = current.get(exchange, {})
-    
-    api_key = decrypt_value(keys.get("api_key", ""))
-    api_secret = decrypt_value(keys.get("api_secret", ""))
-    testnet = keys.get("testnet", False)
-    
-    if not api_key or not api_secret:
-        return {"success": False, "error": "API keys not configured"}
-    
-    # Test connection based on exchange
-    try:
-        if exchange == "binance":
-            result = await test_binance_connection(api_key, api_secret, testnet)
-        elif exchange == "bybit":
-            result = await test_bybit_connection(api_key, api_secret, testnet)
-        elif exchange == "okx":
-            passphrase = decrypt_value(keys.get("passphrase", ""))
-            result = await test_okx_connection(api_key, api_secret, passphrase, testnet)
-        else:
-            result = {"success": False, "error": "Unknown exchange"}
-        
-        # Update connected status
-        if result.get("success"):
-            current[exchange]["connected"] = True
-            save_json_file(API_KEYS_FILE, current)
-        
-        return result
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+def save_settings(settings: Dict):
+    """Save user settings to file"""
+    with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(settings, f, indent=2, ensure_ascii=False)
 
 
-async def test_binance_connection(api_key: str, api_secret: str, testnet: bool) -> dict:
-    """Test Binance API connection"""
-    try:
-        import hmac
-        import hashlib
-        import httpx
-        
-        base_url = "https://testnet.binance.vision" if testnet else "https://api.binance.com"
-        timestamp = int(time.time() * 1000)
-        query = f"timestamp={timestamp}"
-        signature = hmac.new(api_secret.encode(), query.encode(), hashlib.sha256).hexdigest()
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{base_url}/api/v3/account",
-                params={"timestamp": timestamp, "signature": signature},
-                headers={"X-MBX-APIKEY": api_key},
-                timeout=10
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                return {
-                    "success": True,
-                    "balance_count": len(data.get("balances", [])),
-                    "can_trade": data.get("canTrade", False)
-                }
-            else:
-                return {"success": False, "error": response.text}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-async def test_bybit_connection(api_key: str, api_secret: str, testnet: bool) -> dict:
-    """Test Bybit API connection"""
-    try:
-        import hmac
-        import hashlib
-        import httpx
-        
-        base_url = "https://api-testnet.bybit.com" if testnet else "https://api.bybit.com"
-        timestamp = str(int(time.time() * 1000))
-        recv_window = "5000"
-        
-        param_str = f"{timestamp}{api_key}{recv_window}"
-        signature = hmac.new(api_secret.encode(), param_str.encode(), hashlib.sha256).hexdigest()
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{base_url}/v5/account/wallet-balance",
-                params={"accountType": "UNIFIED"},
-                headers={
-                    "X-BAPI-API-KEY": api_key,
-                    "X-BAPI-SIGN": signature,
-                    "X-BAPI-TIMESTAMP": timestamp,
-                    "X-BAPI-RECV-WINDOW": recv_window,
-                },
-                timeout=10
-            )
-            
-            data = response.json()
-            if data.get("retCode") == 0:
-                return {"success": True, "message": "Connected to Bybit"}
-            else:
-                return {"success": False, "error": data.get("retMsg", "Unknown error")}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-async def test_okx_connection(api_key: str, api_secret: str, passphrase: str, testnet: bool) -> dict:
-    """Test OKX API connection"""
-    try:
-        import hmac
-        import hashlib
-        import base64
-        import httpx
-        
-        base_url = "https://www.okx.com"  # OKX uses same URL, testnet via header
-        timestamp = datetime.utcnow().isoformat(timespec='milliseconds') + 'Z'
-        
-        method = "GET"
-        request_path = "/api/v5/account/balance"
-        
-        prehash = f"{timestamp}{method}{request_path}"
-        signature = base64.b64encode(
-            hmac.new(api_secret.encode(), prehash.encode(), hashlib.sha256).digest()
-        ).decode()
-        
-        headers = {
-            "OK-ACCESS-KEY": api_key,
-            "OK-ACCESS-SIGN": signature,
-            "OK-ACCESS-TIMESTAMP": timestamp,
-            "OK-ACCESS-PASSPHRASE": passphrase,
-        }
-        if testnet:
-            headers["x-simulated-trading"] = "1"
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.get(
-                f"{base_url}{request_path}",
-                headers=headers,
-                timeout=10
-            )
-            
-            data = response.json()
-            if data.get("code") == "0":
-                return {"success": True, "message": "Connected to OKX"}
-            else:
-                return {"success": False, "error": data.get("msg", "Unknown error")}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-# ===========================================
-# Notifications Endpoints
-# ===========================================
-
-@router.get("/notifications")
-async def get_notifications():
-    """Get notification settings"""
-    data = load_json_file(NOTIFICATIONS_FILE, {
-        "telegram": {
-            "enabled": False,
-            "bot_token": "",
-            "chat_id": "",
-            "notify_signals": True,
-            "notify_trades": True,
-            "notify_errors": True,
+def get_default_presets() -> List[Dict]:
+    """Get default presets"""
+    return [
+        {
+            "id": "default",
+            "name": "Default",
+            "description": "Standard TRG settings",
+            "trg_atr_length": 45,
+            "trg_multiplier": 4.0,
+            "tp_count": 4,
+            "tp1_percent": 1.05, "tp1_amount": 50,
+            "tp2_percent": 1.95, "tp2_amount": 30,
+            "tp3_percent": 3.75, "tp3_amount": 15,
+            "tp4_percent": 6.0, "tp4_amount": 5,
+            "sl_percent": 2.0,
+            "sl_mode": "fixed",
+            "use_supertrend": False,
+            "use_rsi": False,
+            "use_adx": False,
+            "use_volume": False,
+            "leverage": 1,
+            "commission_enabled": True,
+            "commission_percent": 0.075,
+            "created_at": datetime.now().isoformat()
         },
-        "discord": {
-            "enabled": False,
-            "webhook_url": "",
-            "notify_signals": True,
-            "notify_trades": True,
-            "notify_errors": True,
+        {
+            "id": "conservative",
+            "name": "Conservative",
+            "description": "Lower risk, smaller take profits",
+            "trg_atr_length": 60,
+            "trg_multiplier": 5.0,
+            "tp_count": 2,
+            "tp1_percent": 0.75, "tp1_amount": 60,
+            "tp2_percent": 1.5, "tp2_amount": 40,
+            "tp3_percent": 2.0, "tp3_amount": 0,
+            "tp4_percent": 3.0, "tp4_amount": 0,
+            "sl_percent": 1.5,
+            "sl_mode": "fixed",
+            "use_supertrend": True,
+            "supertrend_period": 10,
+            "supertrend_multiplier": 3.0,
+            "use_rsi": True,
+            "rsi_period": 14,
+            "rsi_overbought": 70,
+            "rsi_oversold": 30,
+            "use_adx": False,
+            "use_volume": False,
+            "leverage": 1,
+            "commission_enabled": True,
+            "commission_percent": 0.075,
+            "created_at": datetime.now().isoformat()
         },
-    })
-    
-    # Mask sensitive data
-    if data.get("telegram", {}).get("bot_token"):
-        data["telegram"]["bot_token"] = mask_key(data["telegram"]["bot_token"])
-    if data.get("discord", {}).get("webhook_url"):
-        url = data["discord"]["webhook_url"]
-        data["discord"]["webhook_url"] = url[:30] + "****" if len(url) > 30 else "****"
-    
-    return data
-
-
-@router.post("/notifications")
-async def save_notifications(data: NotificationsRequest):
-    """Save notification settings"""
-    current = load_json_file(NOTIFICATIONS_FILE, {})
-    
-    if data.telegram:
-        current["telegram"] = {
-            "enabled": data.telegram.enabled,
-            "bot_token": encrypt_value(data.telegram.bot_token) if data.telegram.bot_token and not data.telegram.bot_token.endswith("****") else current.get("telegram", {}).get("bot_token", ""),
-            "chat_id": data.telegram.chat_id,
-            "notify_signals": data.telegram.notify_signals,
-            "notify_trades": data.telegram.notify_trades,
-            "notify_errors": data.telegram.notify_errors,
+        {
+            "id": "aggressive",
+            "name": "Aggressive",
+            "description": "Higher risk, larger take profits",
+            "trg_atr_length": 30,
+            "trg_multiplier": 3.0,
+            "tp_count": 6,
+            "tp1_percent": 1.5, "tp1_amount": 25,
+            "tp2_percent": 3.0, "tp2_amount": 20,
+            "tp3_percent": 5.0, "tp3_amount": 20,
+            "tp4_percent": 8.0, "tp4_amount": 15,
+            "sl_percent": 3.0,
+            "sl_mode": "cascade",
+            "use_supertrend": False,
+            "use_rsi": False,
+            "use_adx": True,
+            "adx_period": 14,
+            "adx_threshold": 25,
+            "use_volume": True,
+            "volume_multiplier": 1.5,
+            "leverage": 3,
+            "commission_enabled": True,
+            "commission_percent": 0.075,
+            "created_at": datetime.now().isoformat()
+        },
+        {
+            "id": "scalper",
+            "name": "Scalper",
+            "description": "Quick trades, small profits",
+            "trg_atr_length": 20,
+            "trg_multiplier": 2.5,
+            "tp_count": 2,
+            "tp1_percent": 0.5, "tp1_amount": 70,
+            "tp2_percent": 1.0, "tp2_amount": 30,
+            "tp3_percent": 1.5, "tp3_amount": 0,
+            "tp4_percent": 2.0, "tp4_amount": 0,
+            "sl_percent": 1.0,
+            "sl_mode": "breakeven",
+            "use_supertrend": False,
+            "use_rsi": True,
+            "rsi_period": 7,
+            "rsi_overbought": 65,
+            "rsi_oversold": 35,
+            "use_adx": False,
+            "use_volume": True,
+            "volume_multiplier": 2.0,
+            "leverage": 5,
+            "commission_enabled": True,
+            "commission_percent": 0.075,
+            "created_at": datetime.now().isoformat()
         }
-    
-    if data.discord:
-        current["discord"] = {
-            "enabled": data.discord.enabled,
-            "webhook_url": encrypt_value(data.discord.webhook_url) if data.discord.webhook_url and not data.discord.webhook_url.endswith("****") else current.get("discord", {}).get("webhook_url", ""),
-            "notify_signals": data.discord.notify_signals,
-            "notify_trades": data.discord.notify_trades,
-            "notify_errors": data.discord.notify_errors,
-        }
-    
-    if save_json_file(NOTIFICATIONS_FILE, current):
-        return {"success": True, "message": "Notification settings saved"}
-    else:
-        raise HTTPException(status_code=500, detail="Failed to save settings")
+    ]
 
 
-@router.post("/notifications/{notification_type}/test")
-async def test_notification(notification_type: str):
-    """Send test notification"""
-    if notification_type not in ["telegram", "discord"]:
-        raise HTTPException(status_code=400, detail=f"Unknown notification type: {notification_type}")
-    
-    current = load_json_file(NOTIFICATIONS_FILE, {})
-    settings = current.get(notification_type, {})
-    
-    if not settings.get("enabled"):
-        return {"success": False, "error": f"{notification_type.capitalize()} notifications disabled"}
-    
-    try:
-        if notification_type == "telegram":
-            result = await send_telegram_test(settings)
-        else:
-            result = await send_discord_test(settings)
-        return result
-    except Exception as e:
-        return {"success": False, "error": str(e)}
+# ============ PRESETS ENDPOINTS ============
 
-
-async def send_telegram_test(settings: dict) -> dict:
-    """Send test message to Telegram"""
-    try:
-        import httpx
-        
-        bot_token = decrypt_value(settings.get("bot_token", ""))
-        chat_id = settings.get("chat_id", "")
-        
-        if not bot_token or not chat_id:
-            return {"success": False, "error": "Bot token or chat ID not configured"}
-        
-        message = "🧪 KOMAS Test Notification\n\nТестовое сообщение от Komas Trading Server v3.5"
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"https://api.telegram.org/bot{bot_token}/sendMessage",
-                json={"chat_id": chat_id, "text": message, "parse_mode": "HTML"},
-                timeout=10
-            )
-            
-            data = response.json()
-            if data.get("ok"):
-                return {"success": True, "message": "Test message sent to Telegram"}
-            else:
-                return {"success": False, "error": data.get("description", "Unknown error")}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-async def send_discord_test(settings: dict) -> dict:
-    """Send test message to Discord webhook"""
-    try:
-        import httpx
-        
-        webhook_url = decrypt_value(settings.get("webhook_url", ""))
-        
-        if not webhook_url:
-            return {"success": False, "error": "Webhook URL not configured"}
-        
-        payload = {
-            "content": "🧪 **KOMAS Test Notification**\n\nТестовое сообщение от Komas Trading Server v3.5",
-            "username": "KOMAS Bot"
-        }
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.post(webhook_url, json=payload, timeout=10)
-            
-            if response.status_code in [200, 204]:
-                return {"success": True, "message": "Test message sent to Discord"}
-            else:
-                return {"success": False, "error": f"HTTP {response.status_code}"}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-# ===========================================
-# System Settings Endpoints
-# ===========================================
-
-@router.get("/system")
-async def get_system_settings():
-    """Get system settings"""
-    return load_json_file(SYSTEM_FILE, {
-        "auto_start": False,
-        "log_level": "INFO",
-        "max_log_size_mb": 100,
-        "data_retention_days": 90,
-        "backup_enabled": False,
-        "backup_interval_hours": 24,
-    })
-
-
-@router.post("/system")
-async def save_system_settings(settings: SystemSettings):
-    """Save system settings"""
-    data = {
-        "auto_start": settings.auto_start,
-        "log_level": settings.log_level,
-        "max_log_size_mb": settings.max_log_size_mb,
-        "data_retention_days": settings.data_retention_days,
-        "backup_enabled": settings.backup_enabled,
-        "backup_interval_hours": settings.backup_interval_hours,
+@router.get("/presets")
+async def get_presets():
+    """Get all presets"""
+    presets = load_presets()
+    return {
+        "success": True,
+        "count": len(presets),
+        "presets": presets
     }
+
+
+@router.get("/presets/{preset_id}")
+async def get_preset(preset_id: str):
+    """Get a specific preset by ID"""
+    presets = load_presets()
+    for p in presets:
+        if p.get("id") == preset_id:
+            return {"success": True, "preset": p}
+    raise HTTPException(404, f"Preset '{preset_id}' not found")
+
+
+@router.post("/presets")
+async def create_preset(preset: IndicatorPreset):
+    """Create a new preset"""
+    presets = load_presets()
     
-    if save_json_file(SYSTEM_FILE, data):
-        return {"success": True, "message": "System settings saved"}
-    else:
-        raise HTTPException(status_code=500, detail="Failed to save settings")
-
-
-@router.get("/system/info")
-async def get_system_info():
-    """Get system information"""
-    try:
-        # Get uptime
-        import subprocess
-        
-        # Version info
-        version = "3.5.1"
-        python_version = platform.python_version()
-        
-        # System info
-        cpu_percent = psutil.cpu_percent(interval=0.1)
-        memory = psutil.virtual_memory()
-        disk = psutil.disk_usage('.')
-        
-        # Database size
-        db_path = DATA_DIR / "komas.db"
-        db_size = f"{db_path.stat().st_size / 1024 / 1024:.1f} MB" if db_path.exists() else "N/A"
-        
-        # Uptime (process)
-        process = psutil.Process()
-        uptime_seconds = time.time() - process.create_time()
-        hours, remainder = divmod(int(uptime_seconds), 3600)
-        minutes, seconds = divmod(remainder, 60)
-        uptime = f"{hours}h {minutes}m {seconds}s"
-        
-        return {
-            "version": version,
-            "python_version": python_version,
-            "platform": platform.system(),
-            "uptime": uptime,
-            "cpu_percent": cpu_percent,
-            "memory_used": f"{memory.used / 1024 / 1024 / 1024:.1f} GB",
-            "memory_total": f"{memory.total / 1024 / 1024 / 1024:.1f} GB",
-            "memory_percent": memory.percent,
-            "disk_used": f"{disk.used / 1024 / 1024 / 1024:.1f} GB",
-            "disk_total": f"{disk.total / 1024 / 1024 / 1024:.1f} GB",
-            "disk_percent": disk.percent,
-            "db_size": db_size,
-        }
-    except Exception as e:
-        return {
-            "version": "3.5.1",
-            "python_version": platform.python_version(),
-            "error": str(e)
-        }
-
-
-@router.post("/system/clear-cache")
-async def clear_cache():
-    """Clear system cache"""
-    try:
-        cache_dir = DATA_DIR / "cache"
-        if cache_dir.exists():
-            import shutil
-            shutil.rmtree(cache_dir)
-            cache_dir.mkdir(exist_ok=True)
-        
-        # Clear __pycache__ directories
-        for pycache in Path(".").rglob("__pycache__"):
-            import shutil
-            shutil.rmtree(pycache, ignore_errors=True)
-        
-        return {"success": True, "message": "Cache cleared"}
-    except Exception as e:
-        return {"success": False, "error": str(e)}
-
-
-# ===========================================
-# Calendar Settings Endpoints
-# ===========================================
-
-@router.get("/calendar")
-async def get_calendar_settings():
-    """Get calendar settings for trading block"""
-    return load_json_file(CALENDAR_FILE, {
-        "block_trading": False,
-        "minutes_before": 15,
-        "minutes_after": 15,
-        "min_impact": "high",
-    })
-
-
-@router.post("/calendar")
-async def save_calendar_settings(settings: CalendarSettings):
-    """Save calendar settings"""
-    data = {
-        "block_trading": settings.block_trading,
-        "minutes_before": settings.minutes_before,
-        "minutes_after": settings.minutes_after,
-        "min_impact": settings.min_impact,
-    }
+    # Generate ID if not provided
+    if not preset.id:
+        preset.id = f"preset_{datetime.now().strftime('%Y%m%d%H%M%S')}"
     
-    if save_json_file(CALENDAR_FILE, data):
-        return {"success": True, "message": "Calendar settings saved"}
-    else:
-        raise HTTPException(status_code=500, detail="Failed to save settings")
+    # Check for duplicate ID
+    for p in presets:
+        if p.get("id") == preset.id:
+            raise HTTPException(400, f"Preset with ID '{preset.id}' already exists")
+    
+    # Add timestamps
+    preset.created_at = datetime.now().isoformat()
+    preset.updated_at = datetime.now().isoformat()
+    
+    presets.append(preset.model_dump())
+    save_presets(presets)
+    
+    return {"success": True, "preset": preset.model_dump()}
+
+
+@router.put("/presets/{preset_id}")
+async def update_preset(preset_id: str, preset: IndicatorPreset):
+    """Update an existing preset"""
+    presets = load_presets()
+    
+    for i, p in enumerate(presets):
+        if p.get("id") == preset_id:
+            preset.id = preset_id
+            preset.created_at = p.get("created_at")
+            preset.updated_at = datetime.now().isoformat()
+            presets[i] = preset.model_dump()
+            save_presets(presets)
+            return {"success": True, "preset": presets[i]}
+    
+    raise HTTPException(404, f"Preset '{preset_id}' not found")
+
+
+@router.delete("/presets/{preset_id}")
+async def delete_preset(preset_id: str):
+    """Delete a preset"""
+    presets = load_presets()
+    
+    # Don't allow deleting default presets
+    if preset_id in ["default", "conservative", "aggressive", "scalper"]:
+        raise HTTPException(400, "Cannot delete default presets")
+    
+    original_count = len(presets)
+    presets = [p for p in presets if p.get("id") != preset_id]
+    
+    if len(presets) == original_count:
+        raise HTTPException(404, f"Preset '{preset_id}' not found")
+    
+    save_presets(presets)
+    return {"success": True, "message": f"Preset '{preset_id}' deleted"}
+
+
+@router.post("/presets/reset")
+async def reset_presets():
+    """Reset presets to defaults"""
+    presets = get_default_presets()
+    save_presets(presets)
+    return {"success": True, "message": "Presets reset to defaults", "count": len(presets)}
+
+
+# ============ SETTINGS ENDPOINTS ============
+
+@router.get("")
+async def get_settings():
+    """Get user settings"""
+    settings = load_settings()
+    return {"success": True, "settings": settings}
+
+
+@router.post("")
+async def save_user_settings(settings: UserSettings):
+    """Save user settings"""
+    save_settings(settings.model_dump())
+    return {"success": True, "settings": settings.model_dump()}
+
+
+@router.post("/reset")
+async def reset_settings():
+    """Reset settings to defaults"""
+    settings = UserSettings().model_dump()
+    save_settings(settings)
+    return {"success": True, "settings": settings}

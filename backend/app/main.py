@@ -21,7 +21,7 @@ import time
 LOGS_DIR = Path(__file__).parent.parent / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
-# Create data directory
+# Create data directories
 Path("data").mkdir(exist_ok=True)
 Path("data/bots").mkdir(exist_ok=True)
 
@@ -99,11 +99,22 @@ def setup_logging():
 logger = setup_logging()
 
 
+# ============ BOTS RUNNER MANAGEMENT ============
+
+bots_runner = None
+
+def get_runner():
+    global bots_runner
+    return bots_runner
+
+
 # ============ APPLICATION ============
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
+    global bots_runner
+    
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER v3.5 - STARTING")
     logger.info(f"Log file: {LOG_FILE}")
@@ -112,9 +123,9 @@ async def lifespan(app: FastAPI):
     
     # Start bots runner
     try:
-        from app.core.bots import get_bots_runner
-        runner = get_bots_runner()
-        runner.start()
+        from app.core.bots.runner import get_bots_runner
+        bots_runner = get_bots_runner()
+        bots_runner.start()
         logger.info("✓ Bots runner started")
     except Exception as e:
         logger.warning(f"✗ Failed to start bots runner: {e}")
@@ -122,13 +133,12 @@ async def lifespan(app: FastAPI):
     yield
     
     # Stop bots runner
-    try:
-        from app.core.bots import get_bots_runner
-        runner = get_bots_runner()
-        runner.stop()
-        logger.info("✓ Bots runner stopped")
-    except Exception as e:
-        logger.warning(f"✗ Failed to stop bots runner: {e}")
+    if bots_runner:
+        try:
+            bots_runner.stop()
+            logger.info("✓ Bots runner stopped")
+        except Exception as e:
+            logger.warning(f"✗ Error stopping bots runner: {e}")
     
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER - SHUTDOWN")
@@ -139,7 +149,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Komas Trading Server",
     version="3.5",
-    description="Full trading system with indicator, backtesting, optimization, and automated bots",
+    description="Full trading system with indicator, backtesting, optimization, and bots",
     lifespan=lifespan,
 )
 
@@ -227,6 +237,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # ============ IMPORT ROUTERS ============
 
+# Main routes (optional legacy)
 try:
     from app.api.routes import router as main_router
     app.include_router(main_router, prefix="/api")
@@ -234,6 +245,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load main routes: {e}")
 
+# Optimizer routes (optional)
 try:
     from app.api.optimizer_routes import router as optimizer_router
     app.include_router(optimizer_router)
@@ -241,6 +253,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load optimizer routes: {e}")
 
+# Data routes
 try:
     from app.api.data_routes import router as data_router
     app.include_router(data_router)
@@ -248,6 +261,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load data routes: {e}")
 
+# Indicator routes
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)
@@ -255,6 +269,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load indicator routes: {e}")
 
+# Signals routes (optional)
 try:
     from app.api.signals_routes import router as signals_router
     app.include_router(signals_router)
@@ -262,6 +277,15 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load signals routes: {e}")
 
+# Settings routes
+try:
+    from app.api.settings_routes import router as settings_router
+    app.include_router(settings_router)
+    logger.info("✓ Loaded: settings routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load settings routes: {e}")
+
+# Notifications routes (optional)
 try:
     from app.api.notifications_routes import router as notifications_router
     app.include_router(notifications_router)
@@ -269,6 +293,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load notifications routes: {e}")
 
+# Bots routes
 try:
     from app.api.bots_routes import router as bots_router
     app.include_router(bots_router)
@@ -379,8 +404,7 @@ async def root():
         "message": "Komas Trading Server",
         "version": "3.5",
         "docs": "/docs",
-        "logs": "/api/logs/list",
-        "bots": "/api/bots/"
+        "logs": "/api/logs/list"
     }
 
 
