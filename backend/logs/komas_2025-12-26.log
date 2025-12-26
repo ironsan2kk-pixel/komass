@@ -125,3 +125,28 @@
 2025-12-26 10:44:05 | INFO     | app.main             | log_requests         | [1044059356] ERR GET /api/indicator/presets - 404 (1ms)
 2025-12-26 10:44:11 | DEBUG    | app.main             | log_requests         | [1044117142] POST /api/indicator/calculate
 2025-12-26 10:44:14 | INFO     | app.main             | log_requests         | [1044117142] OK POST /api/indicator/calculate - 200 (2752ms)
+2025-12-26 11:28:07 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 11:28:07 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 11:28:07 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 11:28:07 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 11:28:07 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 11:28:07 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 11:28:07 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 11:28:07 | INFO     | app.main                  | ============================================================
+2025-12-26 11:28:07 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 11:28:07 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 11:28:07 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 11:28:07 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 11:28:07 | INFO     | app.main                  | ============================================================
+2025-12-26 11:28:26 | DEBUG    | app.main                  | [1128261150] GET /api/indicator/presets
+2025-12-26 11:28:26 | INFO     | app.main                  | [1128261150] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 11:28:26 | DEBUG    | app.main                  | [1128261234] GET /api/indicator/presets
+2025-12-26 11:28:26 | INFO     | app.main                  | [1128261234] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 11:28:29 | DEBUG    | app.main                  | [1128295404] POST /api/indicator/calculate
+2025-12-26 11:28:33 | INFO     | app.main                  | [1128295404] OK POST /api/indicator/calculate - 200 (4099ms)
+2025-12-26 11:30:36 | DEBUG    | app.main                  | [1130362854] GET /api/indicator/presets
+2025-12-26 11:30:36 | INFO     | app.main                  | [1130362854] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 11:30:36 | DEBUG    | app.main                  | [1130363021] GET /api/indicator/presets
+2025-12-26 11:30:36 | INFO     | app.main                  | [1130363021] ERR GET /api/indicator/presets - 404 (1ms)
+2025-12-26 11:30:38 | DEBUG    | app.main                  | [1130380674] POST /api/indicator/calculate
+2025-12-26 11:30:42 | INFO     | app.main                  | [1130380674] OK POST /api/indicator/calculate - 200 (3961ms)

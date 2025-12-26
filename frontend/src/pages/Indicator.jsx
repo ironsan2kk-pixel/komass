@@ -47,6 +47,23 @@ const TABS = [
   { id: 'heatmap', name: '🗺️ Heatmap', icon: '🗺️' },
 ];
 
+// Helper: Convert time to Unix timestamp (seconds)
+// lightweight-charts requires time as Unix timestamp in seconds
+const toTimestamp = (time) => {
+  if (!time) return 0;
+  // Already a number (timestamp)
+  if (typeof time === 'number') {
+    // If milliseconds, convert to seconds
+    return time > 9999999999 ? Math.floor(time / 1000) : time;
+  }
+  // ISO string or other string format
+  if (typeof time === 'string') {
+    const date = new Date(time);
+    return Math.floor(date.getTime() / 1000);
+  }
+  return 0;
+};
+
 const DEFAULT_SETTINGS = {
   symbol: 'BTCUSDT',
   timeframe: '1h',
@@ -171,7 +188,8 @@ export default function Indicator() {
       const res = await presetsApi.getAll();
       setPresets(res.data?.presets || []);
     } catch (err) {
-      console.error('Failed to load presets:', err);
+      // Silently fail - presets endpoint may not exist yet
+      // console.error('Failed to load presets:', err);
     }
   }, []);
 
@@ -260,7 +278,7 @@ export default function Indicator() {
     if (!candleSeriesRef.current || !result?.candles) return;
 
     const chartData = result.candles.map(c => ({
-      time: c.time,
+      time: toTimestamp(c.time),
       open: c.open,
       high: c.high,
       low: c.low,
@@ -276,7 +294,7 @@ export default function Indicator() {
         
         // Entry marker
         marks.push({
-          time: trade.entry_time,
+          time: toTimestamp(trade.entry_time),
           position: trade.type === 'long' ? 'belowBar' : 'aboveBar',
           color: trade.type === 'long' ? '#22c55e' : '#ef4444',
           shape: trade.type === 'long' ? 'arrowUp' : 'arrowDown',
@@ -286,7 +304,7 @@ export default function Indicator() {
         // Exit marker
         if (trade.exit_time) {
           marks.push({
-            time: trade.exit_time,
+            time: toTimestamp(trade.exit_time),
             position: trade.type === 'long' ? 'aboveBar' : 'belowBar',
             color: trade.pnl >= 0 ? '#22c55e' : '#ef4444',
             shape: 'circle',
