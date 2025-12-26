@@ -1890,3 +1890,87 @@
 2025-12-26 17:25:42 | INFO     | app.main                  | [1725419121] OK GET /api/calendar/events - 200 (673ms)
 2025-12-26 17:26:42 | DEBUG    | app.main                  | [1726428987] GET /api/calendar/events
 2025-12-26 17:26:42 | INFO     | app.main                  | [1726428987] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:27:27 | DEBUG    | app.main                  | [1727277415] GET /
+2025-12-26 17:27:27 | INFO     | app.main                  | [1727277415] OK GET / - 200 (2ms)
+2025-12-26 17:27:42 | DEBUG    | app.main                  | [1727429099] GET /api/calendar/events
+2025-12-26 17:27:42 | INFO     | app.main                  | [1727429099] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:27:55 | DEBUG    | app.main                  | [1727556438] GET /api/calendar/events
+2025-12-26 17:27:55 | INFO     | app.main                  | [1727556438] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:28:55 | DEBUG    | app.main                  | [1728556546] GET /api/calendar/events
+2025-12-26 17:28:55 | INFO     | app.main                  | [1728556546] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:29:02 | DEBUG    | app.main                  | [1729025034] POST /api/calendar/refresh
+2025-12-26 17:29:03 | INFO     | app.main                  | [1729025034] OK POST /api/calendar/refresh - 200 (587ms)
+2025-12-26 17:29:03 | DEBUG    | app.main                  | [1729031004] GET /api/calendar/events
+2025-12-26 17:29:03 | INFO     | app.main                  | [1729031004] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:29:04 | DEBUG    | app.main                  | [1729040327] POST /api/calendar/refresh
+2025-12-26 17:29:04 | INFO     | app.main                  | [1729040327] OK POST /api/calendar/refresh - 200 (519ms)
+2025-12-26 17:29:04 | DEBUG    | app.main                  | [1729045589] GET /api/calendar/events
+2025-12-26 17:29:04 | INFO     | app.main                  | [1729045589] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:30:04 | DEBUG    | app.main                  | [1730048708] GET /api/calendar/events
+2025-12-26 17:30:04 | INFO     | app.main                  | [1730048708] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:31:04 | DEBUG    | app.main                  | [1731048810] GET /api/calendar/events
+2025-12-26 17:31:04 | INFO     | app.main                  | [1731048810] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:32:05 | DEBUG    | app.main                  | [1732051935] GET /api/calendar/events
+2025-12-26 17:32:05 | INFO     | app.main                  | [1732051935] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:33:05 | DEBUG    | app.main                  | [1733052042] GET /api/calendar/events
+2025-12-26 17:33:05 | INFO     | app.main                  | [1733052042] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:33:15 | DEBUG    | app.main                  | [1733151148] GET /index.php
+2025-12-26 17:33:15 | INFO     | app.main                  | [1733151148] ERR GET /index.php - 404 (1ms)
+2025-12-26 17:34:05 | DEBUG    | app.main                  | [1734055173] GET /api/calendar/events
+2025-12-26 17:34:05 | INFO     | app.main                  | [1734055173] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:35:05 | DEBUG    | app.main                  | [1735055293] GET /api/calendar/events
+2025-12-26 17:35:05 | INFO     | app.main                  | [1735055293] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:35:49 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 17:35:49 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 17:35:49 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 17:35:49 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 17:35:49 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 17:35:49 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 17:35:49 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 17:35:49 | INFO     | app.main                  | [OK] Loaded: settings_routes
+2025-12-26 17:35:50 | INFO     | app.main                  | [OK] Loaded: calendar_routes
+2025-12-26 17:35:50 | INFO     | app.main                  | ============================================================
+2025-12-26 17:35:50 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 17:35:50 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 17:35:50 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 17:35:50 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 17:35:50 | INFO     | app.main                  | ============================================================
+2025-12-26 17:35:51 | INFO     | app.main             | <module>             | [OK] Loaded: data_routes
+2025-12-26 17:35:51 | INFO     | app.main             | <module>             | [OK] Loaded: indicator_routes
+2025-12-26 17:35:51 | INFO     | app.api.signals      | init_database        | Database initialized: C:\Users\Administrator\Desktop\komass\backend\data\komas_signals.db
+2025-12-26 17:35:51 | INFO     | app.main             | <module>             | [OK] Loaded: signals
+2025-12-26 17:35:51 | INFO     | app.main                  | [OK] Loaded: plugins
+2025-12-26 17:35:51 | INFO     | app.main                  | [OK] Loaded: ws (websocket)
+2025-12-26 17:35:51 | INFO     | app.main                  | [OK] Loaded: db_routes
+2025-12-26 17:35:51 | INFO     | app.main                  | [OK] Loaded: settings_routes
+2025-12-26 17:35:51 | INFO     | app.main                  | [OK] Loaded: calendar_routes
+2025-12-26 17:35:51 | INFO     | app.main                  | ============================================================
+2025-12-26 17:35:51 | INFO     | app.main                  | KOMAS TRADING SERVER v3.5.1 - STARTING
+2025-12-26 17:35:51 | INFO     | app.main                  | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-26.log
+2025-12-26 17:35:51 | INFO     | app.main                  | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-26.log
+2025-12-26 17:35:51 | INFO     | app.main                  | Data dir: C:\Users\Administrator\Desktop\komass\backend\data
+2025-12-26 17:35:51 | INFO     | app.main                  | ============================================================
+2025-12-26 17:35:53 | DEBUG    | app.main                  | [1735537829] GET /api/calendar/events
+2025-12-26 17:35:53 | INFO     | app.main                  | [1735537829] OK GET /api/calendar/events - 200 (6ms)
+2025-12-26 17:36:04 | DEBUG    | app.main                  | [1736044172] POST /api/calendar/refresh
+2025-12-26 17:36:04 | INFO     | app.main                  | [1736044172] OK POST /api/calendar/refresh - 200 (240ms)
+2025-12-26 17:36:04 | DEBUG    | app.main                  | [1736046644] GET /api/calendar/events
+2025-12-26 17:36:04 | INFO     | app.main                  | [1736046644] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:36:08 | DEBUG    | app.main                  | [1736085849] GET /api/calendar/events
+2025-12-26 17:36:08 | INFO     | app.main                  | [1736085849] OK GET /api/calendar/events - 200 (1ms)
+2025-12-26 17:36:24 | DEBUG    | app.main                  | [1736246935] GET /api/signals/stats
+2025-12-26 17:36:24 | INFO     | app.main                  | [1736246935] OK GET /api/signals/stats - 200 (8ms)
+2025-12-26 17:36:25 | DEBUG    | app.main                  | [1736250060] GET /api/signals/sse/stream
+2025-12-26 17:36:25 | INFO     | app.main                  | [1736250060] OK GET /api/signals/sse/stream - 200 (3ms)
+2025-12-26 17:36:26 | DEBUG    | app.main                  | [1736265048] GET /api/calendar/events
+2025-12-26 17:36:26 | INFO     | app.main                  | [1736265048] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:36:32 | DEBUG    | app.main                  | [1736324380] GET /api/calendar/events
+2025-12-26 17:36:32 | INFO     | app.main                  | [1736324380] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:36:36 | DEBUG    | app.main                  | [1736363932] POST /api/calendar/refresh
+2025-12-26 17:36:36 | INFO     | app.main                  | [1736363932] OK POST /api/calendar/refresh - 200 (180ms)
+2025-12-26 17:36:36 | DEBUG    | app.main                  | [1736366442] GET /api/calendar/events
+2025-12-26 17:36:36 | INFO     | app.main                  | [1736366442] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:36:37 | DEBUG    | app.main                  | [1736370513] POST /api/calendar/refresh
+2025-12-26 17:36:37 | INFO     | app.main                  | [1736370513] OK POST /api/calendar/refresh - 200 (185ms)
+2025-12-26 17:36:37 | DEBUG    | app.main                  | [1736375472] GET /api/calendar/events
+2025-12-26 17:36:37 | INFO     | app.main                  | [1736375472] OK GET /api/calendar/events - 200 (2ms)

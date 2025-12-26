@@ -1,5 +1,5 @@
 """
-KOMAS Calendar API v1.0
+KOMAS Calendar API v1.1
 =======================
 API для экономического календаря:
 - Загрузка экономических событий
@@ -7,16 +7,16 @@ API для экономического календаря:
 - Проверка блокировки торговли
 - Кэширование данных
 
+Data Source:
+- ForexFactory JSON Feed: https://nfs.faireconomy.media/ff_calendar_thisweek.json
+- Rate limit: 2 requests per 5 minutes (using 4-hour cache)
+- Events include: GDP, CPI, Employment, Interest Rates, etc.
+
 Endpoints:
 - GET /api/calendar/events - Получить события
 - GET /api/calendar/high-impact-today - Важные события сегодня
 - POST /api/calendar/refresh - Обновить календарь
 - GET /api/calendar/block-status - Статус блокировки торговли
-
-Data Sources:
-- ForexFactory (парсинг)
-- Investing.com (резервный)
-- Кэш в JSON файле
 """
 
 import json
@@ -102,14 +102,14 @@ def get_calendar_settings() -> dict:
 
 async def fetch_forex_factory_events() -> List[dict]:
     """
-    Fetch events from ForexFactory
-    Note: This is a simplified version. In production, use proper scraping or paid API.
+    Fetch events from ForexFactory JSON feed
+    Source: https://nfs.faireconomy.media/ff_calendar_thisweek.json
+    Rate limit: 2 requests per 5 minutes (use caching!)
     """
     try:
         import httpx
-        from bs4 import BeautifulSoup
         
-        url = "https://www.forexfactory.com/calendar"
+        url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
         
         async with httpx.AsyncClient() as client:
             response = await client.get(
@@ -121,11 +121,58 @@ async def fetch_forex_factory_events() -> List[dict]:
             )
             
             if response.status_code != 200:
+                print(f"ForexFactory API returned {response.status_code}")
                 return []
             
-            # Parse HTML (simplified - real implementation would be more complex)
-            # For now, return sample data
-            return []
+            raw_events = response.json()
+            
+            # Convert to our format
+            events = []
+            for item in raw_events:
+                # Parse date (format: "2025-12-23T08:30:00-05:00")
+                try:
+                    # Parse ISO format with timezone
+                    date_str = item.get("date", "")
+                    if date_str:
+                        # Convert to datetime and then to ISO format
+                        from datetime import datetime
+                        import re
+                        
+                        # Remove timezone offset for parsing
+                        clean_date = re.sub(r'[+-]\d{2}:\d{2}$', '', date_str)
+                        dt = datetime.fromisoformat(clean_date)
+                        
+                        # Adjust for EST (-05:00) to UTC
+                        if "-05:00" in date_str:
+                            dt = dt + timedelta(hours=5)
+                        elif "-04:00" in date_str:  # EDT
+                            dt = dt + timedelta(hours=4)
+                        
+                        timestamp = dt.isoformat()
+                    else:
+                        continue
+                except Exception as e:
+                    print(f"Error parsing date {item.get('date')}: {e}")
+                    continue
+                
+                # Map impact levels
+                impact_raw = item.get("impact", "Low").lower()
+                if impact_raw == "holiday":
+                    continue  # Skip holidays
+                impact = impact_raw if impact_raw in ["high", "medium", "low"] else "low"
+                
+                events.append({
+                    "timestamp": timestamp,
+                    "currency": item.get("country", "USD"),  # country = currency code
+                    "impact": impact,
+                    "event": item.get("title", "Unknown Event"),
+                    "forecast": item.get("forecast") or None,
+                    "previous": item.get("previous") or None,
+                    "actual": None,  # Actual values not in feed
+                })
+            
+            print(f"Fetched {len(events)} events from ForexFactory")
+            return events
             
     except Exception as e:
         print(f"Error fetching ForexFactory: {e}")
@@ -134,50 +181,23 @@ async def fetch_forex_factory_events() -> List[dict]:
 
 async def fetch_investing_com_events() -> List[dict]:
     """
-    Fetch events from Investing.com API
+    Backup source: Investing.com
+    Currently returns empty - ForexFactory is primary source
+    Can be implemented later with investing.com API or scraping
     """
-    try:
-        import httpx
-        
-        # Investing.com economic calendar API
-        today = datetime.now()
-        date_from = today.strftime("%Y-%m-%d")
-        date_to = (today + timedelta(days=7)).strftime("%Y-%m-%d")
-        
-        url = f"https://www.investing.com/economic-calendar/Service/getCalendarFilteredData"
-        
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                url,
-                headers={
-                    "User-Agent": "Mozilla/5.0",
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                data={
-                    "country[]": ["5", "6", "22", "17", "35", "25", "4", "72"],  # Major currencies
-                    "dateFrom": date_from,
-                    "dateTo": date_to,
-                    "currentTab": "custom",
-                    "limit_from": "0",
-                },
-                timeout=15
-            )
-            
-            if response.status_code == 200:
-                # Parse response (simplified)
-                return []
-        
-    except Exception as e:
-        print(f"Error fetching Investing.com: {e}")
-    
+    # Note: Investing.com requires more complex parsing
+    # ForexFactory JSON feed is simpler and more reliable
+    print("Investing.com backup not implemented, using ForexFactory as primary")
     return []
 
 
 def generate_sample_events() -> List[dict]:
     """
-    Generate sample economic events for testing
-    In production, replace with real data source
+    Generate sample economic events as FALLBACK only
+    Used when ForexFactory API is unavailable
+    WARNING: These are NOT real events!
     """
+    print("WARNING: Using sample/fallback calendar data - ForexFactory API unavailable")
     now = datetime.now()
     events = []
     
@@ -223,7 +243,7 @@ def generate_sample_events() -> List[dict]:
 
 async def get_cached_events(force_refresh: bool = False) -> List[dict]:
     """Get events from cache or fetch new ones"""
-    cache = load_json_file(EVENTS_CACHE_FILE, {"events": [], "updated_at": None})
+    cache = load_json_file(EVENTS_CACHE_FILE, {"events": [], "updated_at": None, "source": None})
     
     # Check if cache is fresh
     should_refresh = force_refresh
@@ -239,22 +259,33 @@ async def get_cached_events(force_refresh: bool = False) -> List[dict]:
         should_refresh = True
     
     if should_refresh:
-        # Try to fetch from external sources
-        events = await fetch_forex_factory_events()
+        source = "unknown"
         
+        # Try to fetch from ForexFactory (primary source)
+        events = await fetch_forex_factory_events()
+        if events:
+            source = "forexfactory"
+        
+        # Fallback to Investing.com
         if not events:
             events = await fetch_investing_com_events()
+            if events:
+                source = "investing.com"
         
+        # Last resort: sample data
         if not events:
-            # Fallback to sample data
             events = generate_sample_events()
+            source = "sample_data_fallback"
         
-        # Save to cache
+        # Save to cache with source info
         cache = {
             "events": events,
             "updated_at": datetime.now().isoformat(),
+            "source": source,
+            "event_count": len(events),
         }
         save_json_file(EVENTS_CACHE_FILE, cache)
+        print(f"Calendar cache updated: {len(events)} events from {source}")
     
     return cache.get("events", [])
 
@@ -353,10 +384,26 @@ async def get_events(
     - hours_ahead: Number of hours to look ahead (1-168)
     - impact: Filter by impact level (high, medium, low)
     - currency: Filter by currency code
+    
+    Data Source: ForexFactory (https://nfs.faireconomy.media/ff_calendar_thisweek.json)
     """
     events = await get_cached_events()
     filtered = filter_events(events, hours_ahead, impact, currency)
-    return filtered
+    
+    # Load cache to check source
+    cache = load_json_file(EVENTS_CACHE_FILE, {})
+    
+    return {
+        "events": filtered,
+        "count": len(filtered),
+        "source": cache.get("source", "unknown"),
+        "updated_at": cache.get("updated_at"),
+        "filters": {
+            "hours_ahead": hours_ahead,
+            "impact": impact,
+            "currency": currency
+        }
+    }
 
 
 @router.get("/high-impact-today")
@@ -385,13 +432,15 @@ async def get_high_impact_today():
 
 @router.post("/refresh")
 async def refresh_calendar():
-    """Force refresh calendar data"""
+    """Force refresh calendar data from ForexFactory"""
     try:
         events = await get_cached_events(force_refresh=True)
+        cache = load_json_file(EVENTS_CACHE_FILE, {})
         return {
             "success": True,
             "message": "Calendar refreshed",
             "event_count": len(events),
+            "source": cache.get("source", "unknown"),
             "updated_at": datetime.now().isoformat()
         }
     except Exception as e:
