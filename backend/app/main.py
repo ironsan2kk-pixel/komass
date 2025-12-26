@@ -255,14 +255,6 @@ try:
 except ImportError as e:
     logger.warning(f"[SKIP] settings_routes: {e}")
 
-# Calendar Routes
-try:
-    from app.api.calendar_routes import router as calendar_router
-    app.include_router(calendar_router)
-    logger.info("[OK] Loaded: calendar_routes")
-except ImportError as e:
-    logger.warning(f"[SKIP] calendar_routes: {e}")
-
 
 # ============ LOG ENDPOINTS ============
 
@@ -376,8 +368,7 @@ async def root():
             "plugins": "/api/plugins/",
             "ws": "/api/ws/",
             "db": "/api/db/",
-            "settings": "/api/settings/",
-            "calendar": "/api/calendar/"
+            "settings": "/api/settings/"
         }
     }
 

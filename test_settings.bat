@@ -1,0 +1,21 @@
+@echo off
+chcp 65001 >nul
+echo ============================================
+echo   KOMAS - Testing Settings API
+echo ============================================
+echo.
+
+cd /d "%~dp0"
+
+echo [1/2] Installing test dependencies...
+call backend\venv\Scripts\activate.bat
+pip install pytest httpx psutil cryptography pydantic --quiet
+
+echo.
+echo [2/2] Running tests...
+set PYTHONPATH=%cd%
+python -m pytest tests/test_settings.py -v --tb=short
+
+echo.
+echo Done!
+pause

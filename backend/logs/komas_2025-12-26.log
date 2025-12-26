@@ -2076,3 +2076,39 @@
 2025-12-26 17:42:04 | INFO     | app.main                  | [1742045820] OK POST /api/calendar/refresh - 200 (236ms)
 2025-12-26 17:42:04 | DEBUG    | app.main                  | [1742048250] GET /api/calendar/events
 2025-12-26 17:42:04 | INFO     | app.main                  | [1742048250] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:43:05 | DEBUG    | app.main                  | [1743051353] GET /api/calendar/events
+2025-12-26 17:43:05 | INFO     | app.main                  | [1743051353] OK GET /api/calendar/events - 200 (2ms)
+2025-12-26 17:43:44 | DEBUG    | app.main                  | [1743443216] GET /api/db/presets
+2025-12-26 17:43:44 | INFO     | app.core.database         | Initializing database: C:\Users\Administrator\Desktop\komass\data\komas.db
+2025-12-26 17:43:44 | INFO     | app.core.database         | ✓ Database tables created
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing <function connect.<locals>.connector at 0x000001ACD7CE8E00>
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation <function connect.<locals>.connector at 0x000001ACD7CE8E00> completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ACD7CF44F0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001ACD7CBEF20>, deterministic=True)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ACD7CF44F0>, 'regexp', 2, <function SQLiteDialect_pysqlite.on_connect.<locals>.regexp at 0x000001ACD7CBEF20>, deterministic=True) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ACD7CF44F0>, 'floor', 1, <built-in function floor>, deterministic=True)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method create_function of sqlite3.Connection object at 0x000001ACD7CF44F0>, 'floor', 1, <built-in function floor>, deterministic=True) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ACD7CF44F0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ACD7CF44F0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ACD7CE49C0>, 'PRAGMA read_uncommitted', [])
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ACD7CE49C0>, 'PRAGMA read_uncommitted', []) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ACD7CE49C0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ACD7CE49C0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ACD7CE49C0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ACD7CE49C0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ACD7CF44F0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ACD7CF44F0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ACD7CF44F0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method cursor of sqlite3.Connection object at 0x000001ACD7CF44F0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ACD7CE4340>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0))
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method execute of sqlite3.Cursor object at 0x000001ACD7CE4340>, 'SELECT presets.id, presets.name, presets.description, presets.indicator_type, presets.settings, presets.is_default, presets.is_favorite, presets.tags, presets.win_rate, presets.profit_factor, presets.total_profit_percent, presets.max_drawdown_percent, presets.sharpe_ratio, presets.created_at, presets.updated_at, presets.last_used_at \nFROM presets ORDER BY presets.updated_at DESC\n LIMIT ? OFFSET ?', (100, 0)) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ACD7CE4340>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method fetchall of sqlite3.Cursor object at 0x000001ACD7CE4340>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ACD7CE4340>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method close of sqlite3.Cursor object at 0x000001ACD7CE4340>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001ACD7CF44F0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method commit of sqlite3.Connection object at 0x000001ACD7CF44F0>) completed
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | executing functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ACD7CF44F0>)
+2025-12-26 17:43:44 | DEBUG    | aiosqlite                 | operation functools.partial(<built-in method rollback of sqlite3.Connection object at 0x000001ACD7CF44F0>) completed
+2025-12-26 17:43:44 | INFO     | app.main                  | [1743443216] OK GET /api/db/presets - 200 (52ms)
+2025-12-26 17:43:44 | DEBUG    | app.main                  | [1743446240] GET /api/data/symbols
+2025-12-26 17:43:44 | INFO     | app.main                  | [1743446240] OK GET /api/data/symbols - 200 (3ms)
