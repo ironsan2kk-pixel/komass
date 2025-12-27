@@ -15,6 +15,37 @@
 
 ---
 
+## 🎯 ФАЗА 2: DOMINANT INDICATOR (В ПРОЦЕССЕ)
+
+### Chat #20: Dominant — Core ✅
+**Коммит:** _pending_
+
+| Сделано | Описание |
+|---------|----------|
+| indicators module | Создан `backend/app/indicators/` |
+| dominant.py | Channel + Fibonacci calculation |
+| Channel | high_channel, low_channel, mid_channel |
+| Fibonacci | 0.236, 0.382, 0.500, 0.618 от low и high |
+| Validation | sensitivity 12-60, DataFrame validation |
+| Helpers | get_current_levels, get_indicator_info |
+| Unit tests | 8 тестов, все проходят |
+
+**Новые файлы:**
+- `backend/app/indicators/__init__.py`
+- `backend/app/indicators/dominant.py`
+- `tests/test_dominant.py`
+- `test_dominant.bat`
+
+**API функции:**
+```python
+calculate_dominant(df, sensitivity=21) -> DataFrame
+get_current_levels(df) -> Dict[str, float]
+get_indicator_info() -> Dict[str, Any]
+validate_sensitivity(value) -> int
+```
+
+---
+
 ## ✅ ФАЗА 1: СТАБИЛИЗАЦИЯ (ЗАВЕРШЕНА)
 
 ### Chat #19: Data Caching ✅
@@ -79,140 +110,69 @@
 
 | Проблема | Решение |
 |----------|---------|
-| MonthlyPanel crash | null checks |
-| StatsPanel undefined | default values |
-| Mojibake | UTF-8 encoding |
+| Monthly белый экран | `data?.results ?? []` |
+| StatsPanel ошибки | Null checks |
+| TradesTable краш | Optional chaining |
+| HeatmapPanel пустой | Empty state handling |
 
-**Файлы:** `Indicator.jsx`, `MonthlyPanel.jsx`, `StatsPanel.jsx`, и др.
+**Файлы:** Все компоненты в `components/Indicator/`
 
----
-
-## ⏳ ФАЗА 2: DOMINANT INDICATOR
-
-### Chat #20: Dominant — Core
-**Статус:** NEXT
-
-| Задача | Файл |
-|--------|------|
-| Channel calculation | dominant.py |
-| Fibonacci levels | dominant.py |
-| sensitivity param | dominant.py |
-| Unit tests | test_dominant.py |
+**Уроки:** Всегда `data?.field ?? default`
 
 ---
 
-### Chat #21: Dominant — Signals
-**Статус:** ⬜
+## 🔍 БЫСТРЫЙ ПОИСК
 
-| Задача |
-|--------|
-| can_long conditions |
-| can_short conditions |
-| Close on reverse |
-
----
-
-### Chat #22: Dominant — Filters
-**Статус:** ⬜
-
-| Filter Type | Description |
-|-------------|-------------|
-| 0 | None |
-| 1 | ATR Condition |
-| 2 | RSI |
-| 3 | ATR + RSI |
-| 4 | Volatility |
-
----
-
-### Chat #23: Dominant — SL Modes
-**Статус:** ⬜
-
-| Mode | Description |
-|------|-------------|
-| 0 | No SL movement |
-| 1 | After TP1 → Entry |
-| 2 | After TP2 → Entry |
-| 3 | After TP3 → Entry |
-| 4 | Cascade trailing |
-
----
-
-### Chat #24: QA Checkpoint #2
-**Статус:** ⬜
-
-| Проверка |
-|----------|
-| Backend логи |
-| Frontend DevTools |
-| Dominant расчёты |
-| TRG не сломан |
-
----
-
-## 🔍 ИНДЕКСЫ
+### По теме:
+| Тема | Чаты |
+|------|------|
+| UI/Frontend | #15, #18, #19 |
+| Backend | #16, #19, #20 |
+| Data/API | #17, #18 |
+| Indicators | #20 |
+| Caching | #19 |
+| Dominant | #20 |
 
 ### По файлу:
-
 | Файл | Чаты |
 |------|------|
 | indicator_routes.py | #16, #18, #19 |
 | data_routes.py | #16, #17 |
 | Indicator.jsx | #15, #18, #19 |
-| SettingsSidebar.jsx | #15, #18, #19 |
+| SettingsSidebar.jsx | #18, #19 |
 | StatsPanel.jsx | #15, #18, #19 |
-| MonthlyPanel.jsx | #15 |
-| Data.jsx | #17 |
-| dominant.py | #20 (planned) |
-
-### По проблеме:
-
-| Проблема | Чат | Решение |
-|----------|-----|---------|
-| Белый экран | #15 | null checks |
-| Mojibake | #15, #16 | UTF-8 |
-| Network Error | #16 | Дедупликация |
-| ProcessPoolExecutor | #16 | Imports top |
-| includes undefined | #19 | null check |
-
-### По типу:
-
-| Тип | Чаты |
-|-----|------|
-| Bugfix | #15, #16, #19 |
-| Refactor | #17 |
-| Feature | #18, #19 |
-| New Indicator | #20-#28 |
-| QA Checkpoint | #24, #29... |
+| dominant.py | #20 |
 
 ---
 
-## 📦 ЭРА 1: ПЛАГИНЫ (#00-#14)
+## 📝 СТАНДАРТЫ КОДА
 
-> ⚠️ **Экспериментальный код — НЕ в production**
+### Python (Backend)
+```python
+# Encoding для файлов
+with open(path, 'w', encoding='utf-8') as f:
+    ...
 
-| # | Чат | Создано |
-|---|-----|---------|
-| 00 | Планирование | Master Plan |
-| 01 | Core: Logger | config.py, logger.py |
-| 02 | Core: Database | database.py, models.py |
-| 03 | Data: Manager | binance.py, storage.py |
-| 04 | Data: WebSocket | websocket.py |
-| 05 | Indicators: Base | 5 классов (~2300 строк) |
-| 06 | PluginLoader | registry.py, loader.py |
-| 07 | TRG: Core | indicator.py, signals.py |
-| 08 | TRG: Trading | trading.py |
-| 09 | TRG: Filters | 4 фильтра |
-| 10 | TRG: Optimizer | optimizer.py |
-| 11 | TRG: Backtest | backtest.py |
-| 12 | TRG: UI Schema | ui_schema.py |
-| 13 | API: Indicator | indicator.py |
-| 14 | Frontend | App, Data, Settings |
+# Imports в начале для ProcessPoolExecutor
+import pandas as pd  # Первые строки!
 
-**Расположение:** `backend/app/core/`, `backend/app/indicators/`, `backend/app/plugins/`
+# Валидация параметров
+def validate_param(value: int) -> int:
+    return max(MIN, min(MAX, int(value)))
+```
 
-**Статус:** Не трогать, может пригодиться позже
+### JavaScript (Frontend)
+```javascript
+// Null-safe access
+const value = data?.field ?? defaultValue;
+
+// Array check
+const items = Array.isArray(data) ? data : [];
+
+// Conditional rendering
+{data && data.length > 0 && <Component />}
+```
 
 ---
 
-*Обновлено: 27.12.2025 после Chat #19*
+*Обновлено: 27.12.2025 (Chat #20)*

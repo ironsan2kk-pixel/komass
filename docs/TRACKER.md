@@ -1,7 +1,7 @@
 # KOMAS v4 — Трекер прогресса
 
 > **Обновляется после каждого чата**  
-> **Последнее обновление:** 27.12.2025, Chat #19
+> **Последнее обновление:** 27.12.2025, Chat #20
 
 ---
 
@@ -9,13 +9,13 @@
 
 ```
 Версия:     v3.5 → v4.0
-Прогресс:   █████░░░░░░░░░░░░░░░ 5/98 чатов (5.1%)
-Фаза:       1 — Стабилизация ✅ ЗАВЕРШЕНА
+Прогресс:   ██████░░░░░░░░░░░░░░ 6/98 чатов (6.1%)
+Фаза:       2 — Dominant Indicator (1/9)
 ```
 
 ---
 
-## ✅ ЗАВЕРШЁННАЯ ФАЗА
+## ✅ ЗАВЕРШЁННЫЕ ФАЗЫ
 
 ### Фаза 1: Стабилизация (#15-#19) — COMPLETE ✅
 
@@ -42,8 +42,8 @@
 
 | # | Чат | Статус | Описание |
 |---|-----|--------|----------|
-| **20** | **Dominant: Core** | **⏳ NEXT** | Channel + Fibonacci |
-| 21 | Dominant: Signals | ⬜ | can_long, can_short |
+| 20 | Dominant: Core | ✅ | Channel + Fibonacci |
+| **21** | **Dominant: Signals** | **⏳ NEXT** | can_long, can_short |
 | 22 | Dominant: Filters | ⬜ | 5 filter types |
 | 23 | Dominant: SL Modes | ⬜ | 5 SL modes |
 | 24 | QA Checkpoint #2 | ⬜ | Проверка |
@@ -54,25 +54,34 @@
 
 ---
 
-## ⏭️ СЛЕДУЮЩИЙ ЧАТ
+## ✅ ЗАВЕРШЁННЫЙ ЧАТ #20
 
-### Chat #20: Dominant — Core
+### Chat #20: Dominant — Core ✅
 
 **Цель:** Создать базовый расчёт индикатора Dominant
 
-**Задачи:**
-- [ ] Создать `backend/app/indicators/dominant.py`
-- [ ] Расчёт Channel: high_channel, low_channel, mid
-- [ ] Расчёт Fibonacci levels: 0.236, 0.382, 0.5, 0.618
-- [ ] Параметр `sensitivity` (12-60, default 21)
-- [ ] Функция `calculate_dominant(df, sensitivity)`
-- [ ] Unit тесты
+**Выполнено:**
+- [x] Создать `backend/app/indicators/__init__.py`
+- [x] Создать `backend/app/indicators/dominant.py`
+- [x] Расчёт Channel: high_channel, low_channel, mid_channel, channel_range
+- [x] Расчёт Fibonacci levels: 0.236, 0.382, 0.500, 0.618
+- [x] Fibonacci levels от high_channel (для short)
+- [x] Параметр `sensitivity` (12-60, default 21)
+- [x] Функция `calculate_dominant(df, sensitivity)`
+- [x] Функция `get_current_levels(df)` 
+- [x] Функция `get_indicator_info()`
+- [x] Валидация входных данных
+- [x] Unit тесты (8 тестов)
+- [x] ZIP архив готов
 
-**Файлы:**
+**Созданные файлы:**
 ```
 backend/app/indicators/
-├── __init__.py      # NEW
-└── dominant.py      # NEW (~200 строк)
+├── __init__.py      # Module exports
+└── dominant.py      # ~300 строк
+tests/
+└── test_dominant.py # Unit tests
+test_dominant.bat    # Windows test runner
 ```
 
 **Алгоритм:**
@@ -80,58 +89,66 @@ backend/app/indicators/
 # Channel
 high_channel = df['high'].rolling(sensitivity).max()
 low_channel = df['low'].rolling(sensitivity).min()
-mid = (high_channel + low_channel) / 2
+mid_channel = (high_channel + low_channel) / 2
 channel_range = high_channel - low_channel
 
-# Fibonacci levels (from low_channel)
+# Fibonacci levels (from low_channel for longs)
 fib_236 = low_channel + channel_range * 0.236
 fib_382 = low_channel + channel_range * 0.382
 fib_500 = low_channel + channel_range * 0.500
 fib_618 = low_channel + channel_range * 0.618
+
+# Fibonacci levels (from high_channel for shorts)
+fib_236_high = high_channel - channel_range * 0.236
+fib_382_high = high_channel - channel_range * 0.382
+...
 ```
 
-**Критерии завершения:**
-- [ ] dominant.py создан и работает
-- [ ] Все уровни рассчитываются корректно
-- [ ] Unit тесты проходят
-- [ ] ZIP архив готов
-- [ ] Git commit написан
+---
+
+## ⏭️ СЛЕДУЮЩИЙ ЧАТ
+
+### Chat #21: Dominant — Signals
+
+**Цель:** Добавить генерацию торговых сигналов
+
+**Задачи:**
+- [ ] Условия `can_long` (close > mid, confirmation)
+- [ ] Условия `can_short` (close < mid, confirmation)
+- [ ] Трекинг тренда: `is_long_trend`, `is_short_trend`
+- [ ] Close on reverse signal
+- [ ] Entry price calculation
+- [ ] Unit тесты
+
+**Логика сигналов:**
+```python
+# Long signal
+can_long = (close >= imba_trend_line) & (close >= fib_236) & (close > open)
+
+# Short signal
+can_short = (close <= imba_trend_line) & (close <= fib_786) & (close < open)
+```
 
 ---
 
-## 📅 ПЛАН ФАЗ
+## 📈 СТАТИСТИКА
 
-| Фаза | Чаты | Прогресс |
-|------|------|----------|
-| 1. Стабилизация | #15-19 | ██████ 100% ✅ |
-| 2. Dominant | #20-28 | ░░░░░░ 0% |
-| 3. Presets | #29-36 | ░░░░░░ 0% |
-| 4. Signal Score | #37-40 | ░░░░░░ 0% |
-| 5. Filters | #41-49 | ░░░░░░ 0% |
-| 6. Preset Optimizer | #50-54 | ░░░░░░ 0% |
-| 7. Bot Config | #55-59 | ░░░░░░ 0% |
-| 8. Bot Backtest | #60-66 | ░░░░░░ 0% |
-| 9. Bot Optimizer | #67-71 | ░░░░░░ 0% |
-| 10. Live Engine | #72-78 | ░░░░░░ 0% |
-| 11. Telegram | #79-86 | ░░░░░░ 0% |
-| 12. UI Redesign | #87-91 | ░░░░░░ 0% |
-| 13. Final QA | #92-95 | ░░░░░░ 0% |
-| 14. Release | #96-98 | ░░░░░░ 0% |
-
-**Всего:** 98 чатов (включая 15 QA Checkpoints)
+| Метрика | Значение |
+|---------|----------|
+| Чатов завершено | 6 |
+| Чатов осталось | 92 |
+| Фаз завершено | 1 |
+| Фаз всего | 14 |
+| QA checkpoints | 0/15 |
 
 ---
 
-## 🐛 ИЗВЕСТНЫЕ БАГИ
+## 🔗 ССЫЛКИ
 
-| Баг | Статус | Чат |
-|-----|--------|-----|
-| Duplicate timestamps | ✅ Fixed | #16 |
-| Mojibake UI | ✅ Fixed | #15 |
-| Mojibake Backend | ✅ Fixed | #16 |
-| MonthlyPanel crash | ✅ Fixed | #15 |
-| includes undefined | ✅ Fixed | #19 |
+- **GitHub:** https://github.com/ironsan2kk-pixel/komass
+- **Документация:** /docs
+- **API:** http://localhost:8000/docs
 
 ---
 
-*Обновлено: 27.12.2025 после Chat #19*
+*Обновлено: 27.12.2025 (Chat #20)*
