@@ -215,7 +215,7 @@ const Indicator = () => {
     setSelectedPreset(preset);
     
     // Extract params and apply to settings
-    const params = preset.params || {};
+    const params = preset.params && Object.keys(preset.params).length > 0 ? preset.params : preset;
     const newSettings = {
       dominant_sensitivity: params.sensitivity ?? params.sens ?? 21,
       dominant_filter_type: params.filter_type ?? params.filterType ?? 0,

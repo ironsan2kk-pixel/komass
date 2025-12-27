@@ -424,20 +424,94 @@ async def calculate_indicator(settings: IndicatorSettings):
                     except:
                         pass
             
-            # Build stats in expected format
+            # Build stats in expected format (matching TRG format for frontend)
+            pnl_percent = metrics.get('pnl_percent', 0)
+            initial_capital = settings.initial_capital
+            final_capital = initial_capital * (1 + pnl_percent / 100)
+            
+            # Helper: convert boolean tps_hit to list of TP numbers
+            def convert_tps_hit(tps_hit_bool):
+                """Convert [True, False, True, False] to [1, 3]"""
+                if not tps_hit_bool:
+                    return []
+                return [i + 1 for i, hit in enumerate(tps_hit_bool) if hit]
+            
+            # Calculate profit_panel from trades (TP hits statistics)
+            profit_panel = {}
+            for tp_num in range(1, 5):  # TP1-TP4 for Dominant
+                tp_key = f'tp{tp_num}'
+                winning = 0
+                tp_profit = 0.0
+                
+                for trade in trades:
+                    tps_hit = trade.get('tps_hit', [])
+                    # tps_hit is boolean list: [True, False, False, False]
+                    # Check if TP was hit (index = tp_num - 1)
+                    tp_idx = tp_num - 1
+                    if len(tps_hit) > tp_idx and tps_hit[tp_idx]:
+                        winning += 1
+                        # Calculate profit contribution from this TP
+                        if trade.get('pnl_percent', 0) > 0:
+                            hits_count = sum(1 for h in tps_hit if h)
+                            tp_profit += trade.get('pnl_percent', 0) / max(hits_count, 1)
+                
+                profit_panel[tp_key] = {
+                    'winning': winning,
+                    'profit': round(tp_profit, 2),
+                    'loss': 0
+                }
+            
+            # Calculate winning/losing counts
+            winning_trades = len([t for t in trades if t.get('pnl_percent', 0) > 0])
+            losing_trades = len([t for t in trades if t.get('pnl_percent', 0) <= 0])
+            
+            # Calculate Long/Short breakdown
+            long_trades_list = [t for t in trades if t.get('direction') == 1 or str(t.get('direction', '')).upper() == 'LONG']
+            short_trades_list = [t for t in trades if t.get('direction') == -1 or str(t.get('direction', '')).upper() == 'SHORT']
+            
+            long_trades_count = len(long_trades_list)
+            short_trades_count = len(short_trades_list)
+            long_wins = len([t for t in long_trades_list if t.get('pnl_percent', 0) > 0])
+            short_wins = len([t for t in short_trades_list if t.get('pnl_percent', 0) > 0])
+            
+            long_win_rate = round(long_wins / long_trades_count * 100, 1) if long_trades_count > 0 else 0
+            short_win_rate = round(short_wins / short_trades_count * 100, 1) if short_trades_count > 0 else 0
+            
+            # Calculate best/worst trade
+            trade_pnls = [t.get('pnl_percent', 0) for t in trades]
+            best_trade = max(trade_pnls) if trade_pnls else 0
+            worst_trade = min(trade_pnls) if trade_pnls else 0
+            
             stats = {
                 'total_trades': metrics.get('total_trades', len(trades)),
-                'win_rate': metrics.get('win_rate', 0),
-                'profit_factor': metrics.get('profit_factor', 0),
-                'total_pnl': metrics.get('pnl_percent', 0),
-                'max_drawdown': metrics.get('max_drawdown', 0),
-                'avg_trade': metrics.get('avg_pnl', 0),
-                'best_trade': metrics.get('best_trade', 0),
-                'worst_trade': metrics.get('worst_trade', 0),
-                'long_trades': dominant_result.get('summary', {}).get('long_trades', 0),
-                'short_trades': dominant_result.get('summary', {}).get('short_trades', 0),
-                'winning_trades': metrics.get('winning_trades', 0),
-                'losing_trades': metrics.get('losing_trades', 0),
+                'win_rate': round(metrics.get('win_rate', 0), 2),
+                'profit_factor': round(metrics.get('profit_factor', 0), 4),
+                'max_drawdown': round(metrics.get('max_drawdown', 0), 2),
+                'avg_win': round(metrics.get('avg_win', 0), 2),
+                'avg_loss': round(metrics.get('avg_loss', 0), 2),
+                'avg_trade': round(metrics.get('avg_trade', 0), 2),
+                'best_trade': round(best_trade, 2),
+                'worst_trade': round(worst_trade, 2),
+                'total_pnl': round(pnl_percent, 2),
+                'profit_pct': round(pnl_percent, 2),
+                'initial_capital': initial_capital,
+                'final_capital': round(final_capital, 2),
+                'long_trades': long_trades_count,
+                'short_trades': short_trades_count,
+                'long_wins': long_wins,
+                'short_wins': short_wins,
+                'long_win_rate': long_win_rate,
+                'short_win_rate': short_win_rate,
+                'winning_trades': winning_trades,
+                'losing_trades': losing_trades,
+                'sharpe_ratio': round(metrics.get('sharpe_ratio', 0), 2),
+                'sharpe': round(metrics.get('sharpe_ratio', 0), 2),  # Alias for frontend
+                'recovery_factor': round(pnl_percent / metrics.get('max_drawdown', 1), 2) if metrics.get('max_drawdown', 0) > 0 else 0,
+                'profit_panel': profit_panel,
+                # Re-entry stats (Dominant doesn't support re-entry)
+                'reentry_trades': 0,
+                'reentry_wins': 0,
+                'reentry_win_rate': 0,
             }
             
             # Build monthly stats from trades
@@ -492,6 +566,10 @@ async def calculate_indicator(settings: IndicatorSettings):
                 entry_time = df.index[min(entry_idx, len(df) - 1)]
                 exit_time = df.index[min(exit_idx, len(df) - 1)]
                 
+                # Convert boolean tps_hit to list of TP numbers [1, 2, 3, 4]
+                tps_hit_bool = trade.get('tps_hit', [])
+                tps_hit_nums = [i + 1 for i, hit in enumerate(tps_hit_bool) if hit]
+                
                 adapted_trade = {
                     'entry_time': entry_time.isoformat(),
                     'exit_time': exit_time.isoformat(),
@@ -501,11 +579,29 @@ async def calculate_indicator(settings: IndicatorSettings):
                     'pnl': trade.get('pnl_percent', 0),  # Map pnl_percent to pnl
                     'exit_reason': trade.get('exit_reason', 'unknown'),
                     'is_reentry': False,
-                    'tps_hit': trade.get('tps_hit', []),
+                    'tps_hit': tps_hit_nums,  # Now [1, 2, 3] format
                 }
                 adapted_trades.append(adapted_trade)
             
             trade_markers = prepare_trade_markers(adapted_trades)
+            
+            # Calculate TP accuracy breakdown for Dominant
+            accuracy = {}
+            for n in [5, 10, 20, 50, 100]:
+                recent = adapted_trades[-n:] if len(adapted_trades) >= n else adapted_trades
+                accuracy[f"last_{n}"] = {}
+                for tp_num in range(1, 5):  # TP1-TP4 for Dominant
+                    hits = sum(1 for t in recent if tp_num in t.get('tps_hit', []))
+                    accuracy[f"last_{n}"][f"tp{tp_num}"] = round(hits / len(recent) * 100, 1) if recent else 0
+            
+            # Overall accuracy
+            accuracy["total"] = {}
+            for tp_num in range(1, 5):
+                hits = sum(1 for t in adapted_trades if tp_num in t.get('tps_hit', []))
+                accuracy["total"][f"tp{tp_num}"] = round(hits / len(adapted_trades) * 100, 2) if adapted_trades else 0
+            
+            # Add accuracy to stats
+            stats['accuracy'] = accuracy
             
             # Build result
             result = {
