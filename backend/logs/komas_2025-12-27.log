@@ -3439,3 +3439,310 @@
 2025-12-27 22:09:40 | INFO     | app.main             | log_requests         | [2209407103] ✔ GET /api/indicator/cache-stats - 200 (0ms)
 2025-12-27 22:09:41 | DEBUG    | app.main             | log_requests         | [2209410231] GET /api/indicator/cache-stats
 2025-12-27 22:09:41 | INFO     | app.main             | log_requests         | [2209410231] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:11:26 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 22:11:26 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 22:11:27 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 22:11:27 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 22:11:27 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 22:11:27 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 22:11:27 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 22:11:27 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 22:11:27 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 22:11:27 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 22:11:31 | DEBUG    | app.main             | log_requests         | [2211316847] GET /api/trg-presets/stats
+2025-12-27 22:11:31 | INFO     | app.main             | log_requests         | [2211316847] ✔ GET /api/trg-presets/stats - 200 (8ms)
+2025-12-27 22:11:39 | DEBUG    | app.main             | log_requests         | [2211394757] GET /api/indicator/cache-stats
+2025-12-27 22:11:39 | INFO     | app.main             | log_requests         | [2211394757] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:11:41 | DEBUG    | app.main             | log_requests         | [2211411209] GET /api/indicator/cache-stats
+2025-12-27 22:11:41 | INFO     | app.main             | log_requests         | [2211411209] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 22:11:41 | DEBUG    | app.main             | log_requests         | [2211411250] GET /api/indicator/cache-stats
+2025-12-27 22:11:41 | INFO     | app.main             | log_requests         | [2211411250] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 22:11:56 | DEBUG    | app.main             | log_requests         | [2211567162] GET /api/indicator/cache-stats
+2025-12-27 22:11:56 | INFO     | app.main             | log_requests         | [2211567162] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:12:11 | DEBUG    | app.main             | log_requests         | [2212111281] GET /api/indicator/cache-stats
+2025-12-27 22:12:11 | INFO     | app.main             | log_requests         | [2212111281] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:12:18 | DEBUG    | app.main             | log_requests         | [2212185707] GET /SDK/webLanguage
+2025-12-27 22:12:18 | INFO     | app.main             | log_requests         | [2212185707] ✗ GET /SDK/webLanguage - 404 (0ms)
+2025-12-27 22:12:26 | DEBUG    | app.main             | log_requests         | [2212267151] GET /api/indicator/cache-stats
+2025-12-27 22:12:26 | INFO     | app.main             | log_requests         | [2212267151] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:12:41 | DEBUG    | app.main             | log_requests         | [2212411285] GET /api/indicator/cache-stats
+2025-12-27 22:12:41 | INFO     | app.main             | log_requests         | [2212411285] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:13:11 | DEBUG    | app.main             | log_requests         | [2213114193] GET /api/indicator/cache-stats
+2025-12-27 22:13:11 | INFO     | app.main             | log_requests         | [2213114193] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:13:28 | DEBUG    | app.main             | log_requests         | [2213284090] GET /api/indicator/cache-stats
+2025-12-27 22:13:28 | INFO     | app.main             | log_requests         | [2213284090] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:13:41 | DEBUG    | app.main             | log_requests         | [2213414312] GET /api/indicator/cache-stats
+2025-12-27 22:13:41 | INFO     | app.main             | log_requests         | [2213414312] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:13:49 | DEBUG    | app.main             | log_requests         | [2213498656] GET /api/presets/dominant/list
+2025-12-27 22:13:49 | INFO     | app.main             | log_requests         | [2213498656] ✗ GET /api/presets/dominant/list - 404 (0ms)
+2025-12-27 22:13:55 | DEBUG    | app.main             | log_requests         | [2213552090] GET /api/indicator/cache-stats
+2025-12-27 22:13:55 | INFO     | app.main             | log_requests         | [2213552090] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 22:13:55 | DEBUG    | app.main             | log_requests         | [2213552158] GET /api/indicator/cache-stats
+2025-12-27 22:13:55 | INFO     | app.main             | log_requests         | [2213552158] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:13:56 | DEBUG    | app.main             | log_requests         | [2213567112] GET /api/presets/dominant/list
+2025-12-27 22:13:56 | INFO     | app.main             | log_requests         | [2213567112] ✗ GET /api/presets/dominant/list - 404 (1ms)
+2025-12-27 22:14:25 | DEBUG    | app.main             | log_requests         | [2214252096] GET /api/indicator/cache-stats
+2025-12-27 22:14:25 | INFO     | app.main             | log_requests         | [2214252096] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:14:29 | DEBUG    | app.main             | log_requests         | [2214294100] GET /api/indicator/cache-stats
+2025-12-27 22:14:29 | INFO     | app.main             | log_requests         | [2214294100] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:14:55 | DEBUG    | app.main             | log_requests         | [2214552063] GET /api/indicator/cache-stats
+2025-12-27 22:14:55 | INFO     | app.main             | log_requests         | [2214552063] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:15:25 | DEBUG    | app.main             | log_requests         | [2215255187] GET /api/indicator/cache-stats
+2025-12-27 22:15:25 | INFO     | app.main             | log_requests         | [2215255187] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:15:30 | DEBUG    | app.main             | log_requests         | [2215304042] GET /api/indicator/cache-stats
+2025-12-27 22:15:30 | INFO     | app.main             | log_requests         | [2215304042] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:15:55 | DEBUG    | app.main             | log_requests         | [2215555217] GET /api/indicator/cache-stats
+2025-12-27 22:15:55 | INFO     | app.main             | log_requests         | [2215555217] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:16:25 | DEBUG    | app.main             | log_requests         | [2216252084] GET /api/indicator/cache-stats
+2025-12-27 22:16:25 | INFO     | app.main             | log_requests         | [2216252084] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:16:31 | DEBUG    | app.main             | log_requests         | [2216317025] GET /api/indicator/cache-stats
+2025-12-27 22:16:31 | INFO     | app.main             | log_requests         | [2216317025] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:16:55 | DEBUG    | app.main             | log_requests         | [2216552060] GET /api/indicator/cache-stats
+2025-12-27 22:16:55 | INFO     | app.main             | log_requests         | [2216552060] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:17:25 | DEBUG    | app.main             | log_requests         | [2217255249] GET /api/indicator/cache-stats
+2025-12-27 22:17:25 | INFO     | app.main             | log_requests         | [2217255249] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:17:32 | DEBUG    | app.main             | log_requests         | [2217324127] GET /api/indicator/cache-stats
+2025-12-27 22:17:32 | INFO     | app.main             | log_requests         | [2217324127] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:17:55 | DEBUG    | app.main             | log_requests         | [2217555243] GET /api/indicator/cache-stats
+2025-12-27 22:17:55 | INFO     | app.main             | log_requests         | [2217555243] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:18:25 | DEBUG    | app.main             | log_requests         | [2218252164] GET /api/indicator/cache-stats
+2025-12-27 22:18:25 | INFO     | app.main             | log_requests         | [2218252164] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:18:33 | DEBUG    | app.main             | log_requests         | [2218337154] GET /api/indicator/cache-stats
+2025-12-27 22:18:33 | INFO     | app.main             | log_requests         | [2218337154] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:18:55 | DEBUG    | app.main             | log_requests         | [2218552193] GET /api/indicator/cache-stats
+2025-12-27 22:18:55 | INFO     | app.main             | log_requests         | [2218552193] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:19:25 | DEBUG    | app.main             | log_requests         | [2219255187] GET /api/indicator/cache-stats
+2025-12-27 22:19:25 | INFO     | app.main             | log_requests         | [2219255187] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:19:34 | DEBUG    | app.main             | log_requests         | [2219344007] GET /api/indicator/cache-stats
+2025-12-27 22:19:34 | INFO     | app.main             | log_requests         | [2219344007] ✔ GET /api/indicator/cache-stats - 200 (6ms)
+2025-12-27 22:19:55 | DEBUG    | app.main             | log_requests         | [2219555160] GET /api/indicator/cache-stats
+2025-12-27 22:19:55 | INFO     | app.main             | log_requests         | [2219555160] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:20:25 | DEBUG    | app.main             | log_requests         | [2220252184] GET /api/indicator/cache-stats
+2025-12-27 22:20:25 | INFO     | app.main             | log_requests         | [2220252184] ✔ GET /api/indicator/cache-stats - 200 (5ms)
+2025-12-27 22:20:35 | DEBUG    | app.main             | log_requests         | [2220357068] GET /api/indicator/cache-stats
+2025-12-27 22:20:35 | INFO     | app.main             | log_requests         | [2220357068] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:20:55 | DEBUG    | app.main             | log_requests         | [2220552127] GET /api/indicator/cache-stats
+2025-12-27 22:20:55 | INFO     | app.main             | log_requests         | [2220552127] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:21:25 | DEBUG    | app.main             | log_requests         | [2221255118] GET /api/indicator/cache-stats
+2025-12-27 22:21:25 | INFO     | app.main             | log_requests         | [2221255118] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:21:36 | DEBUG    | app.main             | log_requests         | [2221363995] GET /api/indicator/cache-stats
+2025-12-27 22:21:36 | INFO     | app.main             | log_requests         | [2221363995] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:21:55 | DEBUG    | app.main             | log_requests         | [2221555122] GET /api/indicator/cache-stats
+2025-12-27 22:21:55 | INFO     | app.main             | log_requests         | [2221555122] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:22:25 | DEBUG    | app.main             | log_requests         | [2222252069] GET /api/indicator/cache-stats
+2025-12-27 22:22:25 | INFO     | app.main             | log_requests         | [2222252069] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:22:37 | DEBUG    | app.main             | log_requests         | [2222377056] GET /api/indicator/cache-stats
+2025-12-27 22:22:37 | INFO     | app.main             | log_requests         | [2222377056] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:22:55 | DEBUG    | app.main             | log_requests         | [2222552094] GET /api/indicator/cache-stats
+2025-12-27 22:22:55 | INFO     | app.main             | log_requests         | [2222552094] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:23:04 | DEBUG    | app.main             | log_requests         | [2223049722] GET /api/presets/dominant/list
+2025-12-27 22:23:04 | INFO     | app.main             | log_requests         | [2223049722] ✗ GET /api/presets/dominant/list - 404 (0ms)
+2025-12-27 22:23:25 | DEBUG    | app.main             | log_requests         | [2223252163] GET /api/indicator/cache-stats
+2025-12-27 22:23:25 | INFO     | app.main             | log_requests         | [2223252163] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:23:38 | DEBUG    | app.main             | log_requests         | [2223387128] GET /api/indicator/cache-stats
+2025-12-27 22:23:38 | INFO     | app.main             | log_requests         | [2223387128] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:23:55 | DEBUG    | app.main             | log_requests         | [2223552124] GET /api/indicator/cache-stats
+2025-12-27 22:23:55 | INFO     | app.main             | log_requests         | [2223552124] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:24:25 | DEBUG    | app.main             | log_requests         | [2224255138] GET /api/indicator/cache-stats
+2025-12-27 22:24:25 | INFO     | app.main             | log_requests         | [2224255138] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:24:39 | DEBUG    | app.main             | log_requests         | [2224394095] GET /api/indicator/cache-stats
+2025-12-27 22:24:39 | INFO     | app.main             | log_requests         | [2224394095] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:24:55 | DEBUG    | app.main             | log_requests         | [2224555145] GET /api/indicator/cache-stats
+2025-12-27 22:24:55 | INFO     | app.main             | log_requests         | [2224555145] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:25:25 | DEBUG    | app.main             | log_requests         | [2225252197] GET /api/indicator/cache-stats
+2025-12-27 22:25:25 | INFO     | app.main             | log_requests         | [2225252197] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:25:28 | DEBUG    | app.main             | log_requests         | [2225283671] GET /.well-known/rk2.php
+2025-12-27 22:25:28 | INFO     | app.main             | log_requests         | [2225283671] ✗ GET /.well-known/rk2.php - 404 (0ms)
+2025-12-27 22:25:28 | DEBUG    | app.main             | log_requests         | [2225286086] GET /ioxi-o.php
+2025-12-27 22:25:28 | INFO     | app.main             | log_requests         | [2225286086] ✗ GET /ioxi-o.php - 404 (0ms)
+2025-12-27 22:25:28 | DEBUG    | app.main             | log_requests         | [2225288625] GET /0x.php
+2025-12-27 22:25:28 | INFO     | app.main             | log_requests         | [2225288625] ✗ GET /0x.php - 404 (0ms)
+2025-12-27 22:25:29 | DEBUG    | app.main             | log_requests         | [2225290993] GET /222.php
+2025-12-27 22:25:29 | INFO     | app.main             | log_requests         | [2225290993] ✗ GET /222.php - 404 (0ms)
+2025-12-27 22:25:29 | DEBUG    | app.main             | log_requests         | [2225293582] GET /aa.php
+2025-12-27 22:25:29 | INFO     | app.main             | log_requests         | [2225293582] ✗ GET /aa.php - 404 (0ms)
+2025-12-27 22:25:29 | DEBUG    | app.main             | log_requests         | [2225295994] GET /abcd.php
+2025-12-27 22:25:29 | INFO     | app.main             | log_requests         | [2225295994] ✗ GET /abcd.php - 404 (0ms)
+2025-12-27 22:25:29 | DEBUG    | app.main             | log_requests         | [2225298519] GET /admin.php
+2025-12-27 22:25:29 | INFO     | app.main             | log_requests         | [2225298519] ✗ GET /admin.php - 404 (0ms)
+2025-12-27 22:25:30 | DEBUG    | app.main             | log_requests         | [2225301002] GET /admin/controller/extension/extension/jnweppgp.php
+2025-12-27 22:25:30 | INFO     | app.main             | log_requests         | [2225301002] ✗ GET /admin/controller/extension/extension/jnweppgp.php - 404 (0ms)
+2025-12-27 22:25:30 | DEBUG    | app.main             | log_requests         | [2225303470] GET /adminfuns.php
+2025-12-27 22:25:30 | INFO     | app.main             | log_requests         | [2225303470] ✗ GET /adminfuns.php - 404 (0ms)
+2025-12-27 22:25:30 | DEBUG    | app.main             | log_requests         | [2225305966] GET /akc.php
+2025-12-27 22:25:30 | INFO     | app.main             | log_requests         | [2225305966] ✗ GET /akc.php - 404 (0ms)
+2025-12-27 22:25:30 | DEBUG    | app.main             | log_requests         | [2225308467] GET /buy.php
+2025-12-27 22:25:30 | INFO     | app.main             | log_requests         | [2225308467] ✗ GET /buy.php - 404 (0ms)
+2025-12-27 22:25:31 | DEBUG    | app.main             | log_requests         | [2225310972] GET /cong.php
+2025-12-27 22:25:31 | INFO     | app.main             | log_requests         | [2225310972] ✗ GET /cong.php - 404 (0ms)
+2025-12-27 22:25:31 | DEBUG    | app.main             | log_requests         | [2225313471] GET /css/classwithtostring.php
+2025-12-27 22:25:31 | INFO     | app.main             | log_requests         | [2225313471] ✗ GET /css/classwithtostring.php - 404 (0ms)
+2025-12-27 22:25:31 | DEBUG    | app.main             | log_requests         | [2225315811] GET /db.php
+2025-12-27 22:25:31 | INFO     | app.main             | log_requests         | [2225315811] ✗ GET /db.php - 404 (0ms)
+2025-12-27 22:25:31 | DEBUG    | app.main             | log_requests         | [2225318385] GET /dropdown.php
+2025-12-27 22:25:31 | INFO     | app.main             | log_requests         | [2225318385] ✗ GET /dropdown.php - 404 (0ms)
+2025-12-27 22:25:32 | DEBUG    | app.main             | log_requests         | [2225320898] GET /file.php
+2025-12-27 22:25:32 | INFO     | app.main             | log_requests         | [2225320898] ✗ GET /file.php - 404 (0ms)
+2025-12-27 22:25:32 | DEBUG    | app.main             | log_requests         | [2225323367] GET /goods.php
+2025-12-27 22:25:32 | INFO     | app.main             | log_requests         | [2225323367] ✗ GET /goods.php - 404 (0ms)
+2025-12-27 22:25:32 | DEBUG    | app.main             | log_requests         | [2225325791] GET /hplfuns.php
+2025-12-27 22:25:32 | INFO     | app.main             | log_requests         | [2225325791] ✗ GET /hplfuns.php - 404 (0ms)
+2025-12-27 22:25:32 | DEBUG    | app.main             | log_requests         | [2225328370] GET /htaccess.php
+2025-12-27 22:25:32 | INFO     | app.main             | log_requests         | [2225328370] ✗ GET /htaccess.php - 404 (0ms)
+2025-12-27 22:25:33 | DEBUG    | app.main             | log_requests         | [2225330787] GET /images/wso.php
+2025-12-27 22:25:33 | INFO     | app.main             | log_requests         | [2225330787] ✗ GET /images/wso.php - 404 (0ms)
+2025-12-27 22:25:33 | DEBUG    | app.main             | log_requests         | [2225333340] GET /index/function.php
+2025-12-27 22:25:33 | INFO     | app.main             | log_requests         | [2225333340] ✗ GET /index/function.php - 404 (0ms)
+2025-12-27 22:25:33 | DEBUG    | app.main             | log_requests         | [2225335761] GET /info.php
+2025-12-27 22:25:33 | INFO     | app.main             | log_requests         | [2225335761] ✗ GET /info.php - 404 (0ms)
+2025-12-27 22:25:33 | DEBUG    | app.main             | log_requests         | [2225338195] GET /profile.php
+2025-12-27 22:25:33 | INFO     | app.main             | log_requests         | [2225338195] ✗ GET /profile.php - 404 (0ms)
+2025-12-27 22:25:34 | DEBUG    | app.main             | log_requests         | [2225340734] GET /sx.php
+2025-12-27 22:25:34 | INFO     | app.main             | log_requests         | [2225340734] ✗ GET /sx.php - 404 (0ms)
+2025-12-27 22:25:34 | DEBUG    | app.main             | log_requests         | [2225343159] GET /wp-admin/css/colors/blue/index.php
+2025-12-27 22:25:34 | INFO     | app.main             | log_requests         | [2225343159] ✗ GET /wp-admin/css/colors/blue/index.php - 404 (0ms)
+2025-12-27 22:25:34 | DEBUG    | app.main             | log_requests         | [2225345655] GET /wp-admin/images/admin.php
+2025-12-27 22:25:34 | INFO     | app.main             | log_requests         | [2225345655] ✗ GET /wp-admin/images/admin.php - 404 (0ms)
+2025-12-27 22:25:34 | DEBUG    | app.main             | log_requests         | [2225348225] GET /wp-admin/includes/
+2025-12-27 22:25:34 | INFO     | app.main             | log_requests         | [2225348225] ✗ GET /wp-admin/includes/ - 404 (0ms)
+2025-12-27 22:25:35 | DEBUG    | app.main             | log_requests         | [2225350657] GET /wp-admin/js/index.php
+2025-12-27 22:25:35 | INFO     | app.main             | log_requests         | [2225350657] ✗ GET /wp-admin/js/index.php - 404 (0ms)
+2025-12-27 22:25:35 | DEBUG    | app.main             | log_requests         | [2225353156] GET /wp-admin/js/widgets/
+2025-12-27 22:25:35 | INFO     | app.main             | log_requests         | [2225353156] ✗ GET /wp-admin/js/widgets/ - 404 (0ms)
+2025-12-27 22:25:35 | DEBUG    | app.main             | log_requests         | [2225355655] GET /wp-content/about.php
+2025-12-27 22:25:35 | INFO     | app.main             | log_requests         | [2225355655] ✗ GET /wp-content/about.php - 404 (0ms)
+2025-12-27 22:25:35 | DEBUG    | app.main             | log_requests         | [2225358159] GET /wp-content/admin-header.php
+2025-12-27 22:25:35 | INFO     | app.main             | log_requests         | [2225358159] ✗ GET /wp-content/admin-header.php - 404 (0ms)
+2025-12-27 22:25:36 | DEBUG    | app.main             | log_requests         | [2225360657] GET /wp-content/admin.php
+2025-12-27 22:25:36 | INFO     | app.main             | log_requests         | [2225360657] ✗ GET /wp-content/admin.php - 404 (3ms)
+2025-12-27 22:25:36 | DEBUG    | app.main             | log_requests         | [2225363140] GET /wp-content/content.php
+2025-12-27 22:25:36 | INFO     | app.main             | log_requests         | [2225363140] ✗ GET /wp-content/content.php - 404 (0ms)
+2025-12-27 22:25:36 | DEBUG    | app.main             | log_requests         | [2225365501] GET /wp-content/index.php
+2025-12-27 22:25:36 | INFO     | app.main             | log_requests         | [2225365501] ✗ GET /wp-content/index.php - 404 (0ms)
+2025-12-27 22:25:36 | DEBUG    | app.main             | log_requests         | [2225368051] GET /wp-content/plugins/Ultimate_VC_Addons/assets/alfa-rex.php7
+2025-12-27 22:25:36 | INFO     | app.main             | log_requests         | [2225368051] ✗ GET /wp-content/plugins/Ultimate_VC_Addons/assets/alfa-rex.php7 - 404 (0ms)
+2025-12-27 22:25:37 | DEBUG    | app.main             | log_requests         | [2225370481] GET /wp-content/plugins/about.php
+2025-12-27 22:25:37 | INFO     | app.main             | log_requests         | [2225370481] ✗ GET /wp-content/plugins/about.php - 404 (0ms)
+2025-12-27 22:25:37 | DEBUG    | app.main             | log_requests         | [2225373063] GET /wp-content/plugins/admin.php
+2025-12-27 22:25:37 | INFO     | app.main             | log_requests         | [2225373063] ✗ GET /wp-content/plugins/admin.php - 404 (0ms)
+2025-12-27 22:25:37 | DEBUG    | app.main             | log_requests         | [2225375475] GET /wp-content/plugins/classic-editor/wp-login.php
+2025-12-27 22:25:37 | INFO     | app.main             | log_requests         | [2225375475] ✗ GET /wp-content/plugins/classic-editor/wp-login.php - 404 (0ms)
+2025-12-27 22:25:37 | DEBUG    | app.main             | log_requests         | [2225378019] GET /wp-content/plugins/yanierin/akc.php
+2025-12-27 22:25:37 | INFO     | app.main             | log_requests         | [2225378019] ✗ GET /wp-content/plugins/yanierin/akc.php - 404 (4ms)
+2025-12-27 22:25:38 | DEBUG    | app.main             | log_requests         | [2225380483] GET /wp-content/themes/about.php
+2025-12-27 22:25:38 | INFO     | app.main             | log_requests         | [2225380483] ✗ GET /wp-content/themes/about.php - 404 (0ms)
+2025-12-27 22:25:38 | DEBUG    | app.main             | log_requests         | [2225382961] GET /wp-content/themes/admin.php
+2025-12-27 22:25:38 | INFO     | app.main             | log_requests         | [2225382961] ✗ GET /wp-content/themes/admin.php - 404 (0ms)
+2025-12-27 22:25:38 | DEBUG    | app.main             | log_requests         | [2225385503] GET /wp-content/upgrade/index.php
+2025-12-27 22:25:38 | INFO     | app.main             | log_requests         | [2225385503] ✗ GET /wp-content/upgrade/index.php - 404 (0ms)
+2025-12-27 22:25:38 | DEBUG    | app.main             | log_requests         | [2225387858] GET /wp-content/uploads/
+2025-12-27 22:25:38 | INFO     | app.main             | log_requests         | [2225387858] ✗ GET /wp-content/uploads/ - 404 (0ms)
+2025-12-27 22:25:39 | DEBUG    | app.main             | log_requests         | [2225390429] GET /wp-content/uploads/2025/
+2025-12-27 22:25:39 | INFO     | app.main             | log_requests         | [2225390429] ✗ GET /wp-content/uploads/2025/ - 404 (0ms)
+2025-12-27 22:25:39 | DEBUG    | app.main             | log_requests         | [2225392847] GET /wp-content/uploads/admin.php
+2025-12-27 22:25:39 | INFO     | app.main             | log_requests         | [2225392847] ✗ GET /wp-content/uploads/admin.php - 404 (0ms)
+2025-12-27 22:25:39 | DEBUG    | app.main             | log_requests         | [2225395358] GET /wp-fclass.php
+2025-12-27 22:25:39 | INFO     | app.main             | log_requests         | [2225395358] ✗ GET /wp-fclass.php - 404 (0ms)
+2025-12-27 22:25:39 | DEBUG    | app.main             | log_requests         | [2225397845] GET /wp-includes/ID3/
+2025-12-27 22:25:39 | INFO     | app.main             | log_requests         | [2225397845] ✗ GET /wp-includes/ID3/ - 404 (0ms)
+2025-12-27 22:25:40 | DEBUG    | app.main             | log_requests         | [2225400343] GET /wp-includes/PHPMailer/
+2025-12-27 22:25:40 | INFO     | app.main             | log_requests         | [2225400343] ✗ GET /wp-includes/PHPMailer/ - 404 (0ms)
+2025-12-27 22:25:40 | DEBUG    | app.main             | log_requests         | [2225402867] GET /wp-includes/Requests/about.php
+2025-12-27 22:25:40 | INFO     | app.main             | log_requests         | [2225402867] ✗ GET /wp-includes/Requests/about.php - 404 (0ms)
+2025-12-27 22:25:40 | DEBUG    | app.main             | log_requests         | [2225405342] GET /wp-includes/Requests/alfa-rex.php
+2025-12-27 22:25:40 | INFO     | app.main             | log_requests         | [2225405342] ✗ GET /wp-includes/Requests/alfa-rex.php - 404 (0ms)
+2025-12-27 22:25:40 | DEBUG    | app.main             | log_requests         | [2225407063] GET /api/indicator/cache-stats
+2025-12-27 22:25:40 | INFO     | app.main             | log_requests         | [2225407063] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:25:40 | DEBUG    | app.main             | log_requests         | [2225407879] GET /wp-includes/Requests/src/Cookie/
+2025-12-27 22:25:40 | INFO     | app.main             | log_requests         | [2225407879] ✗ GET /wp-includes/Requests/src/Cookie/ - 404 (0ms)
+2025-12-27 22:25:41 | DEBUG    | app.main             | log_requests         | [2225410342] GET /wp-includes/Requests/src/Response/about.php
+2025-12-27 22:25:41 | INFO     | app.main             | log_requests         | [2225410342] ✗ GET /wp-includes/Requests/src/Response/about.php - 404 (0ms)
+2025-12-27 22:25:41 | DEBUG    | app.main             | log_requests         | [2225412846] GET /wp-includes/Text/Diff/Renderer/
+2025-12-27 22:25:41 | INFO     | app.main             | log_requests         | [2225412846] ✗ GET /wp-includes/Text/Diff/Renderer/ - 404 (0ms)
+2025-12-27 22:25:41 | DEBUG    | app.main             | log_requests         | [2225415340] GET /wp-includes/Text/index.php
+2025-12-27 22:25:41 | INFO     | app.main             | log_requests         | [2225415340] ✗ GET /wp-includes/Text/index.php - 404 (0ms)
+2025-12-27 22:25:41 | DEBUG    | app.main             | log_requests         | [2225417751] GET /wp-includes/Text/xwx1.php
+2025-12-27 22:25:41 | INFO     | app.main             | log_requests         | [2225417751] ✗ GET /wp-includes/Text/xwx1.php - 404 (9ms)
+2025-12-27 22:25:42 | DEBUG    | app.main             | log_requests         | [2225420173] GET /wp-includes/assets/about.php
+2025-12-27 22:25:42 | INFO     | app.main             | log_requests         | [2225420173] ✗ GET /wp-includes/assets/about.php - 404 (16ms)
+2025-12-27 22:25:42 | DEBUG    | app.main             | log_requests         | [2225422743] GET /wp-includes/block-patterns/
+2025-12-27 22:25:42 | INFO     | app.main             | log_requests         | [2225422743] ✗ GET /wp-includes/block-patterns/ - 404 (0ms)
+2025-12-27 22:25:42 | DEBUG    | app.main             | log_requests         | [2225425193] GET /wp-includes/blocks/
+2025-12-27 22:25:42 | INFO     | app.main             | log_requests         | [2225425193] ✗ GET /wp-includes/blocks/ - 404 (0ms)
+2025-12-27 22:25:42 | DEBUG    | app.main             | log_requests         | [2225427739] GET /wp-includes/customize/class-wp-customize-cropped-image-control.php
+2025-12-27 22:25:42 | INFO     | app.main             | log_requests         | [2225427739] ✗ GET /wp-includes/customize/class-wp-customize-cropped-image-control.php - 404 (0ms)
+2025-12-27 22:25:43 | DEBUG    | app.main             | log_requests         | [2225430136] GET /wp-includes/images/media/
+2025-12-27 22:25:43 | INFO     | app.main             | log_requests         | [2225430136] ✗ GET /wp-includes/images/media/ - 404 (0ms)
+2025-12-27 22:25:43 | DEBUG    | app.main             | log_requests         | [2225432703] GET /wp-includes/images/smilies/about.php
+2025-12-27 22:25:43 | INFO     | app.main             | log_requests         | [2225432703] ✗ GET /wp-includes/images/smilies/about.php - 404 (0ms)
+2025-12-27 22:25:43 | DEBUG    | app.main             | log_requests         | [2225435129] GET /wp-includes/images/wp-login.php
+2025-12-27 22:25:43 | INFO     | app.main             | log_requests         | [2225435129] ✗ GET /wp-includes/images/wp-login.php - 404 (0ms)
+2025-12-27 22:25:43 | DEBUG    | app.main             | log_requests         | [2225437687] GET /wp-includes/js/dist/script-modules/block-library/search/about.php
+2025-12-27 22:25:43 | INFO     | app.main             | log_requests         | [2225437687] ✗ GET /wp-includes/js/dist/script-modules/block-library/search/about.php - 404 (0ms)
+2025-12-27 22:25:44 | DEBUG    | app.main             | log_requests         | [2225440117] GET /wp-includes/style-engine/
+2025-12-27 22:25:44 | INFO     | app.main             | log_requests         | [2225440117] ✗ GET /wp-includes/style-engine/ - 404 (0ms)
+2025-12-27 22:25:44 | DEBUG    | app.main             | log_requests         | [2225442688] GET /wp-themes.php
+2025-12-27 22:25:44 | INFO     | app.main             | log_requests         | [2225442688] ✗ GET /wp-themes.php - 404 (0ms)
+2025-12-27 22:25:44 | DEBUG    | app.main             | log_requests         | [2225445055] GET /xmlrpc.php
+2025-12-27 22:25:44 | INFO     | app.main             | log_requests         | [2225445055] ✗ GET /xmlrpc.php - 404 (0ms)
+2025-12-27 22:25:55 | DEBUG    | app.main             | log_requests         | [2225552086] GET /api/indicator/cache-stats
+2025-12-27 22:25:55 | INFO     | app.main             | log_requests         | [2225552086] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:26:25 | DEBUG    | app.main             | log_requests         | [2226255173] GET /api/indicator/cache-stats
+2025-12-27 22:26:25 | INFO     | app.main             | log_requests         | [2226255173] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:26:41 | DEBUG    | app.main             | log_requests         | [2226414039] GET /api/indicator/cache-stats
+2025-12-27 22:26:41 | INFO     | app.main             | log_requests         | [2226414039] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:26:55 | DEBUG    | app.main             | log_requests         | [2226555234] GET /api/indicator/cache-stats
+2025-12-27 22:26:55 | INFO     | app.main             | log_requests         | [2226555234] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:27:25 | DEBUG    | app.main             | log_requests         | [2227252216] GET /api/indicator/cache-stats
+2025-12-27 22:27:25 | INFO     | app.main             | log_requests         | [2227252216] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:27:42 | DEBUG    | app.main             | log_requests         | [2227427197] GET /api/indicator/cache-stats
+2025-12-27 22:27:42 | INFO     | app.main             | log_requests         | [2227427197] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:33:06 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 22:33:06 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 22:33:06 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 22:33:06 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 22:33:06 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 22:33:06 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-27 22:33:06 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 22:33:06 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-27 22:33:06 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 22:33:06 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 22:33:06 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 22:33:10 | DEBUG    | app.main             | log_requests         | [2233109573] GET /api/indicator/cache-stats
+2025-12-27 22:33:10 | INFO     | app.main             | log_requests         | [2233109573] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:33:10 | DEBUG    | app.main             | log_requests         | [2233109641] GET /api/indicator/cache-stats
+2025-12-27 22:33:10 | INFO     | app.main             | log_requests         | [2233109641] ✔ GET /api/indicator/cache-stats - 200 (2ms)
+2025-12-27 22:33:12 | DEBUG    | app.main             | log_requests         | [2233127126] GET /api/presets/dominant/list
+2025-12-27 22:33:12 | INFO     | app.main             | log_requests         | [2233127126] ✔ GET /api/presets/dominant/list - 200 (20ms)
+2025-12-27 22:33:16 | DEBUG    | app.main             | log_requests         | [2233165047] POST /api/indicator/calculate
+2025-12-27 22:33:24 | INFO     | app.main             | log_requests         | [2233165047] ✔ POST /api/indicator/calculate - 200 (7918ms)
+2025-12-27 22:33:24 | DEBUG    | app.main             | log_requests         | [2233249692] GET /api/indicator/cache-stats
+2025-12-27 22:33:24 | INFO     | app.main             | log_requests         | [2233249692] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 22:33:36 | DEBUG    | app.main             | log_requests         | [2233362907] POST /api/indicator/calculate
+2025-12-27 22:33:44 | INFO     | app.main             | log_requests         | [2233362907] ✔ POST /api/indicator/calculate - 200 (8390ms)
+2025-12-27 22:33:44 | DEBUG    | app.main             | log_requests         | [2233446809] GET /api/indicator/cache-stats
+2025-12-27 22:33:44 | INFO     | app.main             | log_requests         | [2233446809] ✔ GET /api/indicator/cache-stats - 200 (10ms)
+2025-12-27 22:33:45 | DEBUG    | app.main             | log_requests         | [2233452055] GET /api/indicator/cache-stats
+2025-12-27 22:33:45 | INFO     | app.main             | log_requests         | [2233452055] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:33:48 | DEBUG    | app.main             | log_requests         | [2233484026] GET /api/indicator/cache-stats
+2025-12-27 22:33:48 | INFO     | app.main             | log_requests         | [2233484026] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:33:59 | DEBUG    | app.main             | log_requests         | [2233590230] POST /api/indicator/calculate
+2025-12-27 22:34:06 | INFO     | app.main             | log_requests         | [2233590230] ✔ POST /api/indicator/calculate - 200 (7771ms)
+2025-12-27 22:34:07 | DEBUG    | app.main             | log_requests         | [2234070359] GET /api/indicator/cache-stats
+2025-12-27 22:34:07 | INFO     | app.main             | log_requests         | [2234070359] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 22:34:11 | DEBUG    | app.main             | log_requests         | [2234112492] GET /api/indicator/cache-stats
+2025-12-27 22:34:11 | INFO     | app.main             | log_requests         | [2234112492] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:34:18 | DEBUG    | app.main             | log_requests         | [2234184468] POST /api/indicator/calculate
+2025-12-27 22:34:26 | INFO     | app.main             | log_requests         | [2234184468] ✔ POST /api/indicator/calculate - 200 (8533ms)
+2025-12-27 22:34:26 | DEBUG    | app.main             | log_requests         | [2234269838] GET /robots.txt
+2025-12-27 22:34:26 | INFO     | app.main             | log_requests         | [2234269838] ✗ GET /robots.txt - 404 (0ms)
+2025-12-27 22:34:27 | DEBUG    | app.main             | log_requests         | [2234275384] GET /api/indicator/cache-stats
+2025-12-27 22:34:27 | INFO     | app.main             | log_requests         | [2234275384] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:34:36 | DEBUG    | app.main             | log_requests         | [2234365399] POST /api/indicator/calculate
+2025-12-27 22:34:44 | INFO     | app.main             | log_requests         | [2234365399] ✔ POST /api/indicator/calculate - 200 (8196ms)
+2025-12-27 22:34:44 | DEBUG    | app.main             | log_requests         | [2234447534] GET /api/indicator/cache-stats
+2025-12-27 22:34:44 | INFO     | app.main             | log_requests         | [2234447534] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:34:45 | DEBUG    | app.main             | log_requests         | [2234453018] GET /api/indicator/cache-stats
+2025-12-27 22:34:45 | INFO     | app.main             | log_requests         | [2234453018] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 22:34:48 | DEBUG    | app.main             | log_requests         | [2234484112] GET /api/indicator/cache-stats
+2025-12-27 22:34:48 | INFO     | app.main             | log_requests         | [2234484112] ✔ GET /api/indicator/cache-stats - 200 (0ms)

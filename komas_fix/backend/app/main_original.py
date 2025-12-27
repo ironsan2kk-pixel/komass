@@ -2,9 +2,6 @@
 Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
-
-Chat: Dominant Presets Fix
-- Added preset_routes router for /api/presets/* endpoints
 """
 import os
 import sys
@@ -106,7 +103,7 @@ logger = setup_logging()
 async def lifespan(app: FastAPI):
     """Application lifespan events"""
     logger.info("=" * 60)
-    logger.info("KOMAS TRADING SERVER v4.0 - STARTING")
+    logger.info("KOMAS TRADING SERVER v3.0 - STARTING")
     logger.info(f"Log file: {LOG_FILE}")
     logger.info(f"Error log: {ERROR_LOG_FILE}")
     logger.info("=" * 60)
@@ -119,8 +116,8 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title="Komas Trading Server",
-    version="4.0",
-    description="Full trading system with TRG & Dominant indicators, backtesting, and optimization",
+    version="3.0",
+    description="Full trading system with indicator, backtesting, and optimization",
     lifespan=lifespan,
 )
 
@@ -243,14 +240,6 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load TRG preset routes: {e}")
 
-# ============ DOMINANT PRESETS ROUTER (FIX) ============
-try:
-    from app.api.preset_routes import router as preset_router
-    app.include_router(preset_router)
-    logger.info("✔ Loaded: Dominant preset routes (/api/presets/*)")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load preset routes: {e}")
-
 
 # ============ LOG ENDPOINTS ============
 
@@ -342,7 +331,7 @@ async def health_check():
     return {
         "status": "healthy",
         "app": "Komas Trading Server",
-        "version": "4.0",
+        "version": "3.0",
         "log_file": str(LOG_FILE),
         "timestamp": datetime.now().isoformat()
     }
@@ -352,14 +341,9 @@ async def health_check():
 async def root():
     return {
         "message": "Komas Trading Server",
-        "version": "4.0",
+        "version": "3.0",
         "docs": "/docs",
-        "logs": "/api/logs/list",
-        "features": {
-            "indicators": ["TRG", "Dominant"],
-            "presets": "/api/presets/list",
-            "dominant_presets": "/api/presets/dominant/list"
-        }
+        "logs": "/api/logs/list"
     }
 
 

@@ -3,8 +3,7 @@ Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
 
-Chat: Dominant Presets Fix
-- Added preset_routes router for /api/presets/* endpoints
+HOTFIX: Added preset_routes_v3 registration for Dominant presets
 """
 import os
 import sys
@@ -120,7 +119,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Komas Trading Server",
     version="4.0",
-    description="Full trading system with TRG & Dominant indicators, backtesting, and optimization",
+    description="Full trading system with indicator, backtesting, optimization, and presets",
     lifespan=lifespan,
 )
 
@@ -153,33 +152,33 @@ async def log_requests(request: Request, call_next):
         duration = (time.time() - start_time) * 1000  # ms
         
         # Log response
-        status_emoji = "✔" if response.status_code < 400 else "✗"
-        logger.info(f"[{request_id}] {status_emoji} {request.method} {request.url.path} - {response.status_code} ({duration:.0f}ms)")
+        if response.status_code >= 400:
+            logger.warning(f"[{request_id}] {response.status_code} in {duration:.0f}ms")
+        else:
+            logger.debug(f"[{request_id}] {response.status_code} in {duration:.0f}ms")
         
         return response
         
     except Exception as e:
         duration = (time.time() - start_time) * 1000
-        logger.error(f"[{request_id}] ✗ {request.method} {request.url.path} - ERROR ({duration:.0f}ms)")
-        logger.error(f"[{request_id}] Exception: {str(e)}")
-        logger.error(f"[{request_id}] Traceback:\n{traceback.format_exc()}")
+        logger.error(f"[{request_id}] ERROR after {duration:.0f}ms: {type(e).__name__}: {e}")
+        logger.error(traceback.format_exc())
         raise
 
 
-# ============ GLOBAL EXCEPTION HANDLER ============
+# ============ EXCEPTION HANDLERS ============
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     """Log all unhandled exceptions"""
-    logger.error(f"Unhandled exception on {request.method} {request.url.path}")
-    logger.error(f"Exception type: {type(exc).__name__}")
-    logger.error(f"Exception message: {str(exc)}")
-    logger.error(f"Traceback:\n{traceback.format_exc()}")
+    logger.error(f"Unhandled exception on {request.url.path}: {type(exc).__name__}: {exc}")
+    logger.error(traceback.format_exc())
     
     return JSONResponse(
         status_code=500,
         content={
             "error": "Internal server error",
+            "type": type(exc).__name__,
             "detail": str(exc),
             "path": str(request.url.path),
             "timestamp": datetime.now().isoformat()
@@ -243,13 +242,13 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load TRG preset routes: {e}")
 
-# ============ DOMINANT PRESETS ROUTER (FIX) ============
+# ============ PRESET ROUTES V3 (HOTFIX - Dominant presets) ============
 try:
-    from app.api.preset_routes import router as preset_router
-    app.include_router(preset_router)
-    logger.info("✔ Loaded: Dominant preset routes (/api/presets/*)")
+    from app.api.preset_routes_v3 import router as preset_router_v3
+    app.include_router(preset_router_v3)
+    logger.info("✔ Loaded: Preset routes v3 (Dominant + TRG)")
 except ImportError as e:
-    logger.warning(f"✗ Failed to load preset routes: {e}")
+    logger.warning(f"✗ Failed to load preset routes v3: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -354,12 +353,7 @@ async def root():
         "message": "Komas Trading Server",
         "version": "4.0",
         "docs": "/docs",
-        "logs": "/api/logs/list",
-        "features": {
-            "indicators": ["TRG", "Dominant"],
-            "presets": "/api/presets/list",
-            "dominant_presets": "/api/presets/dominant/list"
-        }
+        "logs": "/api/logs/list"
     }
 
 
