@@ -939,34 +939,61 @@ def track_position(
         # CHECK EXIT CONDITIONS
         # =======================================================================
         
-        # If all TPs hit - exit at last TP (full profit taken)
+        # TP amounts (% of position closed at each TP)
+        # Default: 40% at TP1, 30% at TP2, 20% at TP3, 10% at TP4
+        tp_amounts = [40, 30, 20, 10]
+        if len(tp_amounts) < len(tp_percents):
+            # Extend if more TPs than amounts
+            remaining = 100 - sum(tp_amounts)
+            extra_count = len(tp_percents) - len(tp_amounts)
+            tp_amounts.extend([remaining // extra_count] * extra_count)
+        
+        # If all TPs hit - exit with weighted PnL
         if all(tps_hit):
-            # Calculate PnL based on weighted TP exits (simplified: use last TP)
-            pnl = tp_percents[-1] if direction == SIGNAL_LONG else tp_percents[-1]
+            # Calculate weighted PnL: sum(TP% × amount%)
+            weighted_pnl = sum(
+                tp_pct * (tp_amt / 100) 
+                for tp_pct, tp_amt in zip(tp_percents, tp_amounts[:len(tp_percents)])
+            )
             return {
                 'exit_idx': idx,
                 'exit_price': tp_levels[-1],
                 'exit_reason': f'tp{len(tp_levels)}',
-                'pnl_percent': pnl,
+                'pnl_percent': weighted_pnl,
                 'tps_hit': tps_hit.copy(),
                 'sl_history': sl_history,
                 'max_profit': max_profit,
                 'duration': idx - entry_idx,
             }
         
-        # If SL hit - exit at SL
+        # If SL hit - calculate PnL considering partial TP profits
         if sl_hit:
-            # Calculate actual PnL at SL level
+            # Calculate SL PnL
             if direction == SIGNAL_LONG:
-                pnl = (exit_price - entry_price) / entry_price * 100
+                sl_pnl_pct = (exit_price - entry_price) / entry_price * 100
             else:
-                pnl = (entry_price - exit_price) / entry_price * 100
+                sl_pnl_pct = (entry_price - exit_price) / entry_price * 100
+            
+            # Calculate total PnL: TP profits + SL loss on remaining position
+            total_pnl = 0
+            remaining_amount = 100  # % of position still open
+            
+            for tp_idx, tp_hit in enumerate(tps_hit):
+                tp_amt = tp_amounts[tp_idx] if tp_idx < len(tp_amounts) else 0
+                if tp_hit:
+                    # This TP was hit - add profit
+                    total_pnl += tp_percents[tp_idx] * (tp_amt / 100)
+                    remaining_amount -= tp_amt
+            
+            # Remaining position closed at SL
+            if remaining_amount > 0:
+                total_pnl += sl_pnl_pct * (remaining_amount / 100)
             
             return {
                 'exit_idx': idx,
                 'exit_price': exit_price,
                 'exit_reason': 'sl',
-                'pnl_percent': pnl,
+                'pnl_percent': total_pnl,
                 'tps_hit': tps_hit.copy(),
                 'sl_history': sl_history,
                 'max_profit': max_profit,
@@ -1390,6 +1417,7 @@ def run_full_backtest(
     sl_percent: float = None,
     tp_percents: List[float] = None,
     use_filtered_signals: bool = True,
+    allow_immediate_reentry: bool = False,
     **filter_kwargs
 ) -> Dict[str, Any]:
     """
@@ -1406,6 +1434,7 @@ def run_full_backtest(
         sl_percent: Stop-loss percentage (default from SL_DEFAULTS)
         tp_percents: Take-profit percentages (default from SL_DEFAULTS)
         use_filtered_signals: If True, only trade filtered signals
+        allow_immediate_reentry: If False, require direction change before new trade
         **filter_kwargs: Additional filter parameters
     
     Returns:
@@ -1446,12 +1475,18 @@ def run_full_backtest(
     trades = []
     i = 0
     n = len(signals_df)
+    last_direction = None  # Track last trade direction for re-entry control
     
     while i < n:
         row = signals_df.iloc[i]
         
         # Check for long signal
         if row[long_col]:
+            # Re-entry control: if not allowed, skip same direction trades
+            if not allow_immediate_reentry and last_direction == 'LONG':
+                i += 1
+                continue
+            
             entry_price = row['close']
             direction = SIGNAL_LONG
             
@@ -1471,12 +1506,19 @@ def run_full_backtest(
             trade_result['entry_price'] = entry_price
             trades.append(trade_result)
             
+            last_direction = 'LONG'
+            
             # Skip to after trade exit
             i = trade_result['exit_idx'] + 1
             continue
         
         # Check for short signal
         if row[short_col]:
+            # Re-entry control: if not allowed, skip same direction trades
+            if not allow_immediate_reentry and last_direction == 'SHORT':
+                i += 1
+                continue
+            
             entry_price = row['close']
             direction = SIGNAL_SHORT
             
@@ -1495,6 +1537,8 @@ def run_full_backtest(
             trade_result['direction'] = 'SHORT'
             trade_result['entry_price'] = entry_price
             trades.append(trade_result)
+            
+            last_direction = 'SHORT'
             
             # Skip to after trade exit
             i = trade_result['exit_idx'] + 1
@@ -1524,6 +1568,7 @@ def run_full_backtest(
             'sl_mode': sl_mode,
             'sl_percent': sl_percent,
             'tp_percents': tp_percents,
+            'allow_immediate_reentry': allow_immediate_reentry,
         }
     }
 
@@ -1538,7 +1583,7 @@ def _calculate_backtest_metrics(trades: List[Dict[str, Any]]) -> Dict[str, float
     Returns:
         Dictionary with performance metrics:
         - pnl_percent: Total PnL percentage
-        - win_rate: Win rate percentage (0-100)
+        - win_rate: Win rate percentage (0-100) - based on TP1 hit!
         - profit_factor: Ratio of gross profit to gross loss
         - max_drawdown: Maximum drawdown percentage
         - avg_trade: Average trade PnL
@@ -1563,38 +1608,45 @@ def _calculate_backtest_metrics(trades: List[Dict[str, Any]]) -> Dict[str, float
         }
     
     pnls = [t['pnl_percent'] for t in trades]
-    wins = [p for p in pnls if p > 0]
-    losses = [p for p in pnls if p <= 0]
+    
+    # Win rate based on TP1 hit (not pnl > 0!)
+    # A trade is "winning" if TP1 was reached
+    wins_count = sum(1 for t in trades if t.get('tps_hit', [False])[0] == True)
+    win_rate = wins_count / len(trades) * 100 if trades else 0
+    
+    # For profit factor calculations
+    profit_trades = [p for p in pnls if p > 0]
+    loss_trades = [p for p in pnls if p <= 0]
     
     # Total PnL
     total_pnl = sum(pnls)
     
-    # Win rate
-    win_rate = len(wins) / len(pnls) * 100 if pnls else 0
-    
     # Profit factor
-    gross_profit = sum(wins) if wins else 0
-    gross_loss = abs(sum(losses)) if losses else 0
+    gross_profit = sum(profit_trades) if profit_trades else 0
+    gross_loss = abs(sum(loss_trades)) if loss_trades else 0
     profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf') if gross_profit > 0 else 0
     
-    # Maximum drawdown (equity curve based)
-    equity = [0]
+    # Maximum drawdown (equity curve based with compound returns)
+    initial_capital = 10000  # Reference capital
+    equity = [initial_capital]
     for pnl in pnls:
-        equity.append(equity[-1] + pnl)
+        new_equity = equity[-1] * (1 + pnl / 100)
+        equity.append(new_equity)
     
     peak = equity[0]
     max_dd = 0
     for val in equity:
         if val > peak:
             peak = val
-        dd = peak - val
-        if dd > max_dd:
-            max_dd = dd
+        if peak > 0:
+            dd = (peak - val) / peak * 100  # Percentage from peak!
+            if dd > max_dd:
+                max_dd = dd
     
     # Averages
     avg_trade = total_pnl / len(pnls) if pnls else 0
-    avg_win = sum(wins) / len(wins) if wins else 0
-    avg_loss = sum(losses) / len(losses) if losses else 0
+    avg_win = sum(profit_trades) / len(profit_trades) if profit_trades else 0
+    avg_loss = sum(loss_trades) / len(loss_trades) if loss_trades else 0
     
     # Standard deviation
     pnl_std = float(np.std(pnls)) if len(pnls) > 1 else 0
