@@ -1,65 +1,64 @@
-# KOMAS Chat #16: Backend Bug Fixes
+# KOMAS Chat #18: Data Period Selection
 
-## 🎯 Исправленные проблемы
+## What's New
 
-### 1. Network Error: Duplicate Timestamps
-**Ошибка:** `data must be asc ordered by time, index=2249, time=1743296400, prev time=1743296400`
+This update adds the ability to select a date range for backtesting.
 
-**Причина:** Frontend неправильно обрабатывал Unix timestamps
-- Backend отправлял `time` как секунды (например: `1743296400`)
-- Frontend делал `new Date(1743296400)` что интерпретируется как миллисекунды
-- Результат: некорректные даты и дубликаты
+### Features
 
-**Решение:** Добавлены helper-функции:
-- `toUnixTime()` - правильная конвертация времени
-- `deduplicateTimeSeries()` - удаление дубликатов и сортировка
+1. **Period Selection in Sidebar**
+   - New "📅 Период данных" section in settings sidebar
+   - Date picker inputs for start and end dates
+   - Quick preset buttons: Всё, 1 год, 6 мес, 3 мес, 1 мес
 
-### 2. UTF-8 Encoding Issues (Mojibake)
-**Проблема:** Кракозябры в сообщениях: `ðŸš€ Ð—Ð°Ð¿ÑƒÑÐº` вместо `🚀 Запуск`
+2. **Backend Support**
+   - API now returns `data_range` object with:
+     - `available_start` / `available_end` - full data range
+     - `used_start` / `used_end` - filtered range
+     - `total_candles` / `used_candles` - candle counts
 
-**Решение:** 
-- Frontend: Исправлены все Russian строки с правильной кодировкой
-- Backend: Патч-скрипт заменяет mojibake на английские эквиваленты
+3. **Visual Indicators**
+   - Period badge in header when custom range is set
+   - Data range info in Stats panel
+   - Available range shown in sidebar
 
-## 📦 Содержимое
+### Files Modified
 
-```
-chat16_fix/
-├── install.bat              # Установщик
-├── apply_patches.py         # Python патч-скрипт
-├── README.md                # Документация
-└── frontend/
-    └── src/
-        └── pages/
-            └── Indicator.jsx  # Исправленный файл
-```
+- `backend/app/api/indicator_routes.py` - Added data_range to response
+- `frontend/src/components/Indicator/SettingsSidebar.jsx` - Added period selection UI
+- `frontend/src/pages/Indicator.jsx` - Added dataRange state and display
+- `frontend/src/components/Indicator/StatsPanel.jsx` - Added period info display
 
-## 🚀 Установка
+## Installation
 
-1. Скопировать папку `chat16_fix` в корень проекта `komas_indicator/`
-2. Запустить `install.bat`
-3. Перезапустить backend и frontend
+1. Copy this folder to your komas_indicator directory
+2. Run `install_chat18.bat`
+3. Restart the server
 
-## ✅ Что изменено
+## Testing
 
-### Frontend (Indicator.jsx)
-- Новые helper-функции для обработки времени
-- Дедупликация данных перед отправкой в lightweight-charts
-- Исправлены все emoji и Russian текст
+After installation, run `test_chat18.bat` to verify the changes work correctly.
 
-### Backend (indicator_routes.py, data_routes.py)
-- Mojibake заменены на English эквиваленты
-- Исправлены emoji символы
+## Rollback
 
-## 🔄 Откат
-
-Бэкапы сохраняются в `backups/chat16/`
-
-Для отката:
+If needed, restore files from `backup_chat18/` folder:
 ```batch
-copy /Y backups\chat16\* backend\app\api\
-copy /Y backups\chat16\Indicator.jsx frontend\src\pages\
+copy backup_chat18\indicator_routes.py.bak backend\app\api\indicator_routes.py
+copy backup_chat18\SettingsSidebar.jsx.bak frontend\src\components\Indicator\SettingsSidebar.jsx
+copy backup_chat18\Indicator.jsx.bak frontend\src\pages\Indicator.jsx
+copy backup_chat18\StatsPanel.jsx.bak frontend\src\components\Indicator\StatsPanel.jsx
 ```
 
----
-**Chat #16** | KOMAS v3.5 | 27.12.2025
+## Git Commit Message
+
+```
+feat(backtest): add data period selection for backtesting
+
+- Add start_date/end_date inputs to sidebar
+- Add quick period presets (1m, 3m, 6m, 1y, all)
+- Return data_range info in API response
+- Show used period in stats panel and header
+- Validate date ranges on frontend
+
+Chat #18
+```

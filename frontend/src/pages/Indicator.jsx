@@ -35,6 +35,10 @@ const ALL_SYMBOLS = [
 const DEFAULT_SETTINGS = {
   symbol: 'BTCUSDT',
   timeframe: '1h',
+  // Data period
+  start_date: null,
+  end_date: null,
+  // TRG
   trg_atr_length: 45,
   trg_multiplier: 4,
   tp_count: 4,
@@ -67,49 +71,15 @@ const DEFAULT_SETTINGS = {
   commission_percent: 0.1
 };
 
-// Helper: Convert time value to Unix timestamp in seconds
-// Handles both numeric timestamps and ISO strings
-const toUnixTime = (timeValue) => {
-  if (typeof timeValue === 'number') {
-    // Already Unix timestamp - check if seconds or milliseconds
-    // If value is greater than year 3000 in seconds, assume it's milliseconds
-    return timeValue > 32503680000 ? Math.floor(timeValue / 1000) : timeValue;
-  }
-  if (typeof timeValue === 'string') {
-    return Math.floor(new Date(timeValue).getTime() / 1000);
-  }
-  return 0;
-};
-
-// Helper: Deduplicate and sort time series data
-const deduplicateTimeSeries = (data, timeKey = 'time') => {
-  const seen = new Set();
-  const result = [];
-  
-  // Sort first
-  const sorted = [...data].sort((a, b) => {
-    const timeA = toUnixTime(a[timeKey]);
-    const timeB = toUnixTime(b[timeKey]);
-    return timeA - timeB;
-  });
-  
-  for (const item of sorted) {
-    const time = toUnixTime(item[timeKey]);
-    if (!seen.has(time)) {
-      seen.add(time);
-      result.push({ ...item, [timeKey]: time });
-    }
-  }
-  
-  return result;
-};
-
 const Indicator = () => {
   // State
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('chart');
+  
+  // Data range from last calculation
+  const [dataRange, setDataRange] = useState(null);
   
   // Sidebar & Logs
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -161,7 +131,7 @@ const Indicator = () => {
     if (params.allow_reentry !== undefined) mapped.allow_reentry = params.allow_reentry;
     
     setSettings(prev => ({ ...prev, ...mapped }));
-    addLog('✅ Лучшие параметры применены', 'success');
+    addLog(`✅ Лучшие параметры применены`, 'success');
   };
 
   // Filtered symbols
@@ -173,6 +143,8 @@ const Indicator = () => {
     updateSetting('symbol', symbol);
     setShowSymbolDropdown(false);
     setSymbolSearch('');
+    // Reset data range when symbol changes
+    setDataRange(null);
     addLog(`Выбрана пара: ${symbol}`, 'info');
   };
 
@@ -188,83 +160,49 @@ const Indicator = () => {
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: chartContainerRef.current.clientHeight || 400,
-      layout: {
-        background: { type: 'solid', color: '#1a1a2e' },
-        textColor: '#d1d4dc',
-      },
-      grid: {
-        vertLines: { color: '#2B2B43' },
-        horzLines: { color: '#2B2B43' },
-      },
-      crosshair: { mode: 0 },
-      rightPriceScale: { borderColor: '#2B2B43' },
-      timeScale: { borderColor: '#2B2B43', timeVisible: true },
+      height: chartContainerRef.current.clientHeight,
+      layout: { background: { color: '#1f2937' }, textColor: '#9ca3af' },
+      grid: { vertLines: { color: '#374151' }, horzLines: { color: '#374151' } },
+      crosshair: { mode: 1 },
+      rightPriceScale: { borderColor: '#374151' },
+      timeScale: { borderColor: '#374151', timeVisible: true },
     });
 
-    chartRef.current = chart;
-
-    // Candlesticks
+    // Candles
     const candleSeries = chart.addCandlestickSeries({
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderDownColor: '#ef5350',
-      borderUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-      wickUpColor: '#26a69a',
+      upColor: '#22c55e', downColor: '#ef4444',
+      borderUpColor: '#22c55e', borderDownColor: '#ef4444',
+      wickUpColor: '#22c55e', wickDownColor: '#ef4444',
     });
+    candleSeries.setData(data.candles || []);
 
-    if (data.candles?.length > 0) {
-      // Process candles with proper time handling and deduplication
-      const candles = deduplicateTimeSeries(
-        data.candles.map(c => ({
-          time: toUnixTime(c.timestamp || c.time),
-          open: c.open,
-          high: c.high,
-          low: c.low,
-          close: c.close,
-        }))
-      );
-      candleSeries.setData(candles);
+    // TRG Lines
+    if (data.indicators?.trg_upper) {
+      const upperSeries = chart.addLineSeries({ color: '#22c55e', lineWidth: 1, lineStyle: 2 });
+      upperSeries.setData(data.indicators.trg_upper);
     }
-
-    // TRG line
-    if (data.indicators?.trg_line) {
-      const trgSeries = chart.addLineSeries({
-        color: '#9c27b0',
-        lineWidth: 2,
-        title: 'TRG',
-      });
-      const trgData = deduplicateTimeSeries(
-        data.indicators.trg_line
-          .filter(d => d.value !== null && d.value !== undefined)
-          .map(d => ({
-            time: toUnixTime(d.timestamp || d.time),
-            value: d.value,
-          }))
-      );
-      if (trgData.length > 0) trgSeries.setData(trgData);
+    if (data.indicators?.trg_lower) {
+      const lowerSeries = chart.addLineSeries({ color: '#ef4444', lineWidth: 1, lineStyle: 2 });
+      lowerSeries.setData(data.indicators.trg_lower);
     }
 
     // Trade markers
-    if (data.trade_markers?.length > 0) {
+    if (data.trade_markers?.length) {
       const markers = data.trade_markers.map(m => ({
-        time: toUnixTime(m.time),
-        position: m.position === 'below' ? 'belowBar' : m.position,
-        color: m.color || (m.type === 'entry' ? '#2196F3' : m.type === 'tp' ? '#4CAF50' : '#f44336'),
-        shape: m.shape || (m.type === 'entry' ? 'arrowUp' : m.type === 'tp' ? 'circle' : 'arrowDown'),
-        text: m.text || m.type,
+        time: m.time,
+        position: m.type === 'entry_long' || m.type === 'entry_short' ? 'belowBar' : 'aboveBar',
+        color: m.type.includes('long') ? '#22c55e' : '#ef4444',
+        shape: m.type.includes('entry') ? 'arrowUp' : 'arrowDown',
+        text: m.type.includes('entry') ? (m.type.includes('long') ? 'L' : 'S') : '',
       }));
-      
-      // Sort markers by time
-      markers.sort((a, b) => a.time - b.time);
       candleSeries.setMarkers(markers);
     }
 
+    chartRef.current = chart;
     chart.timeScale().fitContent();
 
-    // Equity curve
-    if (equityChartRef.current && data.equity_curve?.length > 0) {
+    // Equity chart
+    if (equityChartRef.current && data.equity_curve?.length) {
       if (equityChartInstanceRef.current) {
         equityChartInstanceRef.current.remove();
       }
@@ -272,34 +210,21 @@ const Indicator = () => {
       const eqChart = createChart(equityChartRef.current, {
         width: equityChartRef.current.clientWidth,
         height: 100,
-        layout: {
-          background: { type: 'solid', color: '#1a1a2e' },
-          textColor: '#d1d4dc',
-        },
-        grid: {
-          vertLines: { color: '#2B2B43' },
-          horzLines: { color: '#2B2B43' },
-        },
-        rightPriceScale: { borderColor: '#2B2B43' },
+        layout: { background: { color: '#1f2937' }, textColor: '#9ca3af' },
+        grid: { vertLines: { visible: false }, horzLines: { color: '#374151' } },
+        rightPriceScale: { borderColor: '#374151' },
         timeScale: { visible: false },
       });
 
-      equityChartInstanceRef.current = eqChart;
-
       const eqSeries = eqChart.addAreaSeries({
-        lineColor: '#2196F3',
-        topColor: 'rgba(33, 150, 243, 0.4)',
-        bottomColor: 'rgba(33, 150, 243, 0.0)',
+        lineColor: '#8b5cf6',
+        topColor: 'rgba(139, 92, 246, 0.4)',
+        bottomColor: 'rgba(139, 92, 246, 0.0)',
         lineWidth: 2,
       });
+      eqSeries.setData(data.equity_curve.map(e => ({ time: e.time, value: e.value })));
 
-      const eqData = deduplicateTimeSeries(
-        data.equity_curve.map(e => ({
-          time: toUnixTime(e.time || e.timestamp),
-          value: e.value || e.equity,
-        }))
-      );
-      eqSeries.setData(eqData);
+      equityChartInstanceRef.current = eqChart;
       eqChart.timeScale().fitContent();
     }
   }, []);
@@ -307,7 +232,13 @@ const Indicator = () => {
   // Main calculate
   const calculate = async () => {
     setLoading(true);
-    addLog(`🚀 Запуск ${settings.symbol} ${settings.timeframe}...`, 'info');
+    
+    // Show period info in log if dates are set
+    let periodInfo = '';
+    if (settings.start_date || settings.end_date) {
+      periodInfo = ` [${settings.start_date || '...'} — ${settings.end_date || '...'}]`;
+    }
+    addLog(`🚀 Запуск ${settings.symbol} ${settings.timeframe}${periodInfo}...`, 'info');
     
     try {
       const res = await fetch('/api/indicator/calculate', {
@@ -316,67 +247,127 @@ const Indicator = () => {
         body: JSON.stringify(settings)
       });
       
-      if (!res.ok) {
-        const error = await res.json().catch(() => ({ detail: res.statusText }));
-        throw new Error(error.detail || `HTTP ${res.status}`);
-      }
-      
       const data = await res.json();
       
-      if (data.success) {
-        setResult(data);
-        addLog(`✅ Готово! Сделок: ${data.trades?.length || 0}`, 'success');
-        renderChart(data);
-      } else {
-        throw new Error(data.error || 'Unknown error');
+      if (!res.ok) {
+        const errorMsg = data.detail || data.error || 'Ошибка сервера';
+        addLog(`❌ Ошибка: ${errorMsg}`, 'error');
+        
+        if (errorMsg.includes('не найдены') || errorMsg.includes('not found')) {
+          addLog(`⏳ Автозагрузка данных с Binance...`, 'warning');
+          await new Promise(r => setTimeout(r, 3000));
+          addLog(`🔄 Повторная попытка...`, 'info');
+          
+          const retry = await fetch('/api/indicator/calculate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(settings)
+          });
+          const retryData = await retry.json();
+          
+          if (!retry.ok) {
+            const retryError = retryData.detail || retryData.error || 'Ошибка повторной попытки';
+            addLog(`❌ Повторная ошибка: ${retryError}`, 'error');
+            return;
+          }
+          
+          if (retryData.success) {
+            setResult(retryData);
+            // Save data range
+            if (retryData.data_range) {
+              setDataRange(retryData.data_range);
+            }
+            if (activeTab === 'chart') renderChart(retryData);
+            addLog(`✅ ${retryData.trades?.length || 0} сделок, ${retryData.stats?.win_rate || 0}% WR`, 'success');
+          } else {
+            addLog(`❌ Ошибка: ${retryData.error || 'Неизвестная ошибка'}`, 'error');
+          }
+        }
+        return;
       }
+      
+      if (!data.success) {
+        addLog(`❌ Ошибка: ${data.error || data.message || 'Расчёт не удался'}`, 'error');
+        return;
+      }
+      
+      // Success
+      setResult(data);
+      
+      // Save data range from response
+      if (data.data_range) {
+        setDataRange(data.data_range);
+        addLog(`📅 Период: ${data.data_range.used_start} — ${data.data_range.used_end} (${data.data_range.used_candles} свечей)`, 'info');
+      }
+      
+      addLog(`✅ ${data.candles?.length || 0} свечей загружено`, 'success');
+      addLog(`📊 ${data.trades?.length || 0} сделок`, 'success');
+      
+      const stats = data.stats;
+      if (stats) {
+        const profitPct = stats.profit_pct ?? stats.final_profit_pct ?? 0;
+        addLog(`💰 Profit: ${profitPct >= 0 ? '+' : ''}${profitPct?.toFixed(2)}%, WR: ${stats.win_rate}%`, 'success');
+      }
+      
+      if (activeTab === 'chart') renderChart(data);
+      
     } catch (err) {
-      addLog(`❌ Ошибка: ${err.message}`, 'error');
-      setLogsCollapsed(false);
+      addLog(`❌ Ошибка сети: ${err.message}`, 'error');
+      console.error('Calculate error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Generate heatmap
-  const generateHeatmap = async () => {
+  // Heatmap
+  const generateHeatmap = async (i1Range, i2Range) => {
     setLoadingHeatmap(true);
-    addLog('🔥 Генерация heatmap...', 'info');
+    addLog(`🔥 Генерация Heatmap...`, 'info');
     
     try {
       const res = await fetch('/api/indicator/heatmap', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings)
+        body: JSON.stringify({
+          ...settings,
+          i1_min: i1Range.min, i1_max: i1Range.max, i1_step: i1Range.step,
+          i2_min: i2Range.min, i2_max: i2Range.max, i2_step: i2Range.step,
+        })
       });
+      const data = await res.json();
       
       if (!res.ok) {
-        const error = await res.json().catch(() => ({ detail: res.statusText }));
-        throw new Error(error.detail || `HTTP ${res.status}`);
+        addLog(`❌ Heatmap ошибка: ${data.detail || data.error || 'Ошибка сервера'}`, 'error');
+        return;
       }
       
-      const data = await res.json();
-      setHeatmapData(data);
-      addLog(`✅ Heatmap готов: ${data.results?.length || 0} комбинаций`, 'success');
+      if (data.success) {
+        setHeatmapData(data);
+        addLog(`✅ Heatmap готов`, 'success');
+      } else {
+        addLog(`❌ Heatmap ошибка: ${data.error || 'Неизвестная ошибка'}`, 'error');
+      }
     } catch (err) {
-      addLog(`❌ Ошибка heatmap: ${err.message}`, 'error');
-      setLogsCollapsed(false);
+      addLog(`❌ Heatmap ошибка сети: ${err.message}`, 'error');
+      console.error('Heatmap error:', err);
     } finally {
       setLoadingHeatmap(false);
     }
   };
 
-  // Export functions
+  // Export
   const exportCSV = () => {
     if (!result?.trades) return;
-    const headers = ['entry_time', 'exit_time', 'type', 'entry_price', 'exit_price', 'pnl', 'exit_reason'];
-    const rows = result.trades.map(t => headers.map(h => t[h] ?? '').join(','));
-    const csv = [headers.join(','), ...rows].join('\n');
+    const headers = ['#', 'Type', 'Entry Time', 'Exit Time', 'Entry Price', 'Exit Price', 'PnL %', 'Exit Reason'];
+    const rows = result.trades.map((t, i) => [
+      i + 1, t.type, t.entry_time, t.exit_time, t.entry_price, t.exit_price, t.pnl, t.exit_reason
+    ]);
+    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `komas_${settings.symbol}_${settings.timeframe}.csv`;
+    a.download = `komas_${settings.symbol}_${settings.timeframe}_trades.csv`;
     a.click();
     addLog('📄 CSV экспортирован', 'success');
   };
@@ -422,6 +413,11 @@ const Indicator = () => {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [loading, settings]);
+  
+  // Reset data range when symbol/timeframe changes
+  useEffect(() => {
+    setDataRange(null);
+  }, [settings.symbol, settings.timeframe]);
 
   const stats = result?.stats;
   const profitPct = stats?.profit_pct ?? stats?.final_profit_pct ?? 0;
@@ -488,6 +484,13 @@ const Indicator = () => {
             {TIMEFRAMES.map(tf => <option key={tf} value={tf}>{tf}</option>)}
           </select>
           
+          {/* Period indicator */}
+          {(settings.start_date || settings.end_date) && (
+            <span className="text-xs text-purple-400 bg-purple-900/30 px-2 py-1 rounded">
+              📅 {settings.start_date || '...'} — {settings.end_date || '...'}
+            </span>
+          )}
+          
           {/* Run */}
           <button
             onClick={calculate}
@@ -526,6 +529,7 @@ const Indicator = () => {
           onUpdate={updateSetting}
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+          dataRange={dataRange}
         />
 
         {/* Content */}
@@ -557,7 +561,7 @@ const Indicator = () => {
             )}
 
             {activeTab === 'stats' && (
-              <StatsPanel statistics={result?.stats} tpCount={settings.tp_count} />
+              <StatsPanel statistics={result?.stats} tpCount={settings.tp_count} dataRange={dataRange} />
             )}
 
             {activeTab === 'trades' && (

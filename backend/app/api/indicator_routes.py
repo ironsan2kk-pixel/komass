@@ -217,11 +217,23 @@ async def calculate_indicator(settings: IndicatorSettings):
     df = df[~df.index.duplicated(keep='first')]
     df = df.sort_index()
     
+    # Save full data range BEFORE filtering
+    data_range = {
+        "available_start": df.index.min().strftime("%Y-%m-%d") if len(df) > 0 else None,
+        "available_end": df.index.max().strftime("%Y-%m-%d") if len(df) > 0 else None,
+        "total_candles": len(df)
+    }
+    
     # Filter by date
     if settings.start_date:
         df = df[df.index >= settings.start_date]
     if settings.end_date:
         df = df[df.index <= settings.end_date]
+    
+    # Add used range info
+    data_range["used_start"] = df.index.min().strftime("%Y-%m-%d") if len(df) > 0 else None
+    data_range["used_end"] = df.index.max().strftime("%Y-%m-%d") if len(df) > 0 else None
+    data_range["used_candles"] = len(df)
     
     if len(df) < 100:
         raise HTTPException(400, "Not enough data (need at least 100 candles)")
@@ -272,7 +284,8 @@ async def calculate_indicator(settings: IndicatorSettings):
         "tp_stats": tp_stats,
         "monthly": monthly_stats,
         "param_changes": param_changes,
-        "settings": settings.dict()
+        "settings": settings.dict(),
+        "data_range": data_range
     }
 
 
