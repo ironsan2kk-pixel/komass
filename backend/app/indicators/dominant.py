@@ -808,6 +808,60 @@ def calculate_sl_level(
     return initial_sl
 
 
+def _calculate_sl_for_mode(
+    entry_price: float,
+    direction: int,
+    current_sl: float,
+    sl_mode: int,
+    tps_hit: List[bool],
+    tp_levels: List[float]
+) -> float:
+    """
+    Helper to calculate new SL level based on mode after TP hit.
+    Used internally by track_position.
+    
+    Unlike calculate_sl_level, this doesn't recalculate initial SL,
+    it just returns the new SL based on breakeven/cascade logic.
+    """
+    # MODE 0: FIXED - SL never moves
+    if sl_mode == SL_MODE_FIXED:
+        return current_sl
+    
+    # MODE 1: BREAKEVEN AFTER TP1
+    if sl_mode == SL_MODE_AFTER_TP1:
+        if len(tps_hit) > 0 and tps_hit[0]:
+            return entry_price  # Move to breakeven
+        return current_sl
+    
+    # MODE 2: BREAKEVEN AFTER TP2
+    if sl_mode == SL_MODE_AFTER_TP2:
+        if len(tps_hit) > 1 and tps_hit[1]:
+            return entry_price  # Move to breakeven
+        return current_sl
+    
+    # MODE 3: BREAKEVEN AFTER TP3
+    if sl_mode == SL_MODE_AFTER_TP3:
+        if len(tps_hit) > 2 and tps_hit[2]:
+            return entry_price  # Move to breakeven
+        return current_sl
+    
+    # MODE 4: CASCADE - SL trails behind TPs
+    if sl_mode == SL_MODE_CASCADE:
+        last_tp_hit_idx = -1
+        for idx, hit in enumerate(tps_hit):
+            if hit:
+                last_tp_hit_idx = idx
+        
+        if last_tp_hit_idx == -1:
+            return current_sl
+        elif last_tp_hit_idx == 0:
+            return entry_price  # TP1 hit: move to breakeven
+        else:
+            return tp_levels[last_tp_hit_idx - 1]  # Move to previous TP
+    
+    return current_sl
+
+
 def track_position(
     df: pd.DataFrame,
     entry_idx: int,
@@ -815,7 +869,8 @@ def track_position(
     entry_price: float,
     sl_percent: float = None,
     tp_percents: List[float] = None,
-    sl_mode: int = SL_MODE_FIXED
+    sl_mode: int = SL_MODE_FIXED,
+    fixed_stop: bool = False
 ) -> Dict[str, Any]:
     """
     Simulate position tracking through price data
@@ -823,14 +878,19 @@ def track_position(
     This function tracks a position from entry through exit,
     monitoring TP/SL levels and applying the specified SL mode.
     
+    IMPORTANT: By default (fixed_stop=False), SL is calculated from
+    mid_channel (fib_5 / imba_trend_line), NOT from entry price!
+    This matches the original Pine Script behavior.
+    
     Args:
-        df: DataFrame with OHLCV data (must have 'high', 'low', 'close')
+        df: DataFrame with OHLCV data (must have 'high', 'low', 'close', 'mid_channel')
         entry_idx: Index (row number) where position was entered
         direction: SIGNAL_LONG (1) or SIGNAL_SHORT (-1)
         entry_price: Entry price of the position
         sl_percent: Initial SL distance in percent (default 2.0%)
         tp_percents: List of TP percentages (default [1.0, 2.0, 3.0, 5.0])
         sl_mode: SL mode (0-4)
+        fixed_stop: If True, SL from entry_price. If False (default), SL from mid_channel
     
     Returns:
         Dictionary with:
@@ -858,7 +918,7 @@ def track_position(
     if tp_percents is None:
         tp_percents = SL_DEFAULTS['tp_percents'].copy()
     
-    # Calculate TP levels
+    # Calculate TP levels (from entry price)
     tp_levels = calculate_tp_levels(entry_price, direction, tp_percents)
     
     # Initialize tracking
@@ -866,9 +926,29 @@ def track_position(
     sl_history = []  # Track SL movements
     max_profit = 0.0
     
-    # Initial SL
-    current_sl = calculate_initial_sl(entry_price, direction, sl_percent)
+    # ==========================================================================
+    # INITIAL SL CALCULATION - KEY DIFFERENCE FROM TRG!
+    # ==========================================================================
+    # In Dominant indicator, SL is calculated from mid_channel (fib_5), 
+    # NOT from entry_price (unless fixed_stop=True)
+    
+    if fixed_stop or 'mid_channel' not in df.columns:
+        # Fixed stop mode or no mid_channel: use entry price
+        sl_base_price = entry_price
+    else:
+        # Default: use mid_channel (fib_5 / imba_trend_line) at entry
+        sl_base_price = df.iloc[entry_idx]['mid_channel']
+    
+    # Calculate initial SL from the base price
+    if direction == SIGNAL_LONG:
+        current_sl = sl_base_price * (1 - sl_percent / 100)
+    else:  # SHORT
+        current_sl = sl_base_price * (1 + sl_percent / 100)
+    
     sl_history.append((entry_idx, current_sl))
+    
+    # Store original SL base for breakeven calculations
+    original_sl_base = sl_base_price
     
     # Iterate through price data after entry
     n = len(df)
@@ -890,9 +970,9 @@ def track_position(
                 if high >= tp_price:
                     tps_hit[tp_idx] = True
                     
-                    # Update SL based on mode
-                    new_sl = calculate_sl_level(
-                        entry_price, direction, sl_percent, sl_mode, tps_hit, tp_levels
+                    # Update SL based on mode (using entry_price for breakeven)
+                    new_sl = _calculate_sl_for_mode(
+                        entry_price, direction, current_sl, sl_mode, tps_hit, tp_levels
                     )
                     if new_sl != current_sl:
                         current_sl = new_sl
@@ -902,9 +982,9 @@ def track_position(
                 if low <= tp_price:
                     tps_hit[tp_idx] = True
                     
-                    # Update SL based on mode
-                    new_sl = calculate_sl_level(
-                        entry_price, direction, sl_percent, sl_mode, tps_hit, tp_levels
+                    # Update SL based on mode (using entry_price for breakeven)
+                    new_sl = _calculate_sl_for_mode(
+                        entry_price, direction, current_sl, sl_mode, tps_hit, tp_levels
                     )
                     if new_sl != current_sl:
                         current_sl = new_sl
@@ -1418,6 +1498,7 @@ def run_full_backtest(
     tp_percents: List[float] = None,
     use_filtered_signals: bool = True,
     allow_immediate_reentry: bool = False,
+    fixed_stop: bool = False,
     **filter_kwargs
 ) -> Dict[str, Any]:
     """
@@ -1435,6 +1516,7 @@ def run_full_backtest(
         tp_percents: Take-profit percentages (default from SL_DEFAULTS)
         use_filtered_signals: If True, only trade filtered signals
         allow_immediate_reentry: If False, require direction change before new trade
+        fixed_stop: If True, SL from entry_price. If False (default), SL from mid_channel
         **filter_kwargs: Additional filter parameters
     
     Returns:
@@ -1498,7 +1580,8 @@ def run_full_backtest(
                 entry_price=entry_price,
                 sl_percent=sl_percent,
                 tp_percents=tp_percents,
-                sl_mode=sl_mode
+                sl_mode=sl_mode,
+                fixed_stop=fixed_stop
             )
             
             trade_result['entry_idx'] = i
@@ -1530,7 +1613,8 @@ def run_full_backtest(
                 entry_price=entry_price,
                 sl_percent=sl_percent,
                 tp_percents=tp_percents,
-                sl_mode=sl_mode
+                sl_mode=sl_mode,
+                fixed_stop=fixed_stop
             )
             
             trade_result['entry_idx'] = i

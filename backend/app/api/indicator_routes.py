@@ -228,6 +228,7 @@ class IndicatorSettings(BaseModel):
     dominant_sensitivity: int = 21
     dominant_filter_type: int = 0  # 0=None, 1=ATR, 2=RSI, 3=ATR+RSI, 4=Volatility
     dominant_sl_mode: int = 0  # 0=Fixed, 1=After TP1, 2=After TP2, 3=After TP3, 4=Cascade
+    dominant_fixed_stop: bool = False  # If True, SL from entry. If False, SL from mid_channel
     dominant_tp1_percent: float = 1.0
     dominant_tp2_percent: float = 2.0
     dominant_tp3_percent: float = 3.0
@@ -389,7 +390,8 @@ async def calculate_indicator(settings: IndicatorSettings):
                 sl_mode=settings.dominant_sl_mode,
                 sl_percent=settings.dominant_sl_percent,
                 tp_percents=tp_percents,
-                use_filtered_signals=True
+                use_filtered_signals=True,
+                fixed_stop=settings.dominant_fixed_stop
             )
             
             # Extract results

@@ -1,64 +1,47 @@
-# KOMAS Chat #18: Data Period Selection
+# KOMAS Chat #27 — SL from mid_channel Fix
 
-## What's New
+## Key Changes
 
-This update adds the ability to select a date range for backtesting.
+### Problem
+In original Pine Script, SL is calculated from `fib_5` (mid_channel), NOT from entry_price!
 
-### Features
-
-1. **Period Selection in Sidebar**
-   - New "📅 Период данных" section in settings sidebar
-   - Date picker inputs for start and end dates
-   - Quick preset buttons: Всё, 1 год, 6 мес, 3 мес, 1 мес
-
-2. **Backend Support**
-   - API now returns `data_range` object with:
-     - `available_start` / `available_end` - full data range
-     - `used_start` / `used_end` - filtered range
-     - `total_candles` / `used_candles` - candle counts
-
-3. **Visual Indicators**
-   - Period badge in header when custom range is set
-   - Data range info in Stats panel
-   - Available range shown in sidebar
-
-### Files Modified
-
-- `backend/app/api/indicator_routes.py` - Added data_range to response
-- `frontend/src/components/Indicator/SettingsSidebar.jsx` - Added period selection UI
-- `frontend/src/pages/Indicator.jsx` - Added dataRange state and display
-- `frontend/src/components/Indicator/StatsPanel.jsx` - Added period info display
-
-## Installation
-
-1. Copy this folder to your komas_indicator directory
-2. Run `install_chat18.bat`
-3. Restart the server
-
-## Testing
-
-After installation, run `test_chat18.bat` to verify the changes work correctly.
-
-## Rollback
-
-If needed, restore files from `backup_chat18/` folder:
-```batch
-copy backup_chat18\indicator_routes.py.bak backend\app\api\indicator_routes.py
-copy backup_chat18\SettingsSidebar.jsx.bak frontend\src\components\Indicator\SettingsSidebar.jsx
-copy backup_chat18\Indicator.jsx.bak frontend\src\pages\Indicator.jsx
-copy backup_chat18\StatsPanel.jsx.bak frontend\src\components\Indicator\StatsPanel.jsx
+### Pine Script Original (line 2195):
+```pine
+trade.sl_price := can_long 
+    ? (fixed_stop ? entry_price * (1 - sl_percent) : fib_5 * (1 - sl_percent))
+    : (fixed_stop ? entry_price * (1 + sl_percent) : fib_5 * (1 + sl_percent))
 ```
 
-## Git Commit Message
+### Fixed Logic:
+- `fixed_stop=False` (default): SL = mid_channel × (1 ± sl_percent)
+- `fixed_stop=True`: SL = entry_price × (1 ± sl_percent)
 
+## Files Changed
+
+### backend/app/indicators/dominant.py
+- Added `fixed_stop` parameter to `track_position()`
+- Added `_calculate_sl_for_mode()` helper function
+- Initial SL calculated from `mid_channel` by default
+- Added `fixed_stop` parameter to `run_full_backtest()`
+
+### backend/app/api/indicator_routes.py
+- Added `dominant_fixed_stop: bool = False` to IndicatorSettings
+- Pass `fixed_stop` to `run_full_backtest()` call
+
+## Test
+```bash
+cd tests
+python test_sl_from_mid.py
 ```
-feat(backtest): add data period selection for backtesting
 
-- Add start_date/end_date inputs to sidebar
-- Add quick period presets (1m, 3m, 6m, 1y, all)
-- Return data_range info in API response
-- Show used period in stats panel and header
-- Validate date ranges on frontend
+## Git Commit
+```
+fix(dominant): SL calculation from mid_channel (not entry_price)
 
-Chat #18
+- Add fixed_stop parameter (default False)
+- SL from mid_channel when fixed_stop=False (original behavior)
+- SL from entry_price when fixed_stop=True
+- Add _calculate_sl_for_mode() helper
+
+Chat #27: Dominant SL from mid_channel fix
 ```
