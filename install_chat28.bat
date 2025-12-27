@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo Installing Chat #28 Updates
+echo Installing Chat #28 - Trade Levels
 echo ========================================
 echo.
 
@@ -17,9 +17,13 @@ echo ========================================
 echo Installation complete!
 echo ========================================
 echo.
-echo Changes:
-echo - Fixed Stop toggle for Dominant (SL from entry vs mid_channel)
-echo - Chart shows TP/SL/Entry price lines for last trade
-echo - Improved trade markers with TP hit indicators
+echo NEW FEATURES:
+echo - TP/SL/Entry lines for ALL trades on chart
+echo - Lines are bounded by trade entry-exit time
+echo - TP hit checkmarks on chart
+echo - Fixed Stop toggle for Dominant
+echo - Toggle "Levels" checkbox in header to show/hide
+echo.
+echo Works for both TRG and Dominant indicators!
 echo.
 pause

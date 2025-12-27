@@ -1,44 +1,56 @@
-# Chat #28 — Dominant UI: Fixed Stop toggle + Chart markers fix
+# Chat #28 — Trade Levels Visualization (TRG + Dominant)
 
-## Changes
+## New Features
 
-### 1. Fixed Stop Toggle (SettingsSidebar.jsx)
-- Added checkbox "Fixed Stop (от входа)" in Stop Loss section for Dominant
-- When OFF (default): SL calculated from mid_channel (original behavior)
-- When ON: SL calculated from entry price
+### 1. Trade Level Lines on Chart
+For **ALL trades** (not just the last one):
+- **Entry line** (blue) — from entry to exit time
+- **TP lines** (green) — solid if hit, dashed if not
+- **SL line** (red) — solid if hit, dashed if not
 
-### 2. Chart Visualization (Indicator.jsx)
-- Added price lines for last trade:
-  - Entry line (blue)
-  - TP1-TP4 lines (green) with checkmark if hit
-  - SL line (red) with X if hit
-- Improved trade markers with TP hit indicators
+Lines are bounded by trade time — they start at entry and end at exit!
 
-### 3. Backend Updates
+### 2. TP Hit Markers
+- Green checkmarks `TP1✓`, `TP2✓` etc. on the chart
+- Shows exactly where each TP was hit
 
-#### dominant.py
-- Added `tp_levels`, `initial_sl`, `final_sl` to track_position return
-- These values are used for chart visualization
+### 3. Fixed Stop Toggle (Dominant)
+- Checkbox in Stop Loss section
+- OFF: SL from mid_channel (default behavior)
+- ON: SL from entry price
 
-#### indicator_routes.py
-- Added tp_levels, initial_sl, final_sl to adapted_trades
-- Improved prepare_trade_markers() with TP hit markers
+### 4. Toggle Switch
+- Header has "Уровни" checkbox to show/hide level lines
+- Default: ON
+
+## Works For Both Indicators
+- **TRG**: Uses `tp_levels`, `sl_level`, `tp_hit: [true, true, false, false]`
+- **Dominant**: Uses `tp_levels`, `sl_level`, `tps_hit: [1, 2]`
+
+## Files Changed
+
+### Backend
+- `dominant.py` — Added tp_levels, initial_sl, final_sl to track_position
+- `indicator_routes.py` — Added levels to adapted_trades, improved markers
+
+### Frontend
+- `Indicator.jsx` — Trade level lines for all trades, TP hit markers
+- `SettingsSidebar.jsx` — Fixed Stop checkbox for Dominant
 
 ## Installation
-
-1. Place this folder next to your `komas_indicator` folder
+1. Place folder next to `komas_indicator`
 2. Run `install_chat28.bat`
 3. Restart backend and frontend
 
 ## Git Commit
-
 ```
-feat(ui): Fixed Stop toggle + chart price lines
+feat(chart): Trade level lines for all trades (TRG + Dominant)
 
-- Add Fixed Stop checkbox for Dominant (SL from entry vs mid_channel)
-- Add price lines for TP/SL/Entry levels on chart
-- Add tp_levels, initial_sl, final_sl to trade data
-- Improve trade markers with TP hit indicators
+- Add TP/SL/Entry lines bounded by trade entry-exit time
+- Add TP hit checkmarks on chart
+- Add Fixed Stop toggle for Dominant
+- Add "Levels" toggle in header
+- Support both TRG and Dominant trade formats
 
-Chat #28: Dominant UI: Fixed Stop toggle + Chart markers fix
+Chat #28: Trade Levels Visualization
 ```

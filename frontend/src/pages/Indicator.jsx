@@ -9,8 +9,10 @@
  * - Auto-fill parameters from selected preset
  * - "Modified" tracking for preset changes
  * - Dynamic parameter forms
+ * - Trade levels visualization (TP/SL/Entry lines) - Chat #28
  * 
  * Chat #27: Dominant UI Integration
+ * Chat #28: Trade levels visualization for all trades
  */
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
@@ -94,6 +96,8 @@ const DEFAULT_SETTINGS = {
   dominant_tp3_amount: 20, dominant_tp4_amount: 10,
   dominant_sl_percent: 2.0,
   dominant_fixed_stop: false,  // Chat #28: If true, SL from entry; if false, SL from mid_channel
+  // Chart options (Chat #28)
+  show_trade_levels: true,  // Show TP/SL/Entry lines on chart
 };
 
 const Indicator = () => {
@@ -137,6 +141,9 @@ const Indicator = () => {
   const equityChartRef = useRef(null);
   const chartRef = useRef(null);
   const equityChartInstanceRef = useRef(null);
+  
+  // Store line series refs for cleanup
+  const tradeLevelSeriesRef = useRef([]);
 
   // Logging
   const addLog = useCallback((message, type = 'info') => {
@@ -303,15 +310,18 @@ const Indicator = () => {
     addLog(`Выбрана пара: ${symbol}`, 'info');
   };
 
-  // Render charts
+  // ============ RENDER CHART WITH TRADE LEVELS (Chat #28) ============
   const renderChart = useCallback((data) => {
     if (!chartContainerRef.current || !data) return;
 
-    // Clear previous
+    // Clear previous chart
     if (chartRef.current) {
       chartRef.current.remove();
       chartRef.current = null;
     }
+    
+    // Clear previous level series
+    tradeLevelSeriesRef.current = [];
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
@@ -331,7 +341,7 @@ const Indicator = () => {
     });
     candleSeries.setData(data.candles || []);
 
-    // TRG Lines
+    // TRG Lines (indicator lines)
     if (data.indicators?.trg_upper) {
       const upperSeries = chart.addLineSeries({ color: '#22c55e', lineWidth: 1, lineStyle: 2 });
       upperSeries.setData(data.indicators.trg_upper);
@@ -341,61 +351,169 @@ const Indicator = () => {
       lowerSeries.setData(data.indicators.trg_lower);
     }
 
-    // Trade markers - improved visualization (Chat #28)
-    if (data.trade_markers?.length) {
-      const markers = data.trade_markers.map(m => ({
-        time: m.time,
-        position: m.position || (m.type?.includes('entry') ? 'belowBar' : 'aboveBar'),
-        color: m.color || (m.type?.includes('long') ? '#22c55e' : '#ef4444'),
-        shape: m.shape || (m.type?.includes('entry') ? 'arrowUp' : 'circle'),
-        text: m.text || (m.type?.includes('entry') ? (m.type?.includes('long') ? 'L' : 'S') : ''),
-      }));
-      candleSeries.setMarkers(markers);
-    }
-
-    // Price lines for last trade levels (TP/SL/Entry) - Chat #28
-    if (data.trades?.length > 0) {
-      const lastTrade = data.trades[data.trades.length - 1];
-      
-      // Only show levels if trade has them (Dominant trades)
-      if (lastTrade.tp_levels?.length > 0) {
+    // ============ TRADE LEVEL LINES (Chat #28) ============
+    // Draw TP/SL/Entry lines for each trade
+    if (settings.show_trade_levels && data.trades?.length > 0) {
+      data.trades.forEach((trade, tradeIdx) => {
+        // Get entry and exit timestamps
+        const entryTime = trade.entry_time 
+          ? Math.floor(new Date(trade.entry_time).getTime() / 1000)
+          : null;
+        const exitTime = trade.exit_time
+          ? Math.floor(new Date(trade.exit_time).getTime() / 1000)
+          : null;
+        
+        if (!entryTime || !exitTime) return;
+        
+        const entryPrice = trade.entry_price;
+        const isLong = trade.type === 'long';
+        
+        // Get TP levels (works for both TRG and Dominant)
+        const tpLevels = trade.tp_levels || [];
+        
+        // Get SL level
+        const slLevel = trade.sl_level || trade.initial_sl || trade.final_sl;
+        
+        // Get which TPs were hit
+        // TRG uses tp_hit: [true, true, false, false]
+        // Dominant uses tps_hit: [1, 2] (numbers of hit TPs)
+        const tpHit = trade.tp_hit || [];
+        const tpsHitNums = trade.tps_hit || [];
+        
+        // Check if TP was hit
+        const isTpHit = (tpIdx) => {
+          if (Array.isArray(tpHit) && tpHit[tpIdx] === true) return true;
+          if (Array.isArray(tpsHitNums) && tpsHitNums.includes(tpIdx + 1)) return true;
+          return false;
+        };
+        
         // Entry line (blue)
-        candleSeries.createPriceLine({
-          price: lastTrade.entry_price,
-          color: '#3b82f6',
-          lineWidth: 1,
-          lineStyle: 0,
-          axisLabelVisible: true,
-          title: 'Entry',
-        });
-
-        // TP lines (green)
-        lastTrade.tp_levels.forEach((tp, idx) => {
-          const isHit = lastTrade.tps_hit?.includes(idx + 1);
-          candleSeries.createPriceLine({
-            price: tp,
-            color: isHit ? '#22c55e' : '#4ade80',
+        if (entryPrice) {
+          const entrySeries = chart.addLineSeries({
+            color: '#3b82f6',
             lineWidth: 1,
-            lineStyle: isHit ? 0 : 2,
-            axisLabelVisible: true,
-            title: `TP${idx + 1}${isHit ? ' ✓' : ''}`,
+            lineStyle: 0,
+            lastValueVisible: false,
+            priceLineVisible: false,
           });
+          entrySeries.setData([
+            { time: entryTime, value: entryPrice },
+            { time: exitTime, value: entryPrice },
+          ]);
+          tradeLevelSeriesRef.current.push(entrySeries);
+        }
+        
+        // TP lines (green)
+        tpLevels.forEach((tpPrice, tpIdx) => {
+          if (!tpPrice) return;
+          
+          const wasHit = isTpHit(tpIdx);
+          
+          const tpSeries = chart.addLineSeries({
+            color: wasHit ? '#22c55e' : '#4ade80',
+            lineWidth: 1,
+            lineStyle: wasHit ? 0 : 2, // Solid if hit, dashed if not
+            lastValueVisible: false,
+            priceLineVisible: false,
+          });
+          tpSeries.setData([
+            { time: entryTime, value: tpPrice },
+            { time: exitTime, value: tpPrice },
+          ]);
+          tradeLevelSeriesRef.current.push(tpSeries);
         });
-
-        // SL line (red) - use final_sl if available, otherwise initial_sl
-        const slPrice = lastTrade.final_sl || lastTrade.initial_sl;
-        if (slPrice) {
-          const slHit = lastTrade.exit_reason === 'sl';
-          candleSeries.createPriceLine({
-            price: slPrice,
+        
+        // SL line (red)
+        if (slLevel) {
+          const slHit = trade.exit_reason === 'sl' || trade.exit_reason === 'SL';
+          
+          const slSeries = chart.addLineSeries({
             color: slHit ? '#ef4444' : '#f87171',
             lineWidth: 1,
             lineStyle: slHit ? 0 : 2,
-            axisLabelVisible: true,
-            title: `SL${slHit ? ' ✗' : ''}`,
+            lastValueVisible: false,
+            priceLineVisible: false,
+          });
+          slSeries.setData([
+            { time: entryTime, value: slLevel },
+            { time: exitTime, value: slLevel },
+          ]);
+          tradeLevelSeriesRef.current.push(slSeries);
+        }
+      });
+    }
+
+    // ============ TRADE MARKERS ============
+    // Build enhanced markers with TP hit checkmarks
+    if (data.trades?.length > 0) {
+      const markers = [];
+      
+      data.trades.forEach((trade, idx) => {
+        const entryTime = trade.entry_time 
+          ? Math.floor(new Date(trade.entry_time).getTime() / 1000)
+          : null;
+        const exitTime = trade.exit_time
+          ? Math.floor(new Date(trade.exit_time).getTime() / 1000)
+          : null;
+        
+        if (!entryTime) return;
+        
+        const isLong = trade.type === 'long';
+        const isReentry = trade.is_reentry;
+        
+        // Entry marker
+        markers.push({
+          time: entryTime,
+          position: isLong ? 'belowBar' : 'aboveBar',
+          color: isReentry ? '#fbbf24' : (isLong ? '#22c55e' : '#ef4444'),
+          shape: isLong ? 'arrowUp' : 'arrowDown',
+          text: isReentry ? `RE-${trade.type.toUpperCase()}` : trade.type.toUpperCase(),
+        });
+        
+        // TP hit markers
+        const tpLevels = trade.tp_levels || [];
+        const tpHit = trade.tp_hit || [];
+        const tpsHitNums = trade.tps_hit || [];
+        const duration = exitTime && entryTime ? exitTime - entryTime : 0;
+        
+        // Count hit TPs
+        let hitCount = 0;
+        tpLevels.forEach((tpPrice, tpIdx) => {
+          const wasHit = (Array.isArray(tpHit) && tpHit[tpIdx] === true) ||
+                        (Array.isArray(tpsHitNums) && tpsHitNums.includes(tpIdx + 1));
+          if (wasHit) {
+            hitCount++;
+            // Place TP marker between entry and exit
+            const tpTime = entryTime + Math.floor(duration * hitCount / (tpLevels.length + 1));
+            markers.push({
+              time: tpTime,
+              position: isLong ? 'aboveBar' : 'belowBar',
+              color: '#22c55e',
+              shape: 'circle',
+              text: `TP${tpIdx + 1}✓`,
+            });
+          }
+        });
+        
+        // Exit marker
+        if (exitTime) {
+          const pnl = trade.pnl || 0;
+          const exitReason = trade.exit_reason || '';
+          const isSL = exitReason.toLowerCase() === 'sl';
+          
+          markers.push({
+            time: exitTime,
+            position: isLong ? 'aboveBar' : 'belowBar',
+            color: pnl > 0 ? '#22c55e' : '#ef4444',
+            shape: isSL ? 'square' : 'circle',
+            text: `${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%`,
           });
         }
-      }
+      });
+      
+      // Sort by time and set markers
+      markers.sort((a, b) => a.time - b.time);
+      candleSeries.setMarkers(markers);
     }
 
     chartRef.current = chart;
@@ -427,7 +545,7 @@ const Indicator = () => {
       equityChartInstanceRef.current = eqChart;
       eqChart.timeScale().fitContent();
     }
-  }, []);
+  }, [settings.show_trade_levels]);
 
   // Main calculate
   const calculate = async (forceRecalculate = false) => {
@@ -644,248 +762,232 @@ const Indicator = () => {
     }
   }, [activeTab, result, renderChart]);
 
-  // Keyboard
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Enter' && !loading) calculate();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [loading, settings]);
-  
-  // Reset data range when symbol/timeframe changes
-  useEffect(() => {
-    setDataRange(null);
-  }, [settings.symbol, settings.timeframe]);
-
-  const stats = result?.stats;
-  const profitPct = stats?.profit_pct ?? stats?.final_profit_pct ?? 0;
-
-  const TABS = [
-    { key: 'chart', label: '📈 График' },
-    { key: 'stats', label: '📊 Статистика' },
-    { key: 'trades', label: '📋 Сделки' },
-    { key: 'monthly', label: '📅 Месяцы' },
-    { key: 'optimize', label: '🔥 Оптимизация' },
-    { key: 'heatmap', label: '🗺️ Heatmap' },
+  // Tabs
+  const tabs = [
+    { id: 'chart', icon: '📈', label: 'График' },
+    { id: 'stats', icon: '📊', label: 'Статистика' },
+    { id: 'trades', icon: '📋', label: 'Сделки' },
+    { id: 'monthly', icon: '📅', label: 'Месяцы' },
+    { id: 'optimize', icon: '🔥', label: 'Оптимизация' },
+    { id: 'heatmap', icon: '🗺️', label: 'Heatmap' },
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-900">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
-        <div className="flex items-center gap-3">
-          <h1 className="text-lg font-bold text-white">
-            {indicatorType === 'trg' ? '🎯' : '💎'} Komas {indicatorType.toUpperCase()}
-          </h1>
-          
-          {/* Symbol */}
-          <div className="relative">
-            <button
-              onClick={() => setShowSymbolDropdown(!showSymbolDropdown)}
-              className="bg-gray-700 text-white rounded px-3 py-1.5 text-sm flex items-center gap-2 hover:bg-gray-600"
-            >
-              <span className="font-mono">{settings.symbol}</span>
-              <span className="text-gray-400">▼</span>
-            </button>
-            
-            {showSymbolDropdown && (
-              <div className="absolute z-50 mt-1 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl">
-                <input
-                  type="text"
-                  value={symbolSearch}
-                  onChange={(e) => setSymbolSearch(e.target.value)}
-                  placeholder="Поиск..."
-                  className="w-full bg-gray-700 text-white px-3 py-2 text-sm rounded-t-lg border-b border-gray-600"
-                  autoFocus
-                />
-                <div className="max-h-48 overflow-y-auto">
-                  {filteredSymbols.map(symbol => (
-                    <button
-                      key={symbol}
-                      onClick={() => selectSymbol(symbol)}
-                      className={`w-full text-left px-3 py-1.5 text-sm hover:bg-gray-700 ${
-                        settings.symbol === symbol ? 'bg-purple-600 text-white' : 'text-gray-300'
-                      }`}
-                    >
-                      {symbol}
-                    </button>
-                  ))}
-                </div>
+    <div className="flex h-screen bg-gray-900 text-white overflow-hidden">
+      {/* Settings Sidebar */}
+      <SettingsSidebar 
+        settings={settings} 
+        onUpdate={updateSetting}
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        dataRange={dataRange}
+        cacheStats={cacheStats}
+        onClearCache={clearCache}
+        indicatorType={indicatorType}
+        onIndicatorChange={handleIndicatorChange}
+        presets={dominantPresets}
+        presetsLoading={presetsLoading}
+        selectedPreset={selectedPreset}
+        onPresetSelect={handlePresetSelect}
+        isModified={isModified}
+      />
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <div className="bg-gray-800 border-b border-gray-700 px-4 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {/* Symbol selector */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowSymbolDropdown(!showSymbolDropdown)}
+                  className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-sm"
+                >
+                  <span className="font-bold">{settings.symbol}</span>
+                  <span className="text-gray-400">▼</span>
+                </button>
+                
+                {showSymbolDropdown && (
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-gray-800 border border-gray-700 rounded shadow-lg z-50 max-h-64 overflow-y-auto">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={symbolSearch}
+                      onChange={(e) => setSymbolSearch(e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 text-white text-sm border-b border-gray-600"
+                      autoFocus
+                    />
+                    {filteredSymbols.map(s => (
+                      <button
+                        key={s}
+                        onClick={() => selectSymbol(s)}
+                        className={`w-full px-3 py-1.5 text-left text-sm hover:bg-gray-700 ${
+                          settings.symbol === s ? 'bg-purple-600' : ''
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          
-          {/* Timeframe */}
-          <select
-            value={settings.timeframe}
-            onChange={(e) => updateSetting('timeframe', e.target.value)}
-            className="bg-gray-700 text-white rounded px-2 py-1.5 text-sm"
-          >
-            {TIMEFRAMES.map(tf => <option key={tf} value={tf}>{tf}</option>)}
-          </select>
-          
-          {/* Period indicator */}
-          {(settings.start_date || settings.end_date) && (
-            <span className="text-xs text-purple-400 bg-purple-900/30 px-2 py-1 rounded">
-              📅 {settings.start_date || '...'} — {settings.end_date || '...'}
-            </span>
-          )}
-          
-          {/* Selected preset indicator */}
-          {selectedPreset && (
-            <span className={`text-xs px-2 py-1 rounded ${
-              isModified 
-                ? 'text-orange-400 bg-orange-900/30' 
-                : 'text-blue-400 bg-blue-900/30'
-            }`}>
-              🎛️ {selectedPreset.name} {isModified && '(изменён)'}
-            </span>
-          )}
-          
-          {/* Run */}
-          <button
-            onClick={() => calculate(false)}
-            disabled={loading}
-            className={`px-4 py-1.5 rounded text-sm font-bold ${
-              loading ? 'bg-gray-600 text-gray-400' : 'bg-purple-600 hover:bg-purple-500 text-white'
-            }`}
-          >
-            {loading ? '⏳...' : '▶️ Запустить'}
-          </button>
-          
-          {/* Force Recalculate */}
-          <button
-            onClick={() => calculate(true)}
-            disabled={loading}
-            className="px-2 py-1.5 rounded text-sm bg-orange-600 hover:bg-orange-500 text-white disabled:bg-gray-600 disabled:text-gray-400"
-            title="Принудительный пересчёт (игнорировать кэш)"
-          >
-            🔄
-          </button>
-          
-          {/* Cache status indicator */}
-          {result && (
-            <div className={`px-2 py-1 rounded text-xs ${
-              cachedResult ? 'bg-blue-600/20 text-blue-400 border border-blue-600/30' : 'bg-green-600/20 text-green-400 border border-green-600/30'
-            }`}>
-              {cachedResult ? '📦 Cached' : '🔄 Calculated'}
-            </div>
-          )}
-          
-          {/* Cache stats */}
-          {cacheStats && (
-            <div className="text-xs text-gray-400" title={`Hits: ${cacheStats.hits}, Misses: ${cacheStats.misses}`}>
-              💾 {cacheStats.entries}/{cacheStats.max_size} ({cacheStats.hit_rate}%)
-            </div>
-          )}
-        </div>
-        
-        {/* Stats & Export */}
-        <div className="flex items-center gap-2">
-          {stats && (
-            <div className="flex items-center gap-3 mr-4 text-sm">
-              <span className={profitPct >= 0 ? 'text-green-400' : 'text-red-400'}>
-                {profitPct >= 0 ? '+' : ''}{profitPct?.toFixed(2)}%
+
+              {/* Timeframe selector */}
+              <div className="flex gap-1">
+                {TIMEFRAMES.map(tf => (
+                  <button
+                    key={tf}
+                    onClick={() => updateSetting('timeframe', tf)}
+                    className={`px-2 py-1 text-xs rounded ${
+                      settings.timeframe === tf 
+                        ? 'bg-purple-600 text-white' 
+                        : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                    }`}
+                  >
+                    {tf}
+                  </button>
+                ))}
+              </div>
+
+              {/* Indicator badge */}
+              <span className={`px-2 py-1 text-xs rounded font-medium ${
+                indicatorType === 'trg' ? 'bg-purple-600' : 'bg-blue-600'
+              }`}>
+                {indicatorType.toUpperCase()}
               </span>
-              <span className="text-gray-500">|</span>
-              <span className="text-blue-400">{stats.win_rate}% WR</span>
-              <span className="text-gray-500">|</span>
-              <span className="text-gray-300">{stats.total_trades} trades</span>
+              
+              {/* Trade levels toggle (Chat #28) */}
+              <label className="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.show_trade_levels}
+                  onChange={(e) => updateSetting('show_trade_levels', e.target.checked)}
+                  className="rounded"
+                />
+                <span>Уровни</span>
+              </label>
             </div>
-          )}
-          <button onClick={exportCSV} className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded hover:bg-gray-600">CSV</button>
-          <button onClick={exportJSON} className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded hover:bg-gray-600">JSON</button>
-        </div>
-      </div>
 
-      {/* Main */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <SettingsSidebar
-          settings={settings}
-          onUpdate={updateSetting}
-          collapsed={sidebarCollapsed}
-          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-          dataRange={dataRange}
-          cacheStats={cacheStats}
-          onClearCache={clearCache}
-          // New Dominant props
-          indicatorType={indicatorType}
-          onIndicatorChange={handleIndicatorChange}
-          presets={dominantPresets}
-          presetsLoading={presetsLoading}
-          selectedPreset={selectedPreset}
-          onPresetSelect={handlePresetSelect}
-          isModified={isModified}
-        />
-
-        {/* Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Tabs */}
-          <div className="flex items-center gap-1 px-4 py-2 bg-gray-800 border-b border-gray-700">
-            {TABS.map(tab => (
+            <div className="flex items-center gap-2">
               <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`px-3 py-1.5 text-xs rounded font-medium transition-colors ${
-                  activeTab === tab.key
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                onClick={() => calculate()}
+                disabled={loading}
+                className={`px-4 py-1.5 rounded text-sm font-medium ${
+                  loading 
+                    ? 'bg-gray-600 text-gray-400' 
+                    : 'bg-purple-600 hover:bg-purple-500 text-white'
                 }`}
               >
-                {tab.label}
+                {loading ? '⏳ Расчёт...' : '▶️ Рассчитать'}
+              </button>
+              
+              <button
+                onClick={() => calculate(true)}
+                disabled={loading}
+                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm"
+                title="Принудительный пересчёт (без кэша)"
+              >
+                🔄
+              </button>
+
+              <button
+                onClick={exportCSV}
+                disabled={!result?.trades?.length}
+                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm disabled:opacity-50"
+              >
+                📄 CSV
+              </button>
+
+              <button
+                onClick={exportJSON}
+                disabled={!result}
+                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm disabled:opacity-50"
+              >
+                📄 JSON
+              </button>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex gap-1 mt-2">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-3 py-1.5 rounded text-sm ${
+                  activeTab === tab.id 
+                    ? 'bg-gray-700 text-white' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                {tab.icon} {tab.label}
               </button>
             ))}
           </div>
+        </div>
 
-          {/* Tab Content */}
-          <div className="flex-1 overflow-auto">
-            {activeTab === 'chart' && (
-              <div className="p-4 space-y-2 h-full flex flex-col">
-                <div ref={chartContainerRef} className="flex-1 bg-gray-800 rounded-lg min-h-[400px]" />
-                <div ref={equityChartRef} className="h-[100px] bg-gray-800 rounded-lg" />
-              </div>
-            )}
+        {/* Tab Content */}
+        <div className="flex-1 overflow-hidden">
+          {activeTab === 'chart' && (
+            <div className="h-full flex flex-col">
+              <div ref={chartContainerRef} className="flex-1" />
+              <div ref={equityChartRef} className="h-24 border-t border-gray-700" />
+            </div>
+          )}
 
-            {activeTab === 'stats' && (
-              <StatsPanel statistics={result?.stats} tpCount={settings.tp_count} dataRange={dataRange} cached={cachedResult} />
-            )}
+          {activeTab === 'stats' && (
+            <div className="h-full overflow-y-auto p-4">
+              <StatsPanel stats={result?.stats} trades={result?.trades} indicatorType={indicatorType} />
+            </div>
+          )}
 
-            {activeTab === 'trades' && (
-              <TradesTable trades={result?.trades} />
-            )}
+          {activeTab === 'trades' && (
+            <div className="h-full overflow-hidden">
+              <TradesTable trades={result?.trades || []} />
+            </div>
+          )}
 
-            {activeTab === 'monthly' && (
+          {activeTab === 'monthly' && (
+            <div className="h-full overflow-y-auto p-4">
               <MonthlyPanel monthly={result?.monthly} />
-            )}
+            </div>
+          )}
 
-            {activeTab === 'optimize' && (
-              <AutoOptimizePanel
+          {activeTab === 'optimize' && (
+            <div className="h-full overflow-y-auto p-4">
+              <AutoOptimizePanel 
                 settings={settings}
-                onApplyBest={applyParams}
+                onApplyParams={applyParams}
                 addLog={addLog}
               />
-            )}
+            </div>
+          )}
 
-            {activeTab === 'heatmap' && (
-              <HeatmapPanel
+          {activeTab === 'heatmap' && (
+            <div className="h-full overflow-y-auto p-4">
+              <HeatmapPanel 
                 data={heatmapData}
                 loading={loadingHeatmap}
                 onGenerate={generateHeatmap}
+                onSelectCell={(i1, i2) => {
+                  updateSetting('trg_atr_length', i1);
+                  updateSetting('trg_multiplier', i2);
+                  addLog(`Выбрано: i1=${i1}, i2=${i2}`, 'info');
+                }}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Logs */}
-      <LogsPanel
-        logs={logs}
-        onClear={clearLogs}
-        collapsed={logsCollapsed}
-        onToggle={() => setLogsCollapsed(!logsCollapsed)}
-      />
+        {/* Logs Panel */}
+        <LogsPanel 
+          logs={logs}
+          collapsed={logsCollapsed}
+          onToggle={() => setLogsCollapsed(!logsCollapsed)}
+          onClear={clearLogs}
+        />
+      </div>
     </div>
   );
 };

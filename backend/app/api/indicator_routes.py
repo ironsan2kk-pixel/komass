@@ -646,6 +646,7 @@ async def calculate_indicator(settings: IndicatorSettings):
                     'tp_levels': trade.get('tp_levels', []),
                     'initial_sl': trade.get('initial_sl', 0),
                     'final_sl': trade.get('final_sl', 0),
+                    'sl_level': trade.get('initial_sl', 0),  # For TRG compatibility
                     'entry_idx': entry_idx,
                     'exit_idx': exit_idx,
                 }
