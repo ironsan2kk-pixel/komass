@@ -410,19 +410,14 @@ async def calculate_indicator(settings: IndicatorSettings):
                 pnl_with_leverage = pnl_pct * settings.leverage
                 current_equity = current_equity * (1 + pnl_with_leverage / 100)
                 
-                exit_time = trade.get('exit_time')
-                if exit_time:
-                    try:
-                        if isinstance(exit_time, str):
-                            ts = pd.Timestamp(exit_time).timestamp()
-                        else:
-                            ts = exit_time.timestamp()
-                        equity_curve.append({
-                            'time': int(ts),
-                            'value': round(current_equity, 2)
-                        })
-                    except:
-                        pass
+                # Dominant returns exit_idx, not exit_time - convert it!
+                exit_idx = trade.get('exit_idx')
+                if exit_idx is not None and exit_idx < len(df):
+                    exit_timestamp = int(df.index[exit_idx].timestamp())
+                    equity_curve.append({
+                        'time': exit_timestamp,
+                        'value': round(current_equity, 2)
+                    })
             
             # =====================================================
             # CORRECT STATS CALCULATION (same logic as TRG)
