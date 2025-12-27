@@ -2,6 +2,7 @@
 Komas Trading Server - Data Management API
 ==========================================
 Full history download with retry logic and parallel processing
+Binance FUTURES ONLY (v4.0)
 """
 import os
 import asyncio
@@ -47,10 +48,10 @@ download_progress = {}
 NUM_WORKERS = os.cpu_count() or 4
 MAX_CONCURRENT_DOWNLOADS = min(NUM_WORKERS, 4)  # Limit to avoid API rate limits
 
-# Binance API URLs
+# Binance Futures API URL (ONLY Futures supported)
 BINANCE_FUTURES_URL = "https://fapi.binance.com/fapi/v1/klines"
-BINANCE_SPOT_URL = "https://api.binance.com/api/v3/klines"
 
+# Binance Futures symbols list
 BINANCE_SYMBOLS = [
     "BTCUSDT", "ETHUSDT", "BNBUSDT", "XRPUSDT", "SOLUSDT",
     "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "DOTUSDT", "LINKUSDT",
@@ -75,7 +76,7 @@ class DownloadRequest(BaseModel):
     symbols: List[str]
     timeframe: str = "1h"
     start_date: Optional[str] = None
-    source: str = "spot"  # "spot" or "futures"
+    # source removed - Futures only
 
 
 @router.get("/symbols")
@@ -103,6 +104,7 @@ async def debug_paths():
         "parquet_files_count": len(files_in_data_dir),
         "parquet_files": [f.name for f in files_in_data_dir[:20]],  # First 20
         "env_pwd": os.environ.get("PWD", "not set"),
+        "api_source": "Binance Futures"
     }
 
 
@@ -141,7 +143,7 @@ async def start_download(request: DownloadRequest, background_tasks: BackgroundT
     
     background_tasks.add_task(
         download_history, task_id, request.symbols, request.timeframe, 
-        request.start_date, request.source
+        request.start_date
     )
     
     return {
@@ -149,8 +151,8 @@ async def start_download(request: DownloadRequest, background_tasks: BackgroundT
         "task_id": task_id,
         "symbols": request.symbols,
         "timeframe": request.timeframe,
-        "source": request.source,
-        "message": f"Download started from Binance {request.source.upper()}"
+        "source": "futures",
+        "message": "Download started from Binance FUTURES"
     }
 
 
@@ -171,10 +173,9 @@ async def download_history(
     task_id: str,
     symbols: List[str],
     timeframe: str,
-    start_date: Optional[str],
-    source: str = "spot"
+    start_date: Optional[str]
 ):
-    """Background task to download historical data with retry logic"""
+    """Background task to download historical data from Binance Futures"""
     import aiohttp
     
     active_downloads[task_id] = "running"
@@ -184,7 +185,7 @@ async def download_history(
         "current": None,
         "current_progress": "",
         "errors": [],
-        "source": source
+        "source": "futures"
     }
     
     tf_ms = {
@@ -194,7 +195,6 @@ async def download_history(
     }
     
     interval_ms = tf_ms.get(timeframe, 3600000)
-    api_url = BINANCE_SPOT_URL if source == "spot" else BINANCE_FUTURES_URL
     
     # Longer timeout for large downloads
     timeout = aiohttp.ClientTimeout(total=60)
@@ -210,13 +210,12 @@ async def download_history(
             
             try:
                 result = await download_symbol_with_retry(
-                    session, symbol, timeframe, interval_ms, start_date, 
-                    api_url, source, task_id
+                    session, symbol, timeframe, interval_ms, start_date, task_id
                 )
                 download_progress[task_id]["completed"] = i + 1
                 
                 if result:
-                    print(f"[Data] âœ“ {symbol} {timeframe}: {result['rows']:,} candles ({result['start']} - {result['end']})")
+                    print(f"[Data] ✓ {symbol} {timeframe}: {result['rows']:,} candles ({result['start']} - {result['end']})")
                     
             except Exception as e:
                 print(f"[Data] ✗ Error {symbol}: {e}")
@@ -234,20 +233,18 @@ async def download_symbol_with_retry(
     timeframe: str,
     interval_ms: int,
     start_date: Optional[str],
-    api_url: str,
-    source: str,
     task_id: str,
     max_retries: int = 5
 ) -> Optional[dict]:
-    """Download with retry logic and progress tracking"""
+    """Download with retry logic and progress tracking - Futures only"""
     
     filepath = DATA_DIR / f"{symbol}_{timeframe}.parquet"
     
-    # Determine start time
+    # Determine start time - Futures data available from Sept 2019
     if start_date:
         start_ts = int(datetime.fromisoformat(start_date).timestamp() * 1000)
     else:
-        start_ts = int(datetime(2017, 8, 1).timestamp() * 1000) if source == "spot" else int(datetime(2019, 9, 1).timestamp() * 1000)
+        start_ts = int(datetime(2019, 9, 1).timestamp() * 1000)
     
     end_ts = int(datetime.now().timestamp() * 1000)
     
@@ -290,7 +287,7 @@ async def download_symbol_with_retry(
         while retry_count < max_retries and not success:
             try:
                 async with session.get(
-                    api_url,
+                    BINANCE_FUTURES_URL,
                     params={
                         "symbol": symbol,
                         "interval": timeframe,
@@ -354,10 +351,9 @@ async def download_symbol_with_retry(
                     consecutive_errors = 0
                     request_count += 1
                     
-                    # Rate limiting - be conservative
-                    # Binance limit: 1200 requests per minute for spot
-                    # So we do ~10-15 requests per second max
-                    await asyncio.sleep(0.15)
+                    # Rate limiting - Futures limit: 2400 requests per minute
+                    # So we do ~20-30 requests per second max
+                    await asyncio.sleep(0.1)
                     
                     # Save periodically (every 100 requests)
                     if request_count % 100 == 0 and all_candles:
@@ -366,11 +362,6 @@ async def download_symbol_with_retry(
                     
             except asyncio.TimeoutError:
                 print(f"[Data] Timeout for {symbol}, retry {retry_count + 1}/{max_retries}")
-                retry_count += 1
-                await asyncio.sleep(5)
-                
-            except aiohttp.ClientError as e:
-                print(f"[Data] Connection error: {e}, retry {retry_count + 1}/{max_retries}")
                 retry_count += 1
                 await asyncio.sleep(5)
                 
@@ -427,7 +418,7 @@ async def save_candles(filepath, existing_df, new_candles) -> dict:
 
 @router.post("/sync")
 async def sync_latest(symbols: List[str] = None, timeframe: str = "1h"):
-    """Sync latest candles for symbols (parallel)"""
+    """Sync latest candles for symbols (parallel) - Futures only"""
     import aiohttp
     
     if not symbols:
@@ -443,7 +434,7 @@ async def sync_latest(symbols: List[str] = None, timeframe: str = "1h"):
     errors = []
     
     async def sync_symbol(session, symbol):
-        """Sync a single symbol"""
+        """Sync a single symbol from Binance Futures"""
         try:
             filepath = DATA_DIR / f"{symbol}_{timeframe}.parquet"
             if not filepath.exists():
@@ -453,7 +444,7 @@ async def sync_latest(symbols: List[str] = None, timeframe: str = "1h"):
             last_ts = int(df.index[-1].timestamp() * 1000)
             
             async with session.get(
-                BINANCE_SPOT_URL,
+                BINANCE_FUTURES_URL,
                 params={
                     "symbol": symbol,
                     "interval": timeframe,
@@ -519,7 +510,8 @@ async def sync_latest(symbols: List[str] = None, timeframe: str = "1h"):
         "success": True, 
         "synced": synced, 
         "errors": errors,
-        "parallel_workers": MAX_CONCURRENT_DOWNLOADS
+        "parallel_workers": MAX_CONCURRENT_DOWNLOADS,
+        "source": "futures"
     }
 
 
@@ -534,17 +526,18 @@ async def delete_file(filename: str):
 
 @router.post("/continue/{symbol}/{timeframe}")
 async def continue_download(symbol: str, timeframe: str, background_tasks: BackgroundTasks):
-    """Continue downloading a specific symbol that was interrupted"""
+    """Continue downloading a specific symbol that was interrupted - Futures only"""
     
     task_id = f"continue_{symbol}_{datetime.now().strftime('%H%M%S')}"
     
     background_tasks.add_task(
-        download_history, task_id, [symbol], timeframe, None, "spot"
+        download_history, task_id, [symbol], timeframe, None
     )
     
     return {
         "success": True,
         "task_id": task_id,
         "symbol": symbol,
-        "message": f"Continuing download for {symbol}"
+        "source": "futures",
+        "message": f"Continuing download for {symbol} from Binance FUTURES"
     }

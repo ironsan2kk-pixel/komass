@@ -1,373 +1,424 @@
-/**
- * Data Page v3.5.2
- * =================
- * Управление рыночными данными
- * 
- * Features:
- * - Загрузка списка символов с backend (80+ пар)
- * - Фильтр Top 20/50/100/All
- * - Поиск по символу
- * - Выбор Spot/Futures
- * - Batch загрузка нескольких пар
- */
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { dataApi } from '../api';
-import toast from 'react-hot-toast';
-import { Download, Trash2, RefreshCw, Search, Filter } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 
 const TIMEFRAMES = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '1d'];
-const TOP_FILTERS = [
-  { label: 'Top 20', value: 20 },
-  { label: 'Top 50', value: 50 },
-  { label: 'Top 100', value: 100 },
-  { label: 'Все', value: 999 },
+
+// Binance Futures symbols (comprehensive list)
+const ALL_SYMBOLS = [
+  "BTCUSDT", "ETHUSDT", "BNBUSDT", "XRPUSDT", "SOLUSDT",
+  "ADAUSDT", "DOGEUSDT", "AVAXUSDT", "DOTUSDT", "LINKUSDT",
+  "MATICUSDT", "LTCUSDT", "ATOMUSDT", "UNIUSDT", "NEARUSDT",
+  "APTUSDT", "ARBUSDT", "OPUSDT", "SUIUSDT", "SEIUSDT",
+  "TRXUSDT", "TONUSDT", "SHIBUSDT", "BCHUSDT", "XLMUSDT",
+  "HBARUSDT", "FILUSDT", "ETCUSDT", "INJUSDT", "IMXUSDT",
+  "RNDRUSDT", "GRTUSDT", "FTMUSDT", "AAVEUSDT", "MKRUSDT",
+  "ALGOUSDT", "FLOWUSDT", "XTZUSDT", "SANDUSDT", "MANAUSDT",
+  "AXSUSDT", "GALAUSDT", "THETAUSDT", "EOSUSDT", "IOTAUSDT",
+  "NEOUSDT", "KLAYUSDT", "QNTUSDT", "CHZUSDT", "APEUSDT",
+  "ZILUSDT", "CRVUSDT", "LRCUSDT", "ENJUSDT", "BATUSDT",
+  "COMPUSDT", "SNXUSDT", "1INCHUSDT", "YFIUSDT", "SUSHIUSDT",
+  "ZECUSDT", "DASHUSDT", "WAVESUSDT", "KAVAUSDT", "ANKRUSDT",
+  "ICPUSDT", "RUNEUSDT", "STXUSDT", "MINAUSDT", "GMXUSDT",
+  "LDOUSDT", "CFXUSDT", "AGIXUSDT", "FETUSDT", "OCEANUSDT",
+  "CKBUSDT", "ICXUSDT", "ONTUSDT", "VETUSDT", "ONEUSDT",
+  "HOTUSDT", "ZENUSDT", "RVNUSDT", "DENTUSDT", "CELRUSDT",
+  "MTLUSDT", "OGNUSDT", "NKNUSDT", "BANDUSDT", "KNCUSDT",
+  "BALUSDT", "SKLUSDT", "CTSIUSDT", "LITUSDT", "UNFIUSDT",
+  "DODOUSDT", "ALPHAUSDT", "TLMUSDT", "MASKUSDT", "LPTUSDT",
+  "ENSUSDT", "PEOPLEUSDT", "SPELLUSDT", "JOEUSDT", "ACHUSDT",
+  "DYDXUSDT", "WOOUSDT", "CELOUSDT", "ARUSDT", "JASMYUSDT",
+  "DARUSDT", "ROSEUSDT", "DUSKUSDT", "API3USDT", "GMTUSDT",
+  "ARPAUSDT", "BLURUSDT", "EDUUSDT", "IDUSDT", "RDNTUSDT",
+  "MAGICUSDT", "HOOKUSDT", "HIGHUSDT", "ASTRUSDT", "PHBUSDT",
+  "SSVUSDT", "STGUSDT", "BNXUSDT", "LEVERUSDT", "AMBUSDT",
+  "PERPUSDT", "MAVUSDT", "WLDUSDT", "PENDLEUSDT", "ARKMUSDT",
+  "XVSUSDT", "TRBUSDT", "COMBOUSDT", "NMRUSDT", "MDTUSDT",
+  "XEMUSDT", "BIGTIMEUSDT", "BONDUSDT", "ORBSUSDT", "STPTUSDT",
+  "GASUSDT", "POLYXUSDT", "POWRUSDT", "TIAUSDT", "BEAMXUSDT",
+  "1000BONKUSDT", "1000SATSUSDT", "ACEUSDT", "NFPUSDT", "AIUSDT",
+  "XAIUSDT", "MANTAUSDT", "ALTUSDT", "JUPUSDT", "ZETAUSDT",
+  "RONINUSDT", "DYMUSDT", "OMUSDT", "PIXELUSDT", "STRKUSDT",
+  "MAVIAUSDT", "GLMUSDT", "PORTALUSDT", "AXLUSDT", "WUSDT",
+  "ENAUSDT", "SAGAUSDT", "REZUSDT", "BBUSDT", "NOTUSDT",
+  "TURBOUSDT", "IOUSDT", "ZKUSDT", "LISTAUSDT", "RENDERUSDT",
+  "PEPEUSDT", "FLOKIUSDT", "WIFUSDT", "BOMEUSDT", "MEWUSDT",
+  "POPCATUSDT", "EIGENUSDT", "TAOUSDT", "ORDIUSDT", "CATIUSDT",
+  "HMSTRUSDT", "SCRUSDT", "1MBABYDOGEUSDT", "GOATUSDT"
 ];
 
 export default function Data() {
-  // Symbols from API
-  const [allSymbols, setAllSymbols] = useState([]);
-  const [topFilter, setTopFilter] = useState(20);
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  // Data files
-  const [dataFiles, setDataFiles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  
-  // Download settings
   const [selectedSymbols, setSelectedSymbols] = useState([]);
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1h');
-  const [source, setSource] = useState('spot');
+  const [symbolSearch, setSymbolSearch] = useState('');
+  const [availableData, setAvailableData] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+  const [downloadTimeframe, setDownloadTimeframe] = useState('1h');
   const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(null);
+  const [autoSync, setAutoSync] = useState(false);
+  const [syncInterval, setSyncInterval] = useState(1);
+  const [lastSync, setLastSync] = useState(null);
+  const syncTimerRef = useRef(null);
 
-  // Filtered symbols based on top filter and search
-  const filteredSymbols = useMemo(() => {
-    let result = allSymbols.slice(0, topFilter);
-    
-    if (searchQuery) {
-      const query = searchQuery.toUpperCase();
-      result = allSymbols.filter(s => 
-        s.symbol.includes(query) || s.baseAsset.includes(query)
-      );
-    }
-    
-    return result;
-  }, [allSymbols, topFilter, searchQuery]);
-
-  // Load symbols from backend
-  const loadSymbols = useCallback(async () => {
-    try {
-      const res = await dataApi.getSymbols();
-      setAllSymbols(res.data?.symbols || []);
-    } catch (err) {
-      console.error('Failed to load symbols:', err);
-      toast.error('Ошибка загрузки списка символов');
-    }
-  }, []);
-
-  // Load available data files
-  const loadDataFiles = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await dataApi.getAvailable();
-      setDataFiles(res.data?.files || []);
-    } catch (err) {
-      console.error('Failed to load data files:', err);
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    fetchAvailableData();
   }, []);
 
   useEffect(() => {
-    loadSymbols();
-    loadDataFiles();
-  }, [loadSymbols, loadDataFiles]);
+    if (autoSync) {
+      syncTimerRef.current = setInterval(syncLatest, syncInterval * 60 * 1000);
+      syncLatest();
+    } else if (syncTimerRef.current) {
+      clearInterval(syncTimerRef.current);
+    }
+    return () => syncTimerRef.current && clearInterval(syncTimerRef.current);
+  }, [autoSync, syncInterval]);
 
-  // Toggle symbol selection
-  const toggleSymbol = (symbol) => {
-    setSelectedSymbols(prev => 
-      prev.includes(symbol) 
-        ? prev.filter(s => s !== symbol)
-        : [...prev, symbol]
-    );
+  useEffect(() => {
+    let interval;
+    if (downloading) {
+      interval = setInterval(fetchDownloadProgress, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [downloading]);
+
+  const fetchAvailableData = async () => {
+    try {
+      const res = await fetch('/api/data/available');
+      const data = await res.json();
+      if (data.success) setAvailableData(data.files);
+    } catch (err) {
+      console.error('Failed to fetch data:', err);
+    } finally {
+      setLoadingData(false);
+    }
   };
 
-  // Select all visible symbols
-  const selectAll = () => {
-    const visibleSymbols = filteredSymbols.map(s => s.symbol);
-    setSelectedSymbols(visibleSymbols);
+  const fetchDownloadProgress = async () => {
+    try {
+      const res = await fetch('/api/data/download/progress');
+      const data = await res.json();
+      setDownloadProgress(data.progress);
+      const tasks = Object.values(data.active || {});
+      if (tasks.length === 0 || tasks.every(t => t === 'completed' || t === 'cancelled')) {
+        setDownloading(false);
+        fetchAvailableData();
+      }
+    } catch (err) {
+      console.error('Failed to fetch progress:', err);
+    }
   };
 
-  // Clear selection
-  const clearSelection = () => {
-    setSelectedSymbols([]);
-  };
-
-  // Download selected symbols
-  const downloadData = async () => {
+  const startDownload = async () => {
     if (selectedSymbols.length === 0) {
-      toast.error('Выберите хотя бы один символ');
+      alert('Выберите хотя бы одну пару');
       return;
     }
-
     setDownloading(true);
     try {
-      const res = await dataApi.download({
-        symbols: selectedSymbols,
-        timeframe: selectedTimeframe,
-        source: source,
+      await fetch('/api/data/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          symbols: selectedSymbols, 
+          timeframe: downloadTimeframe 
+          // source removed - Futures only
+        }),
       });
-      
-      if (res.data?.success) {
-        toast.success(`Загрузка ${selectedSymbols.length} пар запущена`);
-        setSelectedSymbols([]);
-      }
-      
-      // Poll for completion
-      setTimeout(() => loadDataFiles(), 5000);
     } catch (err) {
-      console.error('Download failed:', err);
-      toast.error('Ошибка: ' + (err.response?.data?.detail || err.message));
-    } finally {
+      console.error('Failed to start download:', err);
       setDownloading(false);
     }
   };
 
-  // Delete data file
-  const deleteFile = async (item) => {
-    const filename = item.filename;
-    if (!confirm(`Удалить ${filename}?`)) return;
-    
+  const syncLatest = async () => {
     try {
-      await dataApi.deleteFile(filename);
-      toast.success(`Удалено: ${filename}`);
-      await loadDataFiles();
+      await fetch('/api/data/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ timeframe: downloadTimeframe }),
+      });
+      setLastSync(new Date().toLocaleTimeString());
+      fetchAvailableData();
     } catch (err) {
-      console.error('Delete failed:', err);
-      toast.error('Ошибка удаления');
+      console.error('Sync failed:', err);
     }
   };
 
-  // Check if symbol is already downloaded
-  const isDownloaded = (symbol) => {
-    return dataFiles.some(f => 
-      f.symbol === symbol && f.timeframe === selectedTimeframe
+  const deleteFile = async (filename) => {
+    if (!confirm(`Удалить ${filename}?`)) return;
+    try {
+      await fetch(`/api/data/file/${filename}`, { method: 'DELETE' });
+      fetchAvailableData();
+    } catch (err) {
+      console.error('Failed to delete:', err);
+    }
+  };
+
+  const continueDownload = async (symbol, timeframe) => {
+    try {
+      const res = await fetch(`/api/data/continue/${symbol}/${timeframe}`, {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDownloading(true);
+        alert(`Докачивание ${symbol} запущено`);
+      }
+    } catch (err) {
+      console.error('Failed to continue download:', err);
+    }
+  };
+
+  const continueAllOutdated = async () => {
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const outdated = availableData.filter(f => f.end && new Date(f.end) < oneWeekAgo);
+    
+    if (outdated.length === 0) {
+      alert('Все файлы актуальны!');
+      return;
+    }
+    
+    if (!confirm(`Докачать ${outdated.length} файлов?`)) return;
+    
+    setDownloading(true);
+    for (const file of outdated) {
+      try {
+        await fetch(`/api/data/continue/${file.symbol}/${file.timeframe}`, { method: 'POST' });
+        await new Promise(r => setTimeout(r, 500)); // Small delay between requests
+      } catch (err) {
+        console.error(`Failed to continue ${file.symbol}:`, err);
+      }
+    }
+  };
+
+  const toggleSymbol = (symbol) => {
+    setSelectedSymbols(prev =>
+      prev.includes(symbol) ? prev.filter(s => s !== symbol) : [...prev, symbol]
     );
   };
 
+  const selectTop = (n) => setSelectedSymbols(ALL_SYMBOLS.slice(0, n));
+  const selectAll = () => setSelectedSymbols([...ALL_SYMBOLS]);
+  const clearSelection = () => setSelectedSymbols([]);
+
+  const filteredSymbols = ALL_SYMBOLS.filter(s =>
+    s.toLowerCase().includes(symbolSearch.toLowerCase())
+  );
+
+  const formatDate = (isoStr) => {
+    if (!isoStr) return '—';
+    return new Date(isoStr).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  };
+
+  const progress = downloadProgress ? Object.values(downloadProgress)[0] || {} : {};
+
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">📁 Управление данными</h1>
-        <button
-          onClick={() => { loadSymbols(); loadDataFiles(); }}
-          className="flex items-center gap-2 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm"
-        >
-          <RefreshCw className="h-4 w-4" />
-          Обновить
-        </button>
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-white">📊 Управление данными</h1>
+        <div className="flex items-center gap-2">
+          <span className="px-3 py-1 bg-orange-600/30 text-orange-400 rounded-lg text-sm font-medium">
+            🔥 Binance Futures Only
+          </span>
+        </div>
       </div>
 
-      {/* Download Section */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-          <Download className="h-5 w-5 text-blue-400" />
-          Загрузить данные с Binance
-        </h2>
-        
-        {/* Filters Row */}
-        <div className="flex flex-wrap items-center gap-4 mb-4">
-          {/* Top Filter */}
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-gray-400" />
-            <div className="flex bg-gray-700 rounded-lg p-1">
-              {TOP_FILTERS.map(f => (
-                <button
-                  key={f.value}
-                  onClick={() => setTopFilter(f.value)}
-                  className={`px-3 py-1 rounded text-sm transition-colors ${
-                    topFilter === f.value 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {f.label}
-                </button>
-              ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left */}
+        <div className="space-y-4">
+          {/* Download Settings */}
+          <div className="bg-gray-800 rounded-lg p-5">
+            <h3 className="text-lg font-semibold text-white mb-4">⬇️ Загрузка с Binance Futures</h3>
+
+            <div className="mb-4">
+              <label className="text-gray-400 text-sm block mb-2">Таймфрейм</label>
+              <select
+                value={downloadTimeframe}
+                onChange={(e) => setDownloadTimeframe(e.target.value)}
+                className="w-full bg-gray-700 text-white rounded px-4 py-2"
+              >
+                {TIMEFRAMES.map((tf) => (
+                  <option key={tf} value={tf}>{tf}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-4">
+              <button onClick={() => selectTop(10)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 10</button>
+              <button onClick={() => selectTop(20)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 20</button>
+              <button onClick={() => selectTop(50)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 50</button>
+              <button onClick={selectAll} className="px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">Все</button>
+              <button onClick={clearSelection} className="px-3 py-1.5 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">Очистить</button>
+            </div>
+
+            <div className="text-gray-400 text-sm mb-4">
+              Выбрано: <span className="text-white font-bold">{selectedSymbols.length}</span> пар
+            </div>
+
+            <button
+              onClick={startDownload}
+              disabled={downloading || selectedSymbols.length === 0}
+              className={`w-full py-3 rounded-lg font-bold text-white ${
+                downloading || selectedSymbols.length === 0
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'
+              }`}
+            >
+              {downloading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  {progress.current} {progress.current_progress}
+                </span>
+              ) : (
+                `🚀 Загрузить ${selectedSymbols.length} пар (Futures)`
+              )}
+            </button>
+
+            {downloading && (
+              <div className="mt-3">
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div 
+                    className="bg-orange-500 h-2 rounded-full transition-all" 
+                    style={{ width: `${progress.total ? (progress.completed / progress.total * 100) : 0}%` }} 
+                  />
+                </div>
+                <div className="text-gray-500 text-xs mt-1">{progress.completed || 0} / {progress.total || 0}</div>
+              </div>
+            )}
+          </div>
+
+          {/* Auto-Sync */}
+          <div className="bg-gray-800 rounded-lg p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-white">🔄 Автоподкачка</h3>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={autoSync} onChange={(e) => setAutoSync(e.target.checked)} className="w-5 h-5" />
+                <span className={autoSync ? 'text-green-400' : 'text-gray-400'}>{autoSync ? 'Вкл' : 'Выкл'}</span>
+              </label>
+            </div>
+            <div className="flex items-center gap-3">
+              <select value={syncInterval} onChange={(e) => setSyncInterval(parseInt(e.target.value))} className="bg-gray-700 text-white rounded px-3 py-2">
+                <option value={1}>1 мин</option>
+                <option value={5}>5 мин</option>
+                <option value={15}>15 мин</option>
+              </select>
+              <button onClick={syncLatest} className="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Синхр.</button>
+              {lastSync && <span className="text-gray-500 text-sm">{lastSync}</span>}
             </div>
           </div>
 
-          {/* Search */}
-          <div className="relative flex-1 max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          {/* Symbols */}
+          <div className="bg-gray-800 rounded-lg p-5">
+            <h3 className="text-lg font-semibold text-white mb-3">🔍 Выбор пар ({ALL_SYMBOLS.length})</h3>
             <input
               type="text"
-              placeholder="Поиск символа..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-gray-700 pl-10 pr-4 py-2 rounded-lg text-sm"
+              value={symbolSearch}
+              onChange={(e) => setSymbolSearch(e.target.value)}
+              placeholder="Поиск... BTC, ETH, SOL"
+              className="w-full bg-gray-700 text-white rounded px-4 py-2 mb-3"
             />
+            <div className="h-72 overflow-y-auto space-y-1">
+              {filteredSymbols.map((symbol) => (
+                <label
+                  key={symbol}
+                  className={`flex items-center gap-3 p-2 rounded cursor-pointer ${
+                    selectedSymbols.includes(symbol)
+                      ? 'bg-orange-600/30 border border-orange-500/50'
+                      : 'bg-gray-700/30 hover:bg-gray-700/50'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedSymbols.includes(symbol)}
+                    onChange={() => toggleSymbol(symbol)}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-white font-mono text-sm">{symbol}</span>
+                </label>
+              ))}
+            </div>
+            <div className="mt-2 text-gray-500 text-sm">Найдено: {filteredSymbols.length}</div>
           </div>
-
-          {/* Timeframe */}
-          <select
-            value={selectedTimeframe}
-            onChange={(e) => setSelectedTimeframe(e.target.value)}
-            className="bg-gray-700 px-3 py-2 rounded-lg text-sm"
-          >
-            {TIMEFRAMES.map(tf => (
-              <option key={tf} value={tf}>{tf}</option>
-            ))}
-          </select>
-
-          {/* Source */}
-          <select
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-            className="bg-gray-700 px-3 py-2 rounded-lg text-sm"
-          >
-            <option value="spot">Spot</option>
-            <option value="futures">Futures</option>
-          </select>
         </div>
 
-        {/* Selection Actions */}
-        <div className="flex items-center gap-4 mb-4">
-          <button
-            onClick={selectAll}
-            className="text-sm text-blue-400 hover:text-blue-300"
-          >
-            Выбрать все ({filteredSymbols.length})
-          </button>
-          <button
-            onClick={clearSelection}
-            className="text-sm text-gray-400 hover:text-gray-300"
-          >
-            Сбросить
-          </button>
-          <span className="text-sm text-gray-500">
-            Выбрано: <span className="text-white font-medium">{selectedSymbols.length}</span>
-          </span>
-        </div>
+        {/* Right */}
+        <div className="space-y-4">
+          <div className="bg-gray-800 rounded-lg p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-white">💾 Загруженные ({availableData.length})</h3>
+              <div className="flex gap-2">
+                <button 
+                  onClick={continueAllOutdated} 
+                  className="px-3 py-1 bg-green-700 text-white text-sm rounded hover:bg-green-600"
+                  title="Докачать все неполные"
+                >
+                  ⬇️ Докачать всё
+                </button>
+                <button onClick={fetchAvailableData} className="px-3 py-1 bg-gray-700 text-white text-sm rounded hover:bg-gray-600">🔄</button>
+              </div>
+            </div>
 
-        {/* Symbols Grid */}
-        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mb-4 max-h-64 overflow-y-auto">
-          {filteredSymbols.map(s => {
-            const isSelected = selectedSymbols.includes(s.symbol);
-            const downloaded = isDownloaded(s.symbol);
-            
-            return (
-              <button
-                key={s.symbol}
-                onClick={() => toggleSymbol(s.symbol)}
-                className={`px-2 py-1.5 rounded text-xs font-medium transition-all ${
-                  isSelected 
-                    ? 'bg-blue-600 text-white ring-2 ring-blue-400' 
-                    : downloaded
-                      ? 'bg-green-900/30 text-green-400 border border-green-700'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-                title={downloaded ? `${s.symbol} уже загружен` : s.symbol}
-              >
-                {s.baseAsset}
-                {downloaded && ' ✓'}
-              </button>
-            );
-          })}
-        </div>
+            {loadingData ? (
+              <div className="text-gray-400 text-center py-8">Загрузка...</div>
+            ) : availableData.length === 0 ? (
+              <div className="text-gray-400 text-center py-12">
+                <div className="text-5xl mb-3">📂</div>
+                <div>Нет загруженных данных</div>
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-[450px] overflow-y-auto">
+                {availableData.map((file) => {
+                  const isOutdated = file.end && new Date(file.end) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                  return (
+                  <div key={file.filename} className={`bg-gray-700/50 rounded-lg p-3 flex items-center justify-between ${isOutdated ? 'border border-yellow-500/50' : ''}`}>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-white font-mono font-bold">{file.symbol}</span>
+                        <span className="text-purple-400 text-sm">{file.timeframe}</span>
+                        <span className="text-gray-500 text-xs">{file.size_mb} MB</span>
+                        {isOutdated && <span className="text-yellow-400 text-xs">⚠️ Неполные</span>}
+                      </div>
+                      <div className="text-gray-500 text-xs mt-1">
+                        {formatDate(file.start)} — {formatDate(file.end)} ({file.rows?.toLocaleString()})
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {isOutdated && (
+                        <button 
+                          onClick={() => continueDownload(file.symbol, file.timeframe)} 
+                          className="p-2 text-green-400 hover:bg-green-600/20 rounded text-sm"
+                          title="Докачать до текущей даты"
+                        >
+                          ⬇️
+                        </button>
+                      )}
+                      <button onClick={() => deleteFile(file.filename)} className="p-2 text-red-400 hover:bg-red-600/20 rounded">🗑️</button>
+                    </div>
+                  </div>
+                )})}
+              </div>
+            )}
 
-        {/* Download Button */}
-        <button
-          onClick={downloadData}
-          disabled={downloading || selectedSymbols.length === 0}
-          className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 disabled:text-gray-500 
-                     px-4 py-3 rounded-lg font-medium flex items-center justify-center gap-2"
-        >
-          {downloading ? (
-            <>
-              <span className="animate-spin">⏳</span>
-              Загрузка...
-            </>
-          ) : (
-            <>
-              <Download className="h-5 w-5" />
-              Загрузить {selectedSymbols.length > 0 ? `(${selectedSymbols.length} пар)` : ''}
-            </>
-          )}
-        </button>
-
-        <p className="mt-3 text-xs text-gray-500">
-          Данные загружаются за последний год. Зелёные — уже загружены для выбранного таймфрейма.
-        </p>
-      </div>
-
-      {/* Downloaded Data Table */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold">📊 Загруженные данные</h2>
-          <span className="text-sm text-gray-500">{dataFiles.length} файлов</span>
-        </div>
-
-        {loading ? (
-          <div className="text-center py-8 text-gray-500">
-            <span className="animate-spin inline-block">⏳</span> Загрузка...
+            {availableData.length > 0 && (
+              <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between text-sm">
+                <span className="text-gray-400">Всего: {availableData.reduce((s, f) => s + (f.size_mb || 0), 0).toFixed(1)} MB</span>
+              </div>
+            )}
           </div>
-        ) : dataFiles.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <p>Нет загруженных данных</p>
-            <p className="text-xs mt-2">Выберите символы выше и нажмите "Загрузить"</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-gray-400 border-b border-gray-700">
-                  <th className="text-left py-3">Символ</th>
-                  <th className="text-left py-3">TF</th>
-                  <th className="text-right py-3">Свечей</th>
-                  <th className="text-left py-3">Период</th>
-                  <th className="text-right py-3">Размер</th>
-                  <th className="text-center py-3 w-16"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {dataFiles.map((d, i) => (
-                  <tr key={i} className="border-b border-gray-700/50 hover:bg-gray-700/30">
-                    <td className="py-2.5 font-medium">{d.symbol}</td>
-                    <td className="py-2.5 text-gray-400">{d.timeframe}</td>
-                    <td className="py-2.5 text-right text-blue-400">
-                      {(d.rows || 0).toLocaleString()}
-                    </td>
-                    <td className="py-2.5 text-xs text-gray-500">
-                      {d.start?.split('T')[0] || '—'} → {d.end?.split('T')[0] || '—'}
-                    </td>
-                    <td className="py-2.5 text-right text-gray-400">
-                      {d.size_mb?.toFixed(1)} MB
-                    </td>
-                    <td className="py-2.5 text-center">
-                      <button
-                        onClick={() => deleteFile(d)}
-                        className="text-red-400 hover:text-red-300 p-1"
-                        title="Удалить"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
 
-      {/* Info */}
-      <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 text-sm text-gray-400">
-        <p><strong>💡 Рекомендации:</strong></p>
-        <ul className="list-disc list-inside mt-2 space-y-1">
-          <li>Для бэктеста нужно минимум 3000 свечей (3-4 месяца на 1h)</li>
-          <li>Top 20 — самые ликвидные пары с наименьшим спредом</li>
-          <li>Futures данные могут отличаться от Spot</li>
-        </ul>
+          <div className="bg-orange-900/20 border border-orange-500/30 rounded-lg p-4 text-sm text-gray-400">
+            <div className="font-medium text-orange-400 mb-2">🔥 Binance Futures Only</div>
+            <ul className="space-y-1">
+              <li>• Данные с Binance Futures с сентября 2019</li>
+              <li>• Только фьючерсные USDT-M пары</li>
+              <li>• Автоподкачка добавляет только новые свечи</li>
+              <li>• ~5 MB на пару для 1h за всю историю</li>
+              <li>• Spot API удалён в версии 4.0</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
