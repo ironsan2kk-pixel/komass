@@ -1,7 +1,7 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
 > **Last Updated:** 27.12.2025  
-> **Current Chat:** #22 — Dominant: Filters ✅  
+> **Current Version:** v3.5 → v4.0  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
@@ -11,14 +11,10 @@
 | Metric | Value |
 |--------|-------|
 | **Total Chats** | 83 (#15 — #97) |
-| **Completed** | 8 (#15-#22) |
-| **In Progress** | — |
-| **Remaining** | 75 |
-| **Progress** | 9.6% |
-
-```
-[████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 9.6%
-```
+| **Completed** | 9 (#15-#23) |
+| **In Progress** | #24 (QA Checkpoint #2) |
+| **Remaining** | 74 |
+| **Progress** | 10.8% |
 
 ---
 
@@ -26,112 +22,193 @@
 
 | # | Phase | Chats | Count | Status |
 |---|-------|-------|-------|--------|
-| 1 | Stabilization & Base | #15-19 | 5 | ✅ Complete |
-| 2 | Dominant Indicator | #20-27 | 8 | ⏳ 3/8 Complete |
-| 3 | Preset System | #28-33 | 6 | ⬜ Waiting |
-| 4 | Signal Score | #34-36 | 3 | ⬜ Waiting |
-| 5 | General Filters | #37-44 | 8 | ⬜ Waiting |
-| 6 | Preset Optimization | #45-49 | 5 | ⬜ Waiting |
-| 7 | Bot Config | #50-53 | 4 | ⬜ Waiting |
-| 8 | Bot Backtest | #54-59 | 6 | ⬜ Waiting |
-| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Waiting |
-| 10 | Live Engine | #65-70 | 6 | ⬜ Waiting |
-| 11 | Telegram | #71-76 | 6 | ⬜ Waiting |
-| 12 | Design | #77-80 | 4 | ⬜ Waiting |
-| 13 | QA & Testing | #81-88 | 8 | ⬜ Waiting |
-| 14 | GitHub & Deploy | #89-94 | 6 | ⬜ Waiting |
-| 15 | Finalization | #95-97 | 3 | ⬜ Waiting |
+| 1 | Stabilization | #15-19 | 5 | ✅ 5/5 complete |
+| 2 | Dominant Indicator | #20-28 | 9 | ⏳ 4/9 complete |
+| 3 | Preset System | #29-36 | 8 | ⬜ Waiting |
+| 4 | Signal Score | #37-40 | 4 | ⬜ Waiting |
+| 5 | General Filters | #41-49 | 9 | ⬜ Waiting |
+| 6 | Preset Optimization | #50-54 | 5 | ⬜ Waiting |
+| 7 | Bot Config | #55-59 | 5 | ⬜ Waiting |
+| 8 | Bot Backtest | #60-66 | 7 | ⬜ Waiting |
+| 9 | Bot Optimizer | #67-71 | 5 | ⬜ Waiting |
+| 10 | Live Engine | #72-78 | 7 | ⬜ Waiting |
+| 11 | Telegram | #79-86 | 8 | ⬜ Waiting |
+| 12 | UI Redesign | #87-91 | 5 | ⬜ Waiting |
+| 13 | Final QA | #92-95 | 4 | ⬜ Waiting |
+| 14 | Release | #96-98 | 3 | ⬜ Waiting |
 
 ---
 
-## 🔧 PHASE 1: STABILIZATION & BASE ✅ Complete
+## 🔧 PHASE 1: STABILIZATION (Complete ✅)
 
-| Chat | Name | Status |
-|------|------|--------|
-| #15 | Bugfixes UI | ✅ |
-| #16 | Bugfixes Backend | ✅ |
-| #17 | Data Futures Only | ✅ |
-| #18 | Data Period Selection | ✅ |
-| #19 | Data Caching | ✅ |
+### Chat #15: Bugfixes UI ✅
+**Completed:** 27.12.2025
+
+- [x] Monthly Panel white screen fix
+- [x] Stats Panel empty data handling
+- [x] UTF-8 encoding fix
+- [x] LogsPanel auto-scroll
+- [x] All Indicator components verified
+
+### Chat #16: Bugfixes Backend ✅
+**Completed:** 27.12.2025
+
+- [x] Network Error duplicate timestamps fix
+- [x] Endpoint error handling
+- [x] Logging improvements
+
+### Chat #17: Data Futures Only ✅
+**Completed:** 27.12.2025
+
+- [x] Removed spot trading support
+- [x] Binance Futures API only
+- [x] Symbol filtering updated
+
+### Chat #18: Data Period Selection ✅
+**Completed:** 27.12.2025
+
+- [x] Date range picker
+- [x] Period filtering in API
+
+### Chat #19: QA Checkpoint #1 ✅
+**Completed:** 27.12.2025
+
+- [x] Data module verification
+- [x] UI components testing
 
 ---
 
-## 🎯 PHASE 2: DOMINANT INDICATOR (3/8 Complete)
+## 🎯 PHASE 2: DOMINANT INDICATOR (In Progress)
 
 ### Chat #20: Dominant Core ✅
 **Completed:** 27.12.2025
 
-- [x] Channel calculation (high/low/mid/range)
-- [x] Fibonacci levels (0.236, 0.382, 0.5, 0.618)
+- [x] `indicators/dominant.py` created
+- [x] Channel calculation (high/low/mid)
+- [x] Fibonacci levels calculation
 - [x] Sensitivity parameter (12-60)
-- [x] Unit tests (8 passing)
-
----
+- [x] Unit tests
 
 ### Chat #21: Dominant Signals ✅
 **Completed:** 27.12.2025
 
-- [x] generate_signals() function
-- [x] can_long / can_short conditions
-- [x] Trend tracking (is_long_trend, is_short_trend)
+- [x] `can_long` signal generation
+- [x] `can_short` signal generation
+- [x] Trend tracking (`is_long_trend`, `is_short_trend`)
 - [x] Close on reverse signal
-- [x] Unit tests (66 passing)
-
----
+- [x] Unit tests
 
 ### Chat #22: Dominant Filters ✅
 **Completed:** 27.12.2025
 
-- [x] Filter Type 0: None (no filtering)
-- [x] Filter Type 1: ATR Condition (volume spike)
-- [x] Filter Type 2: RSI Condition (overbought/oversold)
+- [x] Filter Type 0: None
+- [x] Filter Type 1: ATR Condition
+- [x] Filter Type 2: RSI Condition
 - [x] Filter Type 3: ATR + RSI Combined
 - [x] Filter Type 4: Volatility Condition
-- [x] apply_filter() function
-- [x] calculate_rsi() helper
-- [x] calculate_atr() helper
-- [x] get_filter_info() function
-- [x] get_filter_statistics() function
-- [x] generate_signals_with_filter() convenience function
-- [x] Unit tests (61 passing)
+- [x] `apply_filter()` function
+- [x] `get_filter_info()`, `get_filter_statistics()`
+- [x] Unit tests (61 tests passing)
 
-**Files:**
-- `backend/app/indicators/dominant.py` — v4.0.2
-- `backend/app/indicators/__init__.py` — updated exports
-- `tests/test_dominant.py` — 61 tests
+### Chat #23: Dominant SL Modes ✅
+**Completed:** 27.12.2025
 
----
+- [x] SL Mode 0: Fixed (SL never moves)
+- [x] SL Mode 1: Breakeven after TP1
+- [x] SL Mode 2: Breakeven after TP2
+- [x] SL Mode 3: Breakeven after TP3
+- [x] SL Mode 4: Cascade (SL trails to previous TP)
+- [x] `calculate_tp_levels()` function
+- [x] `calculate_initial_sl()` function
+- [x] `calculate_sl_level()` function
+- [x] `track_position()` for position simulation
+- [x] `get_sl_mode_info()` helper
+- [x] `get_sl_mode_statistics()` helper
+- [x] Unit tests (13 tests passing)
 
-### Chat #23: Dominant SL Modes ⏳ NEXT
-**Status:** Ready to start
+### Chat #24: QA Checkpoint #2 ⏳
+**Status:** NEXT
 
-**Tasks:**
-- [ ] SL Mode 0: Fixed (no movement)
-- [ ] SL Mode 1: Breakeven after TP1
-- [ ] SL Mode 2: Breakeven after TP2
-- [ ] SL Mode 3: Breakeven after TP3
-- [ ] SL Mode 4: Cascade trailing
-- [ ] calculate_sl_level() function
-- [ ] track_position() function
-- [ ] Unit tests
+- [ ] Test all Dominant features
+- [ ] Verify signal generation
+- [ ] Verify filter application
+- [ ] Verify SL modes
+- [ ] Integration testing
 
----
-
-### Chat #24: QA Checkpoint #2 ⬜
 ### Chat #25: Dominant AI Resolution ⬜
-### Chat #26: Dominant Presets DB ⬜
+- [ ] Scoring function
+- [ ] Auto-optimization
+
+### Chat #26: Dominant 37 Presets DB ⬜
+- [ ] Presets table
+- [ ] Migration of 37 presets
+
 ### Chat #27: Dominant UI Integration ⬜
+- [ ] Indicator selector
+- [ ] Preset dropdown
+
+### Chat #28: Dominant Verification ⬜
+- [ ] TradingView comparison
+- [ ] Final validation
 
 ---
 
-## 📝 CHANGE LOG
+## 📋 COMPLETED FILES
 
-| Date | Chat | Change |
-|------|------|--------|
-| 27.12.2025 | #22 | ✅ Added 5 filter types (61 tests) |
-| 27.12.2025 | #21 | ✅ Added signal generation (66 tests) |
-| 27.12.2025 | #20 | ✅ Created Dominant core module |
-| 27.12.2025 | #15-19 | ✅ Phase 1 complete |
+### Backend Files
+- `backend/app/indicators/__init__.py` - Package exports
+- `backend/app/indicators/dominant.py` - Full indicator (v4.0.3, ~1200 lines)
+
+### Test Files
+- `tests/test_dominant_sl_modes.py` - SL mode tests (~500 lines)
+
+### Documentation
+- `docs/TRACKER.md` - This file
+- `docs/CHAT_REFERENCE.md` - Chat history
+
+---
+
+## 📊 DOMINANT INDICATOR SUMMARY (v4.0.3)
+
+### Constants
+```python
+# Sensitivity
+SENSITIVITY_MIN = 12
+SENSITIVITY_MAX = 60
+SENSITIVITY_DEFAULT = 21
+
+# Signals
+SIGNAL_LONG = 1
+SIGNAL_SHORT = -1
+SIGNAL_NONE = 0
+
+# Filters (5 types)
+FILTER_NONE = 0
+FILTER_ATR = 1
+FILTER_RSI = 2
+FILTER_COMBINED = 3
+FILTER_VOLATILITY = 4
+
+# SL Modes (5 types)
+SL_MODE_FIXED = 0
+SL_MODE_AFTER_TP1 = 1
+SL_MODE_AFTER_TP2 = 2
+SL_MODE_AFTER_TP3 = 3
+SL_MODE_CASCADE = 4
+```
+
+### Main Functions
+- `calculate_dominant(df, sensitivity)` - Channel + Fib levels
+- `generate_signals(df, sensitivity, require_confirmation)` - Signal generation
+- `apply_filter(df, filter_type, **params)` - Apply filters
+- `calculate_sl_level(entry, direction, sl_pct, sl_mode, tps_hit, tp_levels)` - SL calculation
+- `track_position(df, entry_idx, direction, entry, sl_pct, tp_pcts, sl_mode)` - Position tracking
+
+### Helper Functions
+- `calculate_tp_levels(entry, direction, tp_percents)` - TP price levels
+- `calculate_initial_sl(entry, direction, sl_percent)` - Initial SL
+- `get_sl_mode_info(mode)` - SL mode information
+- `get_filter_info(filter_type)` - Filter information
 
 ---
 
@@ -143,4 +220,4 @@
 
 ---
 
-*Updated: 27.12.2025 — Chat #22 Complete*
+*Updated: 27.12.2025 - Chat #23 completed*

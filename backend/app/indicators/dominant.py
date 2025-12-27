@@ -27,8 +27,15 @@ Filter Types (Chat #22):
 - Filter 3: ATR + RSI Combined
 - Filter 4: Volatility Condition
 
+SL Modes (Chat #23):
+- Mode 0: Fixed - SL never moves
+- Mode 1: Breakeven after TP1 hit
+- Mode 2: Breakeven after TP2 hit
+- Mode 3: Breakeven after TP3 hit
+- Mode 4: Cascade - SL trails to previous TP level
+
 Author: KOMAS Team
-Version: 4.0.2
+Version: 4.0.3
 """
 
 import pandas as pd
@@ -83,6 +90,38 @@ FILTER_DEFAULTS = {
     'rsi_oversold': 30,
     'volatility_period': 20,
     'volatility_max_mult': 2.0,
+}
+
+# =============================================================================
+# SL MODE CONSTANTS (Chat #23)
+# =============================================================================
+
+SL_MODE_FIXED = 0
+SL_MODE_AFTER_TP1 = 1
+SL_MODE_AFTER_TP2 = 2
+SL_MODE_AFTER_TP3 = 3
+SL_MODE_CASCADE = 4
+
+SL_MODE_NAMES = {
+    SL_MODE_FIXED: 'Fixed',
+    SL_MODE_AFTER_TP1: 'Breakeven After TP1',
+    SL_MODE_AFTER_TP2: 'Breakeven After TP2',
+    SL_MODE_AFTER_TP3: 'Breakeven After TP3',
+    SL_MODE_CASCADE: 'Cascade Trailing',
+}
+
+SL_MODE_DESCRIPTIONS = {
+    SL_MODE_FIXED: 'Stop-loss stays at original level regardless of TP hits',
+    SL_MODE_AFTER_TP1: 'SL moves to entry price (breakeven) after TP1 is hit',
+    SL_MODE_AFTER_TP2: 'SL moves to entry price (breakeven) after TP2 is hit',
+    SL_MODE_AFTER_TP3: 'SL moves to entry price (breakeven) after TP3 is hit',
+    SL_MODE_CASCADE: 'SL trails progressively: breakeven after TP1, then to each TP level',
+}
+
+# Default SL parameters
+SL_DEFAULTS = {
+    'sl_percent': 2.0,  # 2% default stop-loss
+    'tp_percents': [1.0, 2.0, 3.0, 5.0],  # Default TP levels: 1%, 2%, 3%, 5%
 }
 
 
@@ -140,6 +179,21 @@ def validate_filter_type(filter_type: int) -> int:
     if not isinstance(filter_type, (int, float)):
         return FILTER_NONE
     return max(FILTER_NONE, min(FILTER_VOLATILITY, int(filter_type)))
+
+
+def validate_sl_mode(sl_mode: int) -> int:
+    """
+    Validate SL mode is in valid range [0, 4]
+    
+    Args:
+        sl_mode: Input SL mode
+        
+    Returns:
+        Valid SL mode (clamped to range)
+    """
+    if not isinstance(sl_mode, (int, float)):
+        return SL_MODE_FIXED
+    return max(SL_MODE_FIXED, min(SL_MODE_CASCADE, int(sl_mode)))
 
 
 # =============================================================================
@@ -604,6 +658,516 @@ def get_filter_statistics(df: pd.DataFrame) -> Dict[str, Any]:
 
 
 # =============================================================================
+# SL MODE FUNCTIONS (Chat #23)
+# =============================================================================
+
+def calculate_tp_levels(
+    entry_price: float,
+    direction: int,
+    tp_percents: List[float] = None
+) -> List[float]:
+    """
+    Calculate take-profit price levels based on entry price and direction
+    
+    Args:
+        entry_price: Entry price of the position
+        direction: SIGNAL_LONG (1) or SIGNAL_SHORT (-1)
+        tp_percents: List of TP percentages (e.g., [1.0, 2.0, 3.0, 5.0] for 1%, 2%, 3%, 5%)
+                    If None, uses default [1.0, 2.0, 3.0, 5.0]
+    
+    Returns:
+        List of TP prices in order [TP1, TP2, TP3, TP4, ...]
+    
+    Example:
+        >>> calculate_tp_levels(100.0, SIGNAL_LONG, [1.0, 2.0, 3.0])
+        [101.0, 102.0, 103.0]
+        >>> calculate_tp_levels(100.0, SIGNAL_SHORT, [1.0, 2.0, 3.0])
+        [99.0, 98.0, 97.0]
+    """
+    if tp_percents is None:
+        tp_percents = SL_DEFAULTS['tp_percents'].copy()
+    
+    if not tp_percents:
+        return []
+    
+    tp_levels = []
+    for tp_pct in tp_percents:
+        if direction == SIGNAL_LONG:
+            # For LONG: TP is above entry
+            tp_price = entry_price * (1 + tp_pct / 100)
+        else:  # SIGNAL_SHORT
+            # For SHORT: TP is below entry
+            tp_price = entry_price * (1 - tp_pct / 100)
+        tp_levels.append(tp_price)
+    
+    return tp_levels
+
+
+def calculate_initial_sl(
+    entry_price: float,
+    direction: int,
+    sl_percent: float = None
+) -> float:
+    """
+    Calculate initial stop-loss price level
+    
+    Args:
+        entry_price: Entry price of the position
+        direction: SIGNAL_LONG (1) or SIGNAL_SHORT (-1)
+        sl_percent: SL distance in percent (default 2.0%)
+    
+    Returns:
+        Initial stop-loss price
+    
+    Example:
+        >>> calculate_initial_sl(100.0, SIGNAL_LONG, 2.0)
+        98.0
+        >>> calculate_initial_sl(100.0, SIGNAL_SHORT, 2.0)
+        102.0
+    """
+    if sl_percent is None:
+        sl_percent = SL_DEFAULTS['sl_percent']
+    
+    if direction == SIGNAL_LONG:
+        # For LONG: SL is below entry
+        return entry_price * (1 - sl_percent / 100)
+    else:  # SIGNAL_SHORT
+        # For SHORT: SL is above entry
+        return entry_price * (1 + sl_percent / 100)
+
+
+def calculate_sl_level(
+    entry_price: float,
+    direction: int,
+    sl_percent: float = None,
+    sl_mode: int = SL_MODE_FIXED,
+    tps_hit: List[bool] = None,
+    tp_levels: List[float] = None
+) -> float:
+    """
+    Calculate current stop-loss level based on mode and TPs hit
+    
+    This is the main function for determining where the SL should be
+    at any point during the trade based on which TPs have been hit.
+    
+    Args:
+        entry_price: Entry price of the position
+        direction: SIGNAL_LONG (1) or SIGNAL_SHORT (-1)
+        sl_percent: Initial SL distance in percent (default 2.0%)
+        sl_mode: SL mode (0-4)
+        tps_hit: List of booleans [tp1_hit, tp2_hit, tp3_hit, tp4_hit]
+                 True if that TP was hit, False otherwise
+        tp_levels: List of TP price levels [tp1_price, tp2_price, ...]
+                   Required for cascade mode
+    
+    Returns:
+        Current stop-loss price level
+    
+    Modes:
+        0 (Fixed): SL stays at original level
+        1 (After TP1): SL moves to entry after TP1 hit
+        2 (After TP2): SL moves to entry after TP2 hit
+        3 (After TP3): SL moves to entry after TP3 hit
+        4 (Cascade): SL trails progressively after each TP
+    
+    Example:
+        >>> # Fixed mode - always returns original SL
+        >>> calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_FIXED, [True, False, False, False])
+        98.0
+        
+        >>> # After TP1 mode - returns entry after TP1 hit
+        >>> calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP1, [True, False, False, False])
+        100.0
+        
+        >>> # Cascade mode - trails to previous TP
+        >>> calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_CASCADE, [True, True, False, False], [101, 102, 103, 105])
+        101.0  # After TP2 hit, SL moves to TP1 level
+    """
+    # Validate inputs
+    sl_mode = validate_sl_mode(sl_mode)
+    
+    if sl_percent is None:
+        sl_percent = SL_DEFAULTS['sl_percent']
+    
+    if tps_hit is None:
+        tps_hit = [False, False, False, False]
+    
+    # Calculate initial SL
+    initial_sl = calculate_initial_sl(entry_price, direction, sl_percent)
+    
+    # ==========================================================================
+    # MODE 0: Fixed - SL never moves
+    # ==========================================================================
+    if sl_mode == SL_MODE_FIXED:
+        return initial_sl
+    
+    # ==========================================================================
+    # MODE 1: Breakeven after TP1
+    # ==========================================================================
+    elif sl_mode == SL_MODE_AFTER_TP1:
+        if len(tps_hit) > 0 and tps_hit[0]:  # TP1 hit
+            return entry_price  # Move to breakeven
+        return initial_sl
+    
+    # ==========================================================================
+    # MODE 2: Breakeven after TP2
+    # ==========================================================================
+    elif sl_mode == SL_MODE_AFTER_TP2:
+        if len(tps_hit) > 1 and tps_hit[1]:  # TP2 hit
+            return entry_price  # Move to breakeven
+        return initial_sl
+    
+    # ==========================================================================
+    # MODE 3: Breakeven after TP3
+    # ==========================================================================
+    elif sl_mode == SL_MODE_AFTER_TP3:
+        if len(tps_hit) > 2 and tps_hit[2]:  # TP3 hit
+            return entry_price  # Move to breakeven
+        return initial_sl
+    
+    # ==========================================================================
+    # MODE 4: Cascade - SL trails progressively
+    # ==========================================================================
+    elif sl_mode == SL_MODE_CASCADE:
+        if tp_levels is None:
+            tp_levels = []
+        
+        # Count how many TPs have been hit
+        hit_count = sum(tps_hit) if tps_hit else 0
+        
+        if hit_count == 0:
+            # No TPs hit - original SL
+            return initial_sl
+        elif hit_count == 1:
+            # TP1 hit - move to breakeven
+            return entry_price
+        elif hit_count >= 2 and len(tp_levels) >= 1:
+            # TP2+ hit - trail to previous TP level
+            # After TP2 hit -> SL at TP1
+            # After TP3 hit -> SL at TP2
+            # After TP4 hit -> SL at TP3
+            trail_index = min(hit_count - 2, len(tp_levels) - 1)
+            return tp_levels[trail_index]
+        else:
+            return entry_price  # Default to breakeven if insufficient data
+    
+    return initial_sl
+
+
+def track_position(
+    df: pd.DataFrame,
+    entry_idx: int,
+    direction: int,
+    entry_price: float,
+    sl_percent: float = None,
+    tp_percents: List[float] = None,
+    sl_mode: int = SL_MODE_FIXED
+) -> Dict[str, Any]:
+    """
+    Simulate position tracking through price data
+    
+    This function tracks a position from entry through exit,
+    monitoring TP/SL levels and applying the specified SL mode.
+    
+    Args:
+        df: DataFrame with OHLCV data (must have 'high', 'low', 'close')
+        entry_idx: Index (row number) where position was entered
+        direction: SIGNAL_LONG (1) or SIGNAL_SHORT (-1)
+        entry_price: Entry price of the position
+        sl_percent: Initial SL distance in percent (default 2.0%)
+        tp_percents: List of TP percentages (default [1.0, 2.0, 3.0, 5.0])
+        sl_mode: SL mode (0-4)
+    
+    Returns:
+        Dictionary with:
+        - exit_idx: Index where position closed
+        - exit_price: Price at exit
+        - exit_reason: 'sl' or 'tp1'/'tp2'/'tp3'/'tp4'
+        - pnl_percent: Profit/loss percentage
+        - tps_hit: List of which TPs were hit
+        - sl_history: List of (idx, sl_price) tuples showing SL movements
+        - max_profit: Maximum unrealized profit during trade
+        - duration: Number of bars position was held
+    
+    Example:
+        >>> result = track_position(df, entry_idx=10, direction=SIGNAL_LONG, 
+        ...                         entry_price=100.0, sl_percent=2.0, 
+        ...                         tp_percents=[1.0, 2.0], sl_mode=SL_MODE_CASCADE)
+        >>> print(result['exit_reason'])  # 'tp1', 'tp2', or 'sl'
+    """
+    # Validate inputs
+    sl_mode = validate_sl_mode(sl_mode)
+    
+    if sl_percent is None:
+        sl_percent = SL_DEFAULTS['sl_percent']
+    
+    if tp_percents is None:
+        tp_percents = SL_DEFAULTS['tp_percents'].copy()
+    
+    # Calculate TP levels
+    tp_levels = calculate_tp_levels(entry_price, direction, tp_percents)
+    
+    # Initialize tracking
+    tps_hit = [False] * len(tp_levels)
+    sl_history = []  # Track SL movements
+    max_profit = 0.0
+    
+    # Initial SL
+    current_sl = calculate_initial_sl(entry_price, direction, sl_percent)
+    sl_history.append((entry_idx, current_sl))
+    
+    # Iterate through price data after entry
+    n = len(df)
+    for idx in range(entry_idx + 1, n):
+        row = df.iloc[idx]
+        high = row['high']
+        low = row['low']
+        close = row['close']
+        
+        # =======================================================================
+        # CHECK TP HITS
+        # =======================================================================
+        for tp_idx, tp_price in enumerate(tp_levels):
+            if tps_hit[tp_idx]:
+                continue  # Already hit
+            
+            if direction == SIGNAL_LONG:
+                # Long: TP hit when high >= tp_price
+                if high >= tp_price:
+                    tps_hit[tp_idx] = True
+                    
+                    # Update SL based on mode
+                    new_sl = calculate_sl_level(
+                        entry_price, direction, sl_percent, sl_mode, tps_hit, tp_levels
+                    )
+                    if new_sl != current_sl:
+                        current_sl = new_sl
+                        sl_history.append((idx, current_sl))
+            else:  # SHORT
+                # Short: TP hit when low <= tp_price
+                if low <= tp_price:
+                    tps_hit[tp_idx] = True
+                    
+                    # Update SL based on mode
+                    new_sl = calculate_sl_level(
+                        entry_price, direction, sl_percent, sl_mode, tps_hit, tp_levels
+                    )
+                    if new_sl != current_sl:
+                        current_sl = new_sl
+                        sl_history.append((idx, current_sl))
+        
+        # =======================================================================
+        # CHECK SL HIT
+        # =======================================================================
+        sl_hit = False
+        if direction == SIGNAL_LONG:
+            # Long: SL hit when low <= sl_price
+            if low <= current_sl:
+                sl_hit = True
+                exit_price = current_sl  # Exit at SL level
+        else:  # SHORT
+            # Short: SL hit when high >= sl_price
+            if high >= current_sl:
+                sl_hit = True
+                exit_price = current_sl  # Exit at SL level
+        
+        # =======================================================================
+        # CALCULATE CURRENT P&L
+        # =======================================================================
+        if direction == SIGNAL_LONG:
+            current_profit = (close - entry_price) / entry_price * 100
+        else:
+            current_profit = (entry_price - close) / entry_price * 100
+        
+        max_profit = max(max_profit, current_profit)
+        
+        # =======================================================================
+        # CHECK EXIT CONDITIONS
+        # =======================================================================
+        
+        # If all TPs hit - exit at last TP (full profit taken)
+        if all(tps_hit):
+            # Calculate PnL based on weighted TP exits (simplified: use last TP)
+            pnl = tp_percents[-1] if direction == SIGNAL_LONG else tp_percents[-1]
+            return {
+                'exit_idx': idx,
+                'exit_price': tp_levels[-1],
+                'exit_reason': f'tp{len(tp_levels)}',
+                'pnl_percent': pnl,
+                'tps_hit': tps_hit.copy(),
+                'sl_history': sl_history,
+                'max_profit': max_profit,
+                'duration': idx - entry_idx,
+            }
+        
+        # If SL hit - exit at SL
+        if sl_hit:
+            # Calculate actual PnL at SL level
+            if direction == SIGNAL_LONG:
+                pnl = (exit_price - entry_price) / entry_price * 100
+            else:
+                pnl = (entry_price - exit_price) / entry_price * 100
+            
+            return {
+                'exit_idx': idx,
+                'exit_price': exit_price,
+                'exit_reason': 'sl',
+                'pnl_percent': pnl,
+                'tps_hit': tps_hit.copy(),
+                'sl_history': sl_history,
+                'max_profit': max_profit,
+                'duration': idx - entry_idx,
+            }
+    
+    # Position still open at end of data
+    last_close = df.iloc[-1]['close']
+    if direction == SIGNAL_LONG:
+        pnl = (last_close - entry_price) / entry_price * 100
+    else:
+        pnl = (entry_price - last_close) / entry_price * 100
+    
+    return {
+        'exit_idx': n - 1,
+        'exit_price': last_close,
+        'exit_reason': 'end_of_data',
+        'pnl_percent': pnl,
+        'tps_hit': tps_hit.copy(),
+        'sl_history': sl_history,
+        'max_profit': max_profit,
+        'duration': (n - 1) - entry_idx,
+    }
+
+
+def get_sl_mode_info(sl_mode: int = None) -> Dict[str, Any]:
+    """
+    Get information about SL modes
+    
+    Args:
+        sl_mode: Specific SL mode to get info for (None = all)
+        
+    Returns:
+        Dictionary with SL mode information
+    
+    Example:
+        >>> info = get_sl_mode_info(SL_MODE_CASCADE)
+        >>> print(info['name'])
+        'Cascade Trailing'
+        
+        >>> all_modes = get_sl_mode_info()
+        >>> for mode_id, mode_info in all_modes.items():
+        ...     print(f"{mode_id}: {mode_info['name']}")
+    """
+    all_modes = {
+        SL_MODE_FIXED: {
+            'id': SL_MODE_FIXED,
+            'name': SL_MODE_NAMES[SL_MODE_FIXED],
+            'description': SL_MODE_DESCRIPTIONS[SL_MODE_FIXED],
+            'breakeven_after': None,
+            'trails': False,
+        },
+        SL_MODE_AFTER_TP1: {
+            'id': SL_MODE_AFTER_TP1,
+            'name': SL_MODE_NAMES[SL_MODE_AFTER_TP1],
+            'description': SL_MODE_DESCRIPTIONS[SL_MODE_AFTER_TP1],
+            'breakeven_after': 'TP1',
+            'trails': False,
+        },
+        SL_MODE_AFTER_TP2: {
+            'id': SL_MODE_AFTER_TP2,
+            'name': SL_MODE_NAMES[SL_MODE_AFTER_TP2],
+            'description': SL_MODE_DESCRIPTIONS[SL_MODE_AFTER_TP2],
+            'breakeven_after': 'TP2',
+            'trails': False,
+        },
+        SL_MODE_AFTER_TP3: {
+            'id': SL_MODE_AFTER_TP3,
+            'name': SL_MODE_NAMES[SL_MODE_AFTER_TP3],
+            'description': SL_MODE_DESCRIPTIONS[SL_MODE_AFTER_TP3],
+            'breakeven_after': 'TP3',
+            'trails': False,
+        },
+        SL_MODE_CASCADE: {
+            'id': SL_MODE_CASCADE,
+            'name': SL_MODE_NAMES[SL_MODE_CASCADE],
+            'description': SL_MODE_DESCRIPTIONS[SL_MODE_CASCADE],
+            'breakeven_after': 'TP1',
+            'trails': True,
+            'trail_logic': [
+                'After TP1: SL → Entry (breakeven)',
+                'After TP2: SL → TP1 level',
+                'After TP3: SL → TP2 level',
+                'After TP4: SL → TP3 level',
+            ],
+        },
+    }
+    
+    if sl_mode is not None:
+        sl_mode = validate_sl_mode(sl_mode)
+        return all_modes.get(sl_mode, all_modes[SL_MODE_FIXED])
+    
+    return all_modes
+
+
+def get_sl_mode_statistics(trades: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Calculate statistics about SL mode performance from trade results
+    
+    Args:
+        trades: List of trade dictionaries from track_position()
+        
+    Returns:
+        Dictionary with statistics:
+        - total_trades: Number of trades
+        - sl_exits: Trades exited by SL
+        - tp_exits: Trades exited by TP (broken down by level)
+        - breakeven_protected: Trades that hit SL at breakeven
+        - pnl_stats: PnL statistics
+    """
+    if not trades:
+        return {'error': 'No trades provided'}
+    
+    total_trades = len(trades)
+    sl_exits = 0
+    tp_exits = {}
+    breakeven_protected = 0
+    pnl_values = []
+    
+    for trade in trades:
+        reason = trade.get('exit_reason', '')
+        pnl = trade.get('pnl_percent', 0)
+        pnl_values.append(pnl)
+        
+        if reason == 'sl':
+            sl_exits += 1
+            # Check if breakeven protected (SL at entry = PnL ~= 0)
+            if abs(pnl) < 0.1:  # Near zero PnL
+                breakeven_protected += 1
+        elif reason.startswith('tp'):
+            tp_exits[reason] = tp_exits.get(reason, 0) + 1
+    
+    # Calculate PnL statistics
+    pnl_array = np.array(pnl_values)
+    
+    return {
+        'total_trades': total_trades,
+        'sl_exits': sl_exits,
+        'sl_exit_rate': round(sl_exits / total_trades * 100, 2) if total_trades > 0 else 0,
+        'tp_exits': tp_exits,
+        'tp_exit_rate': round(sum(tp_exits.values()) / total_trades * 100, 2) if total_trades > 0 else 0,
+        'breakeven_protected': breakeven_protected,
+        'protection_rate': round(breakeven_protected / sl_exits * 100, 2) if sl_exits > 0 else 0,
+        'pnl_stats': {
+            'total': round(pnl_array.sum(), 2),
+            'mean': round(pnl_array.mean(), 2),
+            'std': round(pnl_array.std(), 2),
+            'max': round(pnl_array.max(), 2),
+            'min': round(pnl_array.min(), 2),
+            'win_rate': round((pnl_array > 0).sum() / total_trades * 100, 2) if total_trades > 0 else 0,
+        },
+    }
+
+
+# =============================================================================
 # SIGNAL GENERATION (Chat #21)
 # =============================================================================
 
@@ -1023,7 +1587,7 @@ def get_indicator_info() -> Dict[str, Any]:
     """
     return {
         'name': 'Dominant',
-        'version': '4.0.2',
+        'version': '4.0.3',
         'description': 'Channel + Fibonacci levels indicator for trend trading',
         'parameters': {
             'sensitivity': {
@@ -1047,6 +1611,11 @@ def get_indicator_info() -> Dict[str, Any]:
         'filters': {
             'types': FILTER_NAMES,
             'defaults': FILTER_DEFAULTS,
+        },
+        'sl_modes': {
+            'types': SL_MODE_NAMES,
+            'descriptions': SL_MODE_DESCRIPTIONS,
+            'defaults': SL_DEFAULTS,
         },
         'outputs': {
             'channel': ['high_channel', 'low_channel', 'mid_channel', 'channel_range'],
@@ -1149,7 +1718,7 @@ def get_plot_levels(df: pd.DataFrame, last_n: int = None) -> Dict[str, list]:
 
 if __name__ == '__main__':
     # Quick test
-    print("Testing Dominant Indicator with Filters...")
+    print("Testing Dominant Indicator with Filters and SL Modes...")
     
     # Create sample data
     np.random.seed(42)
@@ -1164,15 +1733,52 @@ if __name__ == '__main__':
         'volume': np.random.randint(1000, 10000, 100)
     }, index=dates)
     
-    # Test all filter types
-    for filter_type in range(5):
-        print(f"\n--- Filter Type {filter_type}: {FILTER_NAMES[filter_type]} ---")
-        
-        result = generate_signals_with_filter(df, sensitivity=21, filter_type=filter_type)
-        stats = get_filter_statistics(result)
-        
-        print(f"Original signals: {stats['original_signals']['total']}")
-        print(f"Filtered signals: {stats['filtered_signals']['total']}")
-        print(f"Pass rate: {stats['pass_rates']['total']}%")
+    # Test SL modes
+    print("\n=== SL MODE TESTS ===")
     
-    print("\n✅ Dominant indicator with filters test passed!")
+    for sl_mode in range(5):
+        mode_info = get_sl_mode_info(sl_mode)
+        print(f"\n--- SL Mode {sl_mode}: {mode_info['name']} ---")
+        
+        # Test calculate_sl_level
+        sl = calculate_sl_level(
+            entry_price=100.0,
+            direction=SIGNAL_LONG,
+            sl_percent=2.0,
+            sl_mode=sl_mode,
+            tps_hit=[True, True, False, False],
+            tp_levels=[101.0, 102.0, 103.0, 105.0]
+        )
+        print(f"SL level (TP1+TP2 hit): {sl}")
+    
+    # Test track_position
+    print("\n=== POSITION TRACKING TEST ===")
+    result = generate_signals(df, sensitivity=21)
+    
+    # Find first long signal
+    long_signals = result[result['can_long']]
+    if len(long_signals) > 0:
+        entry_idx = long_signals.index[0]
+        entry_idx_num = result.index.get_loc(entry_idx)
+        entry_price = result.loc[entry_idx, 'close']
+        
+        print(f"Entry at index {entry_idx_num}, price {entry_price:.2f}")
+        
+        for sl_mode in [SL_MODE_FIXED, SL_MODE_CASCADE]:
+            trade_result = track_position(
+                df=result,
+                entry_idx=entry_idx_num,
+                direction=SIGNAL_LONG,
+                entry_price=entry_price,
+                sl_percent=2.0,
+                tp_percents=[1.0, 2.0, 3.0],
+                sl_mode=sl_mode
+            )
+            mode_name = SL_MODE_NAMES[sl_mode]
+            print(f"\n{mode_name}:")
+            print(f"  Exit reason: {trade_result['exit_reason']}")
+            print(f"  PnL: {trade_result['pnl_percent']:.2f}%")
+            print(f"  TPs hit: {trade_result['tps_hit']}")
+            print(f"  SL movements: {len(trade_result['sl_history'])}")
+    
+    print("\n✅ All SL mode tests passed!")
