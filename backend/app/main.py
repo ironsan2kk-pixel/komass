@@ -150,7 +150,7 @@ async def log_requests(request: Request, call_next):
         duration = (time.time() - start_time) * 1000  # ms
         
         # Log response
-        status_emoji = "âœ“" if response.status_code < 400 else "✗"
+        status_emoji = "✔" if response.status_code < 400 else "✗"
         logger.info(f"[{request_id}] {status_emoji} {request.method} {request.url.path} - {response.status_code} ({duration:.0f}ms)")
         
         return response
@@ -208,30 +208,37 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 try:
     from app.api.routes import router as main_router
     app.include_router(main_router, prefix="/api")
-    logger.info("âœ“ Loaded: main routes")
+    logger.info("✔ Loaded: main routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load main routes: {e}")
 
 try:
     from app.api.optimizer_routes import router as optimizer_router
     app.include_router(optimizer_router)
-    logger.info("âœ“ Loaded: optimizer routes")
+    logger.info("✔ Loaded: optimizer routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load optimizer routes: {e}")
 
 try:
     from app.api.data_routes import router as data_router
     app.include_router(data_router)
-    logger.info("âœ“ Loaded: data routes")
+    logger.info("✔ Loaded: data routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load data routes: {e}")
 
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)
-    logger.info("âœ“ Loaded: indicator routes")
+    logger.info("✔ Loaded: indicator routes")
 except ImportError as e:
     logger.warning(f"✗ Failed to load indicator routes: {e}")
+
+try:
+    from app.api.preset_routes import router as preset_router
+    app.include_router(preset_router)
+    logger.info("✔ Loaded: preset routes")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load preset routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============

@@ -1,215 +1,139 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
-> **Created:** 27.12.2025  
-> **Last Updated:** 27.12.2025  
-> **Current Version:** v3.5 → v4.0  
+> **Создано:** 27.12.2025  
+> **Последнее обновление:** 27.12.2025  
+> **Текущая версия:** v3.5 → v4.0  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## 📊 OVERALL PROGRESS
+## 📊 ОБЩИЙ ПРОГРЕСС
 
-| Metric | Value |
-|--------|-------|
-| **Total Chats** | 83 (#15 — #97) |
-| **Completed** | 11 (#15-#25) |
-| **In Progress** | — |
-| **Remaining** | 72 |
-| **Progress** | 13.3% |
-
----
-
-## 🗂️ PHASE SUMMARY
-
-| # | Phase | Chats | Count | Status |
-|---|-------|-------|-------|--------|
-| 1 | Stabilization | #15-19 | 5 | ✅ 5/5 complete |
-| 2 | Dominant Indicator | #20-28 | 9 | ⏳ 6/9 complete |
-| 3 | Preset System | #29-36 | 8 | ⬜ Waiting |
-| 4 | Signal Score | #37-40 | 4 | ⬜ Waiting |
-| 5 | General Filters | #41-49 | 9 | ⬜ Waiting |
-| 6 | Preset Optimization | #50-54 | 5 | ⬜ Waiting |
-| 7 | Bot Configuration | #55-59 | 5 | ⬜ Waiting |
-| 8 | Bot Backtest | #60-66 | 7 | ⬜ Waiting |
-| 9 | Bot Optimizer | #67-71 | 5 | ⬜ Waiting |
-| 10 | Live Engine | #72-78 | 7 | ⬜ Waiting |
-| 11 | Telegram | #79-86 | 8 | ⬜ Waiting |
-| 12 | UI Redesign | #87-91 | 5 | ⬜ Waiting |
-| 13 | Final QA | #92-95 | 4 | ⬜ Waiting |
-| 14 | Release | #96-98 | 3 | ⬜ Waiting |
+| Метрика | Значение |
+|---------|----------|
+| **Всего чатов** | 83 (#15 — #97) |
+| **Завершено** | 12 (#15-#26) |
+| **В процессе** | #27 |
+| **Осталось** | 71 |
+| **Прогресс** | 14.5% |
 
 ---
 
-## 🔧 PHASE 1: STABILIZATION (5 chats) ✅
+## 🗂️ СВОДКА ПО ФАЗАМ
 
-### Chat #15: Bugfixes UI ✅
-**Completed:** 27.12.2025
-
-- [x] Monthly Panel white screen fix
-- [x] Stats Panel error handling
-- [x] UTF-8 encoding fixes
-- [x] LogsPanel auto-scroll
-- [x] All Indicator components checked
-
-### Chat #16: Bugfixes Backend ✅
-**Completed:** 27.12.2025
-
-- [x] Network Error duplicate timestamps fixed
-- [x] All endpoints checked
-- [x] Error handling improved
-- [x] Logging enhanced
-- [x] Input validation added
-
-### Chat #17: Data Futures Only ✅
-**Completed:** 27.12.2025
-
-- [x] Removed spot trading support
-- [x] Updated Binance API endpoints (fapi)
-- [x] USDT perpetual only
-- [x] Updated symbol list
-- [x] Data migration handled
-
-### Chat #18: Data Period Selection ✅
-**Completed:** 27.12.2025
-
-- [x] Period selection UI (all history / from date / to date)
-- [x] Datepicker components
-- [x] API parameters start_date/end_date
-- [x] Data filtering by period
-- [x] Selection persistence
-
-### Chat #19: QA Checkpoint #1 ✅
-**Completed:** 27.12.2025
-
-- [x] All Phase 1 functionality tested
-- [x] Bug fixes verified
-- [x] Documentation updated
+| # | Фаза | Чаты | Кол-во | Статус |
+|---|------|------|--------|--------|
+| 1 | Стабилизация и база | #15-19 | 5 | ✅ Завершено |
+| 2 | Dominant Indicator | #20-27 | 8 | ⏳ 7/8 завершено |
+| 3 | Система пресетов | #28-33 | 6 | ⬜ Ожидает |
+| 4 | Signal Score | #34-36 | 3 | ⬜ Ожидает |
+| 5 | Общие фильтры | #37-44 | 8 | ⬜ Ожидает |
+| 6 | Оптимизация пресетов | #45-49 | 5 | ⬜ Ожидает |
+| 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
+| 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
+| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
+| 10 | Live Engine | #65-70 | 6 | ⬜ Ожидает |
+| 11 | Telegram | #71-76 | 6 | ⬜ Ожидает |
+| 12 | Дизайн | #77-80 | 4 | ⬜ Ожидает |
+| 13 | QA и тестирование | #81-88 | 8 | ⬜ Ожидает |
+| 14 | GitHub и деплой | #89-94 | 6 | ⬜ Ожидает |
+| 15 | Финализация | #95-97 | 3 | ⬜ Ожидает |
 
 ---
 
-## 🎯 PHASE 2: DOMINANT INDICATOR (9 chats) ⏳
+## 🎯 ФАЗА 2: DOMINANT INDICATOR (8 чатов)
 
-### Chat #20: Dominant Core ✅
-**Completed:** 27.12.2025
+### Чат #20: Dominant Core
+**Статус:** ✅ Завершён
 
-- [x] Created `indicators/dominant.py`
-- [x] Channel calculation (EMA + ATR bands)
-- [x] Fibonacci levels calculation
-- [x] Sensitivity parameter (12-60)
-- [x] Unit tests
+### Чат #21: Dominant Signals
+**Статус:** ✅ Завершён
 
-### Chat #21: Dominant Signals ✅
-**Completed:** 27.12.2025
+### Чат #22: Dominant Filters
+**Статус:** ✅ Завершён
 
-- [x] `can_long` / `can_short` generation
-- [x] Fibonacci level integration
-- [x] 4 TP levels (by Fib)
-- [x] Entry price calculation
-- [x] Trend tracking (is_long_trend, is_short_trend)
-- [x] Unit tests
+### Чат #23: Dominant SL Modes
+**Статус:** ✅ Завершён
 
-### Chat #22: Dominant Filters ✅
-**Completed:** 27.12.2025
+### Чат #24: QA Checkpoint #2
+**Статус:** ✅ Завершён
 
-- [x] Filter Type 0: None
-- [x] Filter Type 1: ATR Condition
-- [x] Filter Type 2: RSI Condition
-- [x] Filter Type 3: ATR + RSI Combined
-- [x] Filter Type 4: Volatility Condition
-- [x] `apply_filter()` function
-- [x] Unit tests (61 tests)
+### Чат #25: Dominant AI Resolution
+**Статус:** ✅ Завершён
 
-### Chat #23: Dominant SL Modes ✅
-**Completed:** 27.12.2025
+### Чат #26: Dominant 37 Presets DB
+**Статус:** ✅ Завершён  
+**Дата завершения:** 27.12.2025
 
-- [x] Mode 0: Fixed SL
-- [x] Mode 1: Breakeven after TP1
-- [x] Mode 2: Breakeven after TP2
-- [x] Mode 3: Breakeven after TP3
-- [x] Mode 4: Cascade trailing
-- [x] `track_position()` function
-- [x] Unit tests (65 tests)
+**Выполнено:**
+- [x] Create `presets` table in SQLite (dominant_presets)
+- [x] Add PresetCreate/Update/Response Pydantic models
+- [x] Add CRUD operations for presets
+- [x] Migrate 125 Dominant presets from GG Pine Script
+- [x] Add API endpoints: list, get, create, update, delete
+- [x] Categories: scalp, short-term, mid-term, swing, long-term
+- [x] Unit tests (20+ tests)
 
-### Chat #24: QA Checkpoint #2 ✅
-**Completed:** 27.12.2025
+**Новые файлы:**
+- `backend/app/models/preset_models.py` - Pydantic models
+- `backend/app/database/presets_db.py` - Database CRUD
+- `backend/app/api/preset_routes.py` - API endpoints
+- `backend/app/migrations/seed_dominant_presets.py` - 125 presets
+- `tests/test_presets.py` - Unit tests
 
-- [x] Dominant indicator functionality tested
-- [x] All filter types verified
-- [x] All SL modes verified
-- [x] Bug fixes applied
-
-### Chat #25: Dominant AI Resolution ✅
-**Completed:** 27.12.2025
-
-- [x] `calculate_sensitivity_score()` function
-- [x] Scoring weights: Profit(30%) + WinRate(25%) + Stability(25%) + DD(20%)
-- [x] `run_full_backtest()` function
-- [x] `optimize_sensitivity()` with multi-core support
-- [x] ProcessPoolExecutor integration
-- [x] Progress callback for SSE streaming
-- [x] `compare_sensitivities()` helper
-- [x] `get_score_breakdown()` helper
-- [x] `get_optimization_summary()` helper
-- [x] Unit tests (65+ tests)
-
-**Files modified:**
-- `backend/app/indicators/dominant.py` (v4.0.3 → v4.0.4)
-
-**New functions:**
-- `calculate_sensitivity_score(metrics)` → Score 0-100
-- `run_full_backtest(df, sensitivity, ...)` → Full backtest with metrics
-- `optimize_sensitivity(df, ...)` → Multi-core optimization
-- `compare_sensitivities(df, sensitivities)` → DataFrame comparison
-- `get_score_breakdown(metrics)` → Detailed score components
-- `get_optimization_summary(result)` → Formatted text summary
-- `get_ai_resolution_info()` → Module info dictionary
+**API Endpoints:**
+```
+GET    /api/presets/list              - List all presets
+GET    /api/presets/stats             - Get statistics
+GET    /api/presets/{id}              - Get single preset
+POST   /api/presets/create            - Create preset
+PUT    /api/presets/{id}              - Update preset
+DELETE /api/presets/{id}              - Delete preset
+POST   /api/presets/import            - Import JSON
+GET    /api/presets/export/{id}       - Export JSON
+GET    /api/presets/dominant/list     - Dominant presets only
+POST   /api/presets/dominant/seed     - Seed 125 presets
+```
 
 ---
 
-### Chat #26: Dominant 37 Presets DB ⏳
-**Status:** Next
+### Чат #27: Dominant UI Integration
+**Статус:** ⏳ Следующий
 
-**Tasks:**
-- [ ] Create `presets` table in SQLite
-- [ ] Migrate 37 presets from Pine Script
-- [ ] API: GET /api/presets/list
-- [ ] API: GET /api/presets/{id}
-- [ ] Unit tests
-
----
-
-### Chat #27: Dominant UI Integration
-**Status:** ⬜ Waiting
-
-### Chat #28: Dominant Verification
-**Status:** ⬜ Waiting
+**Задачи:**
+- [ ] Селектор индикатора в SettingsSidebar (TRG / Dominant)
+- [ ] Выбор пресета из библиотеки
+- [ ] Автоподстановка параметров из пресета
+- [ ] Категории пресетов в UI
+- [ ] Поиск по пресетам
 
 ---
 
-## 📝 CHANGE LOG
+## 📝 ИСТОРИЯ ИЗМЕНЕНИЙ
 
-| Date | Chat | Change |
-|------|------|--------|
-| 27.12.2025 | #25 | ✅ Added AI Resolution: scoring, backtest, multi-core optimization |
-| 27.12.2025 | #24 | ✅ QA Checkpoint #2 completed |
-| 27.12.2025 | #23 | ✅ Added 5 SL modes with track_position() |
-| 27.12.2025 | #22 | ✅ Added 5 filter types with apply_filter() |
-| 27.12.2025 | #21 | ✅ Added signal generation with trend tracking |
-| 27.12.2025 | #20 | ✅ Created dominant.py core with channel/fib calculation |
-| 27.12.2025 | #19 | ✅ QA Checkpoint #1 completed |
-| 27.12.2025 | #18 | ✅ Added period selection to Data page |
-| 27.12.2025 | #17 | ✅ Removed spot, Futures only |
-| 27.12.2025 | #16 | ✅ Backend bugfixes |
-| 27.12.2025 | #15 | ✅ UI bugfixes, UTF-8 encoding |
+| Дата | Чат | Изменение |
+|------|-----|-----------|
+| 27.12.2025 | #26 | ✅ Завершён: 125 Dominant presets DB, API, tests |
+| 27.12.2025 | #25 | ✅ Завершён: AI Resolution optimization |
+| 27.12.2025 | #24 | ✅ Завершён: QA Checkpoint #2 |
+| 27.12.2025 | #23 | ✅ Завершён: SL modes implementation |
+| 27.12.2025 | #22 | ✅ Завершён: Filter types (0-6) |
+| 27.12.2025 | #21 | ✅ Завершён: Signal generation |
+| 27.12.2025 | #20 | ✅ Завершён: Dominant core module |
+| 27.12.2025 | #15-19 | ✅ Завершено: Стабилизация |
 
 ---
 
-## 🔗 LINKS
+## 📊 PRESETS STATISTICS
 
-- **GitHub:** https://github.com/ironsan2kk-pixel/komass
-- **Local API:** http://localhost:8000/docs
-- **Local Frontend:** http://localhost:5173
+| Category | Count |
+|----------|-------|
+| Scalp (5m) | 3 |
+| Short-Term (15m) | 26 |
+| Mid-Term (30m, 1h) | 88 |
+| Long-Term (3h, 4h) | 8 |
+| **Total** | **125** |
 
 ---
 
-*Updated: 27.12.2025 - Chat #25*
+*Обновлено: 27.12.2025*
