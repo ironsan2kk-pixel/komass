@@ -1,20 +1,15 @@
 @echo off
-setlocal enabledelayedexpansion
+REM ============================================
+REM KOMAS Test Runner - Chat #21
+REM Dominant Indicator Signal Tests
+REM ============================================
 
 echo ========================================
-echo Testing Dominant Indicator Module
+echo KOMAS Dominant Indicator Tests
 echo ========================================
 echo.
 
 cd /d "%~dp0"
-
-if not exist "backend\app\indicators\dominant.py" (
-    echo ERROR: dominant.py not found
-    echo Make sure you extracted the archive correctly
-    pause
-    exit /b 1
-)
-
 cd backend
 
 if not exist "venv\Scripts\activate.bat" (
@@ -25,22 +20,23 @@ if not exist "venv\Scripts\activate.bat" (
 )
 
 call venv\Scripts\activate.bat
-
-echo Running tests...
-echo.
-
 set PYTHONPATH=%CD%\app
 
-python -c "from indicators.dominant import calculate_dominant; print('Import test: OK')"
+cd ..
+
+echo Running quick test...
+python run_tests.py --quick
+
 if %ERRORLEVEL% NEQ 0 (
     echo.
-    echo ERROR: Import failed
+    echo Quick test FAILED
     pause
     exit /b 1
 )
 
 echo.
-python "%~dp0run_tests.py"
+echo Running full test suite...
+python run_tests.py -v
 
 if %ERRORLEVEL% NEQ 0 (
     echo.

@@ -17,8 +17,58 @@
 
 ## 🎯 ФАЗА 2: DOMINANT INDICATOR (В ПРОЦЕССЕ)
 
-### Chat #20: Dominant — Core ✅
+### Chat #21: Dominant — Signals ✅
 **Коммит:** _pending_
+
+| Сделано | Описание |
+|---------|----------|
+| generate_signals() | Основная функция генерации сигналов |
+| can_long | close >= mid AND close >= fib_236 AND bullish |
+| can_short | close <= mid AND close <= fib_236_high AND bearish |
+| is_long_trend | Трекинг лонг тренда |
+| is_short_trend | Трекинг шорт тренда |
+| Close on reverse | Тренд меняется при обратном сигнале |
+| entry_price | Цена входа при сигнале |
+| get_signal_summary() | Сводка по сигналам |
+| get_latest_signal() | Последний сигнал |
+| extract_signal_entries() | Только точки входа |
+| Unit tests | 40+ тестов |
+
+**Обновлённые файлы:**
+- `backend/app/indicators/dominant.py` (~500 строк, +200 новых)
+- `backend/app/indicators/__init__.py` (новые экспорты)
+- `tests/test_dominant.py` (~800 строк, +400 новых тестов)
+- `run_tests.py` (test runner)
+- `test_dominant.bat` (Windows runner)
+
+**Новые API функции:**
+```python
+generate_signals(df, sensitivity=21, require_confirmation=True) -> DataFrame
+get_signal_summary(df) -> Dict[str, Any]
+get_latest_signal(df) -> Dict[str, Any]
+extract_signal_entries(df) -> DataFrame
+
+# Constants
+SIGNAL_LONG = 1
+SIGNAL_SHORT = -1
+SIGNAL_NONE = 0
+```
+
+**Сигнальные колонки:**
+```python
+'can_long'        # bool
+'can_short'       # bool
+'signal'          # int: 1, -1, 0
+'is_long_trend'   # bool
+'is_short_trend'  # bool
+'entry_price'     # float
+'signal_type'     # str: 'LONG', 'SHORT', 'NONE'
+```
+
+---
+
+### Chat #20: Dominant — Core ✅
+**Коммит:** `b7d4b12`
 
 | Сделано | Описание |
 |---------|----------|
@@ -101,8 +151,6 @@ validate_sensitivity(value) -> int
 
 **Файлы:** `indicator_routes.py`, `data_routes.py`
 
-**Уроки:** `encoding='utf-8'`, импорты в начале файла
-
 ---
 
 ### Chat #15: Bugfixes UI ✅
@@ -110,69 +158,50 @@ validate_sensitivity(value) -> int
 
 | Проблема | Решение |
 |----------|---------|
-| Monthly белый экран | `data?.results ?? []` |
-| StatsPanel ошибки | Null checks |
-| TradesTable краш | Optional chaining |
-| HeatmapPanel пустой | Empty state handling |
+| MonthlyPanel crash | Null checks, optional chaining |
+| StatsPanel crash | Default values, safe access |
+| UTF-8 encoding | encoding='utf-8' везде |
 
 **Файлы:** Все компоненты в `components/Indicator/`
 
-**Уроки:** Всегда `data?.field ?? default`
-
 ---
 
-## 🔍 БЫСТРЫЙ ПОИСК
+## 📂 ТЕКУЩАЯ СТРУКТУРА
 
-### По теме:
-| Тема | Чаты |
-|------|------|
-| UI/Frontend | #15, #18, #19 |
-| Backend | #16, #19, #20 |
-| Data/API | #17, #18 |
-| Indicators | #20 |
-| Caching | #19 |
-| Dominant | #20 |
-
-### По файлу:
-| Файл | Чаты |
-|------|------|
-| indicator_routes.py | #16, #18, #19 |
-| data_routes.py | #16, #17 |
-| Indicator.jsx | #15, #18, #19 |
-| SettingsSidebar.jsx | #18, #19 |
-| StatsPanel.jsx | #15, #18, #19 |
-| dominant.py | #20 |
-
----
-
-## 📝 СТАНДАРТЫ КОДА
-
-### Python (Backend)
-```python
-# Encoding для файлов
-with open(path, 'w', encoding='utf-8') as f:
-    ...
-
-# Imports в начале для ProcessPoolExecutor
-import pandas as pd  # Первые строки!
-
-# Валидация параметров
-def validate_param(value: int) -> int:
-    return max(MIN, min(MAX, int(value)))
 ```
-
-### JavaScript (Frontend)
-```javascript
-// Null-safe access
-const value = data?.field ?? defaultValue;
-
-// Array check
-const items = Array.isArray(data) ? data : [];
-
-// Conditional rendering
-{data && data.length > 0 && <Component />}
+komass/
+├── docs/
+│   ├── TRACKER.md           # Прогресс
+│   └── CHAT_REFERENCE.md    # Этот файл
+│
+├── backend/app/
+│   ├── main.py
+│   ├── api/
+│   │   ├── indicator_routes.py  # TRG (2000+ строк)
+│   │   └── data_routes.py       # Binance Futures
+│   └── indicators/              # NEW v4
+│       ├── __init__.py
+│       └── dominant.py          # ~500 строк
+│
+├── frontend/src/
+│   ├── App.jsx
+│   ├── pages/
+│   └── components/Indicator/
+│
+├── tests/
+│   └── test_dominant.py         # ~800 строк
+│
+└── *.bat
 ```
 
 ---
 
-*Обновлено: 27.12.2025 (Chat #20)*
+## 🔗 ССЫЛКИ
+
+- **GitHub:** https://github.com/ironsan2kk-pixel/komass
+- **API:** http://localhost:8000/docs
+- **Frontend:** http://localhost:5173
+
+---
+
+*Обновлено: 27.12.2025*
