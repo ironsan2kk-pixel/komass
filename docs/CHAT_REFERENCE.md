@@ -10,100 +10,143 @@
 | Эра | Чаты | Статус |
 |-----|------|--------|
 | Эра 1: Плагины | #00-#14 | ✅ Эксперимент (не в prod) |
-| Эра 2: Стабилизация | #15-#17 | ✅ Production v3.5 |
-| Эра 3: v4.0 | #18-#98 | ⏳ В разработке |
+| Эра 2: Стабилизация | #15-#19 | ✅ ЗАВЕРШЕНА |
+| Эра 3: v4.0 | #20-#98 | ⏳ В разработке |
 
 ---
 
-## ✅ ЗАВЕРШЁННЫЕ ЧАТЫ
+## ✅ ФАЗА 1: СТАБИЛИЗАЦИЯ (ЗАВЕРШЕНА)
 
-### Chat #17: Data Futures Only
-**Коммит:** TBD
+### Chat #19: Data Caching ✅
+**Коммит:** `11074d0`
 
-| Сделано | Файлы |
-|---------|-------|
-| Удалён BINANCE_SPOT_URL | data_routes.py |
-| Только Futures | Data.jsx |
-| Убран параметр source | — |
+| Сделано | Описание |
+|---------|----------|
+| LRU Cache | 100 записей max, TTL 5 мин |
+| Cache endpoints | GET /cache-stats, POST /cache-clear |
+| Force Recalculate | Кнопка в UI |
+| Cache status | В header и StatsPanel |
+| Bug fix | includes undefined error |
+
+**Файлы:** `indicator_routes.py`, `Indicator.jsx`, `SettingsSidebar.jsx`, `StatsPanel.jsx`
 
 ---
 
-### Chat #16: Bugfixes Backend
+### Chat #18: Data Period Selection ✅
+**Коммит:** `c852b5c`
+
+| Сделано | Описание |
+|---------|----------|
+| DatePicker | start_date, end_date в sidebar |
+| Quick presets | Всё, 1 год, 6 мес, 3 мес, 1 мес |
+| data_range | API возвращает диапазон |
+| Period display | В header и StatsPanel |
+
+**Файлы:** `indicator_routes.py`, `Indicator.jsx`, `SettingsSidebar.jsx`, `StatsPanel.jsx`
+
+---
+
+### Chat #17: Data Futures Only ✅
+**Коммит:** `fba2865`
+
+| Сделано | Описание |
+|---------|----------|
+| Removed Spot | Удалён BINANCE_SPOT_URL |
+| Futures only | Только BINANCE_FUTURES_URL |
+| UI update | Убран переключатель источника |
+
+**Файлы:** `data_routes.py`, `Data.jsx`
+
+---
+
+### Chat #16: Bugfixes Backend ✅
 **Коммит:** `de6cd90`
 
-| Проблема | Решение | Файл |
-|----------|---------|------|
-| Duplicate timestamps | Дедупликация | indicator_routes.py |
-| Mojibake логов | English logs | indicator_routes.py |
-| ProcessPoolExecutor | Imports top | indicator_routes.py |
+| Проблема | Решение |
+|----------|---------|
+| Duplicate timestamps | Дедупликация данных |
+| Mojibake логов | English logs |
+| ProcessPoolExecutor | Imports в начале файла |
+
+**Файлы:** `indicator_routes.py`, `data_routes.py`
 
 **Уроки:** `encoding='utf-8'`, импорты в начале файла
 
 ---
 
-### Chat #15: Bugfixes UI
+### Chat #15: Bugfixes UI ✅
 **Коммит:** `df09cee`
 
-| Проблема | Решение | Файл |
-|----------|---------|------|
-| MonthlyPanel crash | null checks | MonthlyPanel.jsx |
-| StatsPanel undefined | default values | StatsPanel.jsx |
-| Mojibake | UTF-8 | Все компоненты |
+| Проблема | Решение |
+|----------|---------|
+| MonthlyPanel crash | null checks |
+| StatsPanel undefined | default values |
+| Mojibake | UTF-8 encoding |
+
+**Файлы:** `Indicator.jsx`, `MonthlyPanel.jsx`, `StatsPanel.jsx`, и др.
 
 ---
 
-## ⏳ ЗАПЛАНИРОВАННЫЕ ЧАТЫ
+## ⏳ ФАЗА 2: DOMINANT INDICATOR
 
-### Chat #18: Data Period Selection
+### Chat #20: Dominant — Core
 **Статус:** NEXT
 
 | Задача | Файл |
 |--------|------|
-| DatePicker UI | SettingsSidebar.jsx |
-| start_date, end_date | indicator_routes.py |
-| Фильтрация периода | indicator_routes.py |
+| Channel calculation | dominant.py |
+| Fibonacci levels | dominant.py |
+| sensitivity param | dominant.py |
+| Unit tests | test_dominant.py |
 
 ---
 
-### Chat #19: QA Checkpoint #1
-**Тип:** QA
+### Chat #21: Dominant — Signals
+**Статус:** ⬜
+
+| Задача |
+|--------|
+| can_long conditions |
+| can_short conditions |
+| Close on reverse |
+
+---
+
+### Chat #22: Dominant — Filters
+**Статус:** ⬜
+
+| Filter Type | Description |
+|-------------|-------------|
+| 0 | None |
+| 1 | ATR Condition |
+| 2 | RSI |
+| 3 | ATR + RSI |
+| 4 | Volatility |
+
+---
+
+### Chat #23: Dominant — SL Modes
+**Статус:** ⬜
+
+| Mode | Description |
+|------|-------------|
+| 0 | No SL movement |
+| 1 | After TP1 → Entry |
+| 2 | After TP2 → Entry |
+| 3 | After TP3 → Entry |
+| 4 | Cascade trailing |
+
+---
+
+### Chat #24: QA Checkpoint #2
+**Статус:** ⬜
 
 | Проверка |
 |----------|
 | Backend логи |
 | Frontend DevTools |
-| Все основные функции |
-| Фиксы найденных багов |
-
----
-
-## 📋 ШАБЛОН QA CHECKPOINT
-
-```markdown
-### QA Checkpoint #X
-
-**Дата:** ДД.ММ.ГГГГ
-
-**Логи проверены:**
-- [ ] Backend консоль
-- [ ] Frontend DevTools Console
-- [ ] Network tab — failed requests
-
-**Функции протестированы:**
-- [ ] Data: загрузка с Binance
-- [ ] Indicator: расчёт TRG
-- [ ] Optimizer: 5 режимов
-- [ ] Heatmap: генерация
-- [ ] Tabs: все 6 открываются
-
-**Найдено:**
-| Баг | Severity | Исправлен? |
-|-----|----------|------------|
-| ... | High/Med/Low | ✅/⬜ |
-
-**Не исправлено (backlog):**
-- Issue #1: описание
-```
+| Dominant расчёты |
+| TRG не сломан |
 
 ---
 
@@ -113,13 +156,14 @@
 
 | Файл | Чаты |
 |------|------|
-| indicator_routes.py | #16, #18 |
+| indicator_routes.py | #16, #18, #19 |
 | data_routes.py | #16, #17 |
-| Indicator.jsx | #15 |
+| Indicator.jsx | #15, #18, #19 |
+| SettingsSidebar.jsx | #15, #18, #19 |
+| StatsPanel.jsx | #15, #18, #19 |
 | MonthlyPanel.jsx | #15 |
-| StatsPanel.jsx | #15 |
-| SettingsSidebar.jsx | #15, #18 |
 | Data.jsx | #17 |
+| dominant.py | #20 (planned) |
 
 ### По проблеме:
 
@@ -129,15 +173,17 @@
 | Mojibake | #15, #16 | UTF-8 |
 | Network Error | #16 | Дедупликация |
 | ProcessPoolExecutor | #16 | Imports top |
+| includes undefined | #19 | null check |
 
 ### По типу:
 
 | Тип | Чаты |
 |-----|------|
-| Bugfix | #15, #16 |
+| Bugfix | #15, #16, #19 |
 | Refactor | #17 |
-| Feature | #18+ |
-| QA Checkpoint | #19, #24, #29... |
+| Feature | #18, #19 |
+| New Indicator | #20-#28 |
+| QA Checkpoint | #24, #29... |
 
 ---
 
@@ -169,4 +215,4 @@
 
 ---
 
-*Обновляется после каждого чата*
+*Обновлено: 27.12.2025 после Chat #19*
