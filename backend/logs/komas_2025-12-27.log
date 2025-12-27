@@ -3956,3 +3956,176 @@
 2025-12-27 23:05:38 | INFO     | app.main             | log_requests         | [2305384177] ✔ GET /api/indicator/cache-stats - 200 (0ms)
 2025-12-27 23:06:08 | DEBUG    | app.main             | log_requests         | [2306084237] GET /api/indicator/cache-stats
 2025-12-27 23:06:08 | INFO     | app.main             | log_requests         | [2306084237] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:10:09 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 23:10:09 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 23:10:10 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 23:10:10 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 23:10:10 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 23:10:10 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-27 23:10:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:10:10 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-27 23:10:10 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 23:10:10 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 23:10:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:10:15 | DEBUG    | app.main             | log_requests         | [2310157060] GET /api/indicator/cache-stats
+2025-12-27 23:10:15 | INFO     | app.main             | log_requests         | [2310157060] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 23:13:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:16 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-27 23:13:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:17 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 23:13:17 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 23:13:18 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 23:13:18 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 23:13:18 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 23:13:18 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-27 23:13:18 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:18 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-27 23:13:18 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 23:13:18 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 23:13:18 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:19 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 23:13:19 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 23:13:19 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 23:13:19 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 23:13:20 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 23:13:20 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-27 23:13:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:20 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-27 23:13:20 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 23:13:20 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 23:13:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:39 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 23:13:39 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 23:13:40 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 23:13:40 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 23:13:40 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-27 23:13:40 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-27 23:13:40 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:40 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-27 23:13:40 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 23:13:40 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 23:13:40 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 23:13:50 | DEBUG    | app.main             | log_requests         | [2313502047] GET /api/indicator/cache-stats
+2025-12-27 23:13:50 | INFO     | app.main             | log_requests         | [2313502047] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:13:50 | DEBUG    | app.main             | log_requests         | [2313502122] GET /api/indicator/cache-stats
+2025-12-27 23:13:50 | INFO     | app.main             | log_requests         | [2313502122] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:13:54 | DEBUG    | app.main             | log_requests         | [2313547939] GET /api/signals/sse/stream
+2025-12-27 23:13:54 | INFO     | app.main             | log_requests         | [2313547939] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:13:56 | DEBUG    | app.main             | log_requests         | [2313563219] GET /api/presets/list
+2025-12-27 23:13:56 | DEBUG    | app.main             | log_requests         | [2313563379] GET /api/presets/stats
+2025-12-27 23:13:56 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:13:56 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:13:56 | INFO     | app.main             | log_requests         | [2313563219] ✔ GET /api/presets/list - 200 (20ms)
+2025-12-27 23:13:56 | INFO     | app.main             | log_requests         | [2313563379] ✗ GET /api/presets/stats - 500 (5ms)
+2025-12-27 23:13:56 | DEBUG    | app.main             | log_requests         | [2313563449] GET /api/presets/list
+2025-12-27 23:13:56 | DEBUG    | app.main             | log_requests         | [2313563501] GET /api/presets/stats
+2025-12-27 23:13:56 | INFO     | app.main             | log_requests         | [2313563449] ✔ GET /api/presets/list - 200 (5ms)
+2025-12-27 23:13:56 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:13:56 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:13:56 | INFO     | app.main             | log_requests         | [2313563501] ✗ GET /api/presets/stats - 500 (5ms)
+2025-12-27 23:13:59 | DEBUG    | app.main             | log_requests         | [2313598050] GET /api/signals/sse/stream
+2025-12-27 23:13:59 | INFO     | app.main             | log_requests         | [2313598050] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:05 | DEBUG    | app.main             | log_requests         | [2314051105] GET /api/signals/sse/stream
+2025-12-27 23:14:05 | INFO     | app.main             | log_requests         | [2314051105] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:10 | DEBUG    | app.main             | log_requests         | [2314101191] GET /api/signals/sse/stream
+2025-12-27 23:14:10 | INFO     | app.main             | log_requests         | [2314101191] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:15 | DEBUG    | app.main             | log_requests         | [2314154257] GET /api/signals/sse/stream
+2025-12-27 23:14:15 | INFO     | app.main             | log_requests         | [2314154257] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:14:15 | DEBUG    | app.main             | log_requests         | [2314155566] GET /api/presets/list
+2025-12-27 23:14:15 | INFO     | app.main             | log_requests         | [2314155566] ✔ GET /api/presets/list - 200 (3ms)
+2025-12-27 23:14:15 | DEBUG    | app.main             | log_requests         | [2314155622] GET /api/presets/stats
+2025-12-27 23:14:15 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:14:15 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:14:15 | INFO     | app.main             | log_requests         | [2314155622] ✗ GET /api/presets/stats - 500 (3ms)
+2025-12-27 23:14:20 | DEBUG    | app.main             | log_requests         | [2314204436] GET /api/signals/sse/stream
+2025-12-27 23:14:20 | INFO     | app.main             | log_requests         | [2314204436] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:25 | DEBUG    | app.main             | log_requests         | [2314257645] GET /api/signals/sse/stream
+2025-12-27 23:14:25 | INFO     | app.main             | log_requests         | [2314257645] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:30 | DEBUG    | app.main             | log_requests         | [2314307728] GET /api/signals/sse/stream
+2025-12-27 23:14:30 | INFO     | app.main             | log_requests         | [2314307728] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:36 | DEBUG    | app.main             | log_requests         | [2314360784] GET /api/signals/sse/stream
+2025-12-27 23:14:36 | INFO     | app.main             | log_requests         | [2314360784] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:41 | DEBUG    | app.main             | log_requests         | [2314410899] GET /api/signals/sse/stream
+2025-12-27 23:14:41 | INFO     | app.main             | log_requests         | [2314410899] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:14:46 | DEBUG    | app.main             | log_requests         | [2314464143] GET /api/signals/sse/stream
+2025-12-27 23:14:46 | INFO     | app.main             | log_requests         | [2314464143] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:14:51 | DEBUG    | app.main             | log_requests         | [2314514224] GET /api/signals/sse/stream
+2025-12-27 23:14:51 | INFO     | app.main             | log_requests         | [2314514224] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:14:56 | DEBUG    | app.main             | log_requests         | [2314567325] GET /api/signals/sse/stream
+2025-12-27 23:14:56 | INFO     | app.main             | log_requests         | [2314567325] ✗ GET /api/signals/sse/stream - 404 (4ms)
+2025-12-27 23:15:01 | DEBUG    | app.main             | log_requests         | [2315017441] GET /api/signals/sse/stream
+2025-12-27 23:15:01 | INFO     | app.main             | log_requests         | [2315017441] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:07 | DEBUG    | app.main             | log_requests         | [2315070559] GET /api/signals/sse/stream
+2025-12-27 23:15:07 | INFO     | app.main             | log_requests         | [2315070559] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:08 | DEBUG    | app.main             | log_requests         | [2315086426] GET /api/presets/list
+2025-12-27 23:15:08 | INFO     | app.main             | log_requests         | [2315086426] ✔ GET /api/presets/list - 200 (3ms)
+2025-12-27 23:15:08 | DEBUG    | app.main             | log_requests         | [2315086479] GET /api/presets/stats
+2025-12-27 23:15:08 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:15:08 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-27 23:15:08 | INFO     | app.main             | log_requests         | [2315086479] ✗ GET /api/presets/stats - 500 (3ms)
+2025-12-27 23:15:12 | DEBUG    | app.main             | log_requests         | [2315120655] GET /api/signals/sse/stream
+2025-12-27 23:15:12 | INFO     | app.main             | log_requests         | [2315120655] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:17 | DEBUG    | app.main             | log_requests         | [2315173780] GET /api/signals/sse/stream
+2025-12-27 23:15:17 | INFO     | app.main             | log_requests         | [2315173780] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:22 | DEBUG    | app.main             | log_requests         | [2315223841] GET /api/signals/sse/stream
+2025-12-27 23:15:22 | INFO     | app.main             | log_requests         | [2315223841] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:27 | DEBUG    | app.main             | log_requests         | [2315276907] GET /api/signals/sse/stream
+2025-12-27 23:15:27 | INFO     | app.main             | log_requests         | [2315276907] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:15:32 | DEBUG    | app.main             | log_requests         | [2315327040] GET /api/signals/sse/stream
+2025-12-27 23:15:32 | INFO     | app.main             | log_requests         | [2315327040] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:38 | DEBUG    | app.main             | log_requests         | [2315380169] GET /api/signals/sse/stream
+2025-12-27 23:15:38 | INFO     | app.main             | log_requests         | [2315380169] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:43 | DEBUG    | app.main             | log_requests         | [2315430312] GET /api/signals/sse/stream
+2025-12-27 23:15:43 | INFO     | app.main             | log_requests         | [2315430312] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:48 | DEBUG    | app.main             | log_requests         | [2315483416] GET /api/signals/sse/stream
+2025-12-27 23:15:48 | INFO     | app.main             | log_requests         | [2315483416] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:53 | DEBUG    | app.main             | log_requests         | [2315533520] GET /api/signals/sse/stream
+2025-12-27 23:15:53 | INFO     | app.main             | log_requests         | [2315533520] ✗ GET /api/signals/sse/stream - 404 (0ms)

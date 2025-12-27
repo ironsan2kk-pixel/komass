@@ -12,9 +12,11 @@
  * Chat: #31-33 — Presets Full Module
  */
 import { useState, useEffect, useCallback } from 'react';
-import { API_URL } from '../api';
 import PresetCard from '../components/Presets/PresetCard';
 import PresetModal from '../components/Presets/PresetModal';
+
+// API base URL
+const API_URL = 'http://localhost:8000';
 
 // Categories with icons
 const CATEGORIES = [
