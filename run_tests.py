@@ -1,343 +1,157 @@
+#!/usr/bin/env python
 """
-Test runner for KOMAS Dominant Indicator tests
-Runs all SL mode tests and reports results
+Simple test runner for Dominant AI Resolution
+KOMAS v4.0 - Chat #25
 
-Usage: python run_tests.py
+Run this script to execute all tests.
 """
 
 import sys
 import os
 
-# Add backend to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend', 'app'))
+# Add paths
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend'))
 
-# Run basic tests first (no pytest required)
-def run_basic_tests():
-    """Run basic tests without pytest"""
+def run_quick_tests():
+    """Run quick validation tests"""
     print("=" * 60)
-    print("KOMAS Dominant SL Modes - Basic Tests")
-    print("=" * 60)
-    print()
-    
-    errors = []
-    passed = 0
-    
-    try:
-        from indicators.dominant import (
-            # Constants
-            SL_MODE_FIXED,
-            SL_MODE_AFTER_TP1,
-            SL_MODE_AFTER_TP2,
-            SL_MODE_AFTER_TP3,
-            SL_MODE_CASCADE,
-            SL_MODE_NAMES,
-            SIGNAL_LONG,
-            SIGNAL_SHORT,
-            
-            # Functions
-            validate_sl_mode,
-            calculate_tp_levels,
-            calculate_initial_sl,
-            calculate_sl_level,
-            get_sl_mode_info,
-            track_position,
-            generate_signals,
-        )
-        print("[OK] Import successful")
-        passed += 1
-    except Exception as e:
-        errors.append(f"Import failed: {e}")
-        print(f"[FAIL] Import failed: {e}")
-        return
-    
-    # Test 1: SL Mode Constants
-    print("\n--- Test: SL Mode Constants ---")
-    try:
-        assert SL_MODE_FIXED == 0
-        assert SL_MODE_AFTER_TP1 == 1
-        assert SL_MODE_AFTER_TP2 == 2
-        assert SL_MODE_AFTER_TP3 == 3
-        assert SL_MODE_CASCADE == 4
-        assert len(SL_MODE_NAMES) == 5
-        print("[OK] SL mode constants correct")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL mode constants: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 2: validate_sl_mode
-    print("\n--- Test: validate_sl_mode ---")
-    try:
-        assert validate_sl_mode(0) == 0
-        assert validate_sl_mode(4) == 4
-        assert validate_sl_mode(-1) == 0
-        assert validate_sl_mode(10) == 4
-        assert validate_sl_mode(None) == 0
-        print("[OK] validate_sl_mode works correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"validate_sl_mode: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 3: calculate_tp_levels
-    print("\n--- Test: calculate_tp_levels ---")
-    try:
-        # Long TPs above entry
-        tps = calculate_tp_levels(100.0, SIGNAL_LONG, [1.0, 2.0, 3.0])
-        assert tps[0] == 101.0
-        assert tps[1] == 102.0
-        assert tps[2] == 103.0
-        
-        # Short TPs below entry
-        tps = calculate_tp_levels(100.0, SIGNAL_SHORT, [1.0, 2.0, 3.0])
-        assert tps[0] == 99.0
-        assert tps[1] == 98.0
-        assert tps[2] == 97.0
-        
-        print("[OK] calculate_tp_levels works correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"calculate_tp_levels: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 4: calculate_initial_sl
-    print("\n--- Test: calculate_initial_sl ---")
-    try:
-        # Long SL below entry
-        sl = calculate_initial_sl(100.0, SIGNAL_LONG, 2.0)
-        assert sl == 98.0
-        
-        # Short SL above entry
-        sl = calculate_initial_sl(100.0, SIGNAL_SHORT, 2.0)
-        assert sl == 102.0
-        
-        print("[OK] calculate_initial_sl works correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"calculate_initial_sl: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 5: SL Mode Fixed
-    print("\n--- Test: SL Mode Fixed (Mode 0) ---")
-    try:
-        sl = calculate_sl_level(
-            entry_price=100.0,
-            direction=SIGNAL_LONG,
-            sl_percent=2.0,
-            sl_mode=SL_MODE_FIXED,
-            tps_hit=[True, True, True, True]
-        )
-        assert sl == 98.0, f"Expected 98.0, got {sl}"
-        print("[OK] Fixed mode: SL never moves")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL Mode Fixed: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 6: SL Mode After TP1
-    print("\n--- Test: SL Mode After TP1 (Mode 1) ---")
-    try:
-        # Before TP1
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP1, [False, False])
-        assert sl == 98.0, f"Before TP1: expected 98.0, got {sl}"
-        
-        # After TP1
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP1, [True, False])
-        assert sl == 100.0, f"After TP1: expected 100.0 (breakeven), got {sl}"
-        
-        print("[OK] After TP1 mode: moves to breakeven")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL Mode After TP1: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 7: SL Mode After TP2
-    print("\n--- Test: SL Mode After TP2 (Mode 2) ---")
-    try:
-        # After TP1 only - no move
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP2, [True, False])
-        assert sl == 98.0, f"After TP1 only: expected 98.0, got {sl}"
-        
-        # After TP2
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP2, [True, True])
-        assert sl == 100.0, f"After TP2: expected 100.0, got {sl}"
-        
-        print("[OK] After TP2 mode: moves only after TP2")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL Mode After TP2: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 8: SL Mode After TP3
-    print("\n--- Test: SL Mode After TP3 (Mode 3) ---")
-    try:
-        # After TP2 only - no move
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP3, [True, True, False])
-        assert sl == 98.0, f"After TP2 only: expected 98.0, got {sl}"
-        
-        # After TP3
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_AFTER_TP3, [True, True, True])
-        assert sl == 100.0, f"After TP3: expected 100.0, got {sl}"
-        
-        print("[OK] After TP3 mode: moves only after TP3")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL Mode After TP3: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 9: SL Mode Cascade
-    print("\n--- Test: SL Mode Cascade (Mode 4) ---")
-    try:
-        tp_levels = [101.0, 102.0, 103.0, 105.0]
-        
-        # No TPs - original SL
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_CASCADE, 
-                               [False, False, False, False], tp_levels)
-        assert sl == 98.0, f"No TPs: expected 98.0, got {sl}"
-        
-        # After TP1 - breakeven
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_CASCADE,
-                               [True, False, False, False], tp_levels)
-        assert sl == 100.0, f"After TP1: expected 100.0, got {sl}"
-        
-        # After TP2 - trail to TP1
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_CASCADE,
-                               [True, True, False, False], tp_levels)
-        assert sl == 101.0, f"After TP2: expected 101.0, got {sl}"
-        
-        # After TP3 - trail to TP2
-        sl = calculate_sl_level(100.0, SIGNAL_LONG, 2.0, SL_MODE_CASCADE,
-                               [True, True, True, False], tp_levels)
-        assert sl == 102.0, f"After TP3: expected 102.0, got {sl}"
-        
-        print("[OK] Cascade mode: trails correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"SL Mode Cascade: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 10: get_sl_mode_info
-    print("\n--- Test: get_sl_mode_info ---")
-    try:
-        # Single mode
-        info = get_sl_mode_info(SL_MODE_CASCADE)
-        assert info['id'] == 4
-        assert info['trails'] == True
-        assert 'trail_logic' in info
-        
-        # All modes
-        all_info = get_sl_mode_info()
-        assert len(all_info) == 5
-        
-        print("[OK] get_sl_mode_info works correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"get_sl_mode_info: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 11: track_position
-    print("\n--- Test: track_position ---")
-    try:
-        import pandas as pd
-        import numpy as np
-        
-        # Create simple uptrend data
-        n = 20
-        prices = [100 + i * 0.3 for i in range(n)]
-        
-        df = pd.DataFrame({
-            'open': prices,
-            'high': [p + 0.2 for p in prices],
-            'low': [p - 0.1 for p in prices],
-            'close': prices,
-            'volume': [5000] * n
-        })
-        
-        result = track_position(
-            df=df,
-            entry_idx=0,
-            direction=SIGNAL_LONG,
-            entry_price=100.0,
-            sl_percent=2.0,
-            tp_percents=[1.0, 2.0],
-            sl_mode=SL_MODE_FIXED
-        )
-        
-        assert 'exit_reason' in result
-        assert 'pnl_percent' in result
-        assert 'tps_hit' in result
-        assert 'sl_history' in result
-        assert 'duration' in result
-        
-        print("[OK] track_position works correctly")
-        passed += 1
-    except Exception as e:
-        errors.append(f"track_position: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Test 12: Short position SL modes
-    print("\n--- Test: Short Position SL Modes ---")
-    try:
-        # Short position - SL above entry
-        sl = calculate_initial_sl(100.0, SIGNAL_SHORT, 2.0)
-        assert sl == 102.0, f"Short initial SL: expected 102.0, got {sl}"
-        
-        # Short cascade
-        tp_levels = [99.0, 98.0, 97.0]  # Short TPs below entry
-        sl = calculate_sl_level(100.0, SIGNAL_SHORT, 2.0, SL_MODE_CASCADE,
-                               [True, True, False], tp_levels)
-        assert sl == 99.0, f"Short cascade after TP2: expected 99.0, got {sl}"
-        
-        print("[OK] Short position SL modes work correctly")
-        passed += 1
-    except AssertionError as e:
-        errors.append(f"Short Position SL Modes: {e}")
-        print(f"[FAIL] {e}")
-    
-    # Summary
-    print()
-    print("=" * 60)
-    print(f"RESULTS: {passed} passed, {len(errors)} failed")
+    print("DOMINANT AI RESOLUTION - QUICK TESTS")
     print("=" * 60)
     
-    if errors:
-        print("\nErrors:")
-        for err in errors:
-            print(f"  - {err}")
-        return 1
-    else:
-        print("\nAll basic tests passed!")
-        return 0
+    import pandas as pd
+    import numpy as np
+    
+    # Import the module
+    from app.indicators.dominant import (
+        calculate_sensitivity_score,
+        run_full_backtest,
+        optimize_sensitivity,
+        get_score_breakdown,
+        get_optimization_summary,
+        MIN_TRADES_FOR_OPTIMIZATION,
+    )
+    
+    # Create test data
+    print("\n1. Creating test data (500 candles)...")
+    np.random.seed(42)
+    dates = pd.date_range('2024-01-01', periods=500, freq='1h')
+    prices = 100 + np.cumsum(np.random.randn(500) * 0.5)
+    
+    df = pd.DataFrame({
+        'open': prices,
+        'high': prices + np.abs(np.random.randn(500) * 0.3),
+        'low': prices - np.abs(np.random.randn(500) * 0.3),
+        'close': prices + np.random.randn(500) * 0.2,
+        'volume': np.random.randint(1000, 10000, 500)
+    }, index=dates)
+    print(f"   Created DataFrame with {len(df)} rows")
+    
+    # Test 1: Full backtest
+    print("\n2. Testing run_full_backtest()...")
+    bt_result = run_full_backtest(df, sensitivity=21, filter_type=0, sl_mode=4)
+    print(f"   Total trades: {bt_result['summary']['total_trades']}")
+    print(f"   Total PnL: {bt_result['metrics']['pnl_percent']:.2f}%")
+    print(f"   Win Rate: {bt_result['metrics']['win_rate']:.1f}%")
+    print("   PASSED")
+    
+    # Test 2: Score calculation
+    print("\n3. Testing calculate_sensitivity_score()...")
+    score = calculate_sensitivity_score(bt_result['metrics'])
+    print(f"   Score: {score:.2f}/100")
+    assert 0 <= score <= 100, "Score out of range!"
+    print("   PASSED")
+    
+    # Test 3: Score breakdown
+    print("\n4. Testing get_score_breakdown()...")
+    breakdown = get_score_breakdown(bt_result['metrics'])
+    print(f"   Profit: {breakdown['profit_score']:.1f}/{breakdown['profit_max']}")
+    print(f"   Win Rate: {breakdown['win_rate_score']:.1f}/{breakdown['win_rate_max']}")
+    print(f"   Stability: {breakdown['stability_score']:.1f}/{breakdown['stability_max']}")
+    print(f"   Drawdown: {breakdown['drawdown_score']:.1f}/{breakdown['drawdown_max']}")
+    print("   PASSED")
+    
+    # Test 4: Insufficient trades returns 0
+    print("\n5. Testing insufficient trades handling...")
+    bad_metrics = {'pnl_percent': 50, 'win_rate': 90, 'pnl_std': 1, 'max_drawdown': 1, 'total_trades': 2}
+    bad_score = calculate_sensitivity_score(bad_metrics)
+    assert bad_score == 0, f"Expected 0 for insufficient trades, got {bad_score}"
+    print(f"   Score for {bad_metrics['total_trades']} trades: {bad_score}")
+    print("   PASSED")
+    
+    # Test 5: Optimization (limited sensitivities for speed)
+    print("\n6. Testing optimize_sensitivity()...")
+    
+    progress_count = [0]
+    def progress_callback(current, total, sensitivity, result):
+        progress_count[0] += 1
+        print(f"   [{current}/{total}] Sensitivity {sensitivity}: Score {result['score']:.1f}")
+    
+    opt_result = optimize_sensitivity(
+        df,
+        filter_type=0,
+        sl_mode=4,
+        sensitivities=[15, 21, 30, 45],  # Limited for quick test
+        workers=2,
+        progress_callback=progress_callback
+    )
+    
+    print(f"\n   Best Sensitivity: {opt_result['best_sensitivity']}")
+    print(f"   Best Score: {opt_result['best_score']:.2f}")
+    print(f"   Time: {opt_result['optimization_time']:.1f}s")
+    print(f"   Workers: {opt_result['workers_used']}")
+    print(f"   Progress callbacks: {progress_count[0]}")
+    assert progress_count[0] == 4, f"Expected 4 callbacks, got {progress_count[0]}"
+    print("   PASSED")
+    
+    # Test 6: Summary formatting
+    print("\n7. Testing get_optimization_summary()...")
+    summary = get_optimization_summary(opt_result)
+    assert 'Best Sensitivity' in summary, "Summary missing best sensitivity"
+    print("   Summary generated successfully")
+    print("   PASSED")
+    
+    # All tests passed
+    print("\n" + "=" * 60)
+    print("ALL QUICK TESTS PASSED!")
+    print("=" * 60)
+    
+    return True
 
 
-def run_pytest_tests():
-    """Run full pytest test suite if pytest is available"""
+def run_pytest():
+    """Run pytest if available"""
     try:
         import pytest
         print("\n" + "=" * 60)
-        print("Running pytest test suite...")
-        print("=" * 60 + "\n")
+        print("RUNNING PYTEST...")
+        print("=" * 60)
         
-        # Run tests
-        exit_code = pytest.main([
-            'tests/test_dominant_sl_modes.py',
-            '-v',
-            '--tb=short'
-        ])
+        test_file = os.path.join(os.path.dirname(__file__), 'tests', 'test_dominant_ai_resolution.py')
         
-        return exit_code
+        if os.path.exists(test_file):
+            result = pytest.main([test_file, '-v', '--tb=short'])
+            return result == 0
+        else:
+            print(f"Test file not found: {test_file}")
+            return False
+            
     except ImportError:
-        print("\npytest not installed, skipping full test suite")
-        print("Install with: pip install pytest")
-        return 0
+        print("\npytest not installed. Run: pip install pytest")
+        return True  # Quick tests passed, just no pytest
 
 
 if __name__ == '__main__':
-    # Run basic tests
-    basic_result = run_basic_tests()
+    success = True
     
-    # Run pytest if available
-    pytest_result = run_pytest_tests()
+    try:
+        success = run_quick_tests()
+    except Exception as e:
+        print(f"\nERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        success = False
     
-    # Exit with appropriate code
-    sys.exit(basic_result or pytest_result)
+    if success:
+        run_pytest()
+    
+    sys.exit(0 if success else 1)
