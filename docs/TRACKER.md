@@ -1,7 +1,7 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
 > **Последнее обновление:** 28.12.2025  
-> **Текущий чат:** #35 — Score Multi-TF ✅
+> **Текущий чат:** #36 — Score UI ✅
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
@@ -11,10 +11,10 @@
 | Метрика | Значение |
 |---------|----------|
 | **Всего чатов** | 83 (#15 — #97) |
-| **Завершено** | 21 (#15-#35) |
+| **Завершено** | 22 (#15-#36) |
 | **В процессе** | - |
-| **Осталось** | 62 |
-| **Прогресс** | 25.3% |
+| **Осталось** | 61 |
+| **Прогресс** | 26.5% |
 
 ---
 
@@ -25,7 +25,7 @@
 | 1 | Стабилизация и база | #15-19 | 5 | ✅ Завершено |
 | 2 | Dominant Indicator | #20-27 | 8 | ✅ Завершено |
 | 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
-| 4 | **Signal Score** | **#34-36** | **3** | ⏳ 2/3 завершено |
+| 4 | **Signal Score** | **#34-36** | **3** | ✅ Завершено |
 | 5 | Общие фильтры | #37-44 | 8 | ⬜ Ожидает |
 | 6 | Оптимизация пресетов | #45-49 | 5 | ⬜ Ожидает |
 | 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
@@ -40,7 +40,7 @@
 
 ---
 
-## 📊 ФАЗА 4: SIGNAL SCORE (3 чата)
+## 📊 ФАЗА 4: SIGNAL SCORE (3 чата) ✅ ЗАВЕРШЕНА
 
 ### Чат #34: Signal Score Core
 **Статус:** ✅ Завершён  
@@ -88,20 +88,132 @@
 
 ---
 
-### Чат #36: Score UI
-**Статус:** ⏳ Следующий
+### Чат #36: Score UI ✅
+**Статус:** ✅ Завершён  
+**Дата завершения:** 28.12.2025
+
+**Выполнено:**
+- [x] ScoreBadge.jsx — компонент badge с грейдами A-F
+- [x] ScoreBreakdown — popup/tooltip с breakdown по компонентам
+- [x] GradeLegend — компонент легенды грейдов
+- [x] TradesTable.jsx — добавлена колонка Score с фильтрами
+- [x] StatsPanel.jsx — добавлена секция Grade Statistics
+- [x] Фильтр по грейду (All/A/B/C/D/F)
+- [x] Статистика по грейдам (count, win rate, avg PnL)
+- [x] Grade distribution bar
+- [x] Score integration utility (backend)
+- [x] Unit тесты (30+ тестов)
+
+**Файлы созданы/обновлены:**
+- `frontend/src/components/Indicator/ScoreBadge.jsx` — NEW
+- `frontend/src/components/Indicator/TradesTable.jsx` — UPDATED
+- `frontend/src/components/Indicator/StatsPanel.jsx` — UPDATED
+- `frontend/src/components/Indicator/index.js` — UPDATED
+- `backend/app/utils/__init__.py` — NEW
+- `backend/app/utils/score_integration.py` — NEW
+- `tests/test_score_ui.py` — NEW
+
+---
+
+## 🔍 ФАЗА 5: ОБЩИЕ ФИЛЬТРЫ (8 чатов) — СЛЕДУЮЩАЯ
+
+### Чат #37: Filters Architecture
+**Статус:** ⬜ Следующий
 
 **Задачи:**
-- [ ] Badge компонент для отображения оценки
-- [ ] Tooltip с breakdown по компонентам
-- [ ] Фильтр по Score (A-F) в таблице сделок
-- [ ] График распределения оценок
-- [ ] Настройки весов компонентов (опционально)
+- [ ] `filters/base.py` — BaseFilter класс
+- [ ] `filters/registry.py` — реестр фильтров
+- [ ] `filters/chain.py` — цепочка фильтров
+- [ ] Интерфейс `can_trade(signal) -> bool`
+- [ ] Unit тесты
 
-**Файлы:**
-- `frontend/src/components/Indicator/ScoreBadge.jsx`
-- `frontend/src/components/Indicator/TradesTable.jsx` — UPDATE
-- `frontend/src/pages/Indicator.jsx` — UPDATE
+**Файлы к созданию:**
+- `backend/app/filters/base.py`
+- `backend/app/filters/registry.py`
+- `backend/app/filters/chain.py`
+- `backend/app/filters/__init__.py`
+
+---
+
+### Чат #38: Filters Time
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] SessionFilter (торговые сессии Asia/Europe/US)
+- [ ] WeekdayFilter (дни недели)
+- [ ] CooldownFilter (пауза после сделки)
+- [ ] Timezone support (UTC/Local)
+- [ ] Unit тесты
+
+---
+
+### Чат #39: Filters Volatility
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] ATRFilter (ATR выше/ниже порога)
+- [ ] VolumeFilter (объём выше/ниже MA)
+- [ ] ExtremeFilter (блокировка при экстремумах)
+- [ ] Настраиваемые пороги
+- [ ] Unit тесты
+
+---
+
+### Чат #40: Filters Trend
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] BTCTrendFilter (торговля по тренду BTC)
+- [ ] MultiTFFilter (согласованность TF)
+- [ ] RegimeFilter (trending/ranging)
+- [ ] Unit тесты
+
+---
+
+### Чат #41: Filters Portfolio
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] CorrelationFilter (лимит коррелированных позиций)
+- [ ] DirectionFilter (лимит Long/Short)
+- [ ] SectorFilter (лимит по секторам)
+- [ ] Unit тесты
+
+---
+
+### Чат #42: Filters Protection
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] EquityCurveFilter (торговля выше/ниже MA equity)
+- [ ] DrawdownFilter (пауза при DD > X%)
+- [ ] StreakFilter (стоп после N убытков)
+- [ ] RecoveryFilter (постепенный вход после DD)
+- [ ] Unit тесты
+
+---
+
+### Чат #43: Filters Integration
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] FilterManager класс
+- [ ] Загрузка конфигов из БД
+- [ ] Применение цепочки к сигналам
+- [ ] Логирование причин блокировки
+- [ ] Unit тесты
+
+---
+
+### Чат #44: Filters UI
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Секция "Фильтры" в настройках бота
+- [ ] Группировка по категориям
+- [ ] Переключатели enabled + параметры
+- [ ] Preview эффекта фильтра
+- [ ] Presets фильтров (Conservative/Balanced/Aggressive)
 
 ---
 
@@ -109,35 +221,13 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
-| 28.12.2025 | #35 | ✅ Multi-TF Loader: 4 методов детекции, авто-агрегация, API loading |
-| 27.12.2025 | #34 | ✅ Signal Score Core: SignalScorer, 4 компонента, A-F грейды |
-| 27.12.2025 | #33 | ✅ Presets UI |
-| 27.12.2025 | #32 | ✅ Presets Import/Export |
-| 27.12.2025 | #31 | ✅ Presets User CRUD |
-| 27.12.2025 | #30 | ✅ Presets TRG Storage |
-| 27.12.2025 | #29 | ✅ Presets TRG Generator |
-| 27.12.2025 | #28 | ✅ Presets Architecture |
-| 27.12.2025 | #27 | ✅ Dominant Verification |
-
----
-
-## 📁 НОВЫЕ ФАЙЛЫ В #35
-
-```
-backend/app/services/
-├── __init__.py                  # NEW: Module exports
-├── signal_score.py              # UPDATED: MultiTFLoader integration
-└── multi_tf_loader.py           # NEW: Higher TF loading & analysis
-
-backend/app/api/
-└── signal_routes.py             # UPDATED: auto_load_higher_tfs, new endpoints
-
-tests/
-└── test_multi_tf_loader.py      # NEW: 30+ unit tests
-
-run_tests.py                     # NEW: Test runner
-run_tests.bat                    # NEW: Windows batch file
-```
+| 28.12.2025 | #36 | ✅ Score UI: ScoreBadge, TradesTable с Score, StatsPanel с грейдами |
+| 28.12.2025 | #35 | ✅ Multi-TF Loader: TF aggregation, 4 trend methods, API endpoints |
+| 27.12.2025 | #34 | ✅ Signal Score Core: SignalScorer, 4 components, A-F grades |
+| 27.12.2025 | #33 | ✅ Presets UI: Library, search, categories |
+| 27.12.2025 | #28-32 | ✅ Preset System: Architecture, generators, storage |
+| 27.12.2025 | #20-27 | ✅ Dominant Indicator: Full implementation |
+| 27.12.2025 | #15-19 | ✅ Stabilization: Bugfixes, Futures only, caching |
 
 ---
 

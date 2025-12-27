@@ -1,10 +1,12 @@
+#!/usr/bin/env python
 """
-Test Runner for KOMAS v4.0
-==========================
+Test Runner for KOMAS Chat #36: Score UI
+========================================
 
-Run unit tests for Signal Score and Multi-TF Loader modules.
+Runs all tests for the Signal Score UI integration.
 
-Chat #35: Score Multi-TF
+Usage:
+    python run_tests.py
 """
 
 import sys
@@ -16,40 +18,34 @@ backend_path = Path(__file__).parent / "backend"
 sys.path.insert(0, str(backend_path))
 sys.path.insert(0, str(backend_path / "app"))
 
-# Set PYTHONPATH
-os.environ["PYTHONPATH"] = str(backend_path / "app")
-
-
 def run_tests():
-    """Run multi-TF loader tests only"""
+    """Run all Score UI tests"""
     import pytest
     
-    # Specific test file path
-    test_file = Path(__file__).parent / "tests" / "test_multi_tf_loader.py"
+    test_path = Path(__file__).parent / "tests" / "test_score_ui.py"
     
     print("=" * 60)
-    print("KOMAS v4.0 - Unit Tests")
-    print("Chat #35: Score Multi-TF")
+    print("KOMAS Chat #36: Signal Score UI Tests")
     print("=" * 60)
     print()
-    print(f"Running: {test_file.name}")
-    print()
     
-    # Run pytest with verbose output - specific file only
+    # Run pytest
     exit_code = pytest.main([
-        str(test_file),
+        str(test_path),
         "-v",
         "--tb=short",
         "-x",  # Stop on first failure
     ])
     
     print()
-    print("=" * 60)
     if exit_code == 0:
+        print("=" * 60)
         print("All tests PASSED!")
+        print("=" * 60)
     else:
+        print("=" * 60)
         print("Some tests FAILED!")
-    print("=" * 60)
+        print("=" * 60)
     
     return exit_code
 

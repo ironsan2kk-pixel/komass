@@ -1,4 +1,19 @@
-import React from 'react';
+/**
+ * StatsPanel.jsx
+ * ==============
+ * Enhanced statistics panel with Signal Score grade breakdown.
+ * 
+ * Features:
+ * - Existing stats (Win Rate, PF, DD, etc.)
+ * - NEW: Grade distribution chart
+ * - NEW: Win rate by grade
+ * - NEW: Average PnL by grade
+ * 
+ * Chat #36: Score UI
+ */
+
+import React, { useMemo } from 'react';
+import { GRADE_COLORS, GRADE_DESCRIPTIONS, getGradeFromScore } from './ScoreBadge';
 
 const StatCard = ({ label, value, color = 'text-white', size = 'normal' }) => (
   <div className="bg-gray-700/50 rounded-lg p-2 text-center">
@@ -12,6 +27,73 @@ const StatCard = ({ label, value, color = 'text-white', size = 'normal' }) => (
 const TP_SYMBOLS = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
 const StatsPanel = ({ stats: statistics, trades, indicatorType, tpCount = 4, dataRange, cached }) => {
+  // Calculate grade statistics from trades
+  const gradeStats = useMemo(() => {
+    if (!trades || !Array.isArray(trades) || trades.length === 0) {
+      return null;
+    }
+
+    // Check if trades have score data
+    const hasScoreData = trades.some(t => 
+      t?.signal_score !== undefined || t?.signal_grade !== undefined
+    );
+
+    if (!hasScoreData) {
+      return null;
+    }
+
+    const stats = {
+      A: { count: 0, wins: 0, totalPnl: 0, trades: [] },
+      B: { count: 0, wins: 0, totalPnl: 0, trades: [] },
+      C: { count: 0, wins: 0, totalPnl: 0, trades: [] },
+      D: { count: 0, wins: 0, totalPnl: 0, trades: [] },
+      F: { count: 0, wins: 0, totalPnl: 0, trades: [] },
+    };
+
+    trades.forEach(trade => {
+      const grade = trade?.signal_grade || 
+        (trade?.signal_score !== undefined ? getGradeFromScore(trade.signal_score) : null);
+      
+      if (grade && stats[grade]) {
+        stats[grade].count++;
+        stats[grade].totalPnl += trade?.pnl || 0;
+        stats[grade].trades.push(trade);
+        
+        if ((trade?.pnl || 0) > 0) {
+          stats[grade].wins++;
+        }
+      }
+    });
+
+    // Calculate percentages and averages
+    const total = trades.length;
+    const result = {};
+    
+    Object.keys(stats).forEach(grade => {
+      const s = stats[grade];
+      result[grade] = {
+        count: s.count,
+        percentage: total > 0 ? ((s.count / total) * 100).toFixed(1) : '0.0',
+        winRate: s.count > 0 ? ((s.wins / s.count) * 100).toFixed(1) : '0.0',
+        avgPnl: s.count > 0 ? (s.totalPnl / s.count).toFixed(2) : '0.00',
+        totalPnl: s.totalPnl.toFixed(2),
+      };
+    });
+
+    return result;
+  }, [trades]);
+
+  // Calculate average score
+  const avgScore = useMemo(() => {
+    if (!trades || !Array.isArray(trades)) return null;
+    
+    const scoredTrades = trades.filter(t => t?.signal_score !== undefined);
+    if (scoredTrades.length === 0) return null;
+    
+    const sum = scoredTrades.reduce((acc, t) => acc + t.signal_score, 0);
+    return (sum / scoredTrades.length).toFixed(1);
+  }, [trades]);
+
   if (!statistics) {
     return (
       <div className="p-4 text-center text-gray-500">
@@ -126,6 +208,100 @@ const StatsPanel = ({ stats: statistics, trades, indicatorType, tpCount = 4, dat
         />
       </div>
 
+      {/* ========== NEW: Signal Score Statistics ========== */}
+      {gradeStats && (
+        <div className="bg-gray-700/30 rounded-lg p-3">
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-cyan-400 font-bold text-sm">📊 Signal Score Statistics</h4>
+            {avgScore && (
+              <span className="text-sm text-gray-400">
+                Avg Score: <span className="text-white font-bold">{avgScore}</span>
+              </span>
+            )}
+          </div>
+          
+          {/* Grade Distribution Bar */}
+          <div className="mb-4">
+            <div className="flex h-6 rounded-lg overflow-hidden">
+              {['A', 'B', 'C', 'D', 'F'].map(grade => {
+                const stat = gradeStats[grade];
+                const width = parseFloat(stat.percentage);
+                if (width === 0) return null;
+                
+                return (
+                  <div
+                    key={grade}
+                    className={`${GRADE_COLORS[grade].bg} flex items-center justify-center text-xs font-bold text-white transition-all`}
+                    style={{ width: `${width}%` }}
+                    title={`${grade}: ${stat.count} trades (${stat.percentage}%)`}
+                  >
+                    {width >= 10 && `${grade}: ${stat.percentage}%`}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Detailed Grade Table */}
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-gray-400 border-b border-gray-600">
+                <th className="py-1 text-left">Grade</th>
+                <th className="py-1 text-center">Trades</th>
+                <th className="py-1 text-center">%</th>
+                <th className="py-1 text-center">Win Rate</th>
+                <th className="py-1 text-center">Avg PnL</th>
+                <th className="py-1 text-center">Total PnL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['A', 'B', 'C', 'D', 'F'].map(grade => {
+                const stat = gradeStats[grade];
+                const colors = GRADE_COLORS[grade];
+                const avgPnl = parseFloat(stat.avgPnl);
+                const totalPnl = parseFloat(stat.totalPnl);
+                
+                return (
+                  <tr key={grade} className="border-b border-gray-700/50">
+                    <td className="py-1.5">
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded font-bold ${colors.bg} ${colors.text}`}>
+                        {grade}
+                        <span className="opacity-70 font-normal text-[10px]">
+                          {GRADE_DESCRIPTIONS[grade]}
+                        </span>
+                      </span>
+                    </td>
+                    <td className="py-1.5 text-center text-white">{stat.count}</td>
+                    <td className="py-1.5 text-center text-gray-400">{stat.percentage}%</td>
+                    <td className={`py-1.5 text-center font-bold ${
+                      parseFloat(stat.winRate) >= 50 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {stat.winRate}%
+                    </td>
+                    <td className={`py-1.5 text-center ${
+                      avgPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {avgPnl >= 0 ? '+' : ''}{stat.avgPnl}%
+                    </td>
+                    <td className={`py-1.5 text-center font-bold ${
+                      totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                    }`}>
+                      {totalPnl >= 0 ? '+' : ''}{stat.totalPnl}%
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          {/* Score Insight */}
+          <div className="mt-3 pt-2 border-t border-gray-700 text-xs text-gray-500">
+            <span className="text-gray-400">💡 Insight:</span> Higher grades (A, B) typically have better win rates. 
+            Consider filtering signals by score ≥ C (55+) for improved results.
+          </div>
+        </div>
+      )}
+
       {/* Accuracy Breakdown */}
       <div className="bg-gray-700/30 rounded-lg p-3">
         <h4 className="text-green-400 font-bold text-sm mb-2">🎯 Strategy Accuracy</h4>
@@ -239,4 +415,3 @@ const StatsPanel = ({ stats: statistics, trades, indicatorType, tpCount = 4, dat
 };
 
 export default StatsPanel;
-
