@@ -1,32 +1,69 @@
 """
-KOMAS v4.0 Services
-===================
+KOMAS v4.0 Services Module
+==========================
 
-Service modules for signal scoring and multi-TF analysis.
+This module exports the main service classes for signal scoring
+and multi-timeframe analysis.
 
-Modules:
-- signal_score: Signal quality evaluation (0-100 scale, A-F grades)
-- multi_tf_loader: Higher timeframe data loading and trend detection
+Chat #35: Score Multi-TF
 """
 
-from app.services.signal_score import (
-    SignalScorer,
-    SignalScoreResult,
-    score_trades,
-    get_grade_from_score,
-    get_grade_color,
-)
+# Use try/except for flexible imports
+try:
+    # When running as part of app
+    from .signal_score import (
+        SignalScorer,
+        SignalScoreResult,
+        score_trades,
+        get_grade_from_score,
+        get_grade_color,
+    )
+except ImportError:
+    # When running standalone
+    from signal_score import (
+        SignalScorer,
+        SignalScoreResult,
+        score_trades,
+        get_grade_from_score,
+        get_grade_color,
+    )
 
-from app.services.multi_tf_loader import (
-    MultiTFLoader,
-    MultiTFResult,
-    TrendDetectionMethod,
-    TrendDirection,
-    aggregate_to_higher_tf,
-    get_higher_tfs,
-    DEFAULT_TF_WEIGHTS,
-    TF_HIERARCHY,
-)
+try:
+    from .multi_tf_loader import (
+        MultiTFLoader,
+        MultiTFResult,
+        TFAnalysisResult,
+        TrendDetectionMethod,
+        TrendDirection,
+        detect_trend_ema,
+        detect_trend_supertrend,
+        detect_trend_adx,
+        detect_trend_combined,
+        aggregate_to_higher_tf,
+        get_higher_tfs,
+        get_tf_weights,
+        TF_HIERARCHY,
+        TF_MINUTES,
+        DEFAULT_TF_WEIGHTS,
+    )
+except ImportError:
+    from multi_tf_loader import (
+        MultiTFLoader,
+        MultiTFResult,
+        TFAnalysisResult,
+        TrendDetectionMethod,
+        TrendDirection,
+        detect_trend_ema,
+        detect_trend_supertrend,
+        detect_trend_adx,
+        detect_trend_combined,
+        aggregate_to_higher_tf,
+        get_higher_tfs,
+        get_tf_weights,
+        TF_HIERARCHY,
+        TF_MINUTES,
+        DEFAULT_TF_WEIGHTS,
+    )
 
 __all__ = [
     # Signal Score
@@ -35,14 +72,20 @@ __all__ = [
     'score_trades',
     'get_grade_from_score',
     'get_grade_color',
-    
-    # Multi-TF
+    # Multi-TF Loader
     'MultiTFLoader',
     'MultiTFResult',
+    'TFAnalysisResult',
     'TrendDetectionMethod',
     'TrendDirection',
+    'detect_trend_ema',
+    'detect_trend_supertrend',
+    'detect_trend_adx',
+    'detect_trend_combined',
     'aggregate_to_higher_tf',
     'get_higher_tfs',
-    'DEFAULT_TF_WEIGHTS',
+    'get_tf_weights',
     'TF_HIERARCHY',
+    'TF_MINUTES',
+    'DEFAULT_TF_WEIGHTS',
 ]

@@ -13,15 +13,17 @@ import numpy as np
 from datetime import datetime, timedelta
 import asyncio
 from typing import Dict
-
-# Import modules to test
 import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add backend app to path for imports
+backend_app = Path(__file__).parent.parent / "backend" / "app"
+services_path = backend_app / "services"
+sys.path.insert(0, str(backend_app))
+sys.path.insert(0, str(services_path))
 
-from app.services.multi_tf_loader import (
+# Import directly from modules (not through package)
+from multi_tf_loader import (
     MultiTFLoader,
     MultiTFResult,
     TFAnalysisResult,
@@ -39,7 +41,7 @@ from app.services.multi_tf_loader import (
     DEFAULT_TF_WEIGHTS,
 )
 
-from app.services.signal_score import (
+from signal_score import (
     SignalScorer,
     SignalScoreResult,
     score_trades,
@@ -246,7 +248,6 @@ class TestTrendDetectionADX:
         direction, confidence, details = detect_trend_adx(sample_sideways_df)
         
         # Low ADX should indicate sideways
-        # Direction might still be determined, but confidence lower
         assert 'is_trending' in details
     
     def test_custom_threshold(self, sample_uptrend_df):

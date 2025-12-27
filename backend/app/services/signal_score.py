@@ -31,11 +31,19 @@ from enum import Enum
 import logging
 
 # Import MultiTFLoader for enhanced multi-TF analysis
-from app.services.multi_tf_loader import (
-    MultiTFLoader,
-    TrendDetectionMethod,
-    DEFAULT_TF_WEIGHTS,
-)
+# Import MultiTFLoader with fallback for different contexts
+try:
+    from .multi_tf_loader import (
+        MultiTFLoader,
+        TrendDetectionMethod,
+        DEFAULT_TF_WEIGHTS,
+    )
+except ImportError:
+    from multi_tf_loader import (
+        MultiTFLoader,
+        TrendDetectionMethod,
+        DEFAULT_TF_WEIGHTS,
+    )
 
 logger = logging.getLogger(__name__)
 
