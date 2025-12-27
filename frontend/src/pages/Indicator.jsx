@@ -247,10 +247,16 @@ const Indicator = () => {
         body: JSON.stringify(settings)
       });
       
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        addLog(`❌ Ошибка парсинга ответа: ${parseError.message}`, 'error');
+        return;
+      }
       
       if (!res.ok) {
-        const errorMsg = data.detail || data.error || 'Ошибка сервера';
+        const errorMsg = String(data?.detail || data?.error || 'Ошибка сервера');
         addLog(`❌ Ошибка: ${errorMsg}`, 'error');
         
         if (errorMsg.includes('не найдены') || errorMsg.includes('not found')) {
@@ -263,15 +269,22 @@ const Indicator = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(settings)
           });
-          const retryData = await retry.json();
+          
+          let retryData;
+          try {
+            retryData = await retry.json();
+          } catch (parseError) {
+            addLog(`❌ Ошибка парсинга повторного ответа`, 'error');
+            return;
+          }
           
           if (!retry.ok) {
-            const retryError = retryData.detail || retryData.error || 'Ошибка повторной попытки';
+            const retryError = String(retryData?.detail || retryData?.error || 'Ошибка повторной попытки');
             addLog(`❌ Повторная ошибка: ${retryError}`, 'error');
             return;
           }
           
-          if (retryData.success) {
+          if (retryData?.success) {
             setResult(retryData);
             // Save data range
             if (retryData.data_range) {
@@ -280,14 +293,14 @@ const Indicator = () => {
             if (activeTab === 'chart') renderChart(retryData);
             addLog(`✅ ${retryData.trades?.length || 0} сделок, ${retryData.stats?.win_rate || 0}% WR`, 'success');
           } else {
-            addLog(`❌ Ошибка: ${retryData.error || 'Неизвестная ошибка'}`, 'error');
+            addLog(`❌ Ошибка: ${String(retryData?.error || 'Неизвестная ошибка')}`, 'error');
           }
         }
         return;
       }
       
-      if (!data.success) {
-        addLog(`❌ Ошибка: ${data.error || data.message || 'Расчёт не удался'}`, 'error');
+      if (!data?.success) {
+        addLog(`❌ Ошибка: ${String(data?.error || data?.message || 'Расчёт не удался')}`, 'error');
         return;
       }
       
@@ -312,7 +325,7 @@ const Indicator = () => {
       if (activeTab === 'chart') renderChart(data);
       
     } catch (err) {
-      addLog(`❌ Ошибка сети: ${err.message}`, 'error');
+      addLog(`❌ Ошибка сети: ${err?.message || 'Неизвестная ошибка'}`, 'error');
       console.error('Calculate error:', err);
     } finally {
       setLoading(false);
@@ -334,21 +347,28 @@ const Indicator = () => {
           i2_min: i2Range.min, i2_max: i2Range.max, i2_step: i2Range.step,
         })
       });
-      const data = await res.json();
       
-      if (!res.ok) {
-        addLog(`❌ Heatmap ошибка: ${data.detail || data.error || 'Ошибка сервера'}`, 'error');
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        addLog(`❌ Heatmap ошибка парсинга ответа`, 'error');
         return;
       }
       
-      if (data.success) {
+      if (!res.ok) {
+        addLog(`❌ Heatmap ошибка: ${String(data?.detail || data?.error || 'Ошибка сервера')}`, 'error');
+        return;
+      }
+      
+      if (data?.success) {
         setHeatmapData(data);
         addLog(`✅ Heatmap готов`, 'success');
       } else {
-        addLog(`❌ Heatmap ошибка: ${data.error || 'Неизвестная ошибка'}`, 'error');
+        addLog(`❌ Heatmap ошибка: ${String(data?.error || 'Неизвестная ошибка')}`, 'error');
       }
     } catch (err) {
-      addLog(`❌ Heatmap ошибка сети: ${err.message}`, 'error');
+      addLog(`❌ Heatmap ошибка сети: ${err?.message || 'Неизвестная ошибка'}`, 'error');
       console.error('Heatmap error:', err);
     } finally {
       setLoadingHeatmap(false);

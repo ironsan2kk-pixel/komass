@@ -970,3 +970,143 @@
 2025-12-27 13:37:09 | INFO     | app.main             | log_requests         | [1337050095] âœ“ GET /api/data/available - 200 (4988ms)
 2025-12-27 13:37:10 | DEBUG    | app.main             | log_requests         | [1337100072] GET /api/data/available
 2025-12-27 13:37:15 | INFO     | app.main             | log_requests         | [1337100072] âœ“ GET /api/data/available - 200 (5027ms)
+2025-12-27 13:38:24 | DEBUG    | app.main             | log_requests         | [1338240790] GET /api/data/available
+2025-12-27 13:38:28 | INFO     | app.main             | log_requests         | [1338240790] âœ“ GET /api/data/available - 200 (4915ms)
+2025-12-27 13:38:29 | DEBUG    | app.main             | log_requests         | [1338290016] GET /api/data/available
+2025-12-27 13:38:33 | INFO     | app.main             | log_requests         | [1338290016] âœ“ GET /api/data/available - 200 (4896ms)
+2025-12-27 13:38:52 | DEBUG    | app.main             | log_requests         | [1338529627] POST /api/indicator/calculate
+2025-12-27 13:38:54 | INFO     | app.main             | log_requests         | [1338529627] âœ“ POST /api/indicator/calculate - 200 (1165ms)
+2025-12-27 13:43:37 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 13:43:37 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 13:43:37 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 13:43:37 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 13:43:37 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 13:43:37 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 13:43:37 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 13:43:37 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 13:43:37 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 13:43:49 | DEBUG    | app.main             | log_requests         | [1343491668] POST /api/indicator/calculate
+2025-12-27 13:43:50 | INFO     | app.main             | log_requests         | [1343491668] âœ“ POST /api/indicator/calculate - 200 (979ms)
+2025-12-27 14:12:48 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 14:12:48 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 14:12:49 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 14:12:49 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 14:12:49 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:12:49 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 14:12:49 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 14:12:49 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 14:12:49 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:12:55 | DEBUG    | app.main             | log_requests         | [1412558621] POST /api/indicator/calculate
+2025-12-27 14:12:58 | INFO     | app.main             | log_requests         | [1412558621] âœ“ POST /api/indicator/calculate - 200 (2285ms)
+2025-12-27 14:13:00 | DEBUG    | app.main             | log_requests         | [1413007792] POST /api/indicator/calculate
+2025-12-27 14:13:01 | INFO     | app.main             | log_requests         | [1413007792] âœ“ POST /api/indicator/calculate - 200 (922ms)
+2025-12-27 14:13:41 | DEBUG    | app.main             | log_requests         | [1413419979] POST /api/indicator/calculate
+2025-12-27 14:13:43 | INFO     | app.main             | log_requests         | [1413419979] âœ“ POST /api/indicator/calculate - 200 (1893ms)
+2025-12-27 14:13:54 | DEBUG    | app.main             | log_requests         | [1413548472] POST /api/indicator/calculate
+2025-12-27 14:13:56 | INFO     | app.main             | log_requests         | [1413548472] âœ“ POST /api/indicator/calculate - 200 (1973ms)
+2025-12-27 14:14:33 | DEBUG    | app.main             | log_requests         | [1414339824] GET /api/data/available
+2025-12-27 14:14:39 | INFO     | app.main             | log_requests         | [1414339824] âœ“ GET /api/data/available - 200 (5305ms)
+2025-12-27 14:14:39 | DEBUG    | app.main             | log_requests         | [1414392890] POST /api/data/download
+2025-12-27 14:14:39 | INFO     | app.main             | log_requests         | [1414392890] âœ“ POST /api/data/download - 200 (1ms)
+2025-12-27 14:14:39 | DEBUG    | app.main             | log_requests         | [1414395975] GET /api/data/available
+2025-12-27 14:14:44 | INFO     | app.main             | log_requests         | [1414395975] âœ“ GET /api/data/available - 200 (5147ms)
+2025-12-27 14:14:44 | DEBUG    | app.main             | log_requests         | [1414447473] GET /api/data/download/progress
+2025-12-27 14:14:44 | INFO     | app.main             | log_requests         | [1414447473] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:14:45 | DEBUG    | app.main             | log_requests         | [1414450552] GET /api/data/download/progress
+2025-12-27 14:14:45 | INFO     | app.main             | log_requests         | [1414450552] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:14:45 | DEBUG    | app.main             | log_requests         | [1414453051] GET /api/data/download/progress
+2025-12-27 14:14:45 | INFO     | app.main             | log_requests         | [1414453051] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:14:45 | DEBUG    | app.main             | log_requests         | [1414453636] GET /api/data/available
+2025-12-27 14:14:50 | INFO     | app.main             | log_requests         | [1414453636] âœ“ GET /api/data/available - 200 (5333ms)
+2025-12-27 14:14:50 | DEBUG    | app.main             | log_requests         | [1414506984] POST /api/data/download
+2025-12-27 14:14:50 | INFO     | app.main             | log_requests         | [1414506984] âœ“ POST /api/data/download - 200 (2ms)
+2025-12-27 14:14:51 | DEBUG    | app.main             | log_requests         | [1414518996] GET /api/data/download/progress
+2025-12-27 14:14:51 | INFO     | app.main             | log_requests         | [1414518996] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:14:52 | DEBUG    | app.main             | log_requests         | [1414521506] GET /api/data/available
+2025-12-27 14:14:57 | INFO     | app.main             | log_requests         | [1414521506] âœ“ GET /api/data/available - 200 (4939ms)
+2025-12-27 14:15:06 | DEBUG    | app.main             | log_requests         | [1415067427] POST /api/indicator/calculate
+2025-12-27 14:15:09 | INFO     | app.main             | log_requests         | [1415067427] âœ“ POST /api/indicator/calculate - 200 (3059ms)
+2025-12-27 14:16:20 | DEBUG    | app.main             | log_requests         | [1416206807] GET /api/data/available
+2025-12-27 14:16:26 | INFO     | app.main             | log_requests         | [1416206807] âœ“ GET /api/data/available - 200 (5488ms)
+2025-12-27 14:16:26 | DEBUG    | app.main             | log_requests         | [1416261773] GET /api/data/available
+2025-12-27 14:16:31 | INFO     | app.main             | log_requests         | [1416261773] âœ“ GET /api/data/available - 200 (5199ms)
+2025-12-27 14:16:58 | DEBUG    | app.main             | log_requests         | [1416588942] GET /api/data/available
+2025-12-27 14:17:04 | INFO     | app.main             | log_requests         | [1416588942] âœ“ GET /api/data/available - 200 (5151ms)
+2025-12-27 14:17:04 | DEBUG    | app.main             | log_requests         | [1417040475] GET /api/data/download/progress
+2025-12-27 14:17:04 | DEBUG    | app.main             | log_requests         | [1417040475] POST /api/data/download
+2025-12-27 14:17:04 | INFO     | app.main             | log_requests         | [1417040475] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:04 | INFO     | app.main             | log_requests         | [1417040475] âœ“ POST /api/data/download - 200 (2ms)
+2025-12-27 14:17:04 | DEBUG    | app.main             | log_requests         | [1417045095] GET /api/data/available
+2025-12-27 14:17:09 | INFO     | app.main             | log_requests         | [1417045095] âœ“ GET /api/data/available - 200 (4970ms)
+2025-12-27 14:17:16 | DEBUG    | app.main             | log_requests         | [1417166711] GET /api/data/available
+2025-12-27 14:17:21 | INFO     | app.main             | log_requests         | [1417166711] âœ“ GET /api/data/available - 200 (4955ms)
+2025-12-27 14:17:25 | DEBUG    | app.main             | log_requests         | [1417255826] POST /api/data/download
+2025-12-27 14:17:25 | INFO     | app.main             | log_requests         | [1417255826] âœ“ POST /api/data/download - 200 (0ms)
+2025-12-27 14:17:27 | DEBUG    | app.main             | log_requests         | [1417273844] GET /api/data/download/progress
+2025-12-27 14:17:27 | INFO     | app.main             | log_requests         | [1417273844] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:29 | DEBUG    | app.main             | log_requests         | [1417296862] GET /api/data/download/progress
+2025-12-27 14:17:29 | INFO     | app.main             | log_requests         | [1417296862] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:31 | DEBUG    | app.main             | log_requests         | [1417313848] GET /api/data/download/progress
+2025-12-27 14:17:31 | INFO     | app.main             | log_requests         | [1417313848] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:33 | DEBUG    | app.main             | log_requests         | [1417336858] GET /api/data/download/progress
+2025-12-27 14:17:33 | INFO     | app.main             | log_requests         | [1417336858] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:35 | DEBUG    | app.main             | log_requests         | [1417353856] GET /api/data/download/progress
+2025-12-27 14:17:35 | INFO     | app.main             | log_requests         | [1417353856] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:37 | DEBUG    | app.main             | log_requests         | [1417376850] GET /api/data/download/progress
+2025-12-27 14:17:37 | INFO     | app.main             | log_requests         | [1417376850] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:39 | DEBUG    | app.main             | log_requests         | [1417393856] GET /api/data/download/progress
+2025-12-27 14:17:39 | INFO     | app.main             | log_requests         | [1417393856] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:41 | DEBUG    | app.main             | log_requests         | [1417416860] GET /api/data/download/progress
+2025-12-27 14:17:41 | INFO     | app.main             | log_requests         | [1417416860] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:43 | DEBUG    | app.main             | log_requests         | [1417433848] GET /api/data/download/progress
+2025-12-27 14:17:43 | INFO     | app.main             | log_requests         | [1417433848] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:45 | DEBUG    | app.main             | log_requests         | [1417456867] GET /api/data/download/progress
+2025-12-27 14:17:45 | INFO     | app.main             | log_requests         | [1417456867] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:47 | DEBUG    | app.main             | log_requests         | [1417473858] GET /api/data/download/progress
+2025-12-27 14:17:47 | INFO     | app.main             | log_requests         | [1417473858] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:49 | DEBUG    | app.main             | log_requests         | [1417496871] GET /api/data/download/progress
+2025-12-27 14:17:49 | INFO     | app.main             | log_requests         | [1417496871] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:51 | DEBUG    | app.main             | log_requests         | [1417513849] GET /api/data/download/progress
+2025-12-27 14:17:51 | INFO     | app.main             | log_requests         | [1417513849] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:53 | DEBUG    | app.main             | log_requests         | [1417536868] GET /api/data/download/progress
+2025-12-27 14:17:53 | INFO     | app.main             | log_requests         | [1417536868] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:55 | DEBUG    | app.main             | log_requests         | [1417553852] GET /api/data/download/progress
+2025-12-27 14:17:55 | INFO     | app.main             | log_requests         | [1417553852] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:17:57 | DEBUG    | app.main             | log_requests         | [1417576869] GET /api/data/download/progress
+2025-12-27 14:17:57 | INFO     | app.main             | log_requests         | [1417576869] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:17:59 | DEBUG    | app.main             | log_requests         | [1417593863] GET /api/data/download/progress
+2025-12-27 14:17:59 | INFO     | app.main             | log_requests         | [1417593863] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:01 | DEBUG    | app.main             | log_requests         | [1418016872] GET /api/data/download/progress
+2025-12-27 14:18:01 | INFO     | app.main             | log_requests         | [1418016872] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:03 | DEBUG    | app.main             | log_requests         | [1418033848] GET /api/data/download/progress
+2025-12-27 14:18:03 | INFO     | app.main             | log_requests         | [1418033848] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:05 | DEBUG    | app.main             | log_requests         | [1418056864] GET /api/data/download/progress
+2025-12-27 14:18:05 | INFO     | app.main             | log_requests         | [1418056864] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:07 | DEBUG    | app.main             | log_requests         | [1418073849] GET /api/data/download/progress
+2025-12-27 14:18:07 | INFO     | app.main             | log_requests         | [1418073849] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:09 | DEBUG    | app.main             | log_requests         | [1418096872] GET /api/data/download/progress
+2025-12-27 14:18:09 | INFO     | app.main             | log_requests         | [1418096872] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:11 | DEBUG    | app.main             | log_requests         | [1418113853] GET /api/data/download/progress
+2025-12-27 14:18:11 | INFO     | app.main             | log_requests         | [1418113853] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:13 | DEBUG    | app.main             | log_requests         | [1418136857] GET /api/data/download/progress
+2025-12-27 14:18:13 | INFO     | app.main             | log_requests         | [1418136857] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:15 | DEBUG    | app.main             | log_requests         | [1418153853] GET /api/data/download/progress
+2025-12-27 14:18:15 | INFO     | app.main             | log_requests         | [1418153853] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:17 | DEBUG    | app.main             | log_requests         | [1418176857] GET /api/data/download/progress
+2025-12-27 14:18:17 | INFO     | app.main             | log_requests         | [1418176857] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:19 | DEBUG    | app.main             | log_requests         | [1418193850] GET /api/data/download/progress
+2025-12-27 14:18:19 | INFO     | app.main             | log_requests         | [1418193850] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:21 | DEBUG    | app.main             | log_requests         | [1418216858] GET /api/data/download/progress
+2025-12-27 14:18:21 | INFO     | app.main             | log_requests         | [1418216858] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:23 | DEBUG    | app.main             | log_requests         | [1418233851] GET /api/data/download/progress
+2025-12-27 14:18:23 | INFO     | app.main             | log_requests         | [1418233851] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:25 | DEBUG    | app.main             | log_requests         | [1418256876] GET /api/data/download/progress
+2025-12-27 14:18:25 | INFO     | app.main             | log_requests         | [1418256876] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:27 | DEBUG    | app.main             | log_requests         | [1418273846] GET /api/data/download/progress
+2025-12-27 14:18:27 | INFO     | app.main             | log_requests         | [1418273846] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:29 | DEBUG    | app.main             | log_requests         | [1418296855] GET /api/data/download/progress
+2025-12-27 14:18:29 | INFO     | app.main             | log_requests         | [1418296855] âœ“ GET /api/data/download/progress - 200 (0ms)
+2025-12-27 14:18:31 | DEBUG    | app.main             | log_requests         | [1418315148] GET /api/data/download/progress
+2025-12-27 14:18:31 | INFO     | app.main             | log_requests         | [1418315148] âœ“ GET /api/data/download/progress - 200 (1ms)
+2025-12-27 14:18:31 | DEBUG    | app.main             | log_requests         | [1418318246] GET /api/data/available
+2025-12-27 14:18:37 | INFO     | app.main             | log_requests         | [1418318246] âœ“ GET /api/data/available - 200 (5177ms)
