@@ -1,121 +1,131 @@
-# 📋 KOMAS v4.0 CHAT REFERENCE
+# 📚 KOMAS v4.0 — Chat Reference
 
 > **Last Updated:** 28.12.2025  
+> **Current Chat:** #34  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## 📊 CHAT HISTORY
+## 📊 Chat History
 
-### Phase 1: Stabilization & Base
-
-| Chat | Name | Date | Key Deliverables |
-|------|------|------|------------------|
-| #15 | Bugfixes UI | 27.12.2025 | Monthly/Stats panel fixes, UTF-8 encoding |
-| #16 | Bugfixes Backend | 27.12.2025 | Network error fixes, duplicate timestamps |
-| #17 | Data Futures Only | 27.12.2025 | Remove spot, Binance Futures API only |
-| #18 | Data Period Selection | 27.12.2025 | Date pickers, period filters |
-| #19 | Data Caching | 27.12.2025 | LRU cache, performance optimization |
-
----
-
-### Phase 2: Dominant Indicator
-
-| Chat | Name | Date | Key Deliverables |
-|------|------|------|------------------|
-| #20 | Dominant Core | 27.12.2025 | Channel + Fibonacci calculations |
-| #21 | Dominant Signals | 27.12.2025 | can_long/can_short generation |
-| #22 | Dominant Filters | 27.12.2025 | 5 filter types (ATR, RSI, Combined, Vol) |
-| #23 | Dominant SL Modes | 27.12.2025 | 5 SL modes (no/after_tp1-3/cascade) |
-| #24 | Dominant AI Resolution | 27.12.2025 | Scoring + auto-optimization |
-| #25 | Dominant Presets DB | 27.12.2025 | SQLite table for presets |
-| #26 | Dominant Presets Seed | 27.12.2025 | 125 presets from GG strategies |
-| #27 | Dominant UI Integration | 27.12.2025 | Indicator selector, preset dropdown |
+| Chat | Name | Phase | Status |
+|------|------|-------|--------|
+| #15 | Bugfixes UI | 1 - Stabilization | ✅ |
+| #16 | Bugfixes Backend | 1 - Stabilization | ✅ |
+| #17 | Data Futures Only | 1 - Stabilization | ✅ |
+| #18 | Data Period Selection | 1 - Stabilization | ✅ |
+| #19 | Data Caching | 1 - Stabilization | ✅ |
+| #20 | Dominant Core | 2 - Dominant | ✅ |
+| #21 | Dominant Signals | 2 - Dominant | ✅ |
+| #22 | Dominant Filters | 2 - Dominant | ✅ |
+| #23 | Dominant SL Modes | 2 - Dominant | ✅ |
+| #24 | Dominant AI Resolution | 2 - Dominant | ✅ |
+| #25 | Dominant Presets DB | 2 - Dominant | ✅ |
+| #26 | Dominant Presets Seed | 2 - Dominant | ✅ |
+| #27 | Dominant UI + Backend | 2 - Dominant | ✅ |
+| #28 | Trade Levels Visualization | 3 - Presets | ✅ |
+| #29 | Presets Architecture | 3 - Presets | ✅ |
+| #30 | Presets TRG Generator | 3 - Presets | ✅ |
+| #31-33 | Presets Full Module | 3 - Presets | ✅ |
+| **#34** | **Signal Score Core** | **4 - Score** | **✅** |
+| #35 | Score Multi-TF | 4 - Score | ⬜ |
+| #36 | Score UI | 4 - Score | ⬜ |
 
 ---
 
-### Phase 3: Preset System
+## 📝 Chat #34 — Signal Score Core
 
-| Chat | Name | Date | Key Deliverables |
-|------|------|------|------------------|
-| #28 | Trade Levels Visualization | 27.12.2025 | TP/SL lines on chart |
-| #29 | Presets Architecture | 27.12.2025 | BasePreset, TRGPreset, DominantPreset |
-| #30 | Presets TRG Generator | 27.12.2025 | 200 TRG presets, SSE streaming |
-| #31-33 | Presets Full Module | 28.12.2025 | Full CRUD, backup/restore, UI page |
+**Date:** 28.12.2025  
+**Phase:** 4 — Signal Score  
+**Status:** ✅ Complete
 
----
+### Summary
 
-## 📦 CHAT #31-33 DETAILS
+Implemented the Signal Score system that evaluates trade quality on a 0-100 scale with A-F grades. The system uses 4 components, each worth 25 points:
 
-### Files Created/Modified
+1. **Confluence (25 pts)** — Agreement between technical indicators (SuperTrend, RSI, ADX, Volume)
+2. **Multi-TF Alignment (25 pts)** — Higher timeframe trend confirmation (4H: 10 pts, 1D: 15 pts)
+3. **Market Context (25 pts)** — Trend strength and volatility assessment
+4. **Technical Levels (25 pts)** — Proximity to support/resistance levels
+
+### Grade Scale
+
+| Score | Grade | Description |
+|-------|-------|-------------|
+| 85-100 | A | Excellent - High probability trade |
+| 70-84 | B | Good - Solid setup |
+| 55-69 | C | Average - Acceptable trade |
+| 40-54 | D | Below Average - Caution advised |
+| 0-39 | F | Poor - Avoid this trade |
+
+### Files Created
 
 ```
 backend/app/
-├── api/preset_routes.py        # 804 lines - Full API
-└── database/presets_db.py      # 691 lines - DB layer
-
-frontend/src/
-├── App.jsx                     # 107 lines - Navigation update
-├── pages/Presets.jsx           # 641 lines - Main page
-└── components/Presets/
-    ├── PresetCard.jsx          # 285 lines - Card component
-    ├── PresetModal.jsx         # 523 lines - Modal form
-    └── index.js                # Exports
+├── services/
+│   ├── __init__.py           # Module exports
+│   └── signal_score.py       # SignalScorer class (700+ lines)
+└── api/
+    └── signal_routes.py      # API endpoints (300+ lines)
 
 tests/
-└── test_preset_routes.py       # Unit tests (7 suites)
+└── test_signal_score.py      # Unit tests (20+ cases)
+
+docs/
+├── TRACKER.md                # Updated progress
+└── CHAT_REFERENCE.md         # This file
 ```
 
-### API Endpoints Added
+### API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/presets/clone/{id}` | Clone preset with auto-naming |
-| POST | `/api/presets/backup` | Export all presets to JSON |
-| POST | `/api/presets/restore` | Import from backup (skip/replace/merge) |
-| POST | `/api/presets/batch/delete` | Delete multiple presets |
-| POST | `/api/presets/batch/update` | Update multiple presets |
-| POST | `/api/presets/batch/export` | Export selected presets |
+| GET | `/api/signal-score/calculate` | Calculate score for a signal |
+| POST | `/api/signal-score/batch` | Score multiple trades |
+| GET | `/api/signal-score/grades` | Get grade scale info |
+| GET | `/api/signal-score/test` | Test endpoint |
 
-### Features Implemented
+### Key Functions
 
-1. **Presets Page** (`/presets`)
-   - Grid view with 24 presets per page
-   - Search by name
-   - Filter by indicator, category, source
-   - Favorites toggle
-   - Selection mode for batch operations
+```python
+# Main scoring
+scorer = SignalScorer()
+result = scorer.calculate_score(
+    df=ohlcv_data,
+    direction='long',
+    entry_price=45000,
+    filters=filter_config,
+    higher_tf_data={'4h': df_4h, '1d': df_1d}
+)
 
-2. **PresetCard Component**
-   - Color-coded indicator badge (TRG cyan, Dominant indigo)
-   - Category badge with colors
-   - Source icon (system/pine/user/imported/optimizer)
-   - Favorite star toggle
-   - Parameters preview
-   - Performance stats (if available)
-   - Hover actions: Apply, Edit, Clone, Export, Delete
+# Batch scoring
+scored_trades = score_trades(trades, df, filters, higher_tf_data)
 
-3. **PresetModal Component**
-   - Create/Edit/Clone modes
-   - Dynamic form based on indicator type
-   - Dominant: sensitivity, TP1-4, SL, filter_type, sl_mode
-   - TRG: i1, i2, TP levels, SL percent/mode
-   - Validation with error display
+# Helper functions
+grade = get_grade_from_score(78)  # 'B'
+color = get_grade_color('B')       # '#84cc16'
+```
 
-4. **Backup/Restore**
-   - Export to JSON with filters
-   - Restore modes: skip, replace, merge
-   - Dry-run validation
+### Technical Indicators Implemented
+
+- `calculate_atr()` — Average True Range
+- `calculate_rsi()` — Relative Strength Index
+- `calculate_adx()` — Average Directional Index
+- `calculate_supertrend()` — SuperTrend indicator
+- `calculate_support_resistance()` — S/R levels using pivot points
+- `calculate_volatility_percentile()` — Volatility ranking
 
 ---
 
-## 🔜 NEXT CHATS
+## 🔜 Next Chat
 
-| Chat | Name | Phase |
-|------|------|-------|
-| #34 | Signal Score Core | 4 - Signal Score |
-| #35 | Score Multi-TF | 4 - Signal Score |
-| #36 | Score UI Badges | 4 - Signal Score |
+**#35 — Score Multi-TF**
+
+Tasks:
+- [ ] Higher TF data loading from Binance
+- [ ] Automatic TF aggregation
+- [ ] Enhanced alignment scoring
+- [ ] TF-specific trend detection
 
 ---
 

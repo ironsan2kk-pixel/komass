@@ -4129,3 +4129,253 @@ favorites_count
 2025-12-27 23:15:48 | INFO     | app.main             | log_requests         | [2315483416] ✗ GET /api/signals/sse/stream - 404 (0ms)
 2025-12-27 23:15:53 | DEBUG    | app.main             | log_requests         | [2315533520] GET /api/signals/sse/stream
 2025-12-27 23:15:53 | INFO     | app.main             | log_requests         | [2315533520] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:15:58 | DEBUG    | app.main             | log_requests         | [2315586693] GET /api/signals/sse/stream
+2025-12-27 23:15:58 | INFO     | app.main             | log_requests         | [2315586693] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:03 | DEBUG    | app.main             | log_requests         | [2316036762] GET /api/signals/sse/stream
+2025-12-27 23:16:03 | INFO     | app.main             | log_requests         | [2316036762] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:16:07 | DEBUG    | app.main             | log_requests         | [2316076810] GET /.env
+2025-12-27 23:16:07 | INFO     | app.main             | log_requests         | [2316076810] ✗ GET /.env - 404 (1ms)
+2025-12-27 23:16:07 | DEBUG    | app.main             | log_requests         | [2316078918] GET /.git/config
+2025-12-27 23:16:07 | INFO     | app.main             | log_requests         | [2316078918] ✗ GET /.git/config - 404 (1ms)
+2025-12-27 23:16:08 | DEBUG    | app.main             | log_requests         | [2316089862] GET /api/signals/sse/stream
+2025-12-27 23:16:08 | INFO     | app.main             | log_requests         | [2316089862] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:16:13 | DEBUG    | app.main             | log_requests         | [2316139921] GET /api/signals/sse/stream
+2025-12-27 23:16:13 | INFO     | app.main             | log_requests         | [2316139921] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:19 | DEBUG    | app.main             | log_requests         | [2316192988] GET /api/signals/sse/stream
+2025-12-27 23:16:19 | INFO     | app.main             | log_requests         | [2316192988] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:24 | DEBUG    | app.main             | log_requests         | [2316243057] GET /api/signals/sse/stream
+2025-12-27 23:16:24 | INFO     | app.main             | log_requests         | [2316243057] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:16:27 | DEBUG    | app.main             | log_requests         | [2316274951] GET /
+2025-12-27 23:16:27 | INFO     | app.main             | log_requests         | [2316274951] ✔ GET / - 200 (1ms)
+2025-12-27 23:16:29 | DEBUG    | app.main             | log_requests         | [2316296148] GET /api/signals/sse/stream
+2025-12-27 23:16:29 | INFO     | app.main             | log_requests         | [2316296148] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:34 | DEBUG    | app.main             | log_requests         | [2316346235] GET /api/signals/sse/stream
+2025-12-27 23:16:34 | INFO     | app.main             | log_requests         | [2316346235] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:39 | DEBUG    | app.main             | log_requests         | [2316399333] GET /api/signals/sse/stream
+2025-12-27 23:16:39 | INFO     | app.main             | log_requests         | [2316399333] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:44 | DEBUG    | app.main             | log_requests         | [2316449437] GET /api/signals/sse/stream
+2025-12-27 23:16:44 | INFO     | app.main             | log_requests         | [2316449437] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:16:50 | DEBUG    | app.main             | log_requests         | [2316502541] GET /api/signals/sse/stream
+2025-12-27 23:16:50 | INFO     | app.main             | log_requests         | [2316502541] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:16:55 | DEBUG    | app.main             | log_requests         | [2316552615] GET /api/signals/sse/stream
+2025-12-27 23:16:55 | INFO     | app.main             | log_requests         | [2316552615] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:00 | DEBUG    | app.main             | log_requests         | [2317005701] GET /api/signals/sse/stream
+2025-12-27 23:17:00 | INFO     | app.main             | log_requests         | [2317005701] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:17:05 | DEBUG    | app.main             | log_requests         | [2317055788] GET /api/signals/sse/stream
+2025-12-27 23:17:05 | INFO     | app.main             | log_requests         | [2317055788] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:10 | DEBUG    | app.main             | log_requests         | [2317108874] GET /api/signals/sse/stream
+2025-12-27 23:17:10 | INFO     | app.main             | log_requests         | [2317108874] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:17:15 | DEBUG    | app.main             | log_requests         | [2317158950] GET /api/signals/sse/stream
+2025-12-27 23:17:15 | INFO     | app.main             | log_requests         | [2317158950] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:21 | DEBUG    | app.main             | log_requests         | [2317212050] GET /api/signals/sse/stream
+2025-12-27 23:17:21 | INFO     | app.main             | log_requests         | [2317212050] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:26 | DEBUG    | app.main             | log_requests         | [2317262114] GET /api/signals/sse/stream
+2025-12-27 23:17:26 | INFO     | app.main             | log_requests         | [2317262114] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:31 | DEBUG    | app.main             | log_requests         | [2317315174] GET /api/signals/sse/stream
+2025-12-27 23:17:31 | INFO     | app.main             | log_requests         | [2317315174] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:36 | DEBUG    | app.main             | log_requests         | [2317365253] GET /api/signals/sse/stream
+2025-12-27 23:17:36 | INFO     | app.main             | log_requests         | [2317365253] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:41 | DEBUG    | app.main             | log_requests         | [2317418367] GET /api/signals/sse/stream
+2025-12-27 23:17:41 | INFO     | app.main             | log_requests         | [2317418367] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:46 | DEBUG    | app.main             | log_requests         | [2317468439] GET /api/signals/sse/stream
+2025-12-27 23:17:46 | INFO     | app.main             | log_requests         | [2317468439] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:17:52 | DEBUG    | app.main             | log_requests         | [2317521558] GET /api/signals/sse/stream
+2025-12-27 23:17:52 | INFO     | app.main             | log_requests         | [2317521558] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:17:57 | DEBUG    | app.main             | log_requests         | [2317571641] GET /api/signals/sse/stream
+2025-12-27 23:17:57 | INFO     | app.main             | log_requests         | [2317571641] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:02 | DEBUG    | app.main             | log_requests         | [2318024709] GET /api/signals/sse/stream
+2025-12-27 23:18:02 | INFO     | app.main             | log_requests         | [2318024709] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:18:07 | DEBUG    | app.main             | log_requests         | [2318074808] GET /api/signals/sse/stream
+2025-12-27 23:18:07 | INFO     | app.main             | log_requests         | [2318074808] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:12 | DEBUG    | app.main             | log_requests         | [2318127907] GET /api/signals/sse/stream
+2025-12-27 23:18:12 | INFO     | app.main             | log_requests         | [2318127907] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:17 | DEBUG    | app.main             | log_requests         | [2318177987] GET /api/signals/sse/stream
+2025-12-27 23:18:17 | INFO     | app.main             | log_requests         | [2318177987] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:18:23 | DEBUG    | app.main             | log_requests         | [2318231085] GET /api/signals/sse/stream
+2025-12-27 23:18:23 | INFO     | app.main             | log_requests         | [2318231085] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:28 | DEBUG    | app.main             | log_requests         | [2318281170] GET /api/signals/sse/stream
+2025-12-27 23:18:28 | INFO     | app.main             | log_requests         | [2318281170] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:33 | DEBUG    | app.main             | log_requests         | [2318334270] GET /api/signals/sse/stream
+2025-12-27 23:18:33 | INFO     | app.main             | log_requests         | [2318334270] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:38 | DEBUG    | app.main             | log_requests         | [2318384343] GET /api/signals/sse/stream
+2025-12-27 23:18:38 | INFO     | app.main             | log_requests         | [2318384343] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:43 | DEBUG    | app.main             | log_requests         | [2318437432] GET /api/signals/sse/stream
+2025-12-27 23:18:43 | INFO     | app.main             | log_requests         | [2318437432] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:18:48 | DEBUG    | app.main             | log_requests         | [2318487516] GET /api/signals/sse/stream
+2025-12-27 23:18:48 | INFO     | app.main             | log_requests         | [2318487516] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:18:54 | DEBUG    | app.main             | log_requests         | [2318540580] GET /api/signals/sse/stream
+2025-12-27 23:18:54 | INFO     | app.main             | log_requests         | [2318540580] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:18:59 | DEBUG    | app.main             | log_requests         | [2318590665] GET /api/signals/sse/stream
+2025-12-27 23:18:59 | INFO     | app.main             | log_requests         | [2318590665] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:04 | DEBUG    | app.main             | log_requests         | [2319043756] GET /api/signals/sse/stream
+2025-12-27 23:19:04 | INFO     | app.main             | log_requests         | [2319043756] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:19:09 | DEBUG    | app.main             | log_requests         | [2319093831] GET /api/signals/sse/stream
+2025-12-27 23:19:09 | INFO     | app.main             | log_requests         | [2319093831] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:14 | DEBUG    | app.main             | log_requests         | [2319146914] GET /api/signals/sse/stream
+2025-12-27 23:19:14 | INFO     | app.main             | log_requests         | [2319146914] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:19 | DEBUG    | app.main             | log_requests         | [2319197004] GET /api/signals/sse/stream
+2025-12-27 23:19:19 | INFO     | app.main             | log_requests         | [2319197004] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:25 | DEBUG    | app.main             | log_requests         | [2319250076] GET /api/signals/sse/stream
+2025-12-27 23:19:25 | INFO     | app.main             | log_requests         | [2319250076] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:30 | DEBUG    | app.main             | log_requests         | [2319300150] GET /api/signals/sse/stream
+2025-12-27 23:19:30 | INFO     | app.main             | log_requests         | [2319300150] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:35 | DEBUG    | app.main             | log_requests         | [2319353257] GET /api/signals/sse/stream
+2025-12-27 23:19:35 | INFO     | app.main             | log_requests         | [2319353257] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:40 | DEBUG    | app.main             | log_requests         | [2319403337] GET /api/signals/sse/stream
+2025-12-27 23:19:40 | INFO     | app.main             | log_requests         | [2319403337] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:45 | DEBUG    | app.main             | log_requests         | [2319456431] GET /api/signals/sse/stream
+2025-12-27 23:19:45 | INFO     | app.main             | log_requests         | [2319456431] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:50 | DEBUG    | app.main             | log_requests         | [2319506496] GET /api/signals/sse/stream
+2025-12-27 23:19:50 | INFO     | app.main             | log_requests         | [2319506496] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:19:55 | DEBUG    | app.main             | log_requests         | [2319559597] GET /api/signals/sse/stream
+2025-12-27 23:19:55 | INFO     | app.main             | log_requests         | [2319559597] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:20:00 | DEBUG    | app.main             | log_requests         | [2320009671] GET /api/signals/sse/stream
+2025-12-27 23:20:00 | INFO     | app.main             | log_requests         | [2320009671] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:20:06 | DEBUG    | app.main             | log_requests         | [2320062768] GET /api/signals/sse/stream
+2025-12-27 23:20:06 | INFO     | app.main             | log_requests         | [2320062768] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:20:11 | DEBUG    | app.main             | log_requests         | [2320112849] GET /api/signals/sse/stream
+2025-12-27 23:20:11 | INFO     | app.main             | log_requests         | [2320112849] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:20:15 | DEBUG    | app.main             | log_requests         | [2320153064] GET /
+2025-12-27 23:20:15 | INFO     | app.main             | log_requests         | [2320153064] ✔ GET / - 200 (0ms)
+2025-12-27 23:20:16 | DEBUG    | app.main             | log_requests         | [2320165942] GET /api/signals/sse/stream
+2025-12-27 23:20:16 | INFO     | app.main             | log_requests         | [2320165942] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:20:21 | DEBUG    | app.main             | log_requests         | [2320216016] GET /api/signals/sse/stream
+2025-12-27 23:20:21 | INFO     | app.main             | log_requests         | [2320216016] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:20:26 | DEBUG    | app.main             | log_requests         | [2320269105] GET /api/signals/sse/stream
+2025-12-27 23:20:26 | INFO     | app.main             | log_requests         | [2320269105] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:20:31 | DEBUG    | app.main             | log_requests         | [2320319185] GET /api/signals/sse/stream
+2025-12-27 23:20:31 | INFO     | app.main             | log_requests         | [2320319185] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:20:37 | DEBUG    | app.main             | log_requests         | [2320372249] GET /api/signals/sse/stream
+2025-12-27 23:20:37 | INFO     | app.main             | log_requests         | [2320372249] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:20:42 | DEBUG    | app.main             | log_requests         | [2320422337] GET /api/signals/sse/stream
+2025-12-27 23:20:42 | INFO     | app.main             | log_requests         | [2320422337] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:20:47 | DEBUG    | app.main             | log_requests         | [2320475438] GET /api/signals/sse/stream
+2025-12-27 23:20:47 | INFO     | app.main             | log_requests         | [2320475438] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:20:52 | DEBUG    | app.main             | log_requests         | [2320525506] GET /api/signals/sse/stream
+2025-12-27 23:20:52 | INFO     | app.main             | log_requests         | [2320525506] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:20:57 | DEBUG    | app.main             | log_requests         | [2320578613] GET /api/signals/sse/stream
+2025-12-27 23:20:57 | INFO     | app.main             | log_requests         | [2320578613] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:21:02 | DEBUG    | app.main             | log_requests         | [2321028682] GET /api/signals/sse/stream
+2025-12-27 23:21:02 | INFO     | app.main             | log_requests         | [2321028682] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:21:08 | DEBUG    | app.main             | log_requests         | [2321081788] GET /api/signals/sse/stream
+2025-12-27 23:21:08 | INFO     | app.main             | log_requests         | [2321081788] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:13 | DEBUG    | app.main             | log_requests         | [2321131868] GET /api/signals/sse/stream
+2025-12-27 23:21:13 | INFO     | app.main             | log_requests         | [2321131868] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:18 | DEBUG    | app.main             | log_requests         | [2321184976] GET /api/signals/sse/stream
+2025-12-27 23:21:18 | INFO     | app.main             | log_requests         | [2321184976] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:23 | DEBUG    | app.main             | log_requests         | [2321235061] GET /api/signals/sse/stream
+2025-12-27 23:21:23 | INFO     | app.main             | log_requests         | [2321235061] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:28 | DEBUG    | app.main             | log_requests         | [2321288152] GET /api/signals/sse/stream
+2025-12-27 23:21:28 | INFO     | app.main             | log_requests         | [2321288152] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:21:33 | DEBUG    | app.main             | log_requests         | [2321338226] GET /api/signals/sse/stream
+2025-12-27 23:21:33 | INFO     | app.main             | log_requests         | [2321338226] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:21:39 | DEBUG    | app.main             | log_requests         | [2321391327] GET /api/signals/sse/stream
+2025-12-27 23:21:39 | INFO     | app.main             | log_requests         | [2321391327] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:21:44 | DEBUG    | app.main             | log_requests         | [2321441403] GET /api/signals/sse/stream
+2025-12-27 23:21:44 | INFO     | app.main             | log_requests         | [2321441403] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:49 | DEBUG    | app.main             | log_requests         | [2321494476] GET /api/signals/sse/stream
+2025-12-27 23:21:49 | INFO     | app.main             | log_requests         | [2321494476] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:54 | DEBUG    | app.main             | log_requests         | [2321544545] GET /api/signals/sse/stream
+2025-12-27 23:21:54 | INFO     | app.main             | log_requests         | [2321544545] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:21:59 | DEBUG    | app.main             | log_requests         | [2321597653] GET /api/signals/sse/stream
+2025-12-27 23:21:59 | INFO     | app.main             | log_requests         | [2321597653] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:04 | DEBUG    | app.main             | log_requests         | [2322047748] GET /api/signals/sse/stream
+2025-12-27 23:22:04 | INFO     | app.main             | log_requests         | [2322047748] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:10 | DEBUG    | app.main             | log_requests         | [2322100840] GET /api/signals/sse/stream
+2025-12-27 23:22:10 | INFO     | app.main             | log_requests         | [2322100840] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:15 | DEBUG    | app.main             | log_requests         | [2322150907] GET /api/signals/sse/stream
+2025-12-27 23:22:15 | INFO     | app.main             | log_requests         | [2322150907] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:20 | DEBUG    | app.main             | log_requests         | [2322203997] GET /api/signals/sse/stream
+2025-12-27 23:22:20 | INFO     | app.main             | log_requests         | [2322203997] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:25 | DEBUG    | app.main             | log_requests         | [2322254076] GET /api/signals/sse/stream
+2025-12-27 23:22:25 | INFO     | app.main             | log_requests         | [2322254076] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:30 | DEBUG    | app.main             | log_requests         | [2322307161] GET /api/signals/sse/stream
+2025-12-27 23:22:30 | INFO     | app.main             | log_requests         | [2322307161] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:35 | DEBUG    | app.main             | log_requests         | [2322357266] GET /api/signals/sse/stream
+2025-12-27 23:22:35 | INFO     | app.main             | log_requests         | [2322357266] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:22:41 | DEBUG    | app.main             | log_requests         | [2322410360] GET /api/signals/sse/stream
+2025-12-27 23:22:41 | INFO     | app.main             | log_requests         | [2322410360] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:46 | DEBUG    | app.main             | log_requests         | [2322460440] GET /api/signals/sse/stream
+2025-12-27 23:22:46 | INFO     | app.main             | log_requests         | [2322460440] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:51 | DEBUG    | app.main             | log_requests         | [2322513523] GET /api/signals/sse/stream
+2025-12-27 23:22:51 | INFO     | app.main             | log_requests         | [2322513523] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:22:56 | DEBUG    | app.main             | log_requests         | [2322563599] GET /api/signals/sse/stream
+2025-12-27 23:22:56 | INFO     | app.main             | log_requests         | [2322563599] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:01 | DEBUG    | app.main             | log_requests         | [2323016705] GET /api/signals/sse/stream
+2025-12-27 23:23:01 | INFO     | app.main             | log_requests         | [2323016705] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:06 | DEBUG    | app.main             | log_requests         | [2323066782] GET /api/signals/sse/stream
+2025-12-27 23:23:06 | INFO     | app.main             | log_requests         | [2323066782] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:11 | DEBUG    | app.main             | log_requests         | [2323119874] GET /api/signals/sse/stream
+2025-12-27 23:23:11 | INFO     | app.main             | log_requests         | [2323119874] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:16 | DEBUG    | app.main             | log_requests         | [2323169962] GET /api/signals/sse/stream
+2025-12-27 23:23:16 | INFO     | app.main             | log_requests         | [2323169962] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:23:22 | DEBUG    | app.main             | log_requests         | [2323223042] GET /api/signals/sse/stream
+2025-12-27 23:23:22 | INFO     | app.main             | log_requests         | [2323223042] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:27 | DEBUG    | app.main             | log_requests         | [2323273125] GET /api/signals/sse/stream
+2025-12-27 23:23:27 | INFO     | app.main             | log_requests         | [2323273125] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:23:32 | DEBUG    | app.main             | log_requests         | [2323326220] GET /api/signals/sse/stream
+2025-12-27 23:23:32 | INFO     | app.main             | log_requests         | [2323326220] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:37 | DEBUG    | app.main             | log_requests         | [2323376333] GET /api/signals/sse/stream
+2025-12-27 23:23:37 | INFO     | app.main             | log_requests         | [2323376333] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:39 | DEBUG    | app.main             | log_requests         | [2323397545] GET /api/indicator/cache-stats
+2025-12-27 23:23:39 | INFO     | app.main             | log_requests         | [2323397545] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:23:39 | DEBUG    | app.main             | log_requests         | [2323397636] GET /api/indicator/cache-stats
+2025-12-27 23:23:39 | INFO     | app.main             | log_requests         | [2323397636] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:23:42 | DEBUG    | app.main             | log_requests         | [2323426408] GET /api/signals/sse/stream
+2025-12-27 23:23:42 | INFO     | app.main             | log_requests         | [2323426408] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:23:47 | DEBUG    | app.main             | log_requests         | [2323479486] GET /api/signals/sse/stream
+2025-12-27 23:23:47 | INFO     | app.main             | log_requests         | [2323479486] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:23:49 | DEBUG    | app.main             | log_requests         | [2323494828] GET /api/indicator/auto-optimize-stream
+2025-12-27 23:23:49 | INFO     | app.main             | log_requests         | [2323494828] ✗ GET /api/indicator/auto-optimize-stream - 405 (1ms)
+2025-12-27 23:23:51 | DEBUG    | app.main             | log_requests         | [2323510632] GET /api/indicator/auto-optimize-stream
+2025-12-27 23:23:51 | INFO     | app.main             | log_requests         | [2323510632] ✗ GET /api/indicator/auto-optimize-stream - 405 (1ms)
+2025-12-27 23:23:51 | DEBUG    | app.main             | log_requests         | [2323513535] GET /api/indicator/auto-optimize-stream
+2025-12-27 23:23:51 | INFO     | app.main             | log_requests         | [2323513535] ✗ GET /api/indicator/auto-optimize-stream - 405 (0ms)
+2025-12-27 23:23:53 | DEBUG    | app.main             | log_requests         | [2323532586] GET /api/signals/sse/stream
+2025-12-27 23:23:53 | INFO     | app.main             | log_requests         | [2323532586] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:23:58 | DEBUG    | app.main             | log_requests         | [2323582666] GET /api/signals/sse/stream
+2025-12-27 23:23:58 | INFO     | app.main             | log_requests         | [2323582666] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:24:03 | DEBUG    | app.main             | log_requests         | [2324035770] GET /api/signals/sse/stream
+2025-12-27 23:24:03 | INFO     | app.main             | log_requests         | [2324035770] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:24:04 | DEBUG    | app.main             | log_requests         | [2324046232] GET /api/presets/dominant/list
+2025-12-27 23:24:04 | INFO     | app.main             | log_requests         | [2324046232] ✔ GET /api/presets/dominant/list - 200 (15ms)
+2025-12-27 23:24:08 | DEBUG    | app.main             | log_requests         | [2324088854] GET /api/signals/sse/stream
+2025-12-27 23:24:08 | INFO     | app.main             | log_requests         | [2324088854] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:24:09 | DEBUG    | app.main             | log_requests         | [2324094413] GET /api/indicator/cache-stats
+2025-12-27 23:24:09 | INFO     | app.main             | log_requests         | [2324094413] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:24:14 | DEBUG    | app.main             | log_requests         | [2324141956] GET /api/signals/sse/stream
+2025-12-27 23:24:14 | INFO     | app.main             | log_requests         | [2324141956] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:24:19 | DEBUG    | app.main             | log_requests         | [2324192040] GET /api/signals/sse/stream
+2025-12-27 23:24:19 | INFO     | app.main             | log_requests         | [2324192040] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-27 23:24:20 | DEBUG    | app.main             | log_requests         | [2324201861] POST /api/indicator/calculate
+2025-12-27 23:24:28 | INFO     | app.main             | log_requests         | [2324201861] ✔ POST /api/indicator/calculate - 200 (8352ms)
+2025-12-27 23:24:28 | DEBUG    | app.main             | log_requests         | [2324285518] GET /api/signals/sse/stream
+2025-12-27 23:24:28 | INFO     | app.main             | log_requests         | [2324285518] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-27 23:24:29 | DEBUG    | app.main             | log_requests         | [2324292086] GET /api/indicator/cache-stats
+2025-12-27 23:24:29 | INFO     | app.main             | log_requests         | [2324292086] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:24:52 | DEBUG    | app.main             | log_requests         | [2324521746] GET /api/signals/sse/stream
+2025-12-27 23:24:52 | INFO     | app.main             | log_requests         | [2324521746] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-27 23:24:52 | DEBUG    | app.main             | log_requests         | [2324524763] GET /api/indicator/cache-stats
+2025-12-27 23:24:52 | INFO     | app.main             | log_requests         | [2324524763] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 23:25:15 | DEBUG    | app.main             | log_requests         | [2325153242] GET /api/indicator/cache-stats
+2025-12-27 23:25:15 | INFO     | app.main             | log_requests         | [2325153242] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 23:25:15 | DEBUG    | app.main             | log_requests         | [2325153284] GET /api/indicator/cache-stats
+2025-12-27 23:25:15 | INFO     | app.main             | log_requests         | [2325153284] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 23:25:45 | DEBUG    | app.main             | log_requests         | [2325453313] GET /api/indicator/cache-stats
+2025-12-27 23:25:45 | INFO     | app.main             | log_requests         | [2325453313] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:26:15 | DEBUG    | app.main             | log_requests         | [2326153333] GET /api/indicator/cache-stats
+2025-12-27 23:26:15 | INFO     | app.main             | log_requests         | [2326153333] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:26:45 | DEBUG    | app.main             | log_requests         | [2326456376] GET /api/indicator/cache-stats
+2025-12-27 23:26:45 | INFO     | app.main             | log_requests         | [2326456376] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:27:15 | DEBUG    | app.main             | log_requests         | [2327153318] GET /api/indicator/cache-stats
+2025-12-27 23:27:15 | INFO     | app.main             | log_requests         | [2327153318] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:27:45 | DEBUG    | app.main             | log_requests         | [2327456315] GET /api/indicator/cache-stats
+2025-12-27 23:27:45 | INFO     | app.main             | log_requests         | [2327456315] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:28:15 | DEBUG    | app.main             | log_requests         | [2328153307] GET /api/indicator/cache-stats
+2025-12-27 23:28:15 | INFO     | app.main             | log_requests         | [2328153307] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:28:45 | DEBUG    | app.main             | log_requests         | [2328456220] GET /api/indicator/cache-stats
+2025-12-27 23:28:45 | INFO     | app.main             | log_requests         | [2328456220] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:29:15 | DEBUG    | app.main             | log_requests         | [2329153239] GET /api/indicator/cache-stats
+2025-12-27 23:29:15 | INFO     | app.main             | log_requests         | [2329153239] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 23:29:45 | DEBUG    | app.main             | log_requests         | [2329456319] GET /api/indicator/cache-stats
+2025-12-27 23:29:45 | INFO     | app.main             | log_requests         | [2329456319] ✔ GET /api/indicator/cache-stats - 200 (1ms)

@@ -251,6 +251,14 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load preset routes: {e}")
 
+# ============ SIGNAL SCORE ROUTER (Chat #34) ============
+try:
+    from app.api.signal_routes import router as signal_router
+    app.include_router(signal_router)
+    logger.info("✔ Loaded: Signal score routes (/api/signal-score/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load signal routes: {e}")
+
 
 # ============ LOG ENDPOINTS ============
 
