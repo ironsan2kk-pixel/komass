@@ -15,8 +15,17 @@ if not exist "venv\Scripts\activate.bat" (
 )
 
 call venv\Scripts\activate.bat
+
+echo Checking pytest installation...
+pip show pytest >nul 2>&1
+if %ERRORLEVEL% NEQ 0 (
+    echo Installing pytest...
+    pip install pytest -q
+)
+
 set PYTHONPATH=%CD%\app
 
+echo.
 echo Running Dominant indicator tests...
 echo.
 

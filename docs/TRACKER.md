@@ -16,6 +16,10 @@
 | **Remaining** | 75 |
 | **Progress** | 9.6% |
 
+```
+[████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 9.6%
+```
+
 ---
 
 ## 🗂️ PHASE SUMMARY
@@ -40,93 +44,75 @@
 
 ---
 
-## 🔧 PHASE 1: STABILIZATION & BASE (5 chats) ✅
+## 🔧 PHASE 1: STABILIZATION & BASE ✅ Complete
 
-### Chat #15: Bugfixes UI ✅
-**Completed:** 27.12.2025
-
-### Chat #16: Bugfixes Backend ✅
-**Completed:** 27.12.2025
-
-### Chat #17: Data Futures Only ✅
-**Completed:** 27.12.2025
-
-### Chat #18: Data Period Selection ✅
-**Completed:** 27.12.2025
-
-### Chat #19: Data Caching ✅
-**Completed:** 27.12.2025
+| Chat | Name | Status |
+|------|------|--------|
+| #15 | Bugfixes UI | ✅ |
+| #16 | Bugfixes Backend | ✅ |
+| #17 | Data Futures Only | ✅ |
+| #18 | Data Period Selection | ✅ |
+| #19 | Data Caching | ✅ |
 
 ---
 
-## 🎯 PHASE 2: DOMINANT INDICATOR (8 chats)
+## 🎯 PHASE 2: DOMINANT INDICATOR (3/8 Complete)
 
 ### Chat #20: Dominant Core ✅
 **Completed:** 27.12.2025
 
-**Implemented:**
-- [x] `backend/app/indicators/dominant.py` - Core calculation
 - [x] Channel calculation (high/low/mid/range)
-- [x] Fibonacci levels from low (0.236, 0.382, 0.5, 0.618)
-- [x] Fibonacci levels from high (for shorts)
-- [x] Sensitivity parameter (12-60, default 21)
-- [x] Helper functions: get_current_levels(), get_indicator_info()
-- [x] Input validation for DataFrame and sensitivity
-- [x] Unit tests (8 tests passing)
+- [x] Fibonacci levels (0.236, 0.382, 0.5, 0.618)
+- [x] Sensitivity parameter (12-60)
+- [x] Unit tests (8 passing)
 
 ---
 
 ### Chat #21: Dominant Signals ✅
 **Completed:** 27.12.2025
 
-**Implemented:**
-- [x] `generate_signals()` function
-- [x] can_long: close >= mid_channel AND close >= fib_236 AND bullish candle
-- [x] can_short: close <= mid_channel AND close <= fib_236_high AND bearish candle
-- [x] Trend tracking: is_long_trend, is_short_trend
+- [x] generate_signals() function
+- [x] can_long / can_short conditions
+- [x] Trend tracking (is_long_trend, is_short_trend)
 - [x] Close on reverse signal
-- [x] Entry price calculation
-- [x] Signal helpers: get_signal_summary(), get_latest_signal(), extract_signal_entries()
-- [x] Unit tests (66 tests passing)
+- [x] Unit tests (66 passing)
 
 ---
 
 ### Chat #22: Dominant Filters ✅
 **Completed:** 27.12.2025
 
-**Implemented:**
-- [x] Filter constants (FILTER_NONE=0, FILTER_ATR=1, FILTER_RSI=2, FILTER_COMBINED=3, FILTER_VOLATILITY=4)
 - [x] Filter Type 0: None (no filtering)
 - [x] Filter Type 1: ATR Condition (volume spike)
 - [x] Filter Type 2: RSI Condition (overbought/oversold)
 - [x] Filter Type 3: ATR + RSI Combined
 - [x] Filter Type 4: Volatility Condition
-- [x] `apply_filter()` function
-- [x] `calculate_rsi()` helper
-- [x] `calculate_atr()` helper
-- [x] `get_filter_info()` function
-- [x] `get_filter_statistics()` function
-- [x] `generate_signals_with_filter()` convenience function
-- [x] `validate_filter_type()` validation
-- [x] Updated `__init__.py` with exports
-- [x] Unit tests (61 tests, all passing)
+- [x] apply_filter() function
+- [x] calculate_rsi() helper
+- [x] calculate_atr() helper
+- [x] get_filter_info() function
+- [x] get_filter_statistics() function
+- [x] generate_signals_with_filter() convenience function
+- [x] Unit tests (61 passing)
 
-**Files Updated:**
-- `backend/app/indicators/dominant.py` — Version 4.0.2
-- `backend/app/indicators/__init__.py` — Updated exports
-- `tests/test_dominant.py` — Added filter tests
+**Files:**
+- `backend/app/indicators/dominant.py` — v4.0.2
+- `backend/app/indicators/__init__.py` — updated exports
+- `tests/test_dominant.py` — 61 tests
 
 ---
 
 ### Chat #23: Dominant SL Modes ⏳ NEXT
-**Status:** Waiting
+**Status:** Ready to start
 
 **Tasks:**
-- [ ] Mode: No SL movement (fixed)
-- [ ] Mode: After 1st TP (SL → Entry after TP1)
-- [ ] Mode: After 2nd TP (SL → Entry after TP2)
-- [ ] Mode: After 3rd TP (SL → Entry after TP3)
-- [ ] Mode: Cascade (SL moves with each TP)
+- [ ] SL Mode 0: Fixed (no movement)
+- [ ] SL Mode 1: Breakeven after TP1
+- [ ] SL Mode 2: Breakeven after TP2
+- [ ] SL Mode 3: Breakeven after TP3
+- [ ] SL Mode 4: Cascade trailing
+- [ ] calculate_sl_level() function
+- [ ] track_position() function
 - [ ] Unit tests
 
 ---
@@ -135,7 +121,6 @@
 ### Chat #25: Dominant AI Resolution ⬜
 ### Chat #26: Dominant Presets DB ⬜
 ### Chat #27: Dominant UI Integration ⬜
-### Chat #28: Dominant Verification ⬜
 
 ---
 
@@ -143,10 +128,10 @@
 
 | Date | Chat | Change |
 |------|------|--------|
-| 27.12.2025 | #22 | ✅ Added 5 filter types to Dominant indicator (61 tests passing) |
-| 27.12.2025 | #21 | ✅ Added signal generation to Dominant indicator |
-| 27.12.2025 | #20 | ✅ Created Dominant indicator core module |
-| 27.12.2025 | #15-19 | ✅ Phase 1 complete: stabilization |
+| 27.12.2025 | #22 | ✅ Added 5 filter types (61 tests) |
+| 27.12.2025 | #21 | ✅ Added signal generation (66 tests) |
+| 27.12.2025 | #20 | ✅ Created Dominant core module |
+| 27.12.2025 | #15-19 | ✅ Phase 1 complete |
 
 ---
 

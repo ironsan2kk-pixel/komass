@@ -54,7 +54,8 @@ def run_all_tests():
 def main():
     """Main entry point"""
     if len(sys.argv) > 1:
-        mode = sys.argv[1].lower()
+        # Handle both "quick" and "--quick" formats
+        mode = sys.argv[1].lower().lstrip('-')
         
         if mode == 'filters':
             print("Running filter tests only...")
@@ -67,6 +68,13 @@ def main():
         elif mode == 'all':
             print("Running all tests...")
             return run_all_tests()
+        
+        elif mode in ('h', 'help'):
+            print("Usage: python run_tests.py [all|filters|quick]")
+            print("  all     - Run all tests")
+            print("  filters - Run only filter tests")
+            print("  quick   - Run quick smoke tests")
+            return 0
         
         else:
             print(f"Unknown mode: {mode}")
