@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 const Section = ({ title, icon, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -69,8 +69,56 @@ const Select = ({ label, value, onChange, options }) => (
   </div>
 );
 
-const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, cacheStats, onClearCache }) => {
+const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange }) => {
   const update = (key, value) => onUpdate(key, value);
+
+  // Calculate quick period presets based on available data
+  const periodPresets = useMemo(() => {
+    const now = new Date();
+    const presets = [
+      { label: 'Всё', value: 'all' },
+      { label: '1 год', value: '1y', months: 12 },
+      { label: '6 мес', value: '6m', months: 6 },
+      { label: '3 мес', value: '3m', months: 3 },
+      { label: '1 мес', value: '1m', months: 1 },
+    ];
+    
+    return presets.map(p => {
+      if (p.value === 'all') {
+        return { ...p, startDate: null, endDate: null };
+      }
+      const startDate = new Date(now);
+      startDate.setMonth(startDate.getMonth() - p.months);
+      return { 
+        ...p, 
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: now.toISOString().split('T')[0]
+      };
+    });
+  }, []);
+
+  const applyPeriodPreset = (preset) => {
+    if (preset.value === 'all') {
+      update('start_date', null);
+      update('end_date', null);
+    } else {
+      update('start_date', preset.startDate);
+      update('end_date', preset.endDate);
+    }
+  };
+
+  // Determine which preset is currently active
+  const activePreset = useMemo(() => {
+    if (!settings.start_date && !settings.end_date) return 'all';
+    
+    // Check if matches any preset
+    for (const p of periodPresets) {
+      if (p.startDate === settings.start_date && p.endDate === settings.end_date) {
+        return p.value;
+      }
+    }
+    return null; // Custom range
+  }, [settings.start_date, settings.end_date, periodPresets]);
 
   if (collapsed) {
     return (
@@ -97,48 +145,75 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, cacheStats, 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
         
-        {/* Cache Section */}
-        <Section title="Кэш" icon="💾" defaultOpen={true}>
-          {cacheStats ? (
-            <div className="space-y-2">
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="bg-gray-700/50 rounded p-2 text-center">
-                  <div className="text-blue-400 font-bold">{cacheStats.entries}</div>
-                  <div className="text-gray-500">Записей</div>
-                </div>
-                <div className="bg-gray-700/50 rounded p-2 text-center">
-                  <div className="text-green-400 font-bold">{cacheStats.hit_rate}%</div>
-                  <div className="text-gray-500">Hit Rate</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="bg-gray-700/50 rounded p-2 text-center">
-                  <div className="text-green-400 font-bold">{cacheStats.hits}</div>
-                  <div className="text-gray-500">Hits</div>
-                </div>
-                <div className="bg-gray-700/50 rounded p-2 text-center">
-                  <div className="text-red-400 font-bold">{cacheStats.misses}</div>
-                  <div className="text-gray-500">Misses</div>
-                </div>
-              </div>
-              <div className="text-xs text-gray-500 text-center">
-                TTL: {Math.floor(cacheStats.ttl_seconds / 60)} мин | Max: {cacheStats.max_size}
-              </div>
+        {/* Data Period Selection - NEW SECTION */}
+        <Section title="Период данных" icon="📅">
+          {/* Quick preset buttons */}
+          <div className="flex flex-wrap gap-1 mb-2">
+            {periodPresets.map(preset => (
               <button
-                onClick={onClearCache}
-                className="w-full px-3 py-1.5 bg-red-600/20 text-red-400 text-xs rounded hover:bg-red-600/30 border border-red-600/30"
+                key={preset.value}
+                onClick={() => applyPeriodPreset(preset)}
+                className={`px-2 py-1 text-xs rounded transition-colors ${
+                  activePreset === preset.value
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                }`}
               >
-                🗑️ Очистить кэш
+                {preset.label}
               </button>
+            ))}
+          </div>
+          
+          {/* Date inputs */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400 w-10">От:</span>
+              <input
+                type="date"
+                value={settings.start_date || ''}
+                onChange={(e) => update('start_date', e.target.value || null)}
+                min={dataRange?.available_start}
+                max={settings.end_date || dataRange?.available_end}
+                className="flex-1 bg-gray-700 text-white text-xs rounded px-2 py-1"
+              />
             </div>
-          ) : (
-            <div className="text-xs text-gray-500 text-center py-2">
-              Загрузка статистики...
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400 w-10">До:</span>
+              <input
+                type="date"
+                value={settings.end_date || ''}
+                onChange={(e) => update('end_date', e.target.value || null)}
+                min={settings.start_date || dataRange?.available_start}
+                max={dataRange?.available_end}
+                className="flex-1 bg-gray-700 text-white text-xs rounded px-2 py-1"
+              />
+            </div>
+          </div>
+          
+          {/* Show available range info */}
+          {dataRange && (
+            <div className="mt-2 p-2 bg-gray-700/50 rounded text-xs">
+              <div className="flex justify-between text-gray-400">
+                <span>Доступно:</span>
+                <span className="text-gray-300">
+                  {dataRange.available_start} — {dataRange.available_end}
+                </span>
+              </div>
+              <div className="flex justify-between text-gray-400 mt-1">
+                <span>Свечей:</span>
+                <span className="text-gray-300">
+                  {dataRange.used_candles?.toLocaleString()} / {dataRange.total_candles?.toLocaleString()}
+                </span>
+              </div>
             </div>
           )}
-          <p className="text-xs text-gray-500 mt-2">
-            Кнопка 🔄 в header пересчитывает без кэша
-          </p>
+          
+          {/* Validation warning */}
+          {settings.start_date && settings.end_date && settings.start_date >= settings.end_date && (
+            <div className="mt-1 p-2 bg-red-900/30 border border-red-700 rounded text-xs text-red-400">
+              ⚠️ Дата начала должна быть раньше даты окончания
+            </div>
+          )}
         </Section>
 
         {/* TRG Indicator */}

@@ -11,7 +11,7 @@ const StatCard = ({ label, value, color = 'text-white', size = 'normal' }) => (
 
 const TP_SYMBOLS = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
-const StatsPanel = ({ statistics, tpCount = 4, cached = false }) => {
+const StatsPanel = ({ statistics, tpCount = 4, dataRange }) => {
   if (!statistics) {
     return (
       <div className="p-4 text-center text-gray-500">
@@ -22,22 +22,27 @@ const StatsPanel = ({ statistics, tpCount = 4, cached = false }) => {
 
   return (
     <div className="p-4 space-y-4">
-      {/* Cache Status Banner */}
-      <div className={`px-4 py-2 rounded-lg flex items-center justify-between ${
-        cached 
-          ? 'bg-blue-600/20 border border-blue-600/30' 
-          : 'bg-green-600/20 border border-green-600/30'
-      }`}>
-        <div className="flex items-center gap-2">
-          <span className="text-lg">{cached ? '📦' : '🔄'}</span>
-          <span className={`text-sm font-medium ${cached ? 'text-blue-400' : 'text-green-400'}`}>
-            {cached ? 'Результат из кэша' : 'Свежий расчёт'}
-          </span>
+      {/* Data Period Info */}
+      {dataRange && (
+        <div className="bg-purple-900/20 border border-purple-700/50 rounded-lg p-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="text-purple-400 font-medium">📅 Период бэктеста:</span>
+            <span className="text-white font-mono">
+              {dataRange.used_start} — {dataRange.used_end}
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-gray-400">
+              Использовано: <span className="text-purple-300 font-bold">{dataRange.used_candles?.toLocaleString()}</span> свечей
+            </span>
+            {dataRange.total_candles !== dataRange.used_candles && (
+              <span className="text-gray-500">
+                / {dataRange.total_candles?.toLocaleString()} доступно
+              </span>
+            )}
+          </div>
         </div>
-        <span className="text-xs text-gray-400">
-          {cached ? 'TTL: 5 мин' : 'Сохранено в кэш'}
-        </span>
-      </div>
+      )}
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-4 lg:grid-cols-8 gap-2">

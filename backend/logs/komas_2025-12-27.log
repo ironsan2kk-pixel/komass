@@ -1110,3 +1110,20 @@
 2025-12-27 14:18:31 | INFO     | app.main             | log_requests         | [1418315148] âœ“ GET /api/data/download/progress - 200 (1ms)
 2025-12-27 14:18:31 | DEBUG    | app.main             | log_requests         | [1418318246] GET /api/data/available
 2025-12-27 14:18:37 | INFO     | app.main             | log_requests         | [1418318246] âœ“ GET /api/data/available - 200 (5177ms)
+2025-12-27 14:19:05 | DEBUG    | app.main             | log_requests         | [1419055527] GET /
+2025-12-27 14:19:05 | INFO     | app.main             | log_requests         | [1419055527] âœ“ GET / - 200 (0ms)
+2025-12-27 14:29:20 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 14:29:20 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 14:29:20 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 14:29:20 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 14:29:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:29:20 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 14:29:20 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 14:29:20 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 14:29:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:29:24 | DEBUG    | app.main             | log_requests         | [1429244465] GET /api/data/available
+2025-12-27 14:29:29 | INFO     | app.main             | log_requests         | [1429244465] âœ“ GET /api/data/available - 200 (5448ms)
+2025-12-27 14:29:29 | DEBUG    | app.main             | log_requests         | [1429298959] GET /api/data/available
+2025-12-27 14:29:34 | INFO     | app.main             | log_requests         | [1429298959] âœ“ GET /api/data/available - 200 (4997ms)
+2025-12-27 14:29:34 | DEBUG    | app.main             | log_requests         | [1429348925] GET /api/data/available
+2025-12-27 14:29:39 | INFO     | app.main             | log_requests         | [1429348925] âœ“ GET /api/data/available - 200 (4893ms)
