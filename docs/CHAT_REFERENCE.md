@@ -1,207 +1,133 @@
-# KOMAS — Справочник по чатам
+# 📚 KOMAS v4.0 — Chat Reference
 
-> **Обновляется после каждого чата**  
-> **Последнее обновление:** 27.12.2025
-
----
-
-## 📊 СВОДКА
-
-| Эра | Чаты | Статус |
-|-----|------|--------|
-| Эра 1: Плагины | #00-#14 | ✅ Эксперимент (не в prod) |
-| Эра 2: Стабилизация | #15-#19 | ✅ ЗАВЕРШЕНА |
-| Эра 3: v4.0 | #20-#98 | ⏳ В разработке |
+> **Purpose:** Quick reference for all development chats  
+> **Last Updated:** 27.12.2025
 
 ---
 
-## 🎯 ФАЗА 2: DOMINANT INDICATOR (В ПРОЦЕССЕ)
+## Phase 1: Stabilization (#15-#19) ✅
 
-### Chat #21: Dominant — Signals ✅
-**Коммит:** _pending_
+| # | Name | Date | Summary |
+|---|------|------|---------|
+| #15 | Bugfixes UI | 27.12.2025 | Fixed MonthlyPanel, StatsPanel, UTF-8 encoding |
+| #16 | Bugfixes Backend | 27.12.2025 | Fixed duplicate timestamps, 500 errors |
+| #17 | Data Futures Only | 27.12.2025 | Removed spot, futures only |
+| #18 | Data Period Selection | 27.12.2025 | Date picker for data range |
+| #19 | Data Caching | 27.12.2025 | LRU cache for optimization |
 
-| Сделано | Описание |
-|---------|----------|
-| generate_signals() | Основная функция генерации сигналов |
-| can_long | close >= mid AND close >= fib_236 AND bullish |
-| can_short | close <= mid AND close <= fib_236_high AND bearish |
-| is_long_trend | Трекинг лонг тренда |
-| is_short_trend | Трекинг шорт тренда |
-| Close on reverse | Тренд меняется при обратном сигнале |
-| entry_price | Цена входа при сигнале |
-| get_signal_summary() | Сводка по сигналам |
-| get_latest_signal() | Последний сигнал |
-| extract_signal_entries() | Только точки входа |
-| Unit tests | 40+ тестов |
+---
 
-**Обновлённые файлы:**
-- `backend/app/indicators/dominant.py` (~500 строк, +200 новых)
-- `backend/app/indicators/__init__.py` (новые экспорты)
-- `tests/test_dominant.py` (~800 строк, +400 новых тестов)
-- `run_tests.py` (test runner)
-- `test_dominant.bat` (Windows runner)
+## Phase 2: Dominant Indicator (#20-#27)
 
-**Новые API функции:**
+| # | Name | Date | Summary |
+|---|------|------|---------|
+| #20 | Dominant Core | 27.12.2025 | Channel + Fibonacci calculation ✅ |
+| #21 | Dominant Signals | 27.12.2025 | Signal generation, trend tracking ✅ |
+| #22 | Dominant Filters | 27.12.2025 | 5 filter types (None/ATR/RSI/Combined/Volatility) ✅ |
+| #23 | Dominant SL Modes | — | 5 stop-loss modes |
+| #24 | QA Checkpoint #2 | — | Testing & fixes |
+| #25 | Dominant AI Resolution | — | Auto-optimization of sensitivity |
+| #26 | Dominant Presets DB | — | 37 presets from Pine Script |
+| #27 | Dominant UI Integration | — | Frontend integration |
+
+---
+
+## Chat #22: Dominant Filters — Details
+
+**Date:** 27.12.2025  
+**Status:** ✅ Complete
+
+### Implemented Features:
+
+#### Filter Types:
+| Type | Name | Description |
+|------|------|-------------|
+| 0 | None | No filtering, all signals pass |
+| 1 | ATR Condition | Entry when ATR > ATR_MA * multiplier |
+| 2 | RSI Condition | Block overbought longs, oversold shorts |
+| 3 | Combined | Both ATR and RSI must pass |
+| 4 | Volatility | Block during extreme volatility |
+
+#### New Functions:
 ```python
-generate_signals(df, sensitivity=21, require_confirmation=True) -> DataFrame
-get_signal_summary(df) -> Dict[str, Any]
-get_latest_signal(df) -> Dict[str, Any]
-extract_signal_entries(df) -> DataFrame
-
-# Constants
-SIGNAL_LONG = 1
-SIGNAL_SHORT = -1
-SIGNAL_NONE = 0
+apply_filter(df, filter_type, **params)
+calculate_rsi(series, period=14)
+calculate_atr(df, period=14)
+get_filter_info(filter_type=None)
+get_filter_statistics(df)
+generate_signals_with_filter(df, sensitivity, filter_type, **kwargs)
+validate_filter_type(filter_type)
 ```
 
-**Сигнальные колонки:**
+#### Default Parameters:
 ```python
-'can_long'        # bool
-'can_short'       # bool
-'signal'          # int: 1, -1, 0
-'is_long_trend'   # bool
-'is_short_trend'  # bool
-'entry_price'     # float
-'signal_type'     # str: 'LONG', 'SHORT', 'NONE'
+FILTER_DEFAULTS = {
+    'atr_period': 14,
+    'atr_multiplier': 1.5,
+    'rsi_period': 14,
+    'rsi_overbought': 70,
+    'rsi_oversold': 30,
+    'volatility_period': 20,
+    'volatility_max_mult': 2.0,
+}
+```
+
+#### Output Columns:
+- `filter_pass_long` — Whether long signal passes filter
+- `filter_pass_short` — Whether short signal passes filter
+- `filtered_can_long` — can_long AND filter_pass_long
+- `filtered_can_short` — can_short AND filter_pass_short
+- `filtered_signal` — 1=Long, -1=Short, 0=None (filtered)
+- `filter_type_applied` — Which filter was used
+- Filter-specific columns (filter_rsi, filter_atr, etc.)
+
+### Tests:
+- **Total:** 61 tests
+- **Passed:** 61 ✅
+- **Time:** ~1.4 seconds
+
+### Files Changed:
+- `backend/app/indicators/dominant.py` — +200 lines (v4.0.2)
+- `backend/app/indicators/__init__.py` — Updated exports
+- `tests/test_dominant.py` — +400 lines (filter tests)
+
+### Git Commit:
+```
+feat(indicators): add Dominant filter types
+
+- Add 5 filter types (0-4)
+- Filter 0: None (no filtering)
+- Filter 1: ATR Condition (volume spike)
+- Filter 2: RSI Condition (overbought/oversold)
+- Filter 3: ATR + RSI Combined
+- Filter 4: Volatility Condition
+- Add apply_filter() function
+- Add calculate_rsi() helper
+- Add calculate_atr() helper
+- Add get_filter_info(), get_filter_statistics()
+- Add generate_signals_with_filter() convenience function
+- Unit tests (61 tests, all passing)
+
+Chat #22: Dominant Filters
 ```
 
 ---
 
-### Chat #20: Dominant — Core ✅
-**Коммит:** `b7d4b12`
+## Upcoming Chats
 
-| Сделано | Описание |
-|---------|----------|
-| indicators module | Создан `backend/app/indicators/` |
-| dominant.py | Channel + Fibonacci calculation |
-| Channel | high_channel, low_channel, mid_channel |
-| Fibonacci | 0.236, 0.382, 0.500, 0.618 от low и high |
-| Validation | sensitivity 12-60, DataFrame validation |
-| Helpers | get_current_levels, get_indicator_info |
-| Unit tests | 8 тестов, все проходят |
+### Chat #23: Dominant SL Modes
+**Goal:** Implement 5 stop-loss modes for position management
 
-**Новые файлы:**
-- `backend/app/indicators/__init__.py`
-- `backend/app/indicators/dominant.py`
-- `tests/test_dominant.py`
-- `test_dominant.bat`
+**SL Modes:**
+1. No SL movement (fixed)
+2. After 1st TP → SL to Entry
+3. After 2nd TP → SL to Entry
+4. After 3rd TP → SL to Entry
+5. Cascade (SL moves with each TP)
 
-**API функции:**
-```python
-calculate_dominant(df, sensitivity=21) -> DataFrame
-get_current_levels(df) -> Dict[str, float]
-get_indicator_info() -> Dict[str, Any]
-validate_sensitivity(value) -> int
-```
+### Chat #24: QA Checkpoint #2
+**Goal:** Test all Dominant indicator features before continuing
 
 ---
 
-## ✅ ФАЗА 1: СТАБИЛИЗАЦИЯ (ЗАВЕРШЕНА)
-
-### Chat #19: Data Caching ✅
-**Коммит:** `11074d0`
-
-| Сделано | Описание |
-|---------|----------|
-| LRU Cache | 100 записей max, TTL 5 мин |
-| Cache endpoints | GET /cache-stats, POST /cache-clear |
-| Force Recalculate | Кнопка в UI |
-| Cache status | В header и StatsPanel |
-| Bug fix | includes undefined error |
-
-**Файлы:** `indicator_routes.py`, `Indicator.jsx`, `SettingsSidebar.jsx`, `StatsPanel.jsx`
-
----
-
-### Chat #18: Data Period Selection ✅
-**Коммит:** `c852b5c`
-
-| Сделано | Описание |
-|---------|----------|
-| DatePicker | start_date, end_date в sidebar |
-| Quick presets | Всё, 1 год, 6 мес, 3 мес, 1 мес |
-| data_range | API возвращает диапазон |
-| Period display | В header и StatsPanel |
-
-**Файлы:** `indicator_routes.py`, `Indicator.jsx`, `SettingsSidebar.jsx`, `StatsPanel.jsx`
-
----
-
-### Chat #17: Data Futures Only ✅
-**Коммит:** `fba2865`
-
-| Сделано | Описание |
-|---------|----------|
-| Removed Spot | Удалён BINANCE_SPOT_URL |
-| Futures only | Только BINANCE_FUTURES_URL |
-| UI update | Убран переключатель источника |
-
-**Файлы:** `data_routes.py`, `Data.jsx`
-
----
-
-### Chat #16: Bugfixes Backend ✅
-**Коммит:** `de6cd90`
-
-| Проблема | Решение |
-|----------|---------|
-| Duplicate timestamps | Дедупликация данных |
-| Mojibake логов | English logs |
-| ProcessPoolExecutor | Imports в начале файла |
-
-**Файлы:** `indicator_routes.py`, `data_routes.py`
-
----
-
-### Chat #15: Bugfixes UI ✅
-**Коммит:** `df09cee`
-
-| Проблема | Решение |
-|----------|---------|
-| MonthlyPanel crash | Null checks, optional chaining |
-| StatsPanel crash | Default values, safe access |
-| UTF-8 encoding | encoding='utf-8' везде |
-
-**Файлы:** Все компоненты в `components/Indicator/`
-
----
-
-## 📂 ТЕКУЩАЯ СТРУКТУРА
-
-```
-komass/
-├── docs/
-│   ├── TRACKER.md           # Прогресс
-│   └── CHAT_REFERENCE.md    # Этот файл
-│
-├── backend/app/
-│   ├── main.py
-│   ├── api/
-│   │   ├── indicator_routes.py  # TRG (2000+ строк)
-│   │   └── data_routes.py       # Binance Futures
-│   └── indicators/              # NEW v4
-│       ├── __init__.py
-│       └── dominant.py          # ~500 строк
-│
-├── frontend/src/
-│   ├── App.jsx
-│   ├── pages/
-│   └── components/Indicator/
-│
-├── tests/
-│   └── test_dominant.py         # ~800 строк
-│
-└── *.bat
-```
-
----
-
-## 🔗 ССЫЛКИ
-
-- **GitHub:** https://github.com/ironsan2kk-pixel/komass
-- **API:** http://localhost:8000/docs
-- **Frontend:** http://localhost:5173
-
----
-
-*Обновлено: 27.12.2025*
+*Updated: 27.12.2025*

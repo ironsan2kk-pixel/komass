@@ -1,184 +1,161 @@
-# KOMAS v4 — Трекер прогресса
+# 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
-> **Обновляется после каждого чата**  
-> **Последнее обновление:** 27.12.2025, Chat #21
-
----
-
-## 📊 ОБЩИЙ ПРОГРЕСС
-
-```
-Версия:     v3.5 → v4.0
-Прогресс:   ███████░░░░░░░░░░░░░ 7/98 чатов (7.1%)
-Фаза:       2 — Dominant Indicator (2/9)
-```
+> **Last Updated:** 27.12.2025  
+> **Current Chat:** #22 — Dominant: Filters ✅  
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## ✅ ЗАВЕРШЁННЫЕ ФАЗЫ
+## 📊 OVERALL PROGRESS
 
-### Фаза 1: Стабилизация (#15-#19) — COMPLETE ✅
-
-| # | Чат | Статус | Коммит |
-|---|-----|--------|--------|
-| 15 | Bugfixes UI | ✅ | `df09cee` |
-| 16 | Bugfixes Backend | ✅ | `de6cd90` |
-| 17 | Data Futures Only | ✅ | `fba2865` |
-| 18 | Data Period Selection | ✅ | `c852b5c` |
-| 19 | Data Caching | ✅ | `11074d0` |
-
-**Результаты Фазы 1:**
-- ✅ UI стабилен (null checks, UTF-8)
-- ✅ Backend без ошибок (timestamps, imports)
-- ✅ Только Binance Futures
-- ✅ Выбор периода дат для бэктеста
-- ✅ LRU кэш с TTL 5 мин
+| Metric | Value |
+|--------|-------|
+| **Total Chats** | 83 (#15 — #97) |
+| **Completed** | 8 (#15-#22) |
+| **In Progress** | — |
+| **Remaining** | 75 |
+| **Progress** | 9.6% |
 
 ---
 
-## 🎯 ТЕКУЩАЯ ФАЗА
+## 🗂️ PHASE SUMMARY
 
-### Фаза 2: Dominant Indicator (#20-#28) — 9 чатов
-
-| # | Чат | Статус | Описание |
-|---|-----|--------|----------|
-| 20 | Dominant: Core | ✅ | Channel + Fibonacci |
-| 21 | Dominant: Signals | ✅ | can_long, can_short, trend tracking |
-| **22** | **Dominant: Filters** | **⏳ NEXT** | 5 filter types |
-| 23 | Dominant: SL Modes | ⬜ | 5 SL modes |
-| 24 | QA Checkpoint #2 | ⬜ | Проверка |
-| 25 | Dominant: AI Resolution | ⬜ | Auto-optimize |
-| 26 | Dominant: Presets DB | ⬜ | 37 presets |
-| 27 | Dominant: UI Integration | ⬜ | Selector |
-| 28 | Dominant: Verification | ⬜ | TradingView сверка |
+| # | Phase | Chats | Count | Status |
+|---|-------|-------|-------|--------|
+| 1 | Stabilization & Base | #15-19 | 5 | ✅ Complete |
+| 2 | Dominant Indicator | #20-27 | 8 | ⏳ 3/8 Complete |
+| 3 | Preset System | #28-33 | 6 | ⬜ Waiting |
+| 4 | Signal Score | #34-36 | 3 | ⬜ Waiting |
+| 5 | General Filters | #37-44 | 8 | ⬜ Waiting |
+| 6 | Preset Optimization | #45-49 | 5 | ⬜ Waiting |
+| 7 | Bot Config | #50-53 | 4 | ⬜ Waiting |
+| 8 | Bot Backtest | #54-59 | 6 | ⬜ Waiting |
+| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Waiting |
+| 10 | Live Engine | #65-70 | 6 | ⬜ Waiting |
+| 11 | Telegram | #71-76 | 6 | ⬜ Waiting |
+| 12 | Design | #77-80 | 4 | ⬜ Waiting |
+| 13 | QA & Testing | #81-88 | 8 | ⬜ Waiting |
+| 14 | GitHub & Deploy | #89-94 | 6 | ⬜ Waiting |
+| 15 | Finalization | #95-97 | 3 | ⬜ Waiting |
 
 ---
 
-## ✅ ЗАВЕРШЁННЫЙ ЧАТ #21
+## 🔧 PHASE 1: STABILIZATION & BASE (5 chats) ✅
 
-### Chat #21: Dominant — Signals ✅
+### Chat #15: Bugfixes UI ✅
+**Completed:** 27.12.2025
 
-**Цель:** Добавить генерацию торговых сигналов
+### Chat #16: Bugfixes Backend ✅
+**Completed:** 27.12.2025
 
-**Выполнено:**
-- [x] Функция `generate_signals(df, sensitivity, require_confirmation)`
-- [x] Условие `can_long`: close >= mid_channel AND close >= fib_236 AND bullish candle
-- [x] Условие `can_short`: close <= mid_channel AND close <= fib_236_high AND bearish candle
-- [x] Трекинг тренда: `is_long_trend`, `is_short_trend`
-- [x] Close on reverse signal (trend flip)
+### Chat #17: Data Futures Only ✅
+**Completed:** 27.12.2025
+
+### Chat #18: Data Period Selection ✅
+**Completed:** 27.12.2025
+
+### Chat #19: Data Caching ✅
+**Completed:** 27.12.2025
+
+---
+
+## 🎯 PHASE 2: DOMINANT INDICATOR (8 chats)
+
+### Chat #20: Dominant Core ✅
+**Completed:** 27.12.2025
+
+**Implemented:**
+- [x] `backend/app/indicators/dominant.py` - Core calculation
+- [x] Channel calculation (high/low/mid/range)
+- [x] Fibonacci levels from low (0.236, 0.382, 0.5, 0.618)
+- [x] Fibonacci levels from high (for shorts)
+- [x] Sensitivity parameter (12-60, default 21)
+- [x] Helper functions: get_current_levels(), get_indicator_info()
+- [x] Input validation for DataFrame and sensitivity
+- [x] Unit tests (8 tests passing)
+
+---
+
+### Chat #21: Dominant Signals ✅
+**Completed:** 27.12.2025
+
+**Implemented:**
+- [x] `generate_signals()` function
+- [x] can_long: close >= mid_channel AND close >= fib_236 AND bullish candle
+- [x] can_short: close <= mid_channel AND close <= fib_236_high AND bearish candle
+- [x] Trend tracking: is_long_trend, is_short_trend
+- [x] Close on reverse signal
 - [x] Entry price calculation
-- [x] Signal columns: signal, signal_type
-- [x] Helper functions: get_signal_summary, get_latest_signal, extract_signal_entries
-- [x] Mutual exclusion: can_long and can_short never both True
-- [x] Trend exclusion: is_long_trend and is_short_trend never both True
-- [x] Unit тесты (40+ тестов)
-- [x] ZIP архив готов
-
-**Добавленные колонки:**
-```python
-'can_long'        # bool - Long entry signal fires
-'can_short'       # bool - Short entry signal fires
-'signal'          # int - 1=Long, -1=Short, 0=None
-'is_long_trend'   # bool - Currently in long trend
-'is_short_trend'  # bool - Currently in short trend
-'entry_price'     # float - Entry price when signal fires
-'signal_type'     # str - 'LONG', 'SHORT', 'NONE'
-```
-
-**Логика сигналов:**
-```python
-# Long signal
-can_long = (
-    (close >= mid_channel) &     # Upper half of channel
-    (close >= fib_236) &         # Above first support
-    (close > open)               # Bullish candle (if confirmation required)
-)
-
-# Short signal
-can_short = (
-    (close <= mid_channel) &     # Lower half of channel
-    (close <= fib_236_high) &    # Below first resistance from high
-    (close < open)               # Bearish candle (if confirmation required)
-)
-
-# Trend tracking with close on reverse
-# Long fires → is_long_trend=True, is_short_trend=False
-# Short fires → is_short_trend=True, is_long_trend=False
-```
-
-**Новые API функции:**
-```python
-generate_signals(df, sensitivity=21, require_confirmation=True) -> DataFrame
-get_signal_summary(df) -> Dict
-get_latest_signal(df) -> Dict
-extract_signal_entries(df) -> DataFrame
-```
-
-**Constants:**
-```python
-SIGNAL_LONG = 1
-SIGNAL_SHORT = -1
-SIGNAL_NONE = 0
-```
+- [x] Signal helpers: get_signal_summary(), get_latest_signal(), extract_signal_entries()
+- [x] Unit tests (66 tests passing)
 
 ---
 
-## ⏭️ СЛЕДУЮЩИЙ ЧАТ
+### Chat #22: Dominant Filters ✅
+**Completed:** 27.12.2025
 
-### Chat #22: Dominant — Filters
+**Implemented:**
+- [x] Filter constants (FILTER_NONE=0, FILTER_ATR=1, FILTER_RSI=2, FILTER_COMBINED=3, FILTER_VOLATILITY=4)
+- [x] Filter Type 0: None (no filtering)
+- [x] Filter Type 1: ATR Condition (volume spike)
+- [x] Filter Type 2: RSI Condition (overbought/oversold)
+- [x] Filter Type 3: ATR + RSI Combined
+- [x] Filter Type 4: Volatility Condition
+- [x] `apply_filter()` function
+- [x] `calculate_rsi()` helper
+- [x] `calculate_atr()` helper
+- [x] `get_filter_info()` function
+- [x] `get_filter_statistics()` function
+- [x] `generate_signals_with_filter()` convenience function
+- [x] `validate_filter_type()` validation
+- [x] Updated `__init__.py` with exports
+- [x] Unit tests (61 tests, all passing)
 
-**Цель:** Добавить 5 типов фильтров для сигналов
-
-**Задачи:**
-- [ ] Filter Type 0: None (без фильтров)
-- [ ] Filter Type 1: ATR Condition (volume spike)
-- [ ] Filter Type 2: RSI Condition (overbought/oversold)
-- [ ] Filter Type 3: ATR + RSI Combined
-- [ ] Filter Type 4: Volatility Condition
-- [ ] Функция `apply_filter(df, filter_type, params)`
-- [ ] Интеграция с generate_signals
-- [ ] Unit тесты
-
-**Логика фильтров:**
-```python
-# Filter Type 1: ATR Condition
-atr = df['high'] - df['low']
-atr_ma = atr.rolling(14).mean()
-filter_pass = atr > atr_ma * 1.5  # Volume spike
-
-# Filter Type 2: RSI Condition
-rsi_14 = calculate_rsi(df['close'], 14)
-long_filter = rsi_14 < 70  # Not overbought
-short_filter = rsi_14 > 30  # Not oversold
-
-# Filter Type 3: Combined
-pass_filter = atr_condition & rsi_condition
-
-# Filter Type 4: Volatility
-volatility = df['close'].pct_change().rolling(20).std()
-filter_pass = volatility < threshold
-```
+**Files Updated:**
+- `backend/app/indicators/dominant.py` — Version 4.0.2
+- `backend/app/indicators/__init__.py` — Updated exports
+- `tests/test_dominant.py` — Added filter tests
 
 ---
 
-## 📈 СТАТИСТИКА
+### Chat #23: Dominant SL Modes ⏳ NEXT
+**Status:** Waiting
 
-| Метрика | Значение |
-|---------|----------|
-| Чатов завершено | 7 |
-| Чатов осталось | 91 |
-| Фаз завершено | 1 |
-| Фаз всего | 14 |
-| QA checkpoints | 0/15 |
+**Tasks:**
+- [ ] Mode: No SL movement (fixed)
+- [ ] Mode: After 1st TP (SL → Entry after TP1)
+- [ ] Mode: After 2nd TP (SL → Entry after TP2)
+- [ ] Mode: After 3rd TP (SL → Entry after TP3)
+- [ ] Mode: Cascade (SL moves with each TP)
+- [ ] Unit tests
 
 ---
 
-## 🔗 ССЫЛКИ
+### Chat #24: QA Checkpoint #2 ⬜
+### Chat #25: Dominant AI Resolution ⬜
+### Chat #26: Dominant Presets DB ⬜
+### Chat #27: Dominant UI Integration ⬜
+### Chat #28: Dominant Verification ⬜
+
+---
+
+## 📝 CHANGE LOG
+
+| Date | Chat | Change |
+|------|------|--------|
+| 27.12.2025 | #22 | ✅ Added 5 filter types to Dominant indicator (61 tests passing) |
+| 27.12.2025 | #21 | ✅ Added signal generation to Dominant indicator |
+| 27.12.2025 | #20 | ✅ Created Dominant indicator core module |
+| 27.12.2025 | #15-19 | ✅ Phase 1 complete: stabilization |
+
+---
+
+## 🔗 LINKS
 
 - **GitHub:** https://github.com/ironsan2kk-pixel/komass
-- **Документация:** /docs
-- **API:** http://localhost:8000/docs
+- **Local API:** http://localhost:8000/docs
+- **Local Frontend:** http://localhost:5173
 
 ---
 
-*Обновлено: 27.12.2025*
+*Updated: 27.12.2025 — Chat #22 Complete*

@@ -20,8 +20,15 @@ Signal Generation (Chat #21):
 - Trend tracking: is_long_trend, is_short_trend
 - Close position on reverse signal
 
+Filter Types (Chat #22):
+- Filter 0: None (no filtering)
+- Filter 1: ATR Condition (volume spike)
+- Filter 2: RSI Condition (overbought/oversold)
+- Filter 3: ATR + RSI Combined
+- Filter 4: Volatility Condition
+
 Author: KOMAS Team
-Version: 4.0.1
+Version: 4.0.2
 """
 
 import pandas as pd
@@ -48,6 +55,35 @@ FIB_LEVELS = {
 SIGNAL_LONG = 1
 SIGNAL_SHORT = -1
 SIGNAL_NONE = 0
+
+# =============================================================================
+# FILTER CONSTANTS (Chat #22)
+# =============================================================================
+
+FILTER_NONE = 0
+FILTER_ATR = 1
+FILTER_RSI = 2
+FILTER_COMBINED = 3
+FILTER_VOLATILITY = 4
+
+FILTER_NAMES = {
+    FILTER_NONE: 'None',
+    FILTER_ATR: 'ATR Condition',
+    FILTER_RSI: 'RSI Condition',
+    FILTER_COMBINED: 'ATR + RSI Combined',
+    FILTER_VOLATILITY: 'Volatility Condition',
+}
+
+# Default filter parameters
+FILTER_DEFAULTS = {
+    'atr_period': 14,
+    'atr_multiplier': 1.5,
+    'rsi_period': 14,
+    'rsi_overbought': 70,
+    'rsi_oversold': 30,
+    'volatility_period': 20,
+    'volatility_max_mult': 2.0,
+}
 
 
 # =============================================================================
@@ -89,6 +125,21 @@ def validate_dataframe(df: pd.DataFrame) -> bool:
         raise ValueError("DataFrame is empty")
     
     return True
+
+
+def validate_filter_type(filter_type: int) -> int:
+    """
+    Validate filter type is in valid range [0, 4]
+    
+    Args:
+        filter_type: Input filter type
+        
+    Returns:
+        Valid filter type (clamped to range)
+    """
+    if not isinstance(filter_type, (int, float)):
+        return FILTER_NONE
+    return max(FILTER_NONE, min(FILTER_VOLATILITY, int(filter_type)))
 
 
 # =============================================================================
@@ -199,6 +250,357 @@ def calculate_dominant(
     )
     
     return result
+
+
+# =============================================================================
+# FILTER FUNCTIONS (Chat #22)
+# =============================================================================
+
+def calculate_rsi(series: pd.Series, period: int = 14) -> pd.Series:
+    """
+    Calculate RSI (Relative Strength Index) indicator
+    
+    RSI = 100 - (100 / (1 + RS))
+    RS = Average Gain / Average Loss
+    
+    Args:
+        series: Price series (typically close prices)
+        period: RSI period (default 14)
+        
+    Returns:
+        Series with RSI values (0-100)
+    """
+    if period < 1:
+        period = 14
+        
+    # Calculate price changes
+    delta = series.diff()
+    
+    # Separate gains and losses
+    gains = delta.where(delta > 0, 0.0)
+    losses = (-delta).where(delta < 0, 0.0)
+    
+    # Calculate exponential moving averages
+    avg_gain = gains.ewm(span=period, adjust=False).mean()
+    avg_loss = losses.ewm(span=period, adjust=False).mean()
+    
+    # Calculate RS and RSI
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+    
+    # Handle division by zero (when avg_loss is 0)
+    rsi = rsi.fillna(50)  # Default to neutral if undefined
+    
+    return rsi
+
+
+def calculate_atr(df: pd.DataFrame, period: int = 14) -> pd.Series:
+    """
+    Calculate ATR (Average True Range) indicator
+    
+    True Range = max(high-low, abs(high-prev_close), abs(low-prev_close))
+    ATR = EMA of True Range
+    
+    Args:
+        df: DataFrame with 'high', 'low', 'close' columns
+        period: ATR period (default 14)
+        
+    Returns:
+        Series with ATR values
+    """
+    if period < 1:
+        period = 14
+        
+    high = df['high']
+    low = df['low']
+    close = df['close']
+    prev_close = close.shift(1)
+    
+    # True Range calculation
+    tr1 = high - low
+    tr2 = (high - prev_close).abs()
+    tr3 = (low - prev_close).abs()
+    
+    true_range = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+    
+    # ATR is EMA of True Range
+    atr = true_range.ewm(span=period, adjust=False).mean()
+    
+    return atr
+
+
+def apply_filter(
+    df: pd.DataFrame,
+    filter_type: int = FILTER_NONE,
+    atr_period: int = FILTER_DEFAULTS['atr_period'],
+    atr_multiplier: float = FILTER_DEFAULTS['atr_multiplier'],
+    rsi_period: int = FILTER_DEFAULTS['rsi_period'],
+    rsi_overbought: int = FILTER_DEFAULTS['rsi_overbought'],
+    rsi_oversold: int = FILTER_DEFAULTS['rsi_oversold'],
+    volatility_period: int = FILTER_DEFAULTS['volatility_period'],
+    volatility_max_mult: float = FILTER_DEFAULTS['volatility_max_mult']
+) -> pd.DataFrame:
+    """
+    Apply filter to signals based on filter type
+    
+    This function adds filter columns to the DataFrame that can be used
+    to filter trading signals. Original signals are NOT modified.
+    
+    Args:
+        df: DataFrame with signal columns from generate_signals()
+            Required: 'can_long', 'can_short', 'close', 'high', 'low'
+        filter_type: 0-4 (None, ATR, RSI, Combined, Volatility)
+        atr_period: Period for ATR calculation (default 14)
+        atr_multiplier: ATR threshold multiplier (default 1.5)
+            Signal passes if current ATR > ATR_MA * multiplier
+        rsi_period: Period for RSI calculation (default 14)
+        rsi_overbought: RSI overbought level (default 70)
+            Long blocked when RSI > overbought
+        rsi_oversold: RSI oversold level (default 30)
+            Short blocked when RSI < oversold
+        volatility_period: Period for volatility calculation (default 20)
+        volatility_max_mult: Max volatility multiplier (default 2.0)
+            Signals blocked when volatility > MA * multiplier
+    
+    Returns:
+        DataFrame with filter columns added:
+        - filter_pass_long: bool - Whether long signal passes filter
+        - filter_pass_short: bool - Whether short signal passes filter
+        - filtered_can_long: bool - can_long AND filter_pass_long
+        - filtered_can_short: bool - can_short AND filter_pass_short
+        - filter_type: int - Applied filter type
+        - Additional columns based on filter type (atr, rsi, etc.)
+    
+    Example:
+        >>> df = generate_signals(df, sensitivity=21)
+        >>> filtered = apply_filter(df, filter_type=2, rsi_overbought=70)
+        >>> trades = filtered[filtered['filtered_can_long'] | filtered['filtered_can_short']]
+    """
+    # Validate inputs
+    validate_dataframe(df)
+    filter_type = validate_filter_type(filter_type)
+    
+    # Create copy to avoid modifying original
+    result = df.copy()
+    
+    # Ensure signal columns exist (initialize if missing)
+    if 'can_long' not in result.columns:
+        result['can_long'] = False
+    if 'can_short' not in result.columns:
+        result['can_short'] = False
+    
+    # Store filter type
+    result['filter_type_applied'] = filter_type
+    
+    # Initialize filter pass columns (default: all pass)
+    result['filter_pass_long'] = True
+    result['filter_pass_short'] = True
+    
+    # ==========================================================================
+    # FILTER TYPE 0: None (no filtering)
+    # ==========================================================================
+    if filter_type == FILTER_NONE:
+        # All signals pass through
+        pass
+    
+    # ==========================================================================
+    # FILTER TYPE 1: ATR Condition (Volume Spike / High Volatility Entry)
+    # ==========================================================================
+    elif filter_type == FILTER_ATR:
+        # Calculate ATR
+        result['filter_atr'] = calculate_atr(result, period=atr_period)
+        result['filter_atr_ma'] = result['filter_atr'].rolling(
+            window=atr_period, 
+            min_periods=1
+        ).mean()
+        
+        # Signal passes when ATR is above average * multiplier
+        # This filters for high volatility moments (volume spike)
+        atr_condition = result['filter_atr'] > result['filter_atr_ma'] * atr_multiplier
+        
+        result['filter_pass_long'] = atr_condition
+        result['filter_pass_short'] = atr_condition
+    
+    # ==========================================================================
+    # FILTER TYPE 2: RSI Condition (Overbought/Oversold)
+    # ==========================================================================
+    elif filter_type == FILTER_RSI:
+        # Calculate RSI
+        result['filter_rsi'] = calculate_rsi(result['close'], period=rsi_period)
+        
+        # Long blocked when overbought (RSI > threshold)
+        # Short blocked when oversold (RSI < threshold)
+        result['filter_pass_long'] = result['filter_rsi'] < rsi_overbought
+        result['filter_pass_short'] = result['filter_rsi'] > rsi_oversold
+    
+    # ==========================================================================
+    # FILTER TYPE 3: ATR + RSI Combined
+    # ==========================================================================
+    elif filter_type == FILTER_COMBINED:
+        # Calculate both indicators
+        result['filter_atr'] = calculate_atr(result, period=atr_period)
+        result['filter_atr_ma'] = result['filter_atr'].rolling(
+            window=atr_period, 
+            min_periods=1
+        ).mean()
+        result['filter_rsi'] = calculate_rsi(result['close'], period=rsi_period)
+        
+        # ATR condition (same as filter type 1)
+        atr_condition = result['filter_atr'] > result['filter_atr_ma'] * atr_multiplier
+        
+        # RSI conditions (same as filter type 2)
+        rsi_long_ok = result['filter_rsi'] < rsi_overbought
+        rsi_short_ok = result['filter_rsi'] > rsi_oversold
+        
+        # Both must pass
+        result['filter_pass_long'] = atr_condition & rsi_long_ok
+        result['filter_pass_short'] = atr_condition & rsi_short_ok
+    
+    # ==========================================================================
+    # FILTER TYPE 4: Volatility Condition (Avoid Extreme Volatility)
+    # ==========================================================================
+    elif filter_type == FILTER_VOLATILITY:
+        # Calculate price returns volatility
+        result['filter_returns'] = result['close'].pct_change()
+        result['filter_volatility'] = result['filter_returns'].rolling(
+            window=volatility_period,
+            min_periods=1
+        ).std()
+        result['filter_volatility_ma'] = result['filter_volatility'].rolling(
+            window=volatility_period,
+            min_periods=1
+        ).mean()
+        
+        # Signal passes when volatility is NOT too extreme
+        # Block signals during crazy market moves
+        volatility_ok = result['filter_volatility'] < result['filter_volatility_ma'] * volatility_max_mult
+        
+        result['filter_pass_long'] = volatility_ok
+        result['filter_pass_short'] = volatility_ok
+    
+    # ==========================================================================
+    # CREATE FILTERED SIGNAL COLUMNS
+    # ==========================================================================
+    
+    # Original signals combined with filter
+    result['filtered_can_long'] = result['can_long'] & result['filter_pass_long']
+    result['filtered_can_short'] = result['can_short'] & result['filter_pass_short']
+    
+    # Create filtered signal column
+    result['filtered_signal'] = np.where(
+        result['filtered_can_long'], SIGNAL_LONG,
+        np.where(result['filtered_can_short'], SIGNAL_SHORT, SIGNAL_NONE)
+    )
+    
+    return result
+
+
+def get_filter_info(filter_type: int = None) -> Dict[str, Any]:
+    """
+    Get information about filter types
+    
+    Args:
+        filter_type: Specific filter type to get info for (None = all)
+        
+    Returns:
+        Dictionary with filter information
+    """
+    all_filters = {
+        FILTER_NONE: {
+            'name': 'None',
+            'description': 'No filtering, all signals pass through',
+            'parameters': [],
+        },
+        FILTER_ATR: {
+            'name': 'ATR Condition',
+            'description': 'Entry only when volatility is above average (volume spike)',
+            'parameters': ['atr_period', 'atr_multiplier'],
+            'logic': 'ATR > ATR_MA * multiplier',
+        },
+        FILTER_RSI: {
+            'name': 'RSI Condition',
+            'description': 'Avoid overbought/oversold zones',
+            'parameters': ['rsi_period', 'rsi_overbought', 'rsi_oversold'],
+            'logic': 'Long: RSI < overbought, Short: RSI > oversold',
+        },
+        FILTER_COMBINED: {
+            'name': 'ATR + RSI Combined',
+            'description': 'Both ATR and RSI conditions must be met',
+            'parameters': ['atr_period', 'atr_multiplier', 'rsi_period', 'rsi_overbought', 'rsi_oversold'],
+            'logic': 'ATR condition AND RSI condition',
+        },
+        FILTER_VOLATILITY: {
+            'name': 'Volatility Condition',
+            'description': 'Block signals during extreme volatility',
+            'parameters': ['volatility_period', 'volatility_max_mult'],
+            'logic': 'Volatility < Volatility_MA * max_multiplier',
+        },
+    }
+    
+    if filter_type is not None:
+        filter_type = validate_filter_type(filter_type)
+        return all_filters.get(filter_type, all_filters[FILTER_NONE])
+    
+    return all_filters
+
+
+def get_filter_statistics(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Get statistics about filter effect on signals
+    
+    Args:
+        df: DataFrame after apply_filter()
+        
+    Returns:
+        Dictionary with filter statistics
+    """
+    if 'can_long' not in df.columns or 'filtered_can_long' not in df.columns:
+        return {'error': 'No filter columns found. Run apply_filter() first.'}
+    
+    # Original signal counts
+    original_long = df['can_long'].sum()
+    original_short = df['can_short'].sum()
+    original_total = original_long + original_short
+    
+    # Filtered signal counts
+    filtered_long = df['filtered_can_long'].sum()
+    filtered_short = df['filtered_can_short'].sum()
+    filtered_total = filtered_long + filtered_short
+    
+    # Blocked counts
+    blocked_long = original_long - filtered_long
+    blocked_short = original_short - filtered_short
+    blocked_total = blocked_long + blocked_short
+    
+    # Filter pass rates
+    long_pass_rate = (filtered_long / original_long * 100) if original_long > 0 else 100.0
+    short_pass_rate = (filtered_short / original_short * 100) if original_short > 0 else 100.0
+    total_pass_rate = (filtered_total / original_total * 100) if original_total > 0 else 100.0
+    
+    return {
+        'filter_type': int(df['filter_type_applied'].iloc[0]) if 'filter_type_applied' in df.columns else FILTER_NONE,
+        'filter_name': FILTER_NAMES.get(int(df['filter_type_applied'].iloc[0]) if 'filter_type_applied' in df.columns else 0, 'Unknown'),
+        'original_signals': {
+            'long': int(original_long),
+            'short': int(original_short),
+            'total': int(original_total),
+        },
+        'filtered_signals': {
+            'long': int(filtered_long),
+            'short': int(filtered_short),
+            'total': int(filtered_total),
+        },
+        'blocked_signals': {
+            'long': int(blocked_long),
+            'short': int(blocked_short),
+            'total': int(blocked_total),
+        },
+        'pass_rates': {
+            'long': round(long_pass_rate, 2),
+            'short': round(short_pass_rate, 2),
+            'total': round(total_pass_rate, 2),
+        },
+    }
 
 
 # =============================================================================
@@ -340,6 +742,47 @@ def generate_signals(
         result['can_long'], 'LONG',
         np.where(result['can_short'], 'SHORT', 'NONE')
     )
+    
+    return result
+
+
+def generate_signals_with_filter(
+    df: pd.DataFrame,
+    sensitivity: int = SENSITIVITY_DEFAULT,
+    require_confirmation: bool = True,
+    filter_type: int = FILTER_NONE,
+    **filter_kwargs
+) -> pd.DataFrame:
+    """
+    Generate signals and apply filter in one call
+    
+    Convenience function that combines generate_signals() and apply_filter().
+    
+    Args:
+        df: DataFrame with OHLCV data
+        sensitivity: Channel period (12-60, default 21)
+        require_confirmation: Require candle confirmation
+        filter_type: 0-4 (None, ATR, RSI, Combined, Volatility)
+        **filter_kwargs: Additional filter parameters (atr_period, rsi_overbought, etc.)
+    
+    Returns:
+        DataFrame with both signal and filter columns
+    
+    Example:
+        >>> result = generate_signals_with_filter(
+        ...     df, 
+        ...     sensitivity=21,
+        ...     filter_type=2,
+        ...     rsi_overbought=70,
+        ...     rsi_oversold=30
+        ... )
+        >>> filtered_longs = result[result['filtered_can_long']]
+    """
+    # First generate signals
+    result = generate_signals(df, sensitivity, require_confirmation)
+    
+    # Then apply filter
+    result = apply_filter(result, filter_type=filter_type, **filter_kwargs)
     
     return result
 
@@ -549,6 +992,13 @@ def get_current_levels(df: pd.DataFrame) -> Dict[str, float]:
         levels['is_long_trend'] = bool(last_row.get('is_long_trend', False))
         levels['is_short_trend'] = bool(last_row.get('is_short_trend', False))
     
+    # Add filter info if available
+    if 'filter_pass_long' in df.columns:
+        levels['filter_pass_long'] = bool(last_row.get('filter_pass_long', True))
+        levels['filter_pass_short'] = bool(last_row.get('filter_pass_short', True))
+        levels['filtered_can_long'] = bool(last_row.get('filtered_can_long', False))
+        levels['filtered_can_short'] = bool(last_row.get('filtered_can_short', False))
+    
     return levels
 
 
@@ -573,7 +1023,7 @@ def get_indicator_info() -> Dict[str, Any]:
     """
     return {
         'name': 'Dominant',
-        'version': '4.0.1',
+        'version': '4.0.2',
         'description': 'Channel + Fibonacci levels indicator for trend trading',
         'parameters': {
             'sensitivity': {
@@ -594,12 +1044,17 @@ def get_indicator_info() -> Dict[str, Any]:
                 'description': 'Require candle confirmation (bullish for long, bearish for short)'
             }
         },
+        'filters': {
+            'types': FILTER_NAMES,
+            'defaults': FILTER_DEFAULTS,
+        },
         'outputs': {
             'channel': ['high_channel', 'low_channel', 'mid_channel', 'channel_range'],
             'fibonacci_long': ['fib_236', 'fib_382', 'fib_500', 'fib_618'],
             'fibonacci_short': ['fib_236_high', 'fib_382_high', 'fib_500_high', 'fib_618_high'],
             'derived': ['channel_width_pct', 'price_position'],
-            'signals': ['can_long', 'can_short', 'signal', 'is_long_trend', 'is_short_trend', 'entry_price', 'signal_type']
+            'signals': ['can_long', 'can_short', 'signal', 'is_long_trend', 'is_short_trend', 'entry_price', 'signal_type'],
+            'filters': ['filter_pass_long', 'filter_pass_short', 'filtered_can_long', 'filtered_can_short', 'filtered_signal']
         },
         'signal_logic': {
             'long': 'close >= mid_channel AND close >= fib_236 AND close > open (bullish)',
@@ -676,6 +1131,15 @@ def get_plot_levels(df: pd.DataFrame, last_n: int = None) -> Dict[str, list]:
         plot_data['short_signals'] = df[df['can_short']].index.tolist()
         plot_data['short_prices'] = df.loc[df['can_short'], 'close'].tolist()
     
+    # Add filtered signal markers if available
+    if 'filtered_can_long' in df.columns:
+        plot_data['filtered_long_signals'] = df[df['filtered_can_long']].index.tolist()
+        plot_data['filtered_long_prices'] = df.loc[df['filtered_can_long'], 'close'].tolist()
+    
+    if 'filtered_can_short' in df.columns:
+        plot_data['filtered_short_signals'] = df[df['filtered_can_short']].index.tolist()
+        plot_data['filtered_short_prices'] = df.loc[df['filtered_can_short'], 'close'].tolist()
+    
     return plot_data
 
 
@@ -685,7 +1149,7 @@ def get_plot_levels(df: pd.DataFrame, last_n: int = None) -> Dict[str, list]:
 
 if __name__ == '__main__':
     # Quick test
-    print("Testing Dominant Indicator with Signals...")
+    print("Testing Dominant Indicator with Filters...")
     
     # Create sample data
     np.random.seed(42)
@@ -700,23 +1164,15 @@ if __name__ == '__main__':
         'volume': np.random.randint(1000, 10000, 100)
     }, index=dates)
     
-    # Calculate with signals
-    result = generate_signals(df, sensitivity=21)
+    # Test all filter types
+    for filter_type in range(5):
+        print(f"\n--- Filter Type {filter_type}: {FILTER_NAMES[filter_type]} ---")
+        
+        result = generate_signals_with_filter(df, sensitivity=21, filter_type=filter_type)
+        stats = get_filter_statistics(result)
+        
+        print(f"Original signals: {stats['original_signals']['total']}")
+        print(f"Filtered signals: {stats['filtered_signals']['total']}")
+        print(f"Pass rate: {stats['pass_rates']['total']}%")
     
-    # Print results
-    print(f"\nDataFrame shape: {result.shape}")
-    print(f"\nSignal columns: {[c for c in result.columns if 'signal' in c.lower() or 'long' in c.lower() or 'short' in c.lower()]}")
-    
-    # Signal summary
-    summary = get_signal_summary(result)
-    print(f"\nSignal Summary:")
-    for key, value in summary.items():
-        print(f"  {key}: {value}")
-    
-    # Latest signal
-    latest = get_latest_signal(result)
-    print(f"\nLatest Signal: {latest.get('signal')}")
-    if latest.get('entry_price'):
-        print(f"  Entry Price: {latest['entry_price']:.2f}")
-    
-    print("\n✅ Dominant indicator with signals test passed!")
+    print("\n✅ Dominant indicator with filters test passed!")

@@ -1,19 +1,39 @@
 @echo off
-chcp 65001 >nul
-echo ============================================
-echo  KOMAS TELEGRAM - RUNNING TESTS
-echo ============================================
+echo ========================================
+echo KOMAS Test Runner - Dominant Filters
+echo ========================================
 echo.
 
+cd /d "%~dp0"
 cd backend
-call venv\Scripts\activate
-cd ..
 
-echo Running notification tests...
-python -m pytest tests/test_notifications.py -v --tb=short
+if not exist "venv\Scripts\activate.bat" (
+    echo ERROR: Virtual environment not found
+    echo Please run install.bat first
+    pause
+    exit /b 1
+)
+
+call venv\Scripts\activate.bat
+set PYTHONPATH=%CD%\app
+
+echo Running Dominant indicator tests...
+echo.
+
+cd /d "%~dp0"
+python -m pytest tests/test_dominant.py -v --tb=short
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo ========================================
+    echo Some tests FAILED
+    echo ========================================
+    pause
+    exit /b 1
+)
 
 echo.
-echo ============================================
-echo  TESTS COMPLETE
-echo ============================================
+echo ========================================
+echo All tests PASSED!
+echo ========================================
 pause

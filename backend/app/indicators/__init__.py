@@ -1,41 +1,51 @@
 """
 KOMAS Indicators Module
-v4.0.1
+v4.0
 
-This module contains technical indicators for the KOMAS trading system.
+This module contains all trading indicators for the KOMAS system.
 
 Available Indicators:
-    - Dominant: Channel + Fibonacci levels with signal generation
+- Dominant: Channel + Fibonacci levels indicator
 
 Usage:
-    from indicators import calculate_dominant, generate_signals
-    
-    # Calculate indicator levels only
-    result = calculate_dominant(df, sensitivity=21)
-    
-    # Calculate with signal generation
-    result = generate_signals(df, sensitivity=21)
+    from indicators.dominant import (
+        calculate_dominant,
+        generate_signals,
+        apply_filter,
+        FILTER_NONE,
+        FILTER_ATR,
+        FILTER_RSI,
+        FILTER_COMBINED,
+        FILTER_VOLATILITY,
+    )
 """
 
 from .dominant import (
-    # Main calculation functions
+    # Core functions
     calculate_dominant,
     generate_signals,
+    generate_signals_with_filter,
     
-    # Analysis functions
-    get_signal_summary,
-    get_latest_signal,
-    extract_signal_entries,
+    # Filter functions
+    apply_filter,
+    calculate_rsi,
+    calculate_atr,
+    get_filter_info,
+    get_filter_statistics,
     
     # Helper functions
     get_current_levels,
+    get_signal_summary,
+    get_latest_signal,
+    extract_signal_entries,
     get_indicator_info,
+    calculate_with_multiple_sensitivities,
     get_plot_levels,
     
-    # Utility functions
+    # Validation
     validate_sensitivity,
     validate_dataframe,
-    calculate_with_multiple_sensitivities,
+    validate_filter_type,
     
     # Constants
     SENSITIVITY_MIN,
@@ -45,27 +55,44 @@ from .dominant import (
     SIGNAL_LONG,
     SIGNAL_SHORT,
     SIGNAL_NONE,
+    
+    # Filter constants
+    FILTER_NONE,
+    FILTER_ATR,
+    FILTER_RSI,
+    FILTER_COMBINED,
+    FILTER_VOLATILITY,
+    FILTER_NAMES,
+    FILTER_DEFAULTS,
 )
 
+__version__ = '4.0.2'
 __all__ = [
-    # Main functions
+    # Core
     'calculate_dominant',
     'generate_signals',
+    'generate_signals_with_filter',
     
-    # Analysis
-    'get_signal_summary',
-    'get_latest_signal',
-    'extract_signal_entries',
+    # Filters
+    'apply_filter',
+    'calculate_rsi',
+    'calculate_atr',
+    'get_filter_info',
+    'get_filter_statistics',
     
     # Helpers
     'get_current_levels',
+    'get_signal_summary',
+    'get_latest_signal',
+    'extract_signal_entries',
     'get_indicator_info',
+    'calculate_with_multiple_sensitivities',
     'get_plot_levels',
     
-    # Utilities
+    # Validation
     'validate_sensitivity',
     'validate_dataframe',
-    'calculate_with_multiple_sensitivities',
+    'validate_filter_type',
     
     # Constants
     'SENSITIVITY_MIN',
@@ -75,6 +102,11 @@ __all__ = [
     'SIGNAL_LONG',
     'SIGNAL_SHORT',
     'SIGNAL_NONE',
+    'FILTER_NONE',
+    'FILTER_ATR',
+    'FILTER_RSI',
+    'FILTER_COMBINED',
+    'FILTER_VOLATILITY',
+    'FILTER_NAMES',
+    'FILTER_DEFAULTS',
 ]
-
-__version__ = '4.0.1'
