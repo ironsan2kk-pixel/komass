@@ -11,10 +11,10 @@
 | Metric | Value |
 |--------|-------|
 | **Total Chats** | 83 (#15 — #97) |
-| **Completed** | 13 (#15-#27) |
+| **Completed** | 15 (#15-#29) |
 | **In Progress** | — |
-| **Remaining** | 70 |
-| **Progress** | 15.7% |
+| **Remaining** | 68 |
+| **Progress** | 18.1% |
 
 ---
 
@@ -24,7 +24,7 @@
 |---|-------|-------|-------|--------|
 | 1 | Stabilization & Base | #15-19 | 5 | ✅ 100% Complete |
 | 2 | Dominant Indicator | #20-27 | 8 | ✅ 100% Complete |
-| 3 | Preset System | #28-33 | 6 | ⬜ Not Started |
+| 3 | Preset System | #28-33 | 6 | ⏳ 2/6 complete |
 | 4 | Signal Score | #34-36 | 3 | ⬜ Not Started |
 | 5 | General Filters | #37-44 | 8 | ⬜ Not Started |
 | 6 | Preset Optimization | #45-49 | 5 | ⬜ Not Started |
@@ -67,31 +67,42 @@
 | #26 | Dominant Presets Seed | ✅ | 27.12.2025 |
 | #27 | Dominant UI Integration + Backend | ✅ | 27.12.2025 |
 
-**Phase 2 Deliverables:**
-- ✅ `backend/app/indicators/dominant.py` — Full indicator implementation
-- ✅ `backend/app/api/preset_routes.py` — Preset CRUD API
-- ✅ 125 Dominant presets seeded in database
-- ✅ Backend integration in `indicator_routes.py` (indicator_type branching)
-- ✅ Frontend: Indicator type selector (TRG/Dominant)
-- ✅ Frontend: PresetSelector component with categories
-- ✅ Frontend: Parameter auto-fill from presets
+---
 
-**Note:** Original plan had #27 as "Verification", but we combined UI Integration + Backend Integration into #27. Verification will be done informally during testing.
+### Phase 3: Preset System (#28-33) — IN PROGRESS
+
+| Chat | Name | Status | Date |
+|------|------|--------|------|
+| #28 | Trade Levels Visualization | ✅ | 27.12.2025 |
+| #29 | Presets Architecture | ✅ | 27.12.2025 |
+| #30 | Presets TRG Generator | ⬜ | — |
+| #31 | Presets Storage | ⬜ | — |
+| #32 | Presets User CRUD | ⬜ | — |
+| #33 | Presets UI Library | ⬜ | — |
+
+**Chat #29 Deliverables:**
+- ✅ `backend/app/presets/base.py` — BasePreset, PresetConfig, PresetMetrics, Enums
+- ✅ `backend/app/presets/trg_preset.py` — TRGPreset with 200 system presets
+- ✅ `backend/app/presets/dominant_preset.py` — DominantPreset implementation
+- ✅ `backend/app/presets/registry.py` — PresetRegistry singleton
+- ✅ `backend/app/presets/validator.py` — PresetValidator with warnings
+- ✅ `backend/app/presets/generator.py` — PresetGenerator classes
+- ✅ `backend/app/presets/__init__.py` — Module exports
+- ✅ `backend/app/api/preset_routes_v2.py` — Updated API endpoints
+- ✅ `tests/test_presets.py` — Comprehensive unit tests
 
 ---
 
-## 🔜 NEXT PHASE
+## 🔜 NEXT CHAT
 
-### Phase 3: Preset System (#28-33)
+### Chat #30 — Presets TRG Generator
 
-| Chat | Name | Tasks |
-|------|------|-------|
-| #28 | Presets Architecture | BasePreset class, registry, validation |
-| #29 | Presets TRG Generator | Generate 200 TRG presets (8×5×5) |
-| #30 | Presets TRG Storage | Store system presets |
-| #31 | Presets User CRUD | User preset management |
-| #32 | Presets Import/Export | JSON import/export |
-| #33 | Presets UI | Library page with search |
+**Tasks:**
+- [ ] Run TRGSystemGenerator to generate 200 presets
+- [ ] Verify all presets are valid
+- [ ] Update database schema if needed
+- [ ] API endpoint for batch generation with SSE progress
+- [ ] Test all 200 presets
 
 ---
 
@@ -99,23 +110,65 @@
 
 | Date | Chat | Change |
 |------|------|--------|
-| 27.12.2025 | #27 | ✅ Backend integration: indicator_type branching in /api/indicator/calculate |
-| 27.12.2025 | #27 | ✅ Frontend: Indicator selector, PresetSelector, auto-fill |
-| 27.12.2025 | #26 | ✅ Seeded 125 Dominant presets via API |
-| 27.12.2025 | #25 | ✅ Created preset_routes.py with CRUD |
-| 27.12.2025 | #24 | ✅ AI Resolution sensitivity optimizer |
-| 27.12.2025 | #23 | ✅ 5 SL modes implementation |
-| 27.12.2025 | #22 | ✅ 5 filter types implementation |
+| 27.12.2025 | #29 | ✅ Created complete preset architecture |
+| 27.12.2025 | #29 | ✅ BasePreset, TRGPreset, DominantPreset classes |
+| 27.12.2025 | #29 | ✅ PresetRegistry for centralized management |
+| 27.12.2025 | #29 | ✅ PresetValidator with warnings/errors |
+| 27.12.2025 | #29 | ✅ PresetGenerator for batch creation |
+| 27.12.2025 | #29 | ✅ Updated preset_routes_v2.py with new endpoints |
+| 27.12.2025 | #28 | ✅ Trade level lines on chart |
+| 27.12.2025 | #27 | ✅ Backend integration: indicator_type branching |
 
 ---
 
-## 🔧 PLAN CORRECTIONS
+## 🏗️ ARCHITECTURE OVERVIEW
 
-### Chat #27 Scope Change
-**Original Plan:** Dominant Verification (TradingView comparison)  
-**Actual:** UI Integration + Backend Integration
+### Preset System Architecture (v4.0)
 
-**Reason:** Backend integration with `dominant.py` was missing from original plan. Without it, Dominant indicator couldn't work at all. Verification postponed to informal testing.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    PRESET SYSTEM v4.0                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────┐  │
+│  │ BasePreset  │    │ TRGPreset   │    │ DominantPreset  │  │
+│  │  (Abstract) │◄───│ (200 sys)   │    │ (125 sys)       │  │
+│  └──────┬──────┘    └─────────────┘    └─────────────────┘  │
+│         │                                                    │
+│         ▼                                                    │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                  PresetRegistry (Singleton)              ││
+│  │  • register_preset_class()                               ││
+│  │  • create() / get() / update() / delete()                ││
+│  │  • list() with filters                                   ││
+│  │  • import/export JSON                                    ││
+│  └─────────────────────────────────────────────────────────┘│
+│         │                                                    │
+│         ▼                                                    │
+│  ┌─────────────────┐    ┌─────────────────────────────────┐ │
+│  │ PresetValidator │    │ PresetGenerator                  │ │
+│  │ • validate()    │    │ • TRGSystemGenerator (200)       │ │
+│  │ • warnings      │    │ • DominantSystemGenerator (125)  │ │
+│  │ • errors        │    │ • CombinedSystemGenerator        │ │
+│  └─────────────────┘    └─────────────────────────────────┘ │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+
+API Endpoints (/api/presets):
+├── GET  /list              — List with filters
+├── GET  /stats             — Statistics
+├── GET  /{id}              — Get single
+├── POST /create            — Create new
+├── PUT  /{id}              — Update
+├── DELETE /{id}            — Delete
+├── POST /validate          — Validate params
+├── GET  /schema/{type}     — Parameter schema
+├── POST /import            — Import JSON
+├── GET  /export/{id}       — Export JSON
+├── POST /generate/trg      — Generate 200 TRG
+├── POST /generate/dominant — Generate Dominant
+└── POST /generate/all      — Generate all
+```
 
 ---
 
@@ -127,4 +180,4 @@
 
 ---
 
-*Updated: 27.12.2025 — Chat #27 Complete*
+*Updated: 27.12.2025 — Chat #29 Complete*
