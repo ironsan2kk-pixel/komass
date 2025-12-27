@@ -20,6 +20,14 @@ import threading
 from collections import OrderedDict
 import time
 
+# Import Dominant indicator module
+try:
+    from app.indicators import dominant as dominant_indicator
+    DOMINANT_AVAILABLE = True
+except ImportError:
+    DOMINANT_AVAILABLE = False
+    print("[WARNING] Dominant indicator module not found")
+
 router = APIRouter(prefix="/api/indicator", tags=["Indicator"])
 
 
@@ -209,9 +217,26 @@ class IndicatorSettings(BaseModel):
     start_date: Optional[str] = None
     end_date: Optional[str] = None
     
+    # Indicator type selector (NEW)
+    indicator_type: str = "trg"  # "trg" or "dominant"
+    
     # TRG
     trg_atr_length: int = 45
     trg_multiplier: float = 4.0
+    
+    # Dominant parameters (NEW)
+    dominant_sensitivity: int = 21
+    dominant_filter_type: int = 0  # 0=None, 1=ATR, 2=RSI, 3=ATR+RSI, 4=Volatility
+    dominant_sl_mode: int = 0  # 0=Fixed, 1=After TP1, 2=After TP2, 3=After TP3, 4=Cascade
+    dominant_tp1_percent: float = 1.0
+    dominant_tp2_percent: float = 2.0
+    dominant_tp3_percent: float = 3.0
+    dominant_tp4_percent: float = 5.0
+    dominant_tp1_amount: float = 40.0
+    dominant_tp2_amount: float = 30.0
+    dominant_tp3_amount: float = 20.0
+    dominant_tp4_amount: float = 10.0
+    dominant_sl_percent: float = 2.0
     
     # Take Profits
     tp_count: int = 4
@@ -338,6 +363,186 @@ async def calculate_indicator(settings: IndicatorSettings):
     if len(df) < 100:
         raise HTTPException(400, "Not enough data (need at least 100 candles)")
     
+    # =========================================================================
+    # INDICATOR TYPE BRANCHING (Chat #27)
+    # =========================================================================
+    
+    if settings.indicator_type == "dominant" and DOMINANT_AVAILABLE:
+        # Use Dominant indicator
+        print(f"[Indicator] Using DOMINANT with sensitivity={settings.dominant_sensitivity}, "
+              f"filter_type={settings.dominant_filter_type}, sl_mode={settings.dominant_sl_mode}")
+        
+        try:
+            # Build TP percents list for Dominant (4 levels)
+            tp_percents = [
+                settings.dominant_tp1_percent,
+                settings.dominant_tp2_percent,
+                settings.dominant_tp3_percent,
+                settings.dominant_tp4_percent,
+            ]
+            
+            # Run Dominant full backtest
+            dominant_result = dominant_indicator.run_full_backtest(
+                df=df.copy(),
+                sensitivity=settings.dominant_sensitivity,
+                filter_type=settings.dominant_filter_type,
+                sl_mode=settings.dominant_sl_mode,
+                sl_percent=settings.dominant_sl_percent,
+                tp_percents=tp_percents,
+                use_filtered_signals=True
+            )
+            
+            # Extract results
+            trades = dominant_result.get('trades', [])
+            metrics = dominant_result.get('metrics', {})
+            
+            # Build equity curve from trades
+            equity_curve = []
+            current_equity = settings.initial_capital
+            equity_curve.append({
+                'time': int(df.index[0].timestamp()),
+                'value': current_equity
+            })
+            
+            for trade in trades:
+                pnl_pct = trade.get('pnl_percent', 0) or 0
+                # Apply leverage to PnL
+                pnl_with_leverage = pnl_pct * settings.leverage
+                current_equity = current_equity * (1 + pnl_with_leverage / 100)
+                
+                exit_time = trade.get('exit_time')
+                if exit_time:
+                    try:
+                        if isinstance(exit_time, str):
+                            ts = pd.Timestamp(exit_time).timestamp()
+                        else:
+                            ts = exit_time.timestamp()
+                        equity_curve.append({
+                            'time': int(ts),
+                            'value': round(current_equity, 2)
+                        })
+                    except:
+                        pass
+            
+            # Build stats in expected format
+            stats = {
+                'total_trades': metrics.get('total_trades', len(trades)),
+                'win_rate': metrics.get('win_rate', 0),
+                'profit_factor': metrics.get('profit_factor', 0),
+                'total_pnl': metrics.get('pnl_percent', 0),
+                'max_drawdown': metrics.get('max_drawdown', 0),
+                'avg_trade': metrics.get('avg_pnl', 0),
+                'best_trade': metrics.get('best_trade', 0),
+                'worst_trade': metrics.get('worst_trade', 0),
+                'long_trades': dominant_result.get('summary', {}).get('long_trades', 0),
+                'short_trades': dominant_result.get('summary', {}).get('short_trades', 0),
+                'winning_trades': metrics.get('winning_trades', 0),
+                'losing_trades': metrics.get('losing_trades', 0),
+            }
+            
+            # Build monthly stats from trades
+            monthly_stats = _build_monthly_stats(trades)
+            
+            # Prepare chart data
+            candles = prepare_candles(df)
+            
+            # Calculate Dominant indicators for chart display
+            dom_df = dominant_indicator.calculate_dominant(df.copy(), settings.dominant_sensitivity)
+            
+            # Prepare Dominant indicators for chart
+            indicators = {}
+            
+            if 'high_channel' in dom_df.columns:
+                indicators['dominant_high'] = [
+                    {'time': int(t.timestamp()), 'value': float(v)} 
+                    for t, v in zip(dom_df.index, dom_df['high_channel']) 
+                    if pd.notna(v)
+                ]
+            
+            if 'low_channel' in dom_df.columns:
+                indicators['dominant_low'] = [
+                    {'time': int(t.timestamp()), 'value': float(v)} 
+                    for t, v in zip(dom_df.index, dom_df['low_channel']) 
+                    if pd.notna(v)
+                ]
+            
+            if 'mid_channel' in dom_df.columns:
+                indicators['dominant_mid'] = [
+                    {'time': int(t.timestamp()), 'value': float(v)} 
+                    for t, v in zip(dom_df.index, dom_df['mid_channel']) 
+                    if pd.notna(v)
+                ]
+            
+            # Add Fibonacci levels if available
+            for fib_key in ['fib_236', 'fib_382', 'fib_500', 'fib_618']:
+                if fib_key in dom_df.columns:
+                    indicators[f'dominant_{fib_key}'] = [
+                        {'time': int(t.timestamp()), 'value': float(v)} 
+                        for t, v in zip(dom_df.index, dom_df[fib_key]) 
+                        if pd.notna(v)
+                    ]
+            
+            # Adapt Dominant trades format to match TRG format for trade_markers
+            adapted_trades = []
+            for trade in trades:
+                entry_idx = trade.get('entry_idx', 0)
+                exit_idx = trade.get('exit_idx', len(df) - 1)
+                
+                # Get timestamps from DataFrame
+                entry_time = df.index[min(entry_idx, len(df) - 1)]
+                exit_time = df.index[min(exit_idx, len(df) - 1)]
+                
+                adapted_trade = {
+                    'entry_time': entry_time.isoformat(),
+                    'exit_time': exit_time.isoformat(),
+                    'type': trade.get('direction', 'LONG').lower(),  # 'long' or 'short'
+                    'entry_price': trade.get('entry_price', 0),
+                    'exit_price': trade.get('exit_price', 0),
+                    'pnl': trade.get('pnl_percent', 0),  # Map pnl_percent to pnl
+                    'exit_reason': trade.get('exit_reason', 'unknown'),
+                    'is_reentry': False,
+                    'tps_hit': trade.get('tps_hit', []),
+                }
+                adapted_trades.append(adapted_trade)
+            
+            trade_markers = prepare_trade_markers(adapted_trades)
+            
+            # Build result
+            result = {
+                "success": True,
+                "indicator_type": "dominant",
+                "candles": candles,
+                "indicators": indicators,
+                "trades": adapted_trades,  # Use adapted format for frontend
+                "trade_markers": trade_markers,
+                "equity_curve": equity_curve,
+                "stats": stats,
+                "tp_stats": {},  # Dominant doesn't have tp_stats in same format
+                "monthly": monthly_stats,
+                "param_changes": [],
+                "settings": settings.model_dump(),
+                "data_range": data_range,
+                "cached": False
+            }
+            
+            # Store in cache
+            calculation_cache.set(settings_dict, result)
+            print(f"[Cache] Stored DOMINANT result for {settings.symbol} {settings.timeframe}")
+            
+            return result
+            
+        except Exception as e:
+            print(f"[ERROR] Dominant calculation failed: {e}")
+            import traceback
+            traceback.print_exc()
+            raise HTTPException(500, f"Dominant calculation error: {str(e)}")
+    
+    # =========================================================================
+    # TRG INDICATOR (Original logic)
+    # =========================================================================
+    
+    print(f"[Indicator] Using TRG with i1={settings.trg_atr_length}, i2={settings.trg_multiplier}")
+    
     # Calculate indicators
     df = calculate_trg(df, settings.trg_atr_length, settings.trg_multiplier)
     
@@ -376,6 +581,7 @@ async def calculate_indicator(settings: IndicatorSettings):
     # Build result
     result = {
         "success": True,
+        "indicator_type": "trg",
         "candles": candles,
         "indicators": indicators,
         "trades": trades,
@@ -385,7 +591,7 @@ async def calculate_indicator(settings: IndicatorSettings):
         "tp_stats": tp_stats,
         "monthly": monthly_stats,
         "param_changes": param_changes,
-        "settings": settings.dict(),
+        "settings": settings.model_dump(),
         "data_range": data_range,
         "cached": False
     }
@@ -3340,6 +3546,49 @@ def check_exit(position, row, settings, tp_levels, tp_amounts):
             exit_reason = "Reverse"
     
     return exit_price, exit_reason, tp_hit
+
+
+def _build_monthly_stats(trades: List[Dict]) -> Dict:
+    """Build monthly statistics from trades list (helper for Dominant)"""
+    if not trades:
+        return {}
+    
+    monthly = {}
+    for trade in trades:
+        # Get month from exit_time
+        exit_time = trade.get('exit_time', '')
+        if not exit_time:
+            continue
+        
+        try:
+            if isinstance(exit_time, str):
+                month_key = exit_time[:7]  # "2024-01"
+            else:
+                month_key = exit_time.strftime("%Y-%m")
+        except:
+            continue
+        
+        if month_key not in monthly:
+            monthly[month_key] = {
+                'month': month_key,
+                'trades': 0,
+                'wins': 0,
+                'losses': 0,
+                'pnl': 0.0,
+                'pnl_pct': 0.0
+            }
+        
+        monthly[month_key]['trades'] += 1
+        pnl = trade.get('pnl', 0) or 0
+        monthly[month_key]['pnl'] += pnl
+        monthly[month_key]['pnl_pct'] += pnl
+        
+        if pnl > 0:
+            monthly[month_key]['wins'] += 1
+        elif pnl < 0:
+            monthly[month_key]['losses'] += 1
+    
+    return monthly
 
 
 def calculate_statistics(trades: List[Dict], equity_curve: List[Dict], settings: IndicatorSettings, monthly_stats: Dict) -> Dict:

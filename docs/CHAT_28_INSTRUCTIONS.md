@@ -1,127 +1,155 @@
 # Chat #28 — Presets Architecture
 
 > **Phase:** 3 — Preset System  
-> **Previous:** #27 Dominant UI Integration ✅  
-> **Next:** #29 QA Checkpoint #3
+> **Previous:** #27 Dominant UI + Backend Integration ✅  
+> **Next:** #29 Presets TRG Generator
 
 ---
 
 ## 🎯 GOAL
 
-Create unified preset architecture supporting both TRG and Dominant indicators with base classes, registry, and validation.
+Create a unified preset architecture that supports both TRG and Dominant indicators with proper validation, registry, and extensibility for future indicators.
 
 ---
 
 ## 📋 TASKS
 
-### 1. Base Preset Class
-- [ ] Create `presets/base.py` with BasePreset abstract class
-- [ ] Define common fields: id, name, indicator_type, params, category
-- [ ] Add validation methods
-- [ ] Add serialization to/from dict/JSON
-
-### 2. Preset Registry
-- [ ] Create `presets/registry.py` for preset management
-- [ ] Singleton pattern for global access
-- [ ] Methods: register, get, list, filter
-- [ ] Support for system and user presets
-
-### 3. TRG Preset Class
-- [ ] Create TRGPreset extending BasePreset
-- [ ] Params: i1, i2, tp_count, tp_percents, sl_percent, sl_mode
-- [ ] Filters: supertrend, rsi, adx, volume
-
-### 4. Dominant Preset Class
-- [ ] Create DominantPreset extending BasePreset
-- [ ] Params: sensitivity, filter_type, sl_mode
-- [ ] TPs: 4 levels with Fibonacci
-
-### 5. JSON Schema Validation
-- [ ] Create JSON schemas for TRG and Dominant
-- [ ] Validate on create/update
-- [ ] Error messages for invalid data
-
-### 6. Unit Tests
-- [ ] Test preset creation
-- [ ] Test serialization
-- [ ] Test validation
-- [ ] Test registry operations
+- [ ] Create `backend/app/presets/base.py` — BasePreset abstract class
+- [ ] Create `backend/app/presets/registry.py` — PresetRegistry singleton
+- [ ] Create `backend/app/presets/trg_preset.py` — TRG preset implementation
+- [ ] Create `backend/app/presets/dominant_preset.py` — Dominant preset wrapper
+- [ ] Add JSON schema validation for preset configs
+- [ ] Create unit tests for preset operations
+- [ ] Update `preset_routes.py` to use new architecture
 
 ---
 
-## 📂 FILES TO CREATE
+## 📁 NEW FILES
 
 ```
-backend/app/
-├── presets/
-│   ├── __init__.py           # Module init
-│   ├── base.py               # BasePreset class
-│   ├── registry.py           # PresetRegistry singleton
-│   ├── trg_preset.py         # TRGPreset class
-│   ├── dominant_preset.py    # DominantPreset class
-│   └── schemas/
-│       ├── trg_schema.json   # TRG validation schema
-│       └── dominant_schema.json # Dominant validation schema
-│
-tests/
-└── test_presets.py           # Unit tests
+backend/app/presets/
+├── __init__.py
+├── base.py              # BasePreset abstract class
+├── registry.py          # PresetRegistry singleton
+├── trg_preset.py        # TRG preset implementation
+├── dominant_preset.py   # Dominant preset wrapper
+└── validators.py        # JSON schema validation
 ```
 
 ---
 
-## 📝 BASE PRESET STRUCTURE
+## 🏗️ ARCHITECTURE
+
+### BasePreset Abstract Class
 
 ```python
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from typing import Dict, Any, Optional
-from datetime import datetime
+from pydantic import BaseModel
 
-@dataclass
 class BasePreset(ABC):
-    id: str
-    name: str
-    indicator_type: str  # 'trg' or 'dominant'
-    category: str        # scalp, short-term, mid-term, long-term
-    params: Dict[str, Any]
-    description: Optional[str] = None
-    symbol: Optional[str] = None
-    timeframe: Optional[str] = None
-    source: str = 'user'  # system, user, imported
-    is_active: bool = True
-    created_at: datetime = None
-    updated_at: datetime = None
+    """Abstract base class for all indicator presets"""
+    
+    @property
+    @abstractmethod
+    def indicator_type(self) -> str:
+        """Return indicator type: 'trg' or 'dominant'"""
+        pass
+    
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """Unique preset identifier"""
+        pass
+    
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        """Human-readable preset name"""
+        pass
+    
+    @abstractmethod
+    def get_params(self) -> Dict[str, Any]:
+        """Return all parameters as dictionary"""
+        pass
     
     @abstractmethod
     def validate(self) -> bool:
+        """Validate preset configuration"""
         pass
     
     @abstractmethod
     def to_dict(self) -> Dict[str, Any]:
+        """Serialize to dictionary for storage"""
         pass
     
     @classmethod
     @abstractmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'BasePreset':
+        """Deserialize from dictionary"""
+        pass
+```
+
+### PresetRegistry
+
+```python
+class PresetRegistry:
+    """Singleton registry for all preset types"""
+    
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._presets = {}
+            cls._instance._types = {}
+        return cls._instance
+    
+    def register_type(self, indicator_type: str, preset_class: type):
+        """Register a preset class for an indicator type"""
+        pass
+    
+    def create(self, indicator_type: str, **kwargs) -> BasePreset:
+        """Factory method to create preset"""
+        pass
+    
+    def get(self, preset_id: str) -> Optional[BasePreset]:
+        """Get preset by ID"""
+        pass
+    
+    def list(self, indicator_type: str = None) -> List[BasePreset]:
+        """List all presets, optionally filtered by type"""
         pass
 ```
 
 ---
 
-## 🔧 GIT COMMIT
+## ✅ ACCEPTANCE CRITERIA
+
+1. BasePreset is properly abstract and extendable
+2. TRGPreset implements all abstract methods
+3. DominantPreset wraps existing preset data
+4. PresetRegistry can create/get/list presets
+5. JSON validation catches invalid configs
+6. Unit tests pass for all operations
+7. Existing functionality preserved
+
+---
+
+## 📝 GIT COMMIT
 
 ```
 feat(presets): add unified preset architecture
 
 - Create BasePreset abstract class
 - Create PresetRegistry singleton
-- Add TRGPreset and DominantPreset classes
+- Implement TRGPreset and DominantPreset
 - Add JSON schema validation
-- Unit tests for preset operations
+- Add unit tests
 
 Chat #28: Presets Architecture
 ```
 
 ---
 
-**Next chat:** #29 — QA Checkpoint #3
+**Next chat:** #29 — Presets TRG Generator

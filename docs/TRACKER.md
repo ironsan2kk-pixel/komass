@@ -1,144 +1,125 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
-> **Создано:** 27.12.2025  
-> **Последнее обновление:** 27.12.2025  
-> **Текущая версия:** v3.5 → v4.0  
+> **Last Updated:** 27.12.2025  
+> **Current Version:** v3.5 → v4.0  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## 📊 ОБЩИЙ ПРОГРЕСС
+## 📊 OVERALL PROGRESS
 
-| Метрика | Значение |
-|---------|----------|
-| **Всего чатов** | 98 (#15 — #97) |
-| **Завершено** | 13 (#15-#27) |
-| **В процессе** | — |
-| **Осталось** | 70 |
-| **Прогресс** | 15.7% |
-
----
-
-## 🗂️ СВОДКА ПО ФАЗАМ
-
-| # | Фаза | Чаты | Кол-во | Статус |
-|---|------|------|--------|--------|
-| 1 | Стабилизация и база | #15-19 | 5 | ✅ Завершено |
-| 2 | Dominant Indicator | #20-27 | 8 | ✅ Завершено |
-| 3 | Система пресетов | #28-33 | 6 | ⬜ Ожидает |
-| 4 | Signal Score | #34-36 | 3 | ⬜ Ожидает |
-| 5 | Общие фильтры | #37-44 | 8 | ⬜ Ожидает |
-| 6 | Оптимизация пресетов | #45-49 | 5 | ⬜ Ожидает |
-| 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
-| 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
-| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
-| 10 | Live Engine | #65-70 | 6 | ⬜ Ожидает |
-| 11 | Telegram | #71-76 | 6 | ⬜ Ожидает |
-| 12 | Дизайн | #77-80 | 4 | ⬜ Ожидает |
-| 13 | QA и тестирование | #81-88 | 8 | ⬜ Ожидает |
-| 14 | GitHub и деплой | #89-94 | 6 | ⬜ Ожидает |
-| 15 | Финализация | #95-97 | 3 | ⬜ Ожидает |
+| Metric | Value |
+|--------|-------|
+| **Total Chats** | 83 (#15 — #97) |
+| **Completed** | 13 (#15-#27) |
+| **In Progress** | — |
+| **Remaining** | 70 |
+| **Progress** | 15.7% |
 
 ---
 
-## 🔧 ФАЗА 1: СТАБИЛИЗАЦИЯ И БАЗА (5 чатов) ✅
+## 🗂️ PHASE SUMMARY
 
-### Чат #15: Bugfixes UI ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #16: Bugfixes Backend ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #17: Data Futures Only ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #18: Data Period Selection ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #19: QA Checkpoint #1 ✅
-**Дата завершения:** 27.12.2025
-
----
-
-## 🎯 ФАЗА 2: DOMINANT INDICATOR (8 чатов) ✅
-
-### Чат #20: Dominant Core ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #21: Dominant Signals ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #22: Dominant Filters ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #23: Dominant SL Modes ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #24: QA Checkpoint #2 ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #25: Dominant AI Resolution ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #26: Dominant 125 Presets DB ✅
-**Дата завершения:** 27.12.2025
-
-### Чат #27: Dominant UI Integration ✅
-**Дата завершения:** 27.12.2025
-
-**Выполнено:**
-- [x] Indicator type selector (TRG / Dominant) в SettingsSidebar
-- [x] PresetSelector component с категориями и поиском
-- [x] Auto-fill параметров из выбранного пресета
-- [x] "Modified" badge при изменении параметров
-- [x] Динамические параметры (i1/i2 для TRG, sensitivity для Dominant)
-- [x] API integration для загрузки пресетов
-- [x] Updated api.js с методами Dominant
-
-**Файлы обновлены/созданы:**
-- `frontend/src/components/Indicator/PresetSelector.jsx` (NEW)
-- `frontend/src/components/Indicator/SettingsSidebar.jsx` (UPDATED)
-- `frontend/src/components/Indicator/index.js` (UPDATED)
-- `frontend/src/pages/Indicator.jsx` (UPDATED)
-- `frontend/src/api.js` (UPDATED)
+| # | Phase | Chats | Count | Status |
+|---|-------|-------|-------|--------|
+| 1 | Stabilization & Base | #15-19 | 5 | ✅ 100% Complete |
+| 2 | Dominant Indicator | #20-27 | 8 | ✅ 100% Complete |
+| 3 | Preset System | #28-33 | 6 | ⬜ Not Started |
+| 4 | Signal Score | #34-36 | 3 | ⬜ Not Started |
+| 5 | General Filters | #37-44 | 8 | ⬜ Not Started |
+| 6 | Preset Optimization | #45-49 | 5 | ⬜ Not Started |
+| 7 | Bot Config | #50-53 | 4 | ⬜ Not Started |
+| 8 | Bot Backtest | #54-59 | 6 | ⬜ Not Started |
+| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Not Started |
+| 10 | Live Engine | #65-70 | 6 | ⬜ Not Started |
+| 11 | Telegram | #71-76 | 6 | ⬜ Not Started |
+| 12 | Design | #77-80 | 4 | ⬜ Not Started |
+| 13 | QA & Testing | #81-88 | 8 | ⬜ Not Started |
+| 14 | GitHub & Deploy | #89-94 | 6 | ⬜ Not Started |
+| 15 | Finalization | #95-97 | 3 | ⬜ Not Started |
 
 ---
 
-## 🎛️ ФАЗА 3: СИСТЕМА ПРЕСЕТОВ (6 чатов)
+## ✅ COMPLETED PHASES
 
-### Чат #28: Presets Architecture
-**Статус:** ⏳ NEXT
+### Phase 1: Stabilization & Base (#15-19) — COMPLETE
 
-**Задачи:**
-- [ ] `presets/base.py` — базовый класс Preset
-- [ ] `presets/registry.py` — реестр пресетов
-- [ ] Унифицированные интерфейсы для TRG и Dominant
-- [ ] JSON schema валидация
-- [ ] Unit тесты
-
----
-
-## 📝 ИСТОРИЯ ИЗМЕНЕНИЙ
-
-| Дата | Чат | Изменение |
-|------|-----|-----------|
-| 27.12.2025 | #15 | ✅ UTF-8 fix, MonthlyPanel, StatsPanel |
-| 27.12.2025 | #16 | ✅ Backend bugfixes |
-| 27.12.2025 | #17 | ✅ Data Futures Only |
-| 27.12.2025 | #18 | ✅ Data Period Selection |
-| 27.12.2025 | #19 | ✅ QA Checkpoint #1 |
-| 27.12.2025 | #20 | ✅ Dominant Core |
-| 27.12.2025 | #21 | ✅ Dominant Signals |
-| 27.12.2025 | #22 | ✅ Dominant Filters |
-| 27.12.2025 | #23 | ✅ Dominant SL Modes |
-| 27.12.2025 | #24 | ✅ QA Checkpoint #2 |
-| 27.12.2025 | #25 | ✅ Dominant AI Resolution |
-| 27.12.2025 | #26 | ✅ Dominant 125 Presets DB |
-| 27.12.2025 | #27 | ✅ Dominant UI Integration |
+| Chat | Name | Status | Date |
+|------|------|--------|------|
+| #15 | Bugfixes UI | ✅ | 27.12.2025 |
+| #16 | Bugfixes Backend | ✅ | 27.12.2025 |
+| #17 | Data Futures Only | ✅ | 27.12.2025 |
+| #18 | Data Period Selection | ✅ | 27.12.2025 |
+| #19 | Data Caching | ✅ | 27.12.2025 |
 
 ---
 
-## 🔗 ССЫЛКИ
+### Phase 2: Dominant Indicator (#20-27) — COMPLETE
+
+| Chat | Name | Status | Date |
+|------|------|--------|------|
+| #20 | Dominant Core | ✅ | 27.12.2025 |
+| #21 | Dominant Signals | ✅ | 27.12.2025 |
+| #22 | Dominant Filters | ✅ | 27.12.2025 |
+| #23 | Dominant SL Modes | ✅ | 27.12.2025 |
+| #24 | Dominant AI Resolution | ✅ | 27.12.2025 |
+| #25 | Dominant Presets DB | ✅ | 27.12.2025 |
+| #26 | Dominant Presets Seed | ✅ | 27.12.2025 |
+| #27 | Dominant UI Integration + Backend | ✅ | 27.12.2025 |
+
+**Phase 2 Deliverables:**
+- ✅ `backend/app/indicators/dominant.py` — Full indicator implementation
+- ✅ `backend/app/api/preset_routes.py` — Preset CRUD API
+- ✅ 125 Dominant presets seeded in database
+- ✅ Backend integration in `indicator_routes.py` (indicator_type branching)
+- ✅ Frontend: Indicator type selector (TRG/Dominant)
+- ✅ Frontend: PresetSelector component with categories
+- ✅ Frontend: Parameter auto-fill from presets
+
+**Note:** Original plan had #27 as "Verification", but we combined UI Integration + Backend Integration into #27. Verification will be done informally during testing.
+
+---
+
+## 🔜 NEXT PHASE
+
+### Phase 3: Preset System (#28-33)
+
+| Chat | Name | Tasks |
+|------|------|-------|
+| #28 | Presets Architecture | BasePreset class, registry, validation |
+| #29 | Presets TRG Generator | Generate 200 TRG presets (8×5×5) |
+| #30 | Presets TRG Storage | Store system presets |
+| #31 | Presets User CRUD | User preset management |
+| #32 | Presets Import/Export | JSON import/export |
+| #33 | Presets UI | Library page with search |
+
+---
+
+## 📝 RECENT CHANGES
+
+| Date | Chat | Change |
+|------|------|--------|
+| 27.12.2025 | #27 | ✅ Backend integration: indicator_type branching in /api/indicator/calculate |
+| 27.12.2025 | #27 | ✅ Frontend: Indicator selector, PresetSelector, auto-fill |
+| 27.12.2025 | #26 | ✅ Seeded 125 Dominant presets via API |
+| 27.12.2025 | #25 | ✅ Created preset_routes.py with CRUD |
+| 27.12.2025 | #24 | ✅ AI Resolution sensitivity optimizer |
+| 27.12.2025 | #23 | ✅ 5 SL modes implementation |
+| 27.12.2025 | #22 | ✅ 5 filter types implementation |
+
+---
+
+## 🔧 PLAN CORRECTIONS
+
+### Chat #27 Scope Change
+**Original Plan:** Dominant Verification (TradingView comparison)  
+**Actual:** UI Integration + Backend Integration
+
+**Reason:** Backend integration with `dominant.py` was missing from original plan. Without it, Dominant indicator couldn't work at all. Verification postponed to informal testing.
+
+---
+
+## 🔗 LINKS
 
 - **GitHub:** https://github.com/ironsan2kk-pixel/komass
 - **Local API:** http://localhost:8000/docs
@@ -146,4 +127,4 @@
 
 ---
 
-*Обновлено: 27.12.2025 Chat #27*
+*Updated: 27.12.2025 — Chat #27 Complete*

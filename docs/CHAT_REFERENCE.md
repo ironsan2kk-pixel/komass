@@ -1,88 +1,182 @@
-# KOMAS v4.0 — Chat Reference
+# 📚 KOMAS v4.0 CHAT REFERENCE
 
-> **GitHub:** https://github.com/ironsan2kk-pixel/komass  
-> **Last Updated:** 27.12.2025
+> **Last Updated:** 27.12.2025  
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass
+
+Quick reference for all development chats with key changes.
+
+---
+
+## Phase 1: Stabilization & Base
+
+### Chat #15 — Bugfixes UI
+**Date:** 27.12.2025  
+**Files Changed:**
+- `frontend/src/pages/Indicator.jsx`
+- `frontend/src/components/Indicator/MonthlyPanel.jsx`
+- `frontend/src/components/Indicator/StatsPanel.jsx`
+- `frontend/src/components/Indicator/LogsPanel.jsx`
+
+**Changes:** Fixed white screen on empty data, UTF-8 encoding, auto-scroll logs
+
+---
+
+### Chat #16 — Bugfixes Backend
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/api/indicator_routes.py`
+- `backend/app/api/data_routes.py`
+
+**Changes:** Fixed duplicate timestamps, error handling, validation
+
+---
+
+### Chat #17 — Data Futures Only
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/api/data_routes.py`
+- `frontend/src/pages/Data.jsx`
+
+**Changes:** Removed spot trading, Binance Futures only
+
+---
+
+### Chat #18 — Data Period Selection
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/api/indicator_routes.py`
+- `frontend/src/components/Indicator/SettingsSidebar.jsx`
+
+**Changes:** Date pickers for start/end, period filtering
+
+---
+
+### Chat #19 — Data Caching
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/api/indicator_routes.py`
+
+**Changes:** LRU cache for calculations, cache stats endpoint
 
 ---
 
 ## Phase 2: Dominant Indicator
 
-### Chat #27 — Dominant UI Integration ✅
+### Chat #20 — Dominant Core
 **Date:** 27.12.2025  
-**Status:** Completed
+**Files Created:**
+- `backend/app/indicators/__init__.py`
+- `backend/app/indicators/dominant.py`
 
-**Summary:**
-Integrated Dominant indicator and presets into frontend UI with indicator selector, preset browser, and parameter auto-fill.
+**Changes:** Channel calculation, Fibonacci levels, sensitivity parameter
 
-**Key Changes:**
-- Added indicator type selector (TRG / Dominant) to SettingsSidebar
-- Created PresetSelector component with category tabs and search
-- Implemented auto-fill parameters from selected preset
-- Added "Modified" badge when user changes params from preset
-- Dynamic parameter forms based on indicator type
-- Updated api.js with Dominant preset methods
+---
+
+### Chat #21 — Dominant Signals
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/indicators/dominant.py`
+
+**Changes:** can_long/can_short generation, trend tracking
+
+---
+
+### Chat #22 — Dominant Filters
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/indicators/dominant.py`
+
+**Changes:** 5 filter types (None, ATR, RSI, Combined, Volatility)
+
+---
+
+### Chat #23 — Dominant SL Modes
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/indicators/dominant.py`
+
+**Changes:** 5 SL modes (Fixed, After TP1/2/3, Cascade)
+
+---
+
+### Chat #24 — Dominant AI Resolution
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/indicators/dominant.py`
+
+**Changes:** Sensitivity scoring, multi-core optimization
+
+---
+
+### Chat #25 — Dominant Presets DB
+**Date:** 27.12.2025  
+**Files Created:**
+- `backend/app/api/preset_routes.py`
+
+**Changes:** SQLite presets table, CRUD API endpoints
+
+---
+
+### Chat #26 — Dominant Presets Seed
+**Date:** 27.12.2025  
+**Files Changed:**
+- `backend/app/api/preset_routes.py`
+
+**Changes:** Seeded 125 Dominant presets from Pine Script
+
+---
+
+### Chat #27 — Dominant UI Integration + Backend
+**Date:** 27.12.2025  
+**Files Created:**
+- `frontend/src/components/Indicator/PresetSelector.jsx`
 
 **Files Changed:**
+- `backend/app/api/indicator_routes.py` — **Backend integration**
+- `frontend/src/components/Indicator/SettingsSidebar.jsx`
+- `frontend/src/components/Indicator/index.js`
+- `frontend/src/pages/Indicator.jsx`
+- `frontend/src/api.js`
+
+**Key Changes:**
+1. **Backend Integration:**
+   - Added `indicator_type` field to IndicatorSettings
+   - Added Dominant parameters (sensitivity, filter_type, sl_mode, TPs, SL)
+   - Branching logic in `/api/indicator/calculate`:
+     - If `indicator_type == "dominant"` → use `dominant.py`
+     - If `indicator_type == "trg"` → use TRG logic
+   - Import `dominant_indicator` module with fallback
+
+2. **Frontend Integration:**
+   - Indicator type selector (TRG / Dominant)
+   - PresetSelector component with category tabs
+   - Auto-fill parameters from selected preset
+   - "Modified" badge when params differ from preset
+
+**Commit Message:**
 ```
-frontend/src/
-├── components/Indicator/
-│   ├── PresetSelector.jsx     # NEW - Preset browser component
-│   ├── SettingsSidebar.jsx    # UPDATED - Indicator selector + presets
-│   └── index.js               # UPDATED - Export PresetSelector
-├── pages/
-│   └── Indicator.jsx          # UPDATED - State for indicator type & presets
-└── api.js                     # UPDATED - Dominant API methods
-```
+feat(indicator): integrate Dominant with backend and UI
 
-**API Endpoints Used:**
-- `GET /api/presets/dominant/list` - List Dominant presets
+- Add indicator_type branching in /api/indicator/calculate
+- Add Dominant parameters to IndicatorSettings
+- Create PresetSelector component with categories
+- Add indicator type selector in SettingsSidebar
+- Auto-fill parameters from preset selection
 
-**Git Commit:**
-```
-feat(ui): add Dominant indicator UI integration
-
-- Add indicator type selector (TRG/Dominant)
-- Create PresetSelector component with categories and search
-- Auto-fill parameters from selected preset
-- Add "Modified" badge for changed params
-- Update api.js with Dominant methods
-
-Chat #27: Dominant UI Integration
+Chat #27: Dominant UI + Backend Integration
 ```
 
 ---
 
-## Next: Phase 3 — Preset System
+## 📋 UPCOMING CHATS
 
 ### Chat #28 — Presets Architecture
-**Status:** Pending
-
+**Phase:** 3 — Preset System  
 **Tasks:**
-- [ ] Create `presets/base.py` - Base Preset class
-- [ ] Create `presets/registry.py` - Preset registry
-- [ ] Unified interfaces for TRG and Dominant
-- [ ] JSON schema validation
-- [ ] Unit tests
-
----
-
-## Previous Chats Summary
-
-| # | Name | Status | Key Feature |
-|---|------|--------|-------------|
-| 15 | Bugfixes UI | ✅ | UTF-8 fix, component safety |
-| 16 | Bugfixes Backend | ✅ | Error handling |
-| 17 | Data Futures Only | ✅ | Remove spot, futures only |
-| 18 | Data Period Selection | ✅ | Date range picker |
-| 19 | QA Checkpoint #1 | ✅ | Testing Phase 1 |
-| 20 | Dominant Core | ✅ | Channel + Fib calculation |
-| 21 | Dominant Signals | ✅ | Signal generation |
-| 22 | Dominant Filters | ✅ | 5 filter types |
-| 23 | Dominant SL Modes | ✅ | 5 SL modes |
-| 24 | QA Checkpoint #2 | ✅ | Testing Dominant |
-| 25 | Dominant AI Resolution | ✅ | Scoring + optimization |
-| 26 | Dominant 125 Presets DB | ✅ | SQLite + 125 presets |
-| 27 | Dominant UI Integration | ✅ | UI selector + presets |
+- Create `presets/base.py` with BasePreset class
+- Create `presets/registry.py` for preset management
+- JSON schema validation
+- Unit tests
 
 ---
 
