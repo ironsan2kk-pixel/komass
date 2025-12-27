@@ -11,7 +11,7 @@ const StatCard = ({ label, value, color = 'text-white', size = 'normal' }) => (
 
 const TP_SYMBOLS = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
-const StatsPanel = ({ statistics, tpCount = 4, dataRange, cached }) => {
+const StatsPanel = ({ stats: statistics, trades, indicatorType, tpCount = 4, dataRange, cached }) => {
   if (!statistics) {
     return (
       <div className="p-4 text-center text-gray-500">

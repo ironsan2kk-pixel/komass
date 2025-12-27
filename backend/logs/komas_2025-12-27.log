@@ -3047,3 +3047,61 @@
 2025-12-27 21:10:52 | INFO     | app.main             | log_requests         | [2110527089] ✔ GET /api/indicator/cache-stats - 200 (0ms)
 2025-12-27 21:11:01 | DEBUG    | app.main             | log_requests         | [2111019322] GET /api/indicator/cache-stats
 2025-12-27 21:11:01 | INFO     | app.main             | log_requests         | [2111019322] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:11:32 | DEBUG    | app.main             | log_requests         | [2111322866] GET /api/indicator/cache-stats
+2025-12-27 21:11:32 | INFO     | app.main             | log_requests         | [2111322866] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 21:11:38 | DEBUG    | app.main             | log_requests         | [2111382443] GET /
+2025-12-27 21:11:38 | INFO     | app.main             | log_requests         | [2111382443] ✔ GET / - 200 (1ms)
+2025-12-27 21:11:52 | DEBUG    | app.main             | log_requests         | [2111524097] GET /api/indicator/cache-stats
+2025-12-27 21:11:52 | INFO     | app.main             | log_requests         | [2111524097] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:12:02 | DEBUG    | app.main             | log_requests         | [2112022333] GET /api/indicator/cache-stats
+2025-12-27 21:12:02 | INFO     | app.main             | log_requests         | [2112022333] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:12:09 | DEBUG    | app.main             | log_requests         | [2112094712] POST /api/indicator/calculate
+2025-12-27 21:12:12 | INFO     | app.main             | log_requests         | [2112094712] ✔ POST /api/indicator/calculate - 200 (3381ms)
+2025-12-27 21:12:13 | DEBUG    | app.main             | log_requests         | [2112132039] GET /api/indicator/cache-stats
+2025-12-27 21:12:13 | INFO     | app.main             | log_requests         | [2112132039] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 21:12:19 | DEBUG    | app.main             | log_requests         | [2112192607] POST /api/indicator/calculate
+2025-12-27 21:12:23 | INFO     | app.main             | log_requests         | [2112192607] ✔ POST /api/indicator/calculate - 200 (4716ms)
+2025-12-27 21:12:35 | DEBUG    | app.main             | log_requests         | [2112350617] GET /api/indicator/cache-stats
+2025-12-27 21:12:35 | INFO     | app.main             | log_requests         | [2112350617] ✔ GET /api/indicator/cache-stats - 200 (2ms)
+2025-12-27 21:12:35 | DEBUG    | app.main             | log_requests         | [2112353707] GET /api/indicator/cache-stats
+2025-12-27 21:12:35 | INFO     | app.main             | log_requests         | [2112353707] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:12:52 | DEBUG    | app.main             | log_requests         | [2112524069] GET /api/indicator/cache-stats
+2025-12-27 21:12:52 | INFO     | app.main             | log_requests         | [2112524069] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:13:02 | DEBUG    | app.main             | log_requests         | [2113022409] GET /api/indicator/cache-stats
+2025-12-27 21:13:02 | INFO     | app.main             | log_requests         | [2113022409] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:13:22 | DEBUG    | app.main             | log_requests         | [2113225094] POST /api/indicator/calculate
+2025-12-27 21:13:22 | INFO     | app.main             | log_requests         | [2113225094] ✔ POST /api/indicator/calculate - 200 (276ms)
+2025-12-27 21:13:23 | DEBUG    | app.main             | log_requests         | [2113231003] GET /api/indicator/cache-stats
+2025-12-27 21:13:23 | INFO     | app.main             | log_requests         | [2113231003] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:13:31 | DEBUG    | app.main             | log_requests         | [2113319311] GET /api/indicator/cache-stats
+2025-12-27 21:13:31 | INFO     | app.main             | log_requests         | [2113319311] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 21:13:34 | DEBUG    | app.main             | log_requests         | [2113345693] POST /api/indicator/calculate
+2025-12-27 21:13:36 | INFO     | app.main             | log_requests         | [2113345693] ✔ POST /api/indicator/calculate - 200 (2028ms)
+2025-12-27 21:13:36 | DEBUG    | app.main             | log_requests         | [2113366362] GET /api/indicator/cache-stats
+2025-12-27 21:13:36 | INFO     | app.main             | log_requests         | [2113366362] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:13:52 | DEBUG    | app.main             | log_requests         | [2113527010] GET /api/indicator/cache-stats
+2025-12-27 21:13:52 | INFO     | app.main             | log_requests         | [2113527010] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 21:14:01 | DEBUG    | app.main             | log_requests         | [2114019247] GET /api/indicator/cache-stats
+2025-12-27 21:14:01 | INFO     | app.main             | log_requests         | [2114019247] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:14:10 | DEBUG    | app.main             | log_requests         | [2114102177] POST /api/indicator/calculate
+2025-12-27 21:14:11 | INFO     | app.main             | log_requests         | [2114102177] ✔ POST /api/indicator/calculate - 200 (1206ms)
+2025-12-27 21:14:11 | DEBUG    | app.main             | log_requests         | [2114114724] GET /api/indicator/cache-stats
+2025-12-27 21:14:11 | INFO     | app.main             | log_requests         | [2114114724] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:14:32 | DEBUG    | app.main             | log_requests         | [2114322295] GET /api/indicator/cache-stats
+2025-12-27 21:14:32 | INFO     | app.main             | log_requests         | [2114322295] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:14:52 | DEBUG    | app.main             | log_requests         | [2114523993] GET /api/indicator/cache-stats
+2025-12-27 21:14:52 | INFO     | app.main             | log_requests         | [2114523993] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-27 21:15:25 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 21:15:25 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 21:15:25 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-27 21:15:25 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-27 21:15:25 | INFO     | app.main             | <module>             | ✔ Loaded: preset routes
+2025-12-27 21:15:25 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 21:15:25 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 21:15:25 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 21:15:25 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 21:15:25 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 21:15:30 | DEBUG    | app.main             | log_requests         | [2115300240] GET /api/indicator/cache-stats
+2025-12-27 21:15:30 | INFO     | app.main             | log_requests         | [2115300240] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 21:15:30 | DEBUG    | app.main             | log_requests         | [2115300307] GET /api/indicator/cache-stats
+2025-12-27 21:15:30 | INFO     | app.main             | log_requests         | [2115300307] ✔ GET /api/indicator/cache-stats - 200 (1ms)
