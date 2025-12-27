@@ -234,11 +234,11 @@ except ImportError as e:
     logger.warning(f"✗ Failed to load indicator routes: {e}")
 
 try:
-    from app.api.preset_routes import router as preset_router
-    app.include_router(preset_router)
-    logger.info("✔ Loaded: preset routes")
+    from app.api.trg_preset_routes import router as trg_preset_router
+    app.include_router(trg_preset_router)
+    logger.info("✔ Loaded: TRG preset routes")
 except ImportError as e:
-    logger.warning(f"✗ Failed to load preset routes: {e}")
+    logger.warning(f"✗ Failed to load TRG preset routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============

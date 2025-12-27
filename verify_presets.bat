@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo KOMAS TRG Generator Tests
+echo KOMAS Preset Verification
 echo ========================================
 echo.
 
@@ -17,18 +17,19 @@ if not exist "venv\Scripts\activate.bat" (
 call venv\Scripts\activate.bat
 set PYTHONPATH=%CD%
 
-echo Running tests...
+echo Verifying TRG presets...
 echo.
 
-python -m pytest "%~dp0tests\test_trg_generator.py" -v --tb=short
+python "%~dp0scripts\seed_trg_presets.py" --verify
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
-    echo Some tests FAILED
+    echo Verification FAILED - some presets missing or invalid
+    echo Run seed_trg_presets.bat --replace to fix
     pause
     exit /b 1
 )
 
 echo.
-echo All tests passed!
+echo All presets verified!
 pause

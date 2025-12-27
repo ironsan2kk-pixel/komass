@@ -11,10 +11,10 @@
 | Metric | Value |
 |--------|-------|
 | **Total Chats** | 83 (#15 — #97) |
-| **Completed** | 15 (#15-#29) |
+| **Completed** | 16 (#15-#30) |
 | **In Progress** | — |
-| **Remaining** | 68 |
-| **Progress** | 18.1% |
+| **Remaining** | 67 |
+| **Progress** | 19.3% |
 
 ---
 
@@ -24,7 +24,7 @@
 |---|-------|-------|-------|--------|
 | 1 | Stabilization & Base | #15-19 | 5 | ✅ 100% Complete |
 | 2 | Dominant Indicator | #20-27 | 8 | ✅ 100% Complete |
-| 3 | Preset System | #28-33 | 6 | ⏳ 2/6 complete |
+| 3 | Preset System | #28-33 | 6 | ⏳ 3/6 complete |
 | 4 | Signal Score | #34-36 | 3 | ⬜ Not Started |
 | 5 | General Filters | #37-44 | 8 | ⬜ Not Started |
 | 6 | Preset Optimization | #45-49 | 5 | ⬜ Not Started |
@@ -75,34 +75,43 @@
 |------|------|--------|------|
 | #28 | Trade Levels Visualization | ✅ | 27.12.2025 |
 | #29 | Presets Architecture | ✅ | 27.12.2025 |
-| #30 | Presets TRG Generator | ⬜ | — |
+| #30 | Presets TRG Generator | ✅ | 27.12.2025 |
 | #31 | Presets Storage | ⬜ | — |
 | #32 | Presets User CRUD | ⬜ | — |
 | #33 | Presets UI Library | ⬜ | — |
 
-**Chat #29 Deliverables:**
-- ✅ `backend/app/presets/base.py` — BasePreset, PresetConfig, PresetMetrics, Enums
-- ✅ `backend/app/presets/trg_preset.py` — TRGPreset with 200 system presets
-- ✅ `backend/app/presets/dominant_preset.py` — DominantPreset implementation
-- ✅ `backend/app/presets/registry.py` — PresetRegistry singleton
-- ✅ `backend/app/presets/validator.py` — PresetValidator with warnings
-- ✅ `backend/app/presets/generator.py` — PresetGenerator classes
-- ✅ `backend/app/presets/__init__.py` — Module exports
-- ✅ `backend/app/api/preset_routes_v2.py` — Updated API endpoints
-- ✅ `tests/test_presets.py` — Comprehensive unit tests
+**Chat #30 Deliverables:**
+- ✅ `backend/app/database/trg_presets_db.py` — TRG presets database (separate table)
+- ✅ `backend/app/database/__init__.py` — Module exports
+- ✅ `backend/app/api/trg_preset_routes.py` — TRG API with SSE streaming
+- ✅ `scripts/seed_trg_presets.py` — Command-line seeder
+- ✅ `tests/test_trg_generator.py` — Comprehensive unit tests
+- ✅ `seed_trg_presets.bat` — Batch file for seeding
+- ✅ `verify_presets.bat` — Batch file for verification
+- ✅ `run_tests.bat` — Batch file for tests
+
+**Features Added:**
+- Separate table `trg_presets` (not mixing with dominant_presets)
+- SSE streaming endpoints for preset generation
+- Verification endpoint `/api/trg-presets/verify`
+- Reset endpoint `/api/trg-presets/reset`
+- Grid info endpoint `/api/trg-presets/grid`
+- Command-line seeder with progress bar
+- Comprehensive unit tests (22 test cases)
 
 ---
 
 ## 🔜 NEXT CHAT
 
-### Chat #30 — Presets TRG Generator
+### Chat #31 — Presets Storage
 
 **Tasks:**
-- [ ] Run TRGSystemGenerator to generate 200 presets
-- [ ] Verify all presets are valid
-- [ ] Update database schema if needed
-- [ ] API endpoint for batch generation with SSE progress
-- [ ] Test all 200 presets
+- [ ] SQLite storage layer improvements
+- [ ] Preset versioning (history of changes)
+- [ ] Backup/restore functionality
+- [ ] Export multiple presets to single JSON
+- [ ] Import from batch JSON file
+- [ ] Data integrity checks
 
 ---
 
@@ -110,64 +119,68 @@
 
 | Date | Chat | Change |
 |------|------|--------|
+| 27.12.2025 | #30 | ✅ TRG Generator with SSE streaming |
+| 27.12.2025 | #30 | ✅ Command-line seeder script |
+| 27.12.2025 | #30 | ✅ Verification and reset endpoints |
+| 27.12.2025 | #30 | ✅ Comprehensive unit tests |
+| 27.12.2025 | #30 | ✅ Database table migration |
 | 27.12.2025 | #29 | ✅ Created complete preset architecture |
 | 27.12.2025 | #29 | ✅ BasePreset, TRGPreset, DominantPreset classes |
-| 27.12.2025 | #29 | ✅ PresetRegistry for centralized management |
-| 27.12.2025 | #29 | ✅ PresetValidator with warnings/errors |
-| 27.12.2025 | #29 | ✅ PresetGenerator for batch creation |
-| 27.12.2025 | #29 | ✅ Updated preset_routes_v2.py with new endpoints |
 | 27.12.2025 | #28 | ✅ Trade level lines on chart |
-| 27.12.2025 | #27 | ✅ Backend integration: indicator_type branching |
 
 ---
 
 ## 🏗️ ARCHITECTURE OVERVIEW
 
-### Preset System Architecture (v4.0)
+### TRG Preset Grid (200 Presets)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PRESET SYSTEM v4.0                        │
+│              TRG SYSTEM PRESETS (8 × 5 × 5 = 200)           │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────┐  │
-│  │ BasePreset  │    │ TRGPreset   │    │ DominantPreset  │  │
-│  │  (Abstract) │◄───│ (200 sys)   │    │ (125 sys)       │  │
-│  └──────┬──────┘    └─────────────┘    └─────────────────┘  │
-│         │                                                    │
-│         ▼                                                    │
-│  ┌─────────────────────────────────────────────────────────┐│
-│  │                  PresetRegistry (Singleton)              ││
-│  │  • register_preset_class()                               ││
-│  │  • create() / get() / update() / delete()                ││
-│  │  • list() with filters                                   ││
-│  │  • import/export JSON                                    ││
-│  └─────────────────────────────────────────────────────────┘│
-│         │                                                    │
-│         ▼                                                    │
-│  ┌─────────────────┐    ┌─────────────────────────────────┐ │
-│  │ PresetValidator │    │ PresetGenerator                  │ │
-│  │ • validate()    │    │ • TRGSystemGenerator (200)       │ │
-│  │ • warnings      │    │ • DominantSystemGenerator (125)  │ │
-│  │ • errors        │    │ • CombinedSystemGenerator        │ │
-│  └─────────────────┘    └─────────────────────────────────┘ │
+│  i1 (ATR Length): [14, 25, 40, 60, 80, 110, 150, 200]       │
+│                                                              │
+│  i2 (Multiplier): [2.0, 3.0, 4.0, 5.5, 7.5]                 │
+│                                                              │
+│  Filter Profiles:                                            │
+│    N = None (no filters)                                     │
+│    T = Trend (SuperTrend)                                    │
+│    M = Momentum (RSI)                                        │
+│    S = Strength (ADX)                                        │
+│    F = Full (all filters)                                    │
+│                                                              │
+│  Naming: {FILTER}_{i1}_{i2*10}                              │
+│  Example: T_60_40 = Trend, i1=60, i2=4.0                    │
+│                                                              │
+│  Auto-calculated:                                            │
+│    • TP count: 4 (i1≤25), 5 (i1≤80), 6 (i1>80)             │
+│    • TP levels: scaled by i2/4.0                            │
+│    • SL mode: fixed (i1≤25), breakeven (i1≤110), cascade    │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
+```
 
-API Endpoints (/api/presets):
-├── GET  /list              — List with filters
-├── GET  /stats             — Statistics
-├── GET  /{id}              — Get single
-├── POST /create            — Create new
-├── PUT  /{id}              — Update
-├── DELETE /{id}            — Delete
-├── POST /validate          — Validate params
-├── GET  /schema/{type}     — Parameter schema
-├── POST /import            — Import JSON
-├── GET  /export/{id}       — Export JSON
-├── POST /generate/trg      — Generate 200 TRG
-├── POST /generate/dominant — Generate Dominant
-└── POST /generate/all      — Generate all
+### API Endpoints
+
+```
+/api/trg-presets (NEW - separate from /api/presets)
+├── GET  /list                    — List with filters
+├── GET  /stats                   — Statistics
+├── GET  /verify                  — Verify system presets
+├── POST /reset                   — Reset system presets
+├── GET  /grid                    — TRG grid info
+├── GET  /categories              — Available categories
+├── GET  /filters                 — Filter profiles
+├── GET  /{id}                    — Get single preset
+├── POST /create                  — Create new
+├── PUT  /{id}                    — Update
+├── DELETE /{id}                  — Delete
+├── GET  /generate-stream         — Generate 200 TRG (SSE)
+└── POST /generate                — Generate 200 TRG (sync)
+
+/api/presets (existing - for Dominant)
+├── ... (unchanged)
 ```
 
 ---
@@ -180,4 +193,4 @@ API Endpoints (/api/presets):
 
 ---
 
-*Updated: 27.12.2025 — Chat #29 Complete*
+*Updated: 27.12.2025 — Chat #30 Complete*
