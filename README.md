@@ -1,47 +1,44 @@
-# KOMAS Chat #27 — SL from mid_channel Fix
+# Chat #28 — Dominant UI: Fixed Stop toggle + Chart markers fix
 
-## Key Changes
+## Changes
 
-### Problem
-In original Pine Script, SL is calculated from `fib_5` (mid_channel), NOT from entry_price!
+### 1. Fixed Stop Toggle (SettingsSidebar.jsx)
+- Added checkbox "Fixed Stop (от входа)" in Stop Loss section for Dominant
+- When OFF (default): SL calculated from mid_channel (original behavior)
+- When ON: SL calculated from entry price
 
-### Pine Script Original (line 2195):
-```pine
-trade.sl_price := can_long 
-    ? (fixed_stop ? entry_price * (1 - sl_percent) : fib_5 * (1 - sl_percent))
-    : (fixed_stop ? entry_price * (1 + sl_percent) : fib_5 * (1 + sl_percent))
-```
+### 2. Chart Visualization (Indicator.jsx)
+- Added price lines for last trade:
+  - Entry line (blue)
+  - TP1-TP4 lines (green) with checkmark if hit
+  - SL line (red) with X if hit
+- Improved trade markers with TP hit indicators
 
-### Fixed Logic:
-- `fixed_stop=False` (default): SL = mid_channel × (1 ± sl_percent)
-- `fixed_stop=True`: SL = entry_price × (1 ± sl_percent)
+### 3. Backend Updates
 
-## Files Changed
+#### dominant.py
+- Added `tp_levels`, `initial_sl`, `final_sl` to track_position return
+- These values are used for chart visualization
 
-### backend/app/indicators/dominant.py
-- Added `fixed_stop` parameter to `track_position()`
-- Added `_calculate_sl_for_mode()` helper function
-- Initial SL calculated from `mid_channel` by default
-- Added `fixed_stop` parameter to `run_full_backtest()`
+#### indicator_routes.py
+- Added tp_levels, initial_sl, final_sl to adapted_trades
+- Improved prepare_trade_markers() with TP hit markers
 
-### backend/app/api/indicator_routes.py
-- Added `dominant_fixed_stop: bool = False` to IndicatorSettings
-- Pass `fixed_stop` to `run_full_backtest()` call
+## Installation
 
-## Test
-```bash
-cd tests
-python test_sl_from_mid.py
-```
+1. Place this folder next to your `komas_indicator` folder
+2. Run `install_chat28.bat`
+3. Restart backend and frontend
 
 ## Git Commit
+
 ```
-fix(dominant): SL calculation from mid_channel (not entry_price)
+feat(ui): Fixed Stop toggle + chart price lines
 
-- Add fixed_stop parameter (default False)
-- SL from mid_channel when fixed_stop=False (original behavior)
-- SL from entry_price when fixed_stop=True
-- Add _calculate_sl_for_mode() helper
+- Add Fixed Stop checkbox for Dominant (SL from entry vs mid_channel)
+- Add price lines for TP/SL/Entry levels on chart
+- Add tp_levels, initial_sl, final_sl to trade data
+- Improve trade markers with TP hit indicators
 
-Chat #27: Dominant SL from mid_channel fix
+Chat #28: Dominant UI: Fixed Stop toggle + Chart markers fix
 ```

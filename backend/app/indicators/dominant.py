@@ -902,6 +902,9 @@ def track_position(
         - sl_history: List of (idx, sl_price) tuples showing SL movements
         - max_profit: Maximum unrealized profit during trade
         - duration: Number of bars position was held
+        - tp_levels: List of absolute TP price levels
+        - initial_sl: Initial SL price level
+        - final_sl: Final SL price level (may differ due to trailing)
     
     Example:
         >>> result = track_position(df, entry_idx=10, direction=SIGNAL_LONG, 
@@ -946,6 +949,9 @@ def track_position(
         current_sl = sl_base_price * (1 + sl_percent / 100)
     
     sl_history.append((entry_idx, current_sl))
+    
+    # Save initial SL for return
+    initial_sl = current_sl
     
     # Store original SL base for breakeven calculations
     original_sl_base = sl_base_price
@@ -1044,6 +1050,9 @@ def track_position(
                 'sl_history': sl_history,
                 'max_profit': max_profit,
                 'duration': idx - entry_idx,
+                'tp_levels': tp_levels,
+                'initial_sl': initial_sl,
+                'final_sl': current_sl,
             }
         
         # If SL hit - calculate PnL considering partial TP profits
@@ -1078,6 +1087,9 @@ def track_position(
                 'sl_history': sl_history,
                 'max_profit': max_profit,
                 'duration': idx - entry_idx,
+                'tp_levels': tp_levels,
+                'initial_sl': initial_sl,
+                'final_sl': current_sl,
             }
     
     # Position still open at end of data
@@ -1096,6 +1108,9 @@ def track_position(
         'sl_history': sl_history,
         'max_profit': max_profit,
         'duration': (n - 1) - entry_idx,
+        'tp_levels': tp_levels,
+        'initial_sl': initial_sl,
+        'final_sl': current_sl,
     }
 
 

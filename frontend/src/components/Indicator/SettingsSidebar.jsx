@@ -530,6 +530,23 @@ const SettingsSidebar = ({
               </div>
             </div>
           )}
+          
+          {/* Fixed Stop toggle for Dominant (Chat #28) */}
+          {indicatorType === 'dominant' && (
+            <div className="mt-2 space-y-2">
+              <Checkbox 
+                label="Fixed Stop (от входа)" 
+                checked={settings.dominant_fixed_stop ?? false} 
+                onChange={(v) => update('dominant_fixed_stop', v)} 
+              />
+              <p className="text-[10px] text-gray-500 ml-5">
+                {settings.dominant_fixed_stop 
+                  ? "SL рассчитывается от цены входа" 
+                  : "SL рассчитывается от середины канала (по умолчанию)"
+                }
+              </p>
+            </div>
+          )}
         </Section>
 
         {/* Leverage & Commission */}

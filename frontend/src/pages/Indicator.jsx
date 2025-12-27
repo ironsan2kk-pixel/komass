@@ -93,6 +93,7 @@ const DEFAULT_SETTINGS = {
   dominant_tp1_amount: 40, dominant_tp2_amount: 30, 
   dominant_tp3_amount: 20, dominant_tp4_amount: 10,
   dominant_sl_percent: 2.0,
+  dominant_fixed_stop: false,  // Chat #28: If true, SL from entry; if false, SL from mid_channel
 };
 
 const Indicator = () => {
@@ -340,16 +341,61 @@ const Indicator = () => {
       lowerSeries.setData(data.indicators.trg_lower);
     }
 
-    // Trade markers
+    // Trade markers - improved visualization (Chat #28)
     if (data.trade_markers?.length) {
       const markers = data.trade_markers.map(m => ({
         time: m.time,
-        position: m.type === 'entry_long' || m.type === 'entry_short' ? 'belowBar' : 'aboveBar',
-        color: m.type?.includes('long') ? '#22c55e' : '#ef4444',
-        shape: m.type?.includes('entry') ? 'arrowUp' : 'arrowDown',
-        text: m.type?.includes('entry') ? (m.type?.includes('long') ? 'L' : 'S') : '',
+        position: m.position || (m.type?.includes('entry') ? 'belowBar' : 'aboveBar'),
+        color: m.color || (m.type?.includes('long') ? '#22c55e' : '#ef4444'),
+        shape: m.shape || (m.type?.includes('entry') ? 'arrowUp' : 'circle'),
+        text: m.text || (m.type?.includes('entry') ? (m.type?.includes('long') ? 'L' : 'S') : ''),
       }));
       candleSeries.setMarkers(markers);
+    }
+
+    // Price lines for last trade levels (TP/SL/Entry) - Chat #28
+    if (data.trades?.length > 0) {
+      const lastTrade = data.trades[data.trades.length - 1];
+      
+      // Only show levels if trade has them (Dominant trades)
+      if (lastTrade.tp_levels?.length > 0) {
+        // Entry line (blue)
+        candleSeries.createPriceLine({
+          price: lastTrade.entry_price,
+          color: '#3b82f6',
+          lineWidth: 1,
+          lineStyle: 0,
+          axisLabelVisible: true,
+          title: 'Entry',
+        });
+
+        // TP lines (green)
+        lastTrade.tp_levels.forEach((tp, idx) => {
+          const isHit = lastTrade.tps_hit?.includes(idx + 1);
+          candleSeries.createPriceLine({
+            price: tp,
+            color: isHit ? '#22c55e' : '#4ade80',
+            lineWidth: 1,
+            lineStyle: isHit ? 0 : 2,
+            axisLabelVisible: true,
+            title: `TP${idx + 1}${isHit ? ' ✓' : ''}`,
+          });
+        });
+
+        // SL line (red) - use final_sl if available, otherwise initial_sl
+        const slPrice = lastTrade.final_sl || lastTrade.initial_sl;
+        if (slPrice) {
+          const slHit = lastTrade.exit_reason === 'sl';
+          candleSeries.createPriceLine({
+            price: slPrice,
+            color: slHit ? '#ef4444' : '#f87171',
+            lineWidth: 1,
+            lineStyle: slHit ? 0 : 2,
+            axisLabelVisible: true,
+            title: `SL${slHit ? ' ✗' : ''}`,
+          });
+        }
+      }
     }
 
     chartRef.current = chart;

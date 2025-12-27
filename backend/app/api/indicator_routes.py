@@ -642,6 +642,12 @@ async def calculate_indicator(settings: IndicatorSettings):
                     'exit_reason': trade.get('exit_reason', 'unknown'),
                     'is_reentry': False,
                     'tps_hit': tps_hit_nums,  # Now [1, 2, 3] format
+                    # NEW: Add levels for chart visualization (Chat #28)
+                    'tp_levels': trade.get('tp_levels', []),
+                    'initial_sl': trade.get('initial_sl', 0),
+                    'final_sl': trade.get('final_sl', 0),
+                    'entry_idx': entry_idx,
+                    'exit_idx': exit_idx,
                 }
                 adapted_trades.append(adapted_trade)
             
@@ -3977,13 +3983,21 @@ def prepare_indicators(df: pd.DataFrame, settings: IndicatorSettings) -> Dict:
 
 
 def prepare_trade_markers(trades: List[Dict]) -> List[Dict]:
-    """Prepare trade markers for chart"""
+    """
+    Prepare trade markers for chart (Chat #28 improved)
+    
+    Creates markers for:
+    - Entry (arrow up/down with L/S)
+    - Exit (circle with PnL %)
+    - TP hit points (small circles with TP1, TP2, etc.)
+    """
     markers = []
     
     for trade in trades:
         entry_time = int(datetime.fromisoformat(trade['entry_time']).timestamp())
         exit_time = int(datetime.fromisoformat(trade['exit_time']).timestamp())
         is_reentry = trade.get('is_reentry', False)
+        is_long = trade['type'] == 'long'
         
         # Entry marker
         entry_text = trade['type'].upper()
@@ -3992,19 +4006,44 @@ def prepare_trade_markers(trades: List[Dict]) -> List[Dict]:
         
         markers.append({
             "time": entry_time,
-            "position": "belowBar" if trade['type'] == 'long' else "aboveBar",
-            "color": "#fbbf24" if is_reentry else ("#22c55e" if trade['type'] == 'long' else "#ef4444"),
-            "shape": "arrowUp" if trade['type'] == 'long' else "arrowDown",
-            "text": entry_text
+            "position": "belowBar" if is_long else "aboveBar",
+            "color": "#fbbf24" if is_reentry else ("#22c55e" if is_long else "#ef4444"),
+            "shape": "arrowUp" if is_long else "arrowDown",
+            "text": entry_text,
+            "type": f"entry_{trade['type']}"
         })
         
+        # TP hit markers (Chat #28)
+        tps_hit = trade.get('tps_hit', [])
+        if tps_hit and isinstance(tps_hit, list):
+            # Calculate approximate time for each TP hit
+            # For simplicity, place them evenly between entry and exit
+            duration = exit_time - entry_time
+            for i, tp_num in enumerate(tps_hit):
+                if isinstance(tp_num, int) and tp_num > 0:
+                    # Place TP markers at intervals
+                    tp_time = entry_time + int(duration * (i + 1) / (len(tps_hit) + 1))
+                    markers.append({
+                        "time": tp_time,
+                        "position": "aboveBar" if is_long else "belowBar",
+                        "color": "#22c55e",
+                        "shape": "circle",
+                        "text": f"TP{tp_num}",
+                        "type": f"tp_hit_{tp_num}"
+                    })
+        
         # Exit marker
+        exit_reason = trade.get('exit_reason', '')
+        is_sl = exit_reason == 'sl'
+        pnl = trade.get('pnl', 0)
+        
         markers.append({
             "time": exit_time,
-            "position": "aboveBar" if trade['type'] == 'long' else "belowBar",
-            "color": "#22c55e" if trade['pnl'] > 0 else "#ef4444",
-            "shape": "circle",
-            "text": f"{trade['pnl']:+.1f}%"
+            "position": "aboveBar" if is_long else "belowBar",
+            "color": "#ef4444" if is_sl else ("#22c55e" if pnl > 0 else "#ef4444"),
+            "shape": "square" if is_sl else "circle",
+            "text": f"SL {pnl:+.1f}%" if is_sl else f"{pnl:+.1f}%",
+            "type": f"exit_{exit_reason}"
         })
     
     # Sort markers by time
