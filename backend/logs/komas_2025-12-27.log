@@ -1,0 +1,357 @@
+2025-12-27 11:10:22 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 11:10:22 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 11:10:23 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 11:10:23 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 11:10:23 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 11:10:23 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 11:10:23 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 11:10:23 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 11:10:23 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 11:10:28 | DEBUG    | app.main             | log_requests         | [1110283532] GET /api/data/symbols
+2025-12-27 11:10:28 | DEBUG    | app.main             | log_requests         | [1110283532] GET /api/data/available
+2025-12-27 11:10:34 | INFO     | app.main             | log_requests         | [1110283532] âœ“ GET /api/data/symbols - 200 (6476ms)
+2025-12-27 11:10:34 | INFO     | app.main             | log_requests         | [1110283532] âœ“ GET /api/data/available - 200 (6477ms)
+2025-12-27 11:10:34 | DEBUG    | app.main             | log_requests         | [1110348316] POST /api/indicator/calculate
+2025-12-27 11:10:37 | DEBUG    | app.main             | log_requests         | [1110373724] GET /api/data/symbols
+2025-12-27 11:10:37 | DEBUG    | app.main             | log_requests         | [1110373734] GET /api/data/available
+2025-12-27 11:10:37 | INFO     | app.main             | log_requests         | [1110348316] âœ“ POST /api/indicator/calculate - 200 (2541ms)
+2025-12-27 11:10:42 | INFO     | app.main             | log_requests         | [1110373724] âœ“ GET /api/data/symbols - 200 (5103ms)
+2025-12-27 11:10:42 | INFO     | app.main             | log_requests         | [1110373734] âœ“ GET /api/data/available - 200 (5111ms)
+2025-12-27 11:13:26 | DEBUG    | app.main             | log_requests         | [1113269642] GET /SDK/webLanguage
+2025-12-27 11:13:26 | INFO     | app.main             | log_requests         | [1113269642] ✗ GET /SDK/webLanguage - 404 (0ms)
+2025-12-27 11:15:27 | DEBUG    | app.main             | log_requests         | [1115271589] GET /
+2025-12-27 11:15:27 | INFO     | app.main             | log_requests         | [1115271589] âœ“ GET / - 200 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120448159] GET /wp-content/plugins/hellopress/wp_filemanager.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120448159] ✗ GET /wp-content/plugins/hellopress/wp_filemanager.php - 404 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120448470] GET /nc4.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120448470] ✗ GET /nc4.php - 404 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120448780] GET /d4.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120448780] ✗ GET /d4.php - 404 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120449091] GET /ad.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120449091] ✗ GET /ad.php - 404 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120449461] GET /dlex.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120449461] ✗ GET /dlex.php - 404 (0ms)
+2025-12-27 11:20:44 | DEBUG    | app.main             | log_requests         | [1120449892] GET /classwithtostring.php
+2025-12-27 11:20:44 | INFO     | app.main             | log_requests         | [1120449892] ✗ GET /classwithtostring.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120450214] GET /pass.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120450214] ✗ GET /pass.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120450541] GET /good.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120450541] ✗ GET /good.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120450972] GET /ext.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120450972] ✗ GET /ext.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120451280] GET /class20.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120451280] ✗ GET /class20.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120451598] GET /css/index.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120451598] ✗ GET /css/index.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120451912] GET /aa.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120451912] ✗ GET /aa.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120452222] GET /npi.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120452222] ✗ GET /npi.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120452644] GET /ahax.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120452644] ✗ GET /ahax.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120452966] GET /pop.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120452966] ✗ GET /pop.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120453291] GET /file17.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120453291] ✗ GET /file17.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120453615] GET /wp-includes/fonts/themes.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120453615] ✗ GET /wp-includes/fonts/themes.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120453937] GET /about.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120453937] ✗ GET /about.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120454256] GET /litanies.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120454256] ✗ GET /litanies.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120454719] GET /g.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120454719] ✗ GET /g.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120455054] GET /readme.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120455054] ✗ GET /readme.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120455376] GET /kwm4.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120455376] ✗ GET /kwm4.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120455698] GET /just2.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120455698] ✗ GET /just2.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120456073] GET /png.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120456073] ✗ GET /png.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120456350] GET /geger.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120456350] ✗ GET /geger.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120456673] GET /let.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120456673] ✗ GET /let.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120457095] GET /np.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120457095] ✗ GET /np.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120457317] GET /ask.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120457317] ✗ GET /ask.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120457640] GET /CLA.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120457640] ✗ GET /CLA.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120457963] GET /wp-admin/index.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120457963] ✗ GET /wp-admin/index.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120458289] GET /mek.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120458289] ✗ GET /mek.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120458621] GET /fjpeb.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120458621] ✗ GET /fjpeb.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120459100] GET /ex.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120459100] ✗ GET /ex.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120459405] GET /asd67.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120459405] ✗ GET /asd67.php - 404 (0ms)
+2025-12-27 11:20:45 | DEBUG    | app.main             | log_requests         | [1120459718] GET /zwso.php
+2025-12-27 11:20:45 | INFO     | app.main             | log_requests         | [1120459718] ✗ GET /zwso.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120460034] GET /alfa.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120460034] ✗ GET /alfa.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120460359] GET /shlo.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120460359] ✗ GET /shlo.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120460681] GET /sec.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120460681] ✗ GET /sec.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120461002] GET /natural.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120461002] ✗ GET /natural.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120461324] GET /1.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120461324] ✗ GET /1.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120461672] GET /z.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120461672] ✗ GET /z.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120461968] GET /law.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120461968] ✗ GET /law.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120462290] GET /bluejackets.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120462290] ✗ GET /bluejackets.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120462770] GET /php.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120462770] ✗ GET /php.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120463093] GET /sx21_1.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120463093] ✗ GET /sx21_1.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120463415] GET /1aa.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120463415] ✗ GET /1aa.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120463786] GET /nx9.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120463786] ✗ GET /nx9.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120464098] GET /file.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120464098] ✗ GET /file.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120464408] GET /aw.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120464408] ✗ GET /aw.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120464720] GET /sfvul.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120464720] ✗ GET /sfvul.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120465032] GET /icdwb.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120465032] ✗ GET /icdwb.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120465465] GET /ticket.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120465465] ✗ GET /ticket.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120465824] GET /elp.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120465824] ✗ GET /elp.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120466245] GET /k.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120466245] ✗ GET /k.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120466599] GET /amphicyon.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120466599] ✗ GET /amphicyon.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120466909] GET /wsad.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120466909] ✗ GET /wsad.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120467224] GET /lock1.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120467224] ✗ GET /lock1.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120467533] GET /xp.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120467533] ✗ GET /xp.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120467912] GET /e.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120467912] ✗ GET /e.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120468233] GET /v3.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120468233] ✗ GET /v3.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120468564] GET /akcc.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120468564] ✗ GET /akcc.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120468889] GET /minik.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120468889] ✗ GET /minik.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120469211] GET /asasx.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120469211] ✗ GET /asasx.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120469537] GET /nx.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120469537] ✗ GET /nx.php - 404 (0ms)
+2025-12-27 11:20:46 | DEBUG    | app.main             | log_requests         | [1120469861] GET /themes.php
+2025-12-27 11:20:46 | INFO     | app.main             | log_requests         | [1120469861] ✗ GET /themes.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120470182] GET /acp.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120470182] ✗ GET /acp.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120470506] GET /xpw.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120470506] ✗ GET /xpw.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120470834] GET /lufix.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120470834] ✗ GET /lufix.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120471129] GET /akp.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120471129] ✗ GET /akp.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120471445] GET /cwsd.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120471445] ✗ GET /cwsd.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120471849] GET /tll.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120471849] ✗ GET /tll.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120472094] GET /Okxob.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120472094] ✗ GET /Okxob.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120472421] GET /idea.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120472421] ✗ GET /idea.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120472742] GET /pepe.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120472742] ✗ GET /pepe.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120473158] GET /v2.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120473158] ✗ GET /v2.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120473473] GET /yca.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120473473] ✗ GET /yca.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120473786] GET /lock360.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120473786] ✗ GET /lock360.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120474095] GET /ot.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120474095] ✗ GET /ot.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120474408] GET /bolt.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120474408] ✗ GET /bolt.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120474719] GET /j.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120474719] ✗ GET /j.php - 404 (12ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120475036] GET /s.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120475036] ✗ GET /s.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120475498] GET /ucp.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120475498] ✗ GET /ucp.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120475815] GET /zse.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120475815] ✗ GET /zse.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120476127] GET /0x.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120476127] ✗ GET /0x.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120476445] GET /403.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120476445] ✗ GET /403.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120476768] GET /gfile.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120476768] ✗ GET /gfile.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120477087] GET /doc.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120477087] ✗ GET /doc.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120477438] GET /orm.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120477438] ✗ GET /orm.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120477731] GET /ay.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120477731] ✗ GET /ay.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120478058] GET /buy.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120478058] ✗ GET /buy.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120478457] GET /test.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120478457] ✗ GET /test.php - 404 (1ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120478785] GET /wsa.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120478785] ✗ GET /wsa.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120479099] GET /wolv.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120479099] ✗ GET /wolv.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120479407] GET /ea3f.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120479407] ✗ GET /ea3f.php - 404 (0ms)
+2025-12-27 11:20:47 | DEBUG    | app.main             | log_requests         | [1120479722] GET /price.php
+2025-12-27 11:20:47 | INFO     | app.main             | log_requests         | [1120479722] ✗ GET /price.php - 404 (0ms)
+2025-12-27 11:20:48 | DEBUG    | app.main             | log_requests         | [1120480035] GET /gmo.php
+2025-12-27 11:20:48 | INFO     | app.main             | log_requests         | [1120480035] ✗ GET /gmo.php - 404 (0ms)
+2025-12-27 11:33:55 | DEBUG    | app.main             | log_requests         | [1133552011] GET /
+2025-12-27 11:33:55 | INFO     | app.main             | log_requests         | [1133552011] âœ“ GET / - 200 (0ms)
+2025-12-27 11:33:55 | DEBUG    | app.main             | log_requests         | [1133554512] GET /
+2025-12-27 11:33:55 | INFO     | app.main             | log_requests         | [1133554512] âœ“ GET / - 200 (0ms)
+2025-12-27 11:33:55 | DEBUG    | app.main             | log_requests         | [1133557116] GET /wp-includes/wlwmanifest.xml
+2025-12-27 11:33:55 | INFO     | app.main             | log_requests         | [1133557116] ✗ GET /wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:55 | DEBUG    | app.main             | log_requests         | [1133559661] GET /xmlrpc.php
+2025-12-27 11:33:55 | INFO     | app.main             | log_requests         | [1133559661] ✗ GET /xmlrpc.php - 404 (0ms)
+2025-12-27 11:33:56 | DEBUG    | app.main             | log_requests         | [1133562206] GET /
+2025-12-27 11:33:56 | INFO     | app.main             | log_requests         | [1133562206] âœ“ GET / - 200 (0ms)
+2025-12-27 11:33:56 | DEBUG    | app.main             | log_requests         | [1133564908] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:56 | INFO     | app.main             | log_requests         | [1133564908] ✗ GET /blog/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:56 | DEBUG    | app.main             | log_requests         | [1133567420] GET /web/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:56 | INFO     | app.main             | log_requests         | [1133567420] ✗ GET /web/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:57 | DEBUG    | app.main             | log_requests         | [1133570071] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:57 | INFO     | app.main             | log_requests         | [1133570071] ✗ GET /wordpress/wp-includes/wlwmanifest.xml - 404 (4ms)
+2025-12-27 11:33:57 | DEBUG    | app.main             | log_requests         | [1133573908] GET /website/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:57 | INFO     | app.main             | log_requests         | [1133573908] ✗ GET /website/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:57 | DEBUG    | app.main             | log_requests         | [1133576481] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:57 | INFO     | app.main             | log_requests         | [1133576481] ✗ GET /wp/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-27 11:33:57 | DEBUG    | app.main             | log_requests         | [1133579265] GET /news/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:57 | INFO     | app.main             | log_requests         | [1133579265] ✗ GET /news/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:58 | DEBUG    | app.main             | log_requests         | [1133581833] GET /2018/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:58 | INFO     | app.main             | log_requests         | [1133581833] ✗ GET /2018/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-27 11:33:58 | DEBUG    | app.main             | log_requests         | [1133584405] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:58 | INFO     | app.main             | log_requests         | [1133584405] ✗ GET /2019/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:58 | DEBUG    | app.main             | log_requests         | [1133586954] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:58 | INFO     | app.main             | log_requests         | [1133586954] ✗ GET /shop/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:58 | DEBUG    | app.main             | log_requests         | [1133589409] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:58 | INFO     | app.main             | log_requests         | [1133589409] ✗ GET /wp1/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:59 | DEBUG    | app.main             | log_requests         | [1133592218] GET /test/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:59 | INFO     | app.main             | log_requests         | [1133592218] ✗ GET /test/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:59 | DEBUG    | app.main             | log_requests         | [1133595035] GET /media/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:59 | INFO     | app.main             | log_requests         | [1133595035] ✗ GET /media/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:33:59 | DEBUG    | app.main             | log_requests         | [1133597706] GET /wp2/wp-includes/wlwmanifest.xml
+2025-12-27 11:33:59 | INFO     | app.main             | log_requests         | [1133597706] ✗ GET /wp2/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:34:00 | DEBUG    | app.main             | log_requests         | [1134000143] GET /site/wp-includes/wlwmanifest.xml
+2025-12-27 11:34:00 | INFO     | app.main             | log_requests         | [1134000143] ✗ GET /site/wp-includes/wlwmanifest.xml - 404 (16ms)
+2025-12-27 11:34:00 | DEBUG    | app.main             | log_requests         | [1134002845] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-27 11:34:00 | INFO     | app.main             | log_requests         | [1134002845] ✗ GET /cms/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:34:00 | DEBUG    | app.main             | log_requests         | [1134005816] GET /sito/wp-includes/wlwmanifest.xml
+2025-12-27 11:34:00 | INFO     | app.main             | log_requests         | [1134005816] ✗ GET /sito/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:49:52 | DEBUG    | app.main             | log_requests         | [1149527821] GET /
+2025-12-27 11:49:52 | INFO     | app.main             | log_requests         | [1149527821] âœ“ GET / - 200 (15ms)
+2025-12-27 11:50:11 | DEBUG    | app.main             | log_requests         | [1150113625] GET /favicon.ico
+2025-12-27 11:50:11 | INFO     | app.main             | log_requests         | [1150113625] ✗ GET /favicon.ico - 404 (0ms)
+2025-12-27 11:50:11 | DEBUG    | app.main             | log_requests         | [1150119364] GET /robots.txt
+2025-12-27 11:50:11 | INFO     | app.main             | log_requests         | [1150119364] ✗ GET /robots.txt - 404 (0ms)
+2025-12-27 11:50:12 | DEBUG    | app.main             | log_requests         | [1150125343] GET /sitemap.xml
+2025-12-27 11:50:12 | INFO     | app.main             | log_requests         | [1150125343] ✗ GET /sitemap.xml - 404 (0ms)
+2025-12-27 11:50:13 | DEBUG    | app.main             | log_requests         | [1150131029] GET /config.json
+2025-12-27 11:50:13 | INFO     | app.main             | log_requests         | [1150131029] ✗ GET /config.json - 404 (0ms)
+2025-12-27 11:50:15 | DEBUG    | app.main             | log_requests         | [1150158695] GET /
+2025-12-27 11:50:15 | INFO     | app.main             | log_requests         | [1150158695] âœ“ GET / - 200 (0ms)
+2025-12-27 11:53:11 | DEBUG    | app.main             | log_requests         | [1153117474] GET /
+2025-12-27 11:53:11 | INFO     | app.main             | log_requests         | [1153117474] âœ“ GET / - 200 (0ms)
+2025-12-27 11:53:11 | DEBUG    | app.main             | log_requests         | [1153119894] GET /
+2025-12-27 11:53:11 | INFO     | app.main             | log_requests         | [1153119894] âœ“ GET / - 200 (0ms)
+2025-12-27 11:53:12 | DEBUG    | app.main             | log_requests         | [1153122481] GET /wp-includes/wlwmanifest.xml
+2025-12-27 11:53:12 | INFO     | app.main             | log_requests         | [1153122481] ✗ GET /wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:12 | DEBUG    | app.main             | log_requests         | [1153124877] GET /xmlrpc.php
+2025-12-27 11:53:12 | INFO     | app.main             | log_requests         | [1153124877] ✗ GET /xmlrpc.php - 404 (0ms)
+2025-12-27 11:53:12 | DEBUG    | app.main             | log_requests         | [1153127451] GET /
+2025-12-27 11:53:12 | INFO     | app.main             | log_requests         | [1153127451] âœ“ GET / - 200 (0ms)
+2025-12-27 11:53:12 | DEBUG    | app.main             | log_requests         | [1153129879] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:12 | INFO     | app.main             | log_requests         | [1153129879] ✗ GET /blog/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:13 | DEBUG    | app.main             | log_requests         | [1153132427] GET /web/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:13 | INFO     | app.main             | log_requests         | [1153132427] ✗ GET /web/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:13 | DEBUG    | app.main             | log_requests         | [1153134849] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:13 | INFO     | app.main             | log_requests         | [1153134849] ✗ GET /wordpress/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:13 | DEBUG    | app.main             | log_requests         | [1153137587] GET /website/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:13 | INFO     | app.main             | log_requests         | [1153137587] ✗ GET /website/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:14 | DEBUG    | app.main             | log_requests         | [1153140035] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:14 | INFO     | app.main             | log_requests         | [1153140035] ✗ GET /wp/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:14 | DEBUG    | app.main             | log_requests         | [1153142604] GET /news/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:14 | INFO     | app.main             | log_requests         | [1153142604] ✗ GET /news/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:14 | DEBUG    | app.main             | log_requests         | [1153145065] GET /2020/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:14 | INFO     | app.main             | log_requests         | [1153145065] ✗ GET /2020/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:14 | DEBUG    | app.main             | log_requests         | [1153147606] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:14 | INFO     | app.main             | log_requests         | [1153147606] ✗ GET /2019/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:15 | DEBUG    | app.main             | log_requests         | [1153150038] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:15 | INFO     | app.main             | log_requests         | [1153150038] ✗ GET /shop/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:15 | DEBUG    | app.main             | log_requests         | [1153152536] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:15 | INFO     | app.main             | log_requests         | [1153152536] ✗ GET /wp1/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:15 | DEBUG    | app.main             | log_requests         | [1153155036] GET /test/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:15 | INFO     | app.main             | log_requests         | [1153155036] ✗ GET /test/wp-includes/wlwmanifest.xml - 404 (6ms)
+2025-12-27 11:53:15 | DEBUG    | app.main             | log_requests         | [1153157536] GET /wp2/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:15 | INFO     | app.main             | log_requests         | [1153157536] ✗ GET /wp2/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:16 | DEBUG    | app.main             | log_requests         | [1153160046] GET /site/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:16 | INFO     | app.main             | log_requests         | [1153160046] ✗ GET /site/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:16 | DEBUG    | app.main             | log_requests         | [1153162538] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:16 | INFO     | app.main             | log_requests         | [1153162538] ✗ GET /cms/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 11:53:16 | DEBUG    | app.main             | log_requests         | [1153165034] GET /sito/wp-includes/wlwmanifest.xml
+2025-12-27 11:53:16 | INFO     | app.main             | log_requests         | [1153165034] ✗ GET /sito/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-27 12:05:32 | DEBUG    | app.main             | log_requests         | [1205325599] POST /
+2025-12-27 12:05:32 | INFO     | app.main             | log_requests         | [1205325599] ✗ POST / - 405 (0ms)
+2025-12-27 12:05:40 | DEBUG    | app.main             | log_requests         | [1205409996] GET /
+2025-12-27 12:05:40 | INFO     | app.main             | log_requests         | [1205409996] âœ“ GET / - 200 (0ms)
+2025-12-27 12:07:52 | DEBUG    | app.main             | log_requests         | [1207528509] GET /
+2025-12-27 12:07:52 | INFO     | app.main             | log_requests         | [1207528509] âœ“ GET / - 200 (0ms)
+2025-12-27 12:28:32 | DEBUG    | app.main             | log_requests         | [1228328832] GET /
+2025-12-27 12:28:32 | INFO     | app.main             | log_requests         | [1228328832] âœ“ GET / - 200 (0ms)
+2025-12-27 12:32:57 | DEBUG    | app.main             | log_requests         | [1232570550] GET /
+2025-12-27 12:32:57 | INFO     | app.main             | log_requests         | [1232570550] âœ“ GET / - 200 (0ms)
+2025-12-27 12:40:05 | DEBUG    | app.main             | log_requests         | [1240054638] GET /
+2025-12-27 12:40:05 | INFO     | app.main             | log_requests         | [1240054638] âœ“ GET / - 200 (0ms)
+2025-12-27 12:44:24 | DEBUG    | app.main             | log_requests         | [1244246556] POST /api/indicator/heatmap
+2025-12-27 12:44:50 | INFO     | app.main             | log_requests         | [1244246556] âœ“ POST /api/indicator/heatmap - 200 (25645ms)
+2025-12-27 12:45:14 | DEBUG    | app.main             | log_requests         | [1245144592] GET /api/logs/errors
+2025-12-27 12:45:14 | INFO     | app.main             | log_requests         | [1245144592] âœ“ GET /api/logs/errors - 200 (1ms)
+2025-12-27 12:45:14 | DEBUG    | app.main             | log_requests         | [1245145000] GET /favicon.ico
+2025-12-27 12:45:14 | INFO     | app.main             | log_requests         | [1245145000] ✗ GET /favicon.ico - 404 (0ms)
+2025-12-27 12:45:37 | DEBUG    | app.main             | log_requests         | [1245372110] GET /api/data/symbols
+2025-12-27 12:45:37 | DEBUG    | app.main             | log_requests         | [1245372131] GET /api/data/available
+2025-12-27 12:45:42 | INFO     | app.main             | log_requests         | [1245372110] âœ“ GET /api/data/symbols - 200 (5630ms)
+2025-12-27 12:45:42 | INFO     | app.main             | log_requests         | [1245372131] âœ“ GET /api/data/available - 200 (5629ms)
+2025-12-27 12:45:42 | DEBUG    | app.main             | log_requests         | [1245428464] GET /api/data/symbols
+2025-12-27 12:45:42 | DEBUG    | app.main             | log_requests         | [1245428491] GET /api/data/available
+2025-12-27 12:45:42 | INFO     | app.main             | log_requests         | [1245428464] âœ“ GET /api/data/symbols - 200 (4ms)
+2025-12-27 12:45:47 | INFO     | app.main             | log_requests         | [1245428491] âœ“ GET /api/data/available - 200 (4851ms)
+2025-12-27 12:48:54 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 12:48:54 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 12:48:54 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 12:48:54 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 12:48:54 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 12:48:54 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 12:48:54 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 12:48:54 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 12:48:54 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 12:48:59 | DEBUG    | app.main             | log_requests         | [1248593909] GET /api/data/available
+2025-12-27 12:48:59 | DEBUG    | app.main             | log_requests         | [1248593909] GET /api/data/symbols
+2025-12-27 12:49:04 | INFO     | app.main             | log_requests         | [1248593909] âœ“ GET /api/data/available - 200 (5221ms)
+2025-12-27 12:49:04 | INFO     | app.main             | log_requests         | [1248593909] âœ“ GET /api/data/symbols - 200 (5224ms)
+2025-12-27 12:49:04 | DEBUG    | app.main             | log_requests         | [1249046177] GET /api/data/available
+2025-12-27 12:49:09 | DEBUG    | app.main             | log_requests         | [1249094581] GET /api/data/symbols
+2025-12-27 12:49:09 | INFO     | app.main             | log_requests         | [1249046177] âœ“ GET /api/data/available - 200 (4840ms)
+2025-12-27 12:49:09 | DEBUG    | app.main             | log_requests         | [1249094581] POST /api/indicator/calculate
+2025-12-27 12:49:09 | INFO     | app.main             | log_requests         | [1249094581] âœ“ GET /api/data/symbols - 200 (0ms)
+2025-12-27 12:49:11 | INFO     | app.main             | log_requests         | [1249094581] âœ“ POST /api/indicator/calculate - 200 (1765ms)
+2025-12-27 12:49:22 | DEBUG    | app.main             | log_requests         | [1249224559] POST /api/indicator/heatmap
+2025-12-27 12:49:46 | INFO     | app.main             | log_requests         | [1249224559] âœ“ POST /api/indicator/heatmap - 200 (24206ms)
+2025-12-27 12:50:25 | DEBUG    | app.main             | log_requests         | [1250256465] POST /api/indicator/calculate
