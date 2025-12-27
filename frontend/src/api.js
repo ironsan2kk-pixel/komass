@@ -1,3 +1,11 @@
+/**
+ * api.js
+ * ======
+ * API client for Komas Trading Server.
+ * 
+ * Chat #27: Added Dominant preset API methods
+ */
+
 import axios from 'axios';
 
 const API_BASE = 'http://localhost:8000';
@@ -64,6 +72,8 @@ export const indicatorApi = {
     }),
   getSchema: () => api.get('/api/indicator/ui-schema'),
   heatmap: (params) => api.post('/api/indicator/heatmap', params),
+  cacheStats: () => api.get('/api/indicator/cache-stats'),
+  clearCache: () => api.post('/api/indicator/cache-clear'),
 };
 
 // Backtest API
@@ -73,13 +83,54 @@ export const backtestApi = {
   getHistory: () => api.get('/api/backtest/history'),
 };
 
-// Presets API
+// ============ PRESETS API (Updated for Dominant) ============
 export const presetsApi = {
-  getAll: () => api.get('/api/settings/presets'),
-  get: (id) => api.get(`/api/settings/presets/${id}`),
+  // General presets
+  getAll: (params = {}) => api.get('/api/presets/list', { params }),
+  get: (id) => api.get(`/api/presets/${id}`),
+  create: (data) => api.post('/api/presets/create', data),
+  update: (id, data) => api.put(`/api/presets/${id}`, data),
+  delete: (id) => api.delete(`/api/presets/${id}`),
+  import: (data) => api.post('/api/presets/import', data),
+  export: (id) => api.get(`/api/presets/export/${id}`),
+  stats: () => api.get('/api/presets/stats'),
+  
+  // Dominant-specific
+  dominant: {
+    list: (params = {}) => api.get('/api/presets/dominant/list', { params }),
+    create: (data) => api.post('/api/presets/dominant/create', data),
+    seed: () => api.post('/api/presets/dominant/seed'),
+  },
+  
+  // TRG-specific (future)
+  trg: {
+    list: (params = {}) => api.get('/api/presets/list', { params: { ...params, indicator_type: 'trg' } }),
+    generate: () => api.post('/api/presets/trg/generate'),
+  },
+  
+  // Legacy API for backward compatibility
   save: (params) => api.post('/api/settings/presets', params),
-  update: (id, params) => api.put(`/api/settings/presets/${id}`, params),
-  delete: (id) => api.delete(`/api/settings/presets/${id}`),
+};
+
+// ============ DOMINANT API (NEW) ============
+export const dominantApi = {
+  // Presets
+  getPresets: (params = {}) => api.get('/api/presets/dominant/list', { params }),
+  getPreset: (id) => api.get(`/api/presets/${id}`),
+  createPreset: (data) => api.post('/api/presets/dominant/create', data),
+  seedPresets: () => api.post('/api/presets/dominant/seed'),
+  
+  // Calculate (uses indicator API with dominant params)
+  calculate: (params) => api.post('/api/indicator/calculate', {
+    ...params,
+    indicator_type: 'dominant'
+  }),
+  
+  // Backtest
+  backtest: (params) => api.post('/api/indicator/backtest', {
+    ...params,
+    indicator_type: 'dominant'
+  }),
 };
 
 // Signals API

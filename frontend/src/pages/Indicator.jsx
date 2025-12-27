@@ -1,4 +1,19 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+/**
+ * Indicator.jsx
+ * =============
+ * Main indicator page with support for TRG and Dominant indicators.
+ * 
+ * Features:
+ * - Indicator type selector (TRG / Dominant)
+ * - Preset browser for Dominant presets
+ * - Auto-fill parameters from selected preset
+ * - "Modified" tracking for preset changes
+ * - Dynamic parameter forms
+ * 
+ * Chat #27: Dominant UI Integration
+ */
+
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createChart } from 'lightweight-charts';
 import {
   LogsPanel,
@@ -68,7 +83,16 @@ const DEFAULT_SETTINGS = {
   initial_capital: 10000,
   leverage: 1,
   use_commission: false,
-  commission_percent: 0.1
+  commission_percent: 0.1,
+  // Dominant (new)
+  dominant_sensitivity: 21,
+  dominant_filter_type: 0,
+  dominant_sl_mode: 0,
+  dominant_tp1_percent: 1.0, dominant_tp2_percent: 2.0, 
+  dominant_tp3_percent: 3.0, dominant_tp4_percent: 5.0,
+  dominant_tp1_amount: 40, dominant_tp2_amount: 30, 
+  dominant_tp3_amount: 20, dominant_tp4_amount: 10,
+  dominant_sl_percent: 2.0,
 };
 
 const Indicator = () => {
@@ -77,6 +101,15 @@ const Indicator = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('chart');
+  
+  // Indicator type state (NEW)
+  const [indicatorType, setIndicatorType] = useState('trg');
+  
+  // Dominant presets state (NEW)
+  const [dominantPresets, setDominantPresets] = useState([]);
+  const [presetsLoading, setPresetsLoading] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState(null);
+  const [presetOriginalParams, setPresetOriginalParams] = useState(null);
   
   // Data range from last calculation
   const [dataRange, setDataRange] = useState(null);
@@ -141,6 +174,92 @@ const Indicator = () => {
     const interval = setInterval(fetchCacheStats, 30000);
     return () => clearInterval(interval);
   }, [fetchCacheStats]);
+
+  // ============ DOMINANT PRESETS LOADING (NEW) ============
+  const fetchDominantPresets = useCallback(async () => {
+    setPresetsLoading(true);
+    try {
+      const res = await fetch('/api/presets/dominant/list');
+      const data = await res.json();
+      if (data.presets) {
+        setDominantPresets(data.presets);
+        addLog(`📦 Загружено ${data.presets.length} пресетов Dominant`, 'info');
+      } else if (Array.isArray(data)) {
+        setDominantPresets(data);
+        addLog(`📦 Загружено ${data.length} пресетов Dominant`, 'info');
+      }
+    } catch (err) {
+      addLog(`❌ Ошибка загрузки пресетов: ${err.message}`, 'error');
+      console.error('Presets fetch error:', err);
+    } finally {
+      setPresetsLoading(false);
+    }
+  }, [addLog]);
+
+  // Load Dominant presets on indicator change
+  useEffect(() => {
+    if (indicatorType === 'dominant' && dominantPresets.length === 0) {
+      fetchDominantPresets();
+    }
+  }, [indicatorType, dominantPresets.length, fetchDominantPresets]);
+
+  // ============ PRESET SELECTION (NEW) ============
+  const handlePresetSelect = useCallback((preset) => {
+    if (!preset) {
+      setSelectedPreset(null);
+      setPresetOriginalParams(null);
+      addLog('🔄 Пресет сброшен', 'info');
+      return;
+    }
+
+    setSelectedPreset(preset);
+    
+    // Extract params and apply to settings
+    const params = preset.params || {};
+    const newSettings = {
+      dominant_sensitivity: params.sensitivity ?? params.sens ?? 21,
+      dominant_filter_type: params.filter_type ?? params.filterType ?? 0,
+      dominant_sl_mode: params.sl_mode ?? params.slMode ?? 0,
+      dominant_tp1_percent: params.tp1_percent ?? params.tp1 ?? 1.0,
+      dominant_tp2_percent: params.tp2_percent ?? params.tp2 ?? 2.0,
+      dominant_tp3_percent: params.tp3_percent ?? params.tp3 ?? 3.0,
+      dominant_tp4_percent: params.tp4_percent ?? params.tp4 ?? 5.0,
+      dominant_tp1_amount: params.tp1_amount ?? 40,
+      dominant_tp2_amount: params.tp2_amount ?? 30,
+      dominant_tp3_amount: params.tp3_amount ?? 20,
+      dominant_tp4_amount: params.tp4_amount ?? 10,
+      dominant_sl_percent: params.sl_percent ?? params.sl ?? 2.0,
+    };
+    
+    setPresetOriginalParams(newSettings);
+    setSettings(prev => ({ ...prev, ...newSettings }));
+    addLog(`✅ Пресет "${preset.name}" применён`, 'success');
+  }, [addLog]);
+
+  // Check if current settings differ from selected preset
+  const isModified = useMemo(() => {
+    if (!selectedPreset || !presetOriginalParams) return false;
+    
+    const keysToCheck = [
+      'dominant_sensitivity', 'dominant_filter_type', 'dominant_sl_mode',
+      'dominant_tp1_percent', 'dominant_tp2_percent', 'dominant_tp3_percent', 'dominant_tp4_percent',
+      'dominant_sl_percent'
+    ];
+    
+    return keysToCheck.some(key => settings[key] !== presetOriginalParams[key]);
+  }, [settings, selectedPreset, presetOriginalParams]);
+
+  // Handle indicator type change
+  const handleIndicatorChange = useCallback((newType) => {
+    setIndicatorType(newType);
+    addLog(`🔄 Индикатор изменён на ${newType.toUpperCase()}`, 'info');
+    
+    // Reset preset selection when switching to TRG
+    if (newType === 'trg') {
+      setSelectedPreset(null);
+      setPresetOriginalParams(null);
+    }
+  }, [addLog]);
 
   // Update settings
   const updateSetting = (key, value) => {
@@ -274,13 +393,21 @@ const Indicator = () => {
       periodInfo = ` [${settings.start_date || '...'} — ${settings.end_date || '...'}]`;
     }
     const forceLabel = forceRecalculate ? ' (force)' : '';
-    addLog(`🚀 Запуск ${settings.symbol} ${settings.timeframe}${periodInfo}${forceLabel}...`, 'info');
+    const indicatorLabel = indicatorType.toUpperCase();
+    addLog(`🚀 Запуск ${indicatorLabel}: ${settings.symbol} ${settings.timeframe}${periodInfo}${forceLabel}...`, 'info');
     
     try {
+      // Build request body based on indicator type
+      const requestBody = {
+        ...settings,
+        indicator_type: indicatorType,
+        force_recalculate: forceRecalculate
+      };
+      
       const res = await fetch('/api/indicator/calculate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...settings, force_recalculate: forceRecalculate })
+        body: JSON.stringify(requestBody)
       });
       
       let data;
@@ -303,7 +430,7 @@ const Indicator = () => {
           const retry = await fetch('/api/indicator/calculate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(settings)
+            body: JSON.stringify(requestBody)
           });
           
           let retryData;
@@ -428,19 +555,24 @@ const Indicator = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `komas_${settings.symbol}_${settings.timeframe}_trades.csv`;
+    a.download = `komas_${indicatorType}_${settings.symbol}_${settings.timeframe}_trades.csv`;
     a.click();
     addLog('📄 CSV экспортирован', 'success');
   };
 
   const exportJSON = () => {
     if (!result) return;
-    const data = { settings, stats: result.stats, trades: result.trades };
+    const data = { 
+      indicator_type: indicatorType,
+      settings, 
+      stats: result.stats, 
+      trades: result.trades 
+    };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `komas_${settings.symbol}_${settings.timeframe}.json`;
+    a.download = `komas_${indicatorType}_${settings.symbol}_${settings.timeframe}.json`;
     a.click();
     addLog('📄 JSON экспортирован', 'success');
   };
@@ -497,7 +629,9 @@ const Indicator = () => {
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center gap-3">
-          <h1 className="text-lg font-bold text-white">🎯 Komas Indicator</h1>
+          <h1 className="text-lg font-bold text-white">
+            {indicatorType === 'trg' ? '🎯' : '💎'} Komas {indicatorType.toUpperCase()}
+          </h1>
           
           {/* Symbol */}
           <div className="relative">
@@ -549,6 +683,17 @@ const Indicator = () => {
           {(settings.start_date || settings.end_date) && (
             <span className="text-xs text-purple-400 bg-purple-900/30 px-2 py-1 rounded">
               📅 {settings.start_date || '...'} — {settings.end_date || '...'}
+            </span>
+          )}
+          
+          {/* Selected preset indicator */}
+          {selectedPreset && (
+            <span className={`text-xs px-2 py-1 rounded ${
+              isModified 
+                ? 'text-orange-400 bg-orange-900/30' 
+                : 'text-blue-400 bg-blue-900/30'
+            }`}>
+              🎛️ {selectedPreset.name} {isModified && '(изменён)'}
             </span>
           )}
           
@@ -619,6 +764,14 @@ const Indicator = () => {
           dataRange={dataRange}
           cacheStats={cacheStats}
           onClearCache={clearCache}
+          // New Dominant props
+          indicatorType={indicatorType}
+          onIndicatorChange={handleIndicatorChange}
+          presets={dominantPresets}
+          presetsLoading={presetsLoading}
+          selectedPreset={selectedPreset}
+          onPresetSelect={handlePresetSelect}
+          isModified={isModified}
         />
 
         {/* Content */}
@@ -692,4 +845,3 @@ const Indicator = () => {
 };
 
 export default Indicator;
-

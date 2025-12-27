@@ -21,6 +21,19 @@
   background: rgb(107, 114, 128);
 }
 
+/* Smaller scrollbar for preset list */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(55, 65, 81);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(75, 85, 99);
+}
+
 /* Custom selection */
 ::selection {
   background: rgba(59, 130, 246, 0.5);
@@ -42,4 +55,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/* Writing mode for collapsed sidebar */
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }

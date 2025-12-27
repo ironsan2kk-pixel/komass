@@ -1,112 +1,88 @@
-# KOMAS v4.0 - Chat Reference
+# KOMAS v4.0 — Chat Reference
 
-> **Last Updated:** 27.12.2025  
-> **GitHub:** https://github.com/ironsan2kk-pixel/komass
-
----
-
-## 📋 COMPLETED CHATS
-
-### Phase 1: Stabilization
-
-| # | Name | Date | Key Changes |
-|---|------|------|-------------|
-| 15 | Bugfixes UI | 27.12.2025 | MonthlyPanel, StatsPanel, UTF-8 fixes |
-| 16 | Bugfixes Backend | 27.12.2025 | Duplicate timestamps, error handling |
-| 17 | Data Futures Only | 27.12.2025 | Removed spot, fapi endpoints |
-| 18 | Data Period Selection | 27.12.2025 | Date picker, period filtering |
-| 19 | QA Checkpoint #1 | 27.12.2025 | Phase 1 testing complete |
-
-### Phase 2: Dominant Indicator
-
-| # | Name | Date | Key Changes |
-|---|------|------|-------------|
-| 20 | Dominant Core | 27.12.2025 | Channel + Fibonacci calculation |
-| 21 | Dominant Signals | 27.12.2025 | Signal generation, trend tracking |
-| 22 | Dominant Filters | 27.12.2025 | 5 filter types (None/ATR/RSI/Combined/Vol) |
-| 23 | Dominant SL Modes | 27.12.2025 | 5 SL modes (Fixed/BE TP1-3/Cascade) |
-| 24 | QA Checkpoint #2 | 27.12.2025 | Dominant testing complete |
-| 25 | Dominant AI Resolution | 27.12.2025 | Scoring, backtest, multi-core optimization |
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass  
+> **Last Updated:** 27.12.2025
 
 ---
 
-## 📦 CHAT #25 DETAILS
+## Phase 2: Dominant Indicator
 
-### Summary
-Implemented AI Resolution for Dominant indicator - automatic optimization of sensitivity parameter (12-60) using multi-core parallel processing.
+### Chat #27 — Dominant UI Integration ✅
+**Date:** 27.12.2025  
+**Status:** Completed
 
-### Files Modified
-- `backend/app/indicators/dominant.py` (v4.0.3 → v4.0.4)
+**Summary:**
+Integrated Dominant indicator and presets into frontend UI with indicator selector, preset browser, and parameter auto-fill.
 
-### New Functions Added
+**Key Changes:**
+- Added indicator type selector (TRG / Dominant) to SettingsSidebar
+- Created PresetSelector component with category tabs and search
+- Implemented auto-fill parameters from selected preset
+- Added "Modified" badge when user changes params from preset
+- Dynamic parameter forms based on indicator type
+- Updated api.js with Dominant preset methods
 
-```python
-# Scoring (0-100 points)
-calculate_sensitivity_score(metrics: Dict) -> float
-
-# Full backtest with metrics
-run_full_backtest(df, sensitivity, filter_type, sl_mode, ...) -> Dict
-
-# Multi-core optimization
-optimize_sensitivity(df, filter_type, sl_mode, sensitivities, workers, progress_callback) -> Dict
-
-# Comparison DataFrame
-compare_sensitivities(df, sensitivities, ...) -> pd.DataFrame
-
-# Score breakdown
-get_score_breakdown(metrics) -> Dict
-
-# Formatted summary
-get_optimization_summary(result) -> str
-
-# Module info
-get_ai_resolution_info() -> Dict
+**Files Changed:**
+```
+frontend/src/
+├── components/Indicator/
+│   ├── PresetSelector.jsx     # NEW - Preset browser component
+│   ├── SettingsSidebar.jsx    # UPDATED - Indicator selector + presets
+│   └── index.js               # UPDATED - Export PresetSelector
+├── pages/
+│   └── Indicator.jsx          # UPDATED - State for indicator type & presets
+└── api.js                     # UPDATED - Dominant API methods
 ```
 
-### Scoring Formula
+**API Endpoints Used:**
+- `GET /api/presets/dominant/list` - List Dominant presets
+
+**Git Commit:**
 ```
-Score = Profit(30%) + WinRate(25%) + Stability(25%) + Drawdown(20%)
+feat(ui): add Dominant indicator UI integration
 
-- Profit: PnL -20% to +50% → 0 to 30 points
-- Win Rate: 0% to 100% → 0 to 25 points
-- Stability: StdDev 0 to 20% → 25 to 0 points
-- Drawdown: DD 0% to 40% → 20 to 0 points
-```
+- Add indicator type selector (TRG/Dominant)
+- Create PresetSelector component with categories and search
+- Auto-fill parameters from selected preset
+- Add "Modified" badge for changed params
+- Update api.js with Dominant methods
 
-### Sensitivities Tested
-```python
-OPTIMIZATION_SENSITIVITIES = [12, 15, 18, 21, 25, 30, 35, 40, 45, 50, 55, 60]
-```
-
-### Git Commit
-```
-feat(indicators): add Dominant AI Resolution
-
-- Add calculate_sensitivity_score() with weighted metrics
-- Add run_full_backtest() for complete backtesting
-- Add optimize_sensitivity() with ProcessPoolExecutor
-- Score: Profit(30%) + WinRate(25%) + Stability(25%) + DD(20%)
-- Add progress callback support for SSE streaming
-- Add compare_sensitivities(), get_score_breakdown()
-- Add get_optimization_summary(), get_ai_resolution_info()
-- Update version to 4.0.4
-- Unit tests (65+ tests)
-
-Chat #25: Dominant AI Resolution
+Chat #27: Dominant UI Integration
 ```
 
 ---
 
-## 🔜 NEXT CHAT
+## Next: Phase 3 — Preset System
 
-**Chat #26 — Dominant: 37 Presets DB**
+### Chat #28 — Presets Architecture
+**Status:** Pending
 
-Tasks:
-- Create `presets` table in SQLite
-- Migrate 37 presets from Pine Script
-- API: GET /api/presets/list
-- API: GET /api/presets/{id}
-- Unit tests
+**Tasks:**
+- [ ] Create `presets/base.py` - Base Preset class
+- [ ] Create `presets/registry.py` - Preset registry
+- [ ] Unified interfaces for TRG and Dominant
+- [ ] JSON schema validation
+- [ ] Unit tests
+
+---
+
+## Previous Chats Summary
+
+| # | Name | Status | Key Feature |
+|---|------|--------|-------------|
+| 15 | Bugfixes UI | ✅ | UTF-8 fix, component safety |
+| 16 | Bugfixes Backend | ✅ | Error handling |
+| 17 | Data Futures Only | ✅ | Remove spot, futures only |
+| 18 | Data Period Selection | ✅ | Date range picker |
+| 19 | QA Checkpoint #1 | ✅ | Testing Phase 1 |
+| 20 | Dominant Core | ✅ | Channel + Fib calculation |
+| 21 | Dominant Signals | ✅ | Signal generation |
+| 22 | Dominant Filters | ✅ | 5 filter types |
+| 23 | Dominant SL Modes | ✅ | 5 SL modes |
+| 24 | QA Checkpoint #2 | ✅ | Testing Dominant |
+| 25 | Dominant AI Resolution | ✅ | Scoring + optimization |
+| 26 | Dominant 125 Presets DB | ✅ | SQLite + 125 presets |
+| 27 | Dominant UI Integration | ✅ | UI selector + presets |
 
 ---
 

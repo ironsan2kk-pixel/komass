@@ -1,6 +1,23 @@
-import React, { useState, useMemo } from 'react';
+/**
+ * SettingsSidebar.jsx
+ * ===================
+ * Settings panel with indicator selector (TRG/Dominant), preset browser,
+ * and dynamic parameter forms.
+ * 
+ * Features:
+ * - Indicator type selector (TRG / Dominant)
+ * - Preset browser with categories and search
+ * - Dynamic parameters based on indicator type
+ * - Auto-fill from selected preset
+ * - "Modified" badge when params differ from preset
+ * 
+ * Chat #27: Dominant UI Integration
+ */
 
-const Section = ({ title, icon, children, defaultOpen = true }) => {
+import React, { useState, useMemo, useEffect } from 'react';
+import PresetSelector from './PresetSelector';
+
+const Section = ({ title, icon, children, defaultOpen = true, badge = null }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
@@ -12,6 +29,11 @@ const Section = ({ title, icon, children, defaultOpen = true }) => {
         <div className="flex items-center gap-2">
           <span>{icon}</span>
           <span className="text-sm font-medium text-gray-200">{title}</span>
+          {badge && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-600 text-white">
+              {badge}
+            </span>
+          )}
         </div>
         <span className="text-gray-500 text-xs">{isOpen ? '▼' : '▶'}</span>
       </button>
@@ -24,7 +46,7 @@ const Section = ({ title, icon, children, defaultOpen = true }) => {
   );
 };
 
-const NumberInput = ({ label, value, onChange, min, max, step = 1, suffix = '' }) => (
+const NumberInput = ({ label, value, onChange, min, max, step = 1, suffix = '', disabled = false }) => (
   <div className="flex items-center justify-between">
     <span className="text-xs text-gray-400">{label}</span>
     <div className="flex items-center gap-1">
@@ -35,32 +57,39 @@ const NumberInput = ({ label, value, onChange, min, max, step = 1, suffix = '' }
         min={min}
         max={max}
         step={step}
-        className="w-16 bg-gray-700 text-white text-xs rounded px-2 py-1 text-right"
+        disabled={disabled}
+        className={`w-16 bg-gray-700 text-white text-xs rounded px-2 py-1 text-right ${
+          disabled ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       />
       {suffix && <span className="text-xs text-gray-500">{suffix}</span>}
     </div>
   </div>
 );
 
-const Checkbox = ({ label, checked, onChange }) => (
-  <label className="flex items-center gap-2 cursor-pointer">
+const Checkbox = ({ label, checked, onChange, disabled = false }) => (
+  <label className={`flex items-center gap-2 ${disabled ? 'opacity-50' : 'cursor-pointer'}`}>
     <input
       type="checkbox"
       checked={checked}
       onChange={(e) => onChange(e.target.checked)}
+      disabled={disabled}
       className="rounded"
     />
     <span className="text-xs text-gray-300">{label}</span>
   </label>
 );
 
-const Select = ({ label, value, onChange, options }) => (
+const Select = ({ label, value, onChange, options, disabled = false }) => (
   <div className="flex items-center justify-between">
     <span className="text-xs text-gray-400">{label}</span>
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="bg-gray-700 text-white text-xs rounded px-2 py-1"
+      disabled={disabled}
+      className={`bg-gray-700 text-white text-xs rounded px-2 py-1 ${
+        disabled ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
     >
       {options.map(opt => (
         <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -69,7 +98,23 @@ const Select = ({ label, value, onChange, options }) => (
   </div>
 );
 
-const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, cacheStats, onClearCache }) => {
+const SettingsSidebar = ({ 
+  settings, 
+  onUpdate, 
+  collapsed, 
+  onToggle, 
+  dataRange, 
+  cacheStats, 
+  onClearCache,
+  // New props for Dominant integration
+  indicatorType = 'trg',
+  onIndicatorChange,
+  presets = [],
+  presetsLoading = false,
+  selectedPreset,
+  onPresetSelect,
+  isModified = false
+}) => {
   const update = (key, value) => onUpdate(key, value);
 
   // Calculate quick period presets based on available data
@@ -133,7 +178,7 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
   }
 
   return (
-    <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col overflow-hidden">
+    <div className="w-72 bg-gray-800 border-r border-gray-700 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-gray-700">
         <span className="text-sm font-bold text-white">⚙️ Настройки</span>
@@ -145,6 +190,75 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
         
+        {/* ============ INDICATOR TYPE SELECTOR ============ */}
+        <Section title="Индикатор" icon="📊" defaultOpen={true}>
+          <div className="flex gap-1 mb-3">
+            <button
+              onClick={() => onIndicatorChange?.('trg')}
+              className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-colors ${
+                indicatorType === 'trg'
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+              }`}
+            >
+              TRG
+            </button>
+            <button
+              onClick={() => onIndicatorChange?.('dominant')}
+              className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-colors ${
+                indicatorType === 'dominant'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+              }`}
+            >
+              Dominant
+            </button>
+          </div>
+          
+          {/* Indicator description */}
+          <div className="text-[10px] text-gray-500 bg-gray-700/50 rounded p-2">
+            {indicatorType === 'trg' ? (
+              <>
+                <strong className="text-purple-400">TRG</strong> — ATR-based trend detection. 
+                Параметры: i1 (ATR Length), i2 (Multiplier), 10 уровней TP.
+              </>
+            ) : (
+              <>
+                <strong className="text-blue-400">Dominant</strong> — Channel + Fibonacci levels.
+                Параметр: Sensitivity (12-60). 4 уровня TP. 5 типов фильтров.
+              </>
+            )}
+          </div>
+        </Section>
+
+        {/* ============ PRESET SELECTOR (for Dominant) ============ */}
+        {indicatorType === 'dominant' && (
+          <Section 
+            title="Пресет" 
+            icon="🎛️" 
+            defaultOpen={true}
+            badge={isModified ? 'Изменён' : null}
+          >
+            <PresetSelector
+              presets={presets}
+              selectedPreset={selectedPreset}
+              onSelect={onPresetSelect}
+              loading={presetsLoading}
+              indicatorType={indicatorType}
+            />
+            
+            {/* Reset to preset button */}
+            {selectedPreset && isModified && (
+              <button
+                onClick={() => onPresetSelect(selectedPreset)}
+                className="w-full mt-2 px-3 py-1.5 bg-orange-600/20 text-orange-400 text-xs rounded hover:bg-orange-600/30 transition-colors"
+              >
+                🔄 Сбросить к пресету
+              </button>
+            )}
+          </Section>
+        )}
+
         {/* Cache Section */}
         {cacheStats && (
           <Section title="Кэш" icon="💾" defaultOpen={false}>
@@ -178,7 +292,7 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
           </Section>
         )}
         
-        {/* Data Period Selection - NEW SECTION */}
+        {/* Data Period Selection */}
         <Section title="Период данных" icon="📅">
           {/* Quick preset buttons */}
           <div className="flex flex-wrap gap-1 mb-2">
@@ -249,96 +363,173 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
           )}
         </Section>
 
-        {/* TRG Indicator */}
-        <Section title="TRG Indicator" icon="📊">
-          <NumberInput 
-            label="i1 (ATR Length)" 
-            value={settings.trg_atr_length} 
-            onChange={(v) => update('trg_atr_length', v)}
-            min={10} max={200}
-          />
-          <NumberInput 
-            label="i2 (Multiplier)" 
-            value={settings.trg_multiplier} 
-            onChange={(v) => update('trg_multiplier', v)}
-            min={1} max={10} step={0.5}
-          />
-        </Section>
+        {/* ============ TRG INDICATOR PARAMS ============ */}
+        {indicatorType === 'trg' && (
+          <Section title="TRG Indicator" icon="📊">
+            <NumberInput 
+              label="i1 (ATR Length)" 
+              value={settings.trg_atr_length} 
+              onChange={(v) => update('trg_atr_length', v)}
+              min={10} max={200}
+            />
+            <NumberInput 
+              label="i2 (Multiplier)" 
+              value={settings.trg_multiplier} 
+              onChange={(v) => update('trg_multiplier', v)}
+              min={1} max={10} step={0.5}
+            />
+          </Section>
+        )}
+
+        {/* ============ DOMINANT INDICATOR PARAMS ============ */}
+        {indicatorType === 'dominant' && (
+          <Section title="Dominant Params" icon="🎯">
+            <NumberInput 
+              label="Sensitivity" 
+              value={settings.dominant_sensitivity ?? 21} 
+              onChange={(v) => update('dominant_sensitivity', v)}
+              min={12} max={60}
+            />
+            <Select
+              label="Filter Type"
+              value={settings.dominant_filter_type ?? 0}
+              onChange={(v) => update('dominant_filter_type', parseInt(v))}
+              options={[
+                { value: 0, label: '0 - None' },
+                { value: 1, label: '1 - ATR' },
+                { value: 2, label: '2 - RSI' },
+                { value: 3, label: '3 - ATR+RSI' },
+                { value: 4, label: '4 - Volatility' },
+              ]}
+            />
+            <Select
+              label="SL Mode"
+              value={settings.dominant_sl_mode ?? 0}
+              onChange={(v) => update('dominant_sl_mode', parseInt(v))}
+              options={[
+                { value: 0, label: 'No Breakeven' },
+                { value: 1, label: 'After TP1' },
+                { value: 2, label: 'After TP2' },
+                { value: 3, label: 'After TP3' },
+                { value: 4, label: 'Cascade' },
+              ]}
+            />
+          </Section>
+        )}
 
         {/* Take Profits */}
         <Section title="Take Profits" icon="🎯">
-          <div className="flex items-center gap-1 mb-2">
-            <span className="text-xs text-gray-400">Count:</span>
-            {[1,2,3,4,5,6,7,8,9,10].map(n => (
-              <button
-                key={n}
-                onClick={() => update('tp_count', n)}
-                className={`w-5 h-5 text-xs rounded ${
-                  settings.tp_count === n ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-400'
-                }`}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
+          {indicatorType === 'trg' && (
+            <>
+              <div className="flex items-center gap-1 mb-2">
+                <span className="text-xs text-gray-400">Count:</span>
+                {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                  <button
+                    key={n}
+                    onClick={() => update('tp_count', n)}
+                    className={`w-5 h-5 text-xs rounded ${
+                      settings.tp_count === n ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-400'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+              
+              {Array.from({ length: settings.tp_count }, (_, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className={`w-8 text-center py-0.5 rounded ${
+                    i === 0 ? 'bg-green-600' : i === 1 ? 'bg-blue-600' : i === 2 ? 'bg-purple-600' : 'bg-gray-600'
+                  } text-white`}>
+                    TP{i + 1}
+                  </span>
+                  <input
+                    type="number"
+                    value={settings[`tp${i + 1}_percent`]}
+                    onChange={(e) => update(`tp${i + 1}_percent`, parseFloat(e.target.value) || 0)}
+                    step={0.1}
+                    className="w-14 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
+                  />
+                  <span className="text-gray-500">%</span>
+                  <input
+                    type="number"
+                    value={settings[`tp${i + 1}_amount`]}
+                    onChange={(e) => update(`tp${i + 1}_amount`, parseFloat(e.target.value) || 0)}
+                    className="w-12 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
+                  />
+                  <span className="text-gray-500">amt</span>
+                </div>
+              ))}
+            </>
+          )}
           
-          {Array.from({ length: settings.tp_count }, (_, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs">
-              <span className={`w-8 text-center py-0.5 rounded ${
-                i === 0 ? 'bg-green-600' : i === 1 ? 'bg-blue-600' : i === 2 ? 'bg-purple-600' : 'bg-gray-600'
-              } text-white`}>
-                TP{i + 1}
-              </span>
-              <input
-                type="number"
-                value={settings[`tp${i + 1}_percent`]}
-                onChange={(e) => update(`tp${i + 1}_percent`, parseFloat(e.target.value) || 0)}
-                step={0.1}
-                className="w-14 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
-              />
-              <span className="text-gray-500">%</span>
-              <input
-                type="number"
-                value={settings[`tp${i + 1}_amount`]}
-                onChange={(e) => update(`tp${i + 1}_amount`, parseFloat(e.target.value) || 0)}
-                className="w-12 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
-              />
-              <span className="text-gray-500">amt</span>
-            </div>
-          ))}
+          {indicatorType === 'dominant' && (
+            <>
+              <div className="text-xs text-gray-500 mb-2">
+                4 уровня TP (Fibonacci-based)
+              </div>
+              {[1,2,3,4].map(i => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className={`w-8 text-center py-0.5 rounded ${
+                    i === 1 ? 'bg-green-600' : i === 2 ? 'bg-blue-600' : i === 3 ? 'bg-purple-600' : 'bg-orange-600'
+                  } text-white`}>
+                    TP{i}
+                  </span>
+                  <input
+                    type="number"
+                    value={settings[`dominant_tp${i}_percent`] ?? (i * 1.0)}
+                    onChange={(e) => update(`dominant_tp${i}_percent`, parseFloat(e.target.value) || 0)}
+                    step={0.1}
+                    className="w-14 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
+                  />
+                  <span className="text-gray-500">%</span>
+                  <input
+                    type="number"
+                    value={settings[`dominant_tp${i}_amount`] ?? (i === 1 ? 40 : i === 2 ? 30 : i === 3 ? 20 : 10)}
+                    onChange={(e) => update(`dominant_tp${i}_amount`, parseFloat(e.target.value) || 0)}
+                    className="w-12 bg-gray-700 text-white rounded px-1 py-0.5 text-right"
+                  />
+                  <span className="text-gray-500">amt</span>
+                </div>
+              ))}
+            </>
+          )}
         </Section>
 
         {/* Stop Loss */}
         <Section title="Stop Loss" icon="🛑">
           <NumberInput 
             label="SL %" 
-            value={settings.sl_percent} 
-            onChange={(v) => update('sl_percent', v)}
+            value={indicatorType === 'trg' ? settings.sl_percent : (settings.dominant_sl_percent ?? 2.0)} 
+            onChange={(v) => update(indicatorType === 'trg' ? 'sl_percent' : 'dominant_sl_percent', v)}
             min={1} max={50} step={0.5}
             suffix="%"
           />
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400">Trailing:</span>
-            <div className="flex gap-1">
-              {[
-                { value: 'no', label: 'Фикс' },
-                { value: 'breakeven', label: 'БУ' },
-                { value: 'moving', label: 'Каскад' }
-              ].map(mode => (
-                <button
-                  key={mode.value}
-                  onClick={() => update('sl_trailing_mode', mode.value)}
-                  className={`px-2 py-0.5 text-xs rounded ${
-                    settings.sl_trailing_mode === mode.value 
-                      ? 'bg-purple-600 text-white' 
-                      : 'bg-gray-700 text-gray-400'
-                  }`}
-                >
-                  {mode.label}
-                </button>
-              ))}
+          
+          {indicatorType === 'trg' && (
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-gray-400">Trailing:</span>
+              <div className="flex gap-1">
+                {[
+                  { value: 'no', label: 'Фикс' },
+                  { value: 'breakeven', label: 'БУ' },
+                  { value: 'moving', label: 'Каскад' }
+                ].map(mode => (
+                  <button
+                    key={mode.value}
+                    onClick={() => update('sl_trailing_mode', mode.value)}
+                    className={`px-2 py-0.5 text-xs rounded ${
+                      settings.sl_trailing_mode === mode.value 
+                        ? 'bg-purple-600 text-white' 
+                        : 'bg-gray-700 text-gray-400'
+                    }`}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </Section>
 
         {/* Leverage & Commission */}
@@ -366,88 +557,94 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
           )}
         </Section>
 
-        {/* Filters */}
-        <Section title="Фильтры" icon="🔍" defaultOpen={false}>
-          <Checkbox 
-            label="SuperTrend" 
-            checked={settings.use_supertrend} 
-            onChange={(v) => update('use_supertrend', v)} 
-          />
-          {settings.use_supertrend && (
-            <div className="ml-4 space-y-1">
-              <NumberInput label="Period" value={settings.supertrend_period} onChange={(v) => update('supertrend_period', v)} min={5} max={50} />
-              <NumberInput label="Multiplier" value={settings.supertrend_multiplier} onChange={(v) => update('supertrend_multiplier', v)} min={1} max={10} step={0.5} />
-            </div>
-          )}
+        {/* Filters (TRG only) */}
+        {indicatorType === 'trg' && (
+          <Section title="Фильтры" icon="🔍" defaultOpen={false}>
+            <Checkbox 
+              label="SuperTrend" 
+              checked={settings.use_supertrend} 
+              onChange={(v) => update('use_supertrend', v)} 
+            />
+            {settings.use_supertrend && (
+              <div className="ml-4 space-y-1">
+                <NumberInput label="Period" value={settings.supertrend_period} onChange={(v) => update('supertrend_period', v)} min={5} max={50} />
+                <NumberInput label="Multiplier" value={settings.supertrend_multiplier} onChange={(v) => update('supertrend_multiplier', v)} min={1} max={10} step={0.5} />
+              </div>
+            )}
 
-          <Checkbox 
-            label="RSI Filter" 
-            checked={settings.use_rsi_filter} 
-            onChange={(v) => update('use_rsi_filter', v)} 
-          />
-          {settings.use_rsi_filter && (
-            <div className="ml-4 space-y-1">
-              <NumberInput label="Period" value={settings.rsi_period} onChange={(v) => update('rsi_period', v)} min={5} max={50} />
-              <NumberInput label="Overbought" value={settings.rsi_overbought} onChange={(v) => update('rsi_overbought', v)} min={50} max={100} />
-              <NumberInput label="Oversold" value={settings.rsi_oversold} onChange={(v) => update('rsi_oversold', v)} min={0} max={50} />
-            </div>
-          )}
+            <Checkbox 
+              label="RSI Filter" 
+              checked={settings.use_rsi_filter} 
+              onChange={(v) => update('use_rsi_filter', v)} 
+            />
+            {settings.use_rsi_filter && (
+              <div className="ml-4 space-y-1">
+                <NumberInput label="Period" value={settings.rsi_period} onChange={(v) => update('rsi_period', v)} min={5} max={50} />
+                <NumberInput label="Overbought" value={settings.rsi_overbought} onChange={(v) => update('rsi_overbought', v)} min={50} max={100} />
+                <NumberInput label="Oversold" value={settings.rsi_oversold} onChange={(v) => update('rsi_oversold', v)} min={0} max={50} />
+              </div>
+            )}
 
-          <Checkbox 
-            label="ADX Filter" 
-            checked={settings.use_adx_filter} 
-            onChange={(v) => update('use_adx_filter', v)} 
-          />
-          {settings.use_adx_filter && (
-            <div className="ml-4 space-y-1">
-              <NumberInput label="Period" value={settings.adx_period} onChange={(v) => update('adx_period', v)} min={5} max={50} />
-              <NumberInput label="Threshold" value={settings.adx_threshold} onChange={(v) => update('adx_threshold', v)} min={10} max={50} />
-            </div>
-          )}
+            <Checkbox 
+              label="ADX Filter" 
+              checked={settings.use_adx_filter} 
+              onChange={(v) => update('use_adx_filter', v)} 
+            />
+            {settings.use_adx_filter && (
+              <div className="ml-4 space-y-1">
+                <NumberInput label="Period" value={settings.adx_period} onChange={(v) => update('adx_period', v)} min={5} max={50} />
+                <NumberInput label="Threshold" value={settings.adx_threshold} onChange={(v) => update('adx_threshold', v)} min={10} max={50} />
+              </div>
+            )}
 
-          <Checkbox 
-            label="Volume Filter" 
-            checked={settings.use_volume_filter} 
-            onChange={(v) => update('use_volume_filter', v)} 
-          />
-        </Section>
+            <Checkbox 
+              label="Volume Filter" 
+              checked={settings.use_volume_filter} 
+              onChange={(v) => update('use_volume_filter', v)} 
+            />
+          </Section>
+        )}
 
-        {/* Re-entry */}
-        <Section title="Повторные входы" icon="🔄" defaultOpen={false}>
-          <Checkbox 
-            label="Разрешить повторный вход" 
-            checked={settings.allow_reentry} 
-            onChange={(v) => update('allow_reentry', v)} 
-          />
-          <Checkbox 
-            label="После SL" 
-            checked={settings.reentry_after_sl} 
-            onChange={(v) => update('reentry_after_sl', v)} 
-          />
-          <Checkbox 
-            label="После TP" 
-            checked={settings.reentry_after_tp} 
-            onChange={(v) => update('reentry_after_tp', v)} 
-          />
-        </Section>
+        {/* Re-entry (TRG only) */}
+        {indicatorType === 'trg' && (
+          <Section title="Повторные входы" icon="🔄" defaultOpen={false}>
+            <Checkbox 
+              label="Разрешить повторный вход" 
+              checked={settings.allow_reentry} 
+              onChange={(v) => update('allow_reentry', v)} 
+            />
+            <Checkbox 
+              label="После SL" 
+              checked={settings.reentry_after_sl} 
+              onChange={(v) => update('reentry_after_sl', v)} 
+            />
+            <Checkbox 
+              label="После TP" 
+              checked={settings.reentry_after_tp} 
+              onChange={(v) => update('reentry_after_tp', v)} 
+            />
+          </Section>
+        )}
 
-        {/* Adaptive Optimization */}
-        <Section title="Адаптивный режим" icon="⚡" defaultOpen={false}>
-          <Select
-            label="Режим"
-            value={settings.adaptive_mode || ''}
-            onChange={(v) => update('adaptive_mode', v || null)}
-            options={[
-              { value: '', label: 'Выключен' },
-              { value: 'indicator', label: 'Индикатор' },
-              { value: 'tp', label: 'Take Profits' },
-              { value: 'all', label: 'Всё' }
-            ]}
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Параметры пересчитываются каждые 20 сделок
-          </p>
-        </Section>
+        {/* Adaptive Optimization (TRG only) */}
+        {indicatorType === 'trg' && (
+          <Section title="Адаптивный режим" icon="⚡" defaultOpen={false}>
+            <Select
+              label="Режим"
+              value={settings.adaptive_mode || ''}
+              onChange={(v) => update('adaptive_mode', v || null)}
+              options={[
+                { value: '', label: 'Выключен' },
+                { value: 'indicator', label: 'Индикатор' },
+                { value: 'tp', label: 'Take Profits' },
+                { value: 'all', label: 'Всё' }
+              ]}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Параметры пересчитываются каждые 20 сделок
+            </p>
+          </Section>
+        )}
 
         {/* Capital */}
         <Section title="Капитал" icon="💰" defaultOpen={false}>
@@ -466,4 +663,3 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
 };
 
 export default SettingsSidebar;
-
