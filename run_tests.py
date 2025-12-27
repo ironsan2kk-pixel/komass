@@ -1,36 +1,55 @@
 """
-Test Runner for Signal Score Module
-===================================
+Test Runner for KOMAS v4.0
+==========================
 
-Run: python run_tests.py
+Run all unit tests for Signal Score and Multi-TF Loader modules.
+
+Chat #35: Score Multi-TF
 """
 
 import sys
 import os
 from pathlib import Path
 
-# Add project root to path
-project_root = Path(__file__).parent
-sys.path.insert(0, str(project_root))
+# Add backend to path
+backend_path = Path(__file__).parent / "backend"
+sys.path.insert(0, str(backend_path))
 
 # Set PYTHONPATH
-os.environ['PYTHONPATH'] = str(project_root)
+os.environ["PYTHONPATH"] = str(backend_path / "app")
 
 
-def main():
+def run_tests():
     """Run all tests"""
     import pytest
     
-    # Run tests with verbose output
+    # Test file path
+    tests_dir = Path(__file__).parent / "tests"
+    
+    print("=" * 60)
+    print("KOMAS v4.0 - Unit Tests")
+    print("Chat #35: Score Multi-TF")
+    print("=" * 60)
+    print()
+    
+    # Run pytest with verbose output
     exit_code = pytest.main([
-        'tests/test_signal_score.py',
-        '-v',
-        '-s',
-        '--tb=short',
+        str(tests_dir),
+        "-v",
+        "--tb=short",
+        "-x",  # Stop on first failure
     ])
+    
+    print()
+    print("=" * 60)
+    if exit_code == 0:
+        print("All tests PASSED!")
+    else:
+        print("Some tests FAILED!")
+    print("=" * 60)
     
     return exit_code
 
 
-if __name__ == '__main__':
-    sys.exit(main())
+if __name__ == "__main__":
+    sys.exit(run_tests())

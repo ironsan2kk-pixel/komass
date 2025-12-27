@@ -18,6 +18,7 @@ Grade Scale:
 - F (0-39): Poor - avoid this trade
 
 Chat #34: Signal Score Core
+Chat #35: Multi-TF Integration
 Author: KOMAS Team
 Version: 4.0
 """
@@ -28,6 +29,13 @@ from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
 import logging
+
+# Import MultiTFLoader for enhanced multi-TF analysis
+from app.services.multi_tf_loader import (
+    MultiTFLoader,
+    TrendDetectionMethod,
+    DEFAULT_TF_WEIGHTS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +98,10 @@ DEFAULT_PARAMS = {
     
     # Trend strength
     'trend_atr_ma_period': 20,
+    
+    # Multi-TF settings
+    'multi_tf_detection_method': 'combined',  # ema, supertrend, adx, combined
+    'multi_tf_weights': None,  # Use DEFAULT_TF_WEIGHTS if None
 }
 
 
@@ -380,6 +392,17 @@ class SignalScorer:
         if params:
             self.params.update(params)
         
+        # Initialize MultiTFLoader with configured settings
+        detection_method_str = self.params.get('multi_tf_detection_method', 'combined')
+        detection_method = TrendDetectionMethod(detection_method_str)
+        
+        tf_weights = self.params.get('multi_tf_weights') or DEFAULT_TF_WEIGHTS
+        
+        self.multi_tf_loader = MultiTFLoader(
+            tf_weights=tf_weights,
+            detection_method=detection_method,
+        )
+        
         logger.info(f"SignalScorer initialized with params: {self.params}")
     
     def calculate_score(
@@ -590,7 +613,7 @@ class SignalScorer:
         """
         Calculate Multi-TF Alignment score (max 25 pts)
         
-        Checks if higher timeframes confirm the signal direction.
+        Uses MultiTFLoader for enhanced trend detection with multiple methods.
         
         Args:
             df: OHLCV DataFrame for trading timeframe
@@ -602,69 +625,13 @@ class SignalScorer:
         """
         higher_tf_data = higher_tf_data or {}
         
-        # Weight distribution: 4H = 10 pts, 1D = 15 pts
-        tf_weights = {'4h': 10, '1d': 15}
-        
-        score = 0
-        details = {
-            'higher_tfs': {},
-            'alignments': [],
-        }
-        
-        for tf, weight in tf_weights.items():
-            tf_df = higher_tf_data.get(tf)
-            
-            if tf_df is not None and len(tf_df) >= 10:
-                # Calculate trend direction on higher TF
-                tf_direction = self._detect_trend_direction(tf_df)
-                
-                details['higher_tfs'][tf] = tf_direction
-                
-                # Check alignment
-                if (direction == 'long' and tf_direction == 'up') or \
-                   (direction == 'short' and tf_direction == 'down'):
-                    score += weight
-                    details['alignments'].append(f"{tf} aligned")
-                else:
-                    details['alignments'].append(f"{tf} not aligned")
-            else:
-                # If higher TF data not available, give partial points
-                # (50% of weight as neutral)
-                score += weight * 0.5
-                details['higher_tfs'][tf] = 'unavailable'
-                details['alignments'].append(f"{tf} data unavailable")
+        # Use MultiTFLoader for analysis
+        score, details = self.multi_tf_loader.calculate_score_sync(
+            signal_direction=direction,
+            higher_tf_data=higher_tf_data,
+        )
         
         return score, details
-    
-    def _detect_trend_direction(self, df: pd.DataFrame) -> str:
-        """
-        Detect trend direction using simple EMA crossover
-        
-        Args:
-            df: OHLCV DataFrame
-            
-        Returns:
-            'up', 'down', or 'sideways'
-        """
-        if len(df) < 20:
-            return 'sideways'
-        
-        close = df['close']
-        ema_fast = close.ewm(span=9, adjust=False).mean()
-        ema_slow = close.ewm(span=21, adjust=False).mean()
-        
-        if ema_fast.iloc[-1] > ema_slow.iloc[-1] and \
-           ema_fast.iloc[-5] <= ema_slow.iloc[-5]:
-            return 'up'
-        elif ema_fast.iloc[-1] < ema_slow.iloc[-1] and \
-             ema_fast.iloc[-5] >= ema_slow.iloc[-5]:
-            return 'down'
-        elif ema_fast.iloc[-1] > ema_slow.iloc[-1]:
-            return 'up'
-        elif ema_fast.iloc[-1] < ema_slow.iloc[-1]:
-            return 'down'
-        else:
-            return 'sideways'
     
     def _calculate_market_context(
         self,
@@ -854,7 +821,12 @@ class SignalScorer:
             recommendations.append("Low confluence - multiple indicators disagree")
         
         if multi_tf_score < 15:
-            recommendations.append("Weak multi-TF alignment - higher TFs not confirming")
+            multi_tf_details = details.get('multi_tf', {})
+            misalignments = multi_tf_details.get('misalignments', [])
+            if misalignments:
+                recommendations.append(f"Weak multi-TF alignment - {', '.join(misalignments)} not confirming")
+            else:
+                recommendations.append("Weak multi-TF alignment - higher TFs not confirming")
         
         if context_score < 15:
             context_details = details.get('market_context', {})
@@ -976,4 +948,9 @@ __all__ = [
     'calculate_supertrend',
     'calculate_support_resistance',
     'calculate_volatility_percentile',
+    'GRADE_THRESHOLDS',
+    'MAX_CONFLUENCE',
+    'MAX_MULTI_TF',
+    'MAX_MARKET_CONTEXT',
+    'MAX_TECHNICAL_LEVELS',
 ]

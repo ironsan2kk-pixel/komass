@@ -1,44 +1,48 @@
 """
-KOMAS Services Module
-=====================
+KOMAS v4.0 Services
+===================
 
-Provides core services for the trading system.
+Service modules for signal scoring and multi-TF analysis.
 
 Modules:
 - signal_score: Signal quality evaluation (0-100 scale, A-F grades)
+- multi_tf_loader: Higher timeframe data loading and trend detection
 """
 
-from .signal_score import (
+from app.services.signal_score import (
     SignalScorer,
     SignalScoreResult,
-    Grade,
     score_trades,
     get_grade_from_score,
     get_grade_color,
-    calculate_atr,
-    calculate_rsi,
-    calculate_adx,
-    calculate_supertrend,
-    calculate_support_resistance,
-    calculate_volatility_percentile,
+)
+
+from app.services.multi_tf_loader import (
+    MultiTFLoader,
+    MultiTFResult,
+    TrendDetectionMethod,
+    TrendDirection,
+    aggregate_to_higher_tf,
+    get_higher_tfs,
+    DEFAULT_TF_WEIGHTS,
+    TF_HIERARCHY,
 )
 
 __all__ = [
-    # Main classes
+    # Signal Score
     'SignalScorer',
     'SignalScoreResult',
-    'Grade',
-    
-    # Functions
     'score_trades',
     'get_grade_from_score',
     'get_grade_color',
     
-    # Technical indicators
-    'calculate_atr',
-    'calculate_rsi',
-    'calculate_adx',
-    'calculate_supertrend',
-    'calculate_support_resistance',
-    'calculate_volatility_percentile',
+    # Multi-TF
+    'MultiTFLoader',
+    'MultiTFResult',
+    'TrendDetectionMethod',
+    'TrendDirection',
+    'aggregate_to_higher_tf',
+    'get_higher_tfs',
+    'DEFAULT_TF_WEIGHTS',
+    'TF_HIERARCHY',
 ]
