@@ -1127,3 +1127,28 @@
 2025-12-27 14:29:34 | INFO     | app.main             | log_requests         | [1429298959] âœ“ GET /api/data/available - 200 (4997ms)
 2025-12-27 14:29:34 | DEBUG    | app.main             | log_requests         | [1429348925] GET /api/data/available
 2025-12-27 14:29:39 | INFO     | app.main             | log_requests         | [1429348925] âœ“ GET /api/data/available - 200 (4893ms)
+2025-12-27 14:30:54 | DEBUG    | app.main             | log_requests         | [1430549591] GET /
+2025-12-27 14:30:54 | INFO     | app.main             | log_requests         | [1430549591] âœ“ GET / - 200 (0ms)
+2025-12-27 14:31:12 | DEBUG    | app.main             | log_requests         | [1431123696] POST /api/indicator/calculate
+2025-12-27 14:31:14 | INFO     | app.main             | log_requests         | [1431123696] âœ“ POST /api/indicator/calculate - 200 (1938ms)
+2025-12-27 14:32:04 | DEBUG    | app.main             | log_requests         | [1432040060] GET /
+2025-12-27 14:32:04 | INFO     | app.main             | log_requests         | [1432040060] âœ“ GET / - 200 (0ms)
+2025-12-27 14:32:24 | DEBUG    | app.main             | log_requests         | [1432240560] POST /api/indicator/calculate
+2025-12-27 14:32:37 | INFO     | app.main             | log_requests         | [1432240560] âœ“ POST /api/indicator/calculate - 200 (13274ms)
+2025-12-27 14:33:02 | DEBUG    | app.main             | log_requests         | [1433023945] POST /api/indicator/heatmap
+2025-12-27 14:35:31 | INFO     | app.main             | log_requests         | [1433023945] âœ“ POST /api/indicator/heatmap - 200 (149394ms)
+2025-12-27 14:42:15 | DEBUG    | app.main             | log_requests         | [1442158200] POST /
+2025-12-27 14:42:15 | INFO     | app.main             | log_requests         | [1442158200] ✗ POST / - 405 (0ms)
+2025-12-27 14:47:46 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-27 14:47:46 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-27 14:47:46 | INFO     | app.main             | <module>             | âœ“ Loaded: data routes
+2025-12-27 14:47:47 | INFO     | app.main             | <module>             | âœ“ Loaded: indicator routes
+2025-12-27 14:47:47 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:47:47 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v3.0 - STARTING
+2025-12-27 14:47:47 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-27.log
+2025-12-27 14:47:47 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-27.log
+2025-12-27 14:47:47 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-27 14:47:51 | DEBUG    | app.main             | log_requests         | [1447510551] GET /api/indicator/cache-stats
+2025-12-27 14:47:51 | INFO     | app.main             | log_requests         | [1447510551] âœ“ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-27 14:47:51 | DEBUG    | app.main             | log_requests         | [1447510744] GET /api/indicator/cache-stats
+2025-12-27 14:47:51 | INFO     | app.main             | log_requests         | [1447510744] âœ“ GET /api/indicator/cache-stats - 200 (1ms)

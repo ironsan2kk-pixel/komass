@@ -69,7 +69,7 @@ const Select = ({ label, value, onChange, options }) => (
   </div>
 );
 
-const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, cacheStats, onClearCache }) => {
+const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange }) => {
   const update = (key, value) => onUpdate(key, value);
 
   // Calculate quick period presets based on available data
@@ -144,39 +144,6 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
-        
-        {/* Cache Section */}
-        {cacheStats && (
-          <Section title="Кэш" icon="💾" defaultOpen={false}>
-            <div className="grid grid-cols-2 gap-2 mb-2">
-              <div className="bg-gray-700/50 rounded p-2 text-center">
-                <div className="text-lg font-bold text-white">{cacheStats.entries}</div>
-                <div className="text-xs text-gray-400">Записей</div>
-              </div>
-              <div className="bg-gray-700/50 rounded p-2 text-center">
-                <div className="text-lg font-bold text-purple-400">{cacheStats.hit_rate}%</div>
-                <div className="text-xs text-gray-400">Hit Rate</div>
-              </div>
-              <div className="bg-gray-700/50 rounded p-2 text-center">
-                <div className="text-lg font-bold text-green-400">{cacheStats.hits}</div>
-                <div className="text-xs text-gray-400">Hits</div>
-              </div>
-              <div className="bg-gray-700/50 rounded p-2 text-center">
-                <div className="text-lg font-bold text-red-400">{cacheStats.misses}</div>
-                <div className="text-xs text-gray-400">Misses</div>
-              </div>
-            </div>
-            <div className="text-xs text-gray-500 mb-2">
-              TTL: {Math.round(cacheStats.ttl_seconds / 60)} мин | Max: {cacheStats.max_size}
-            </div>
-            <button
-              onClick={onClearCache}
-              className="w-full px-3 py-1.5 bg-red-600/20 text-red-400 text-xs rounded hover:bg-red-600/30 transition-colors"
-            >
-              🗑️ Очистить кэш
-            </button>
-          </Section>
-        )}
         
         {/* Data Period Selection - NEW SECTION */}
         <Section title="Период данных" icon="📅">
@@ -466,4 +433,3 @@ const SettingsSidebar = ({ settings, onUpdate, collapsed, onToggle, dataRange, c
 };
 
 export default SettingsSidebar;
-

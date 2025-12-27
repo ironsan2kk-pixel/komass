@@ -15,94 +15,8 @@ from pathlib import Path
 import os
 import json as json_lib
 from concurrent.futures import ProcessPoolExecutor, as_completed
-import hashlib
-import threading
-from collections import OrderedDict
-import time
 
 router = APIRouter(prefix="/api/indicator", tags=["Indicator"])
-
-
-# =============================================================================
-# LRU Cache with TTL for calculation results
-# =============================================================================
-
-class LRUCache:
-    """Thread-safe LRU Cache with TTL"""
-    
-    def __init__(self, max_size: int = 100, ttl_seconds: int = 300):
-        self.max_size = max_size
-        self.ttl_seconds = ttl_seconds
-        self.cache = OrderedDict()
-        self.timestamps = {}
-        self.lock = threading.Lock()
-        self.hits = 0
-        self.misses = 0
-    
-    def _make_key(self, settings: dict) -> str:
-        """Create hash key from settings (excluding force_recalculate)"""
-        key_data = {k: v for k, v in sorted(settings.items()) if k != 'force_recalculate'}
-        key_str = json_lib.dumps(key_data, sort_keys=True, default=str)
-        return hashlib.md5(key_str.encode()).hexdigest()
-    
-    def get(self, settings: dict) -> Optional[dict]:
-        """Get cached result if exists and not expired"""
-        key = self._make_key(settings)
-        
-        with self.lock:
-            if key not in self.cache:
-                self.misses += 1
-                return None
-            
-            # Check TTL
-            if time.time() - self.timestamps[key] > self.ttl_seconds:
-                del self.cache[key]
-                del self.timestamps[key]
-                self.misses += 1
-                return None
-            
-            # Move to end (most recently used)
-            self.cache.move_to_end(key)
-            self.hits += 1
-            return self.cache[key]
-    
-    def set(self, settings: dict, value: dict):
-        """Store result in cache"""
-        key = self._make_key(settings)
-        
-        with self.lock:
-            # Remove oldest if at capacity
-            while len(self.cache) >= self.max_size:
-                oldest_key = next(iter(self.cache))
-                del self.cache[oldest_key]
-                del self.timestamps[oldest_key]
-            
-            self.cache[key] = value
-            self.timestamps[key] = time.time()
-    
-    def clear(self):
-        """Clear all cached entries"""
-        with self.lock:
-            self.cache.clear()
-            self.timestamps.clear()
-    
-    def stats(self) -> dict:
-        """Get cache statistics"""
-        with self.lock:
-            total = self.hits + self.misses
-            hit_rate = round((self.hits / total * 100) if total > 0 else 0, 1)
-            return {
-                "entries": len(self.cache),
-                "max_size": self.max_size,
-                "ttl_seconds": self.ttl_seconds,
-                "hits": self.hits,
-                "misses": self.misses,
-                "hit_rate": hit_rate
-            }
-
-
-# Global cache instance
-calculation_cache = LRUCache(max_size=100, ttl_seconds=300)
 
 # Try multiple possible data locations
 def find_data_dir():
@@ -274,9 +188,6 @@ class IndicatorSettings(BaseModel):
     
     # Capital
     initial_capital: float = 10000.0
-    
-    # Cache control
-    force_recalculate: bool = False  # Skip cache and recalculate
 
 
 class ReplayRequest(BaseModel):
@@ -287,17 +198,6 @@ class ReplayRequest(BaseModel):
 @router.post("/calculate")
 async def calculate_indicator(settings: IndicatorSettings):
     """Calculate full indicator with all trades and statistics"""
-    
-    # Check cache first (unless force_recalculate)
-    settings_dict = settings.model_dump()
-    if not settings.force_recalculate:
-        cached_result = calculation_cache.get(settings_dict)
-        if cached_result:
-            print(f"[Cache] HIT for {settings.symbol} {settings.timeframe}")
-            cached_result["cached"] = True
-            return cached_result
-    
-    print(f"[Cache] MISS for {settings.symbol} {settings.timeframe} (force={settings.force_recalculate})")
     
     # Load data
     filepath = DATA_DIR / f"{settings.symbol}_{settings.timeframe}.parquet"
@@ -373,8 +273,7 @@ async def calculate_indicator(settings: IndicatorSettings):
     indicators = prepare_indicators(df, settings)
     trade_markers = prepare_trade_markers(trades)
     
-    # Build result
-    result = {
+    return {
         "success": True,
         "candles": candles,
         "indicators": indicators,
@@ -386,15 +285,8 @@ async def calculate_indicator(settings: IndicatorSettings):
         "monthly": monthly_stats,
         "param_changes": param_changes,
         "settings": settings.dict(),
-        "data_range": data_range,
-        "cached": False
+        "data_range": data_range
     }
-    
-    # Store in cache
-    calculation_cache.set(settings_dict, result)
-    print(f"[Cache] Stored result for {settings.symbol} {settings.timeframe}")
-    
-    return result
 
 
 @router.get("/candles/{symbol}/{timeframe}")
@@ -3614,28 +3506,4 @@ def get_current_signal(df: pd.DataFrame) -> Dict:
         "trg_trend": int(last.get('trg_trend', 0)),
         "close": last['close'],
         "trg_line": last.get('trg_line', 0)
-    }
-
-
-# =============================================================================
-# Cache Management Endpoints
-# =============================================================================
-
-@router.get("/cache-stats")
-async def get_cache_stats():
-    """Get cache statistics"""
-    stats = calculation_cache.stats()
-    return {
-        "success": True,
-        **stats
-    }
-
-
-@router.post("/cache-clear")
-async def clear_cache():
-    """Clear all cached results"""
-    calculation_cache.clear()
-    return {
-        "success": True,
-        "message": "Cache cleared"
     }

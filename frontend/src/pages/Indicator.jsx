@@ -93,6 +93,10 @@ const Indicator = () => {
   // Heatmap
   const [heatmapData, setHeatmapData] = useState(null);
   const [loadingHeatmap, setLoadingHeatmap] = useState(false);
+  
+  // Cache
+  const [cachedResult, setCachedResult] = useState(false);
+  const [cacheStats, setCacheStats] = useState(null);
 
   // Chart refs
   const chartContainerRef = useRef(null);
@@ -106,6 +110,37 @@ const Indicator = () => {
   }, []);
 
   const clearLogs = useCallback(() => setLogs([]), []);
+
+  // Cache functions
+  const fetchCacheStats = useCallback(async () => {
+    try {
+      const res = await fetch('/api/indicator/cache-stats');
+      const data = await res.json();
+      if (data.success) setCacheStats(data);
+    } catch (err) {
+      console.error('Cache stats error:', err);
+    }
+  }, []);
+
+  const clearCache = useCallback(async () => {
+    try {
+      const res = await fetch('/api/indicator/cache-clear', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        addLog('🗑️ Кэш очищен', 'success');
+        fetchCacheStats();
+      }
+    } catch (err) {
+      addLog(`❌ Ошибка очистки кэша: ${err.message}`, 'error');
+    }
+  }, [addLog, fetchCacheStats]);
+
+  // Fetch cache stats periodically
+  useEffect(() => {
+    fetchCacheStats();
+    const interval = setInterval(fetchCacheStats, 30000);
+    return () => clearInterval(interval);
+  }, [fetchCacheStats]);
 
   // Update settings
   const updateSetting = (key, value) => {
@@ -191,9 +226,9 @@ const Indicator = () => {
       const markers = data.trade_markers.map(m => ({
         time: m.time,
         position: m.type === 'entry_long' || m.type === 'entry_short' ? 'belowBar' : 'aboveBar',
-        color: m.type.includes('long') ? '#22c55e' : '#ef4444',
-        shape: m.type.includes('entry') ? 'arrowUp' : 'arrowDown',
-        text: m.type.includes('entry') ? (m.type.includes('long') ? 'L' : 'S') : '',
+        color: m.type?.includes('long') ? '#22c55e' : '#ef4444',
+        shape: m.type?.includes('entry') ? 'arrowUp' : 'arrowDown',
+        text: m.type?.includes('entry') ? (m.type?.includes('long') ? 'L' : 'S') : '',
       }));
       candleSeries.setMarkers(markers);
     }
@@ -230,7 +265,7 @@ const Indicator = () => {
   }, []);
 
   // Main calculate
-  const calculate = async () => {
+  const calculate = async (forceRecalculate = false) => {
     setLoading(true);
     
     // Show period info in log if dates are set
@@ -238,13 +273,14 @@ const Indicator = () => {
     if (settings.start_date || settings.end_date) {
       periodInfo = ` [${settings.start_date || '...'} — ${settings.end_date || '...'}]`;
     }
-    addLog(`🚀 Запуск ${settings.symbol} ${settings.timeframe}${periodInfo}...`, 'info');
+    const forceLabel = forceRecalculate ? ' (force)' : '';
+    addLog(`🚀 Запуск ${settings.symbol} ${settings.timeframe}${periodInfo}${forceLabel}...`, 'info');
     
     try {
       const res = await fetch('/api/indicator/calculate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings)
+        body: JSON.stringify({ ...settings, force_recalculate: forceRecalculate })
       });
       
       let data;
@@ -306,6 +342,11 @@ const Indicator = () => {
       
       // Success
       setResult(data);
+      setCachedResult(data.cached || false);
+      fetchCacheStats();
+      
+      // Log cache status
+      const cacheStatus = data.cached ? '📦 (из кэша)' : '🔄 (новый расчёт)';
       
       // Save data range from response
       if (data.data_range) {
@@ -313,7 +354,7 @@ const Indicator = () => {
         addLog(`📅 Период: ${data.data_range.used_start} — ${data.data_range.used_end} (${data.data_range.used_candles} свечей)`, 'info');
       }
       
-      addLog(`✅ ${data.candles?.length || 0} свечей загружено`, 'success');
+      addLog(`✅ ${data.candles?.length || 0} свечей загружено ${cacheStatus}`, 'success');
       addLog(`📊 ${data.trades?.length || 0} сделок`, 'success');
       
       const stats = data.stats;
@@ -513,7 +554,7 @@ const Indicator = () => {
           
           {/* Run */}
           <button
-            onClick={calculate}
+            onClick={() => calculate(false)}
             disabled={loading}
             className={`px-4 py-1.5 rounded text-sm font-bold ${
               loading ? 'bg-gray-600 text-gray-400' : 'bg-purple-600 hover:bg-purple-500 text-white'
@@ -521,6 +562,32 @@ const Indicator = () => {
           >
             {loading ? '⏳...' : '▶️ Запустить'}
           </button>
+          
+          {/* Force Recalculate */}
+          <button
+            onClick={() => calculate(true)}
+            disabled={loading}
+            className="px-2 py-1.5 rounded text-sm bg-orange-600 hover:bg-orange-500 text-white disabled:bg-gray-600 disabled:text-gray-400"
+            title="Принудительный пересчёт (игнорировать кэш)"
+          >
+            🔄
+          </button>
+          
+          {/* Cache status indicator */}
+          {result && (
+            <div className={`px-2 py-1 rounded text-xs ${
+              cachedResult ? 'bg-blue-600/20 text-blue-400 border border-blue-600/30' : 'bg-green-600/20 text-green-400 border border-green-600/30'
+            }`}>
+              {cachedResult ? '📦 Cached' : '🔄 Calculated'}
+            </div>
+          )}
+          
+          {/* Cache stats */}
+          {cacheStats && (
+            <div className="text-xs text-gray-400" title={`Hits: ${cacheStats.hits}, Misses: ${cacheStats.misses}`}>
+              💾 {cacheStats.entries}/{cacheStats.max_size} ({cacheStats.hit_rate}%)
+            </div>
+          )}
         </div>
         
         {/* Stats & Export */}
@@ -550,6 +617,8 @@ const Indicator = () => {
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
           dataRange={dataRange}
+          cacheStats={cacheStats}
+          onClearCache={clearCache}
         />
 
         {/* Content */}
@@ -581,7 +650,7 @@ const Indicator = () => {
             )}
 
             {activeTab === 'stats' && (
-              <StatsPanel statistics={result?.stats} tpCount={settings.tp_count} dataRange={dataRange} />
+              <StatsPanel statistics={result?.stats} tpCount={settings.tp_count} dataRange={dataRange} cached={cachedResult} />
             )}
 
             {activeTab === 'trades' && (
@@ -623,3 +692,4 @@ const Indicator = () => {
 };
 
 export default Indicator;
+

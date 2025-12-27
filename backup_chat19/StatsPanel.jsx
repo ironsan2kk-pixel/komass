@@ -11,7 +11,7 @@ const StatCard = ({ label, value, color = 'text-white', size = 'normal' }) => (
 
 const TP_SYMBOLS = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
-const StatsPanel = ({ statistics, tpCount = 4, dataRange, cached }) => {
+const StatsPanel = ({ statistics, tpCount = 4, dataRange }) => {
   if (!statistics) {
     return (
       <div className="p-4 text-center text-gray-500">
@@ -22,22 +22,6 @@ const StatsPanel = ({ statistics, tpCount = 4, dataRange, cached }) => {
 
   return (
     <div className="p-4 space-y-4">
-      {/* Cache Status Banner */}
-      {cached !== undefined && (
-        <div className={`rounded-lg p-2 flex items-center justify-between ${
-          cached 
-            ? 'bg-blue-900/20 border border-blue-700/50' 
-            : 'bg-green-900/20 border border-green-700/50'
-        }`}>
-          <span className={cached ? 'text-blue-400' : 'text-green-400'}>
-            {cached ? '📦 Результат из кэша' : '🔄 Свежий расчёт'}
-          </span>
-          <span className="text-xs text-gray-400">
-            {cached ? 'TTL: 5 мин' : 'Сохранено в кэш'}
-          </span>
-        </div>
-      )}
-
       {/* Data Period Info */}
       {dataRange && (
         <div className="bg-purple-900/20 border border-purple-700/50 rounded-lg p-3 flex items-center justify-between">
@@ -239,4 +223,3 @@ const StatsPanel = ({ statistics, tpCount = 4, dataRange, cached }) => {
 };
 
 export default StatsPanel;
-
