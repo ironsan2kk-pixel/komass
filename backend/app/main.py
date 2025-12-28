@@ -5,6 +5,9 @@ FastAPI application with comprehensive logging
 
 Chat #43: Filters Integration
 - Added filter_routes router for /api/filters/* endpoints
+
+Chat #48: Preset Optimizer Heatmap
+- Added heatmap_routes router for /api/optimizer/results/* heatmap endpoints
 """
 import os
 import sys
@@ -119,12 +122,12 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title="Komas Trading Server",
+    description="Algorithmic trading system with TRG and Dominant indicators",
     version="4.0",
-    description="Full trading system with TRG & Dominant indicators, backtesting, and optimization",
-    lifespan=lifespan,
+    lifespan=lifespan
 )
 
-# CORS
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -134,53 +137,51 @@ app.add_middleware(
 )
 
 
-# ============ REQUEST LOGGING MIDDLEWARE ============
+# ============ MIDDLEWARE ============
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     """Log all requests with timing"""
-    request_id = datetime.now().strftime('%H%M%S%f')[:10]
-    
-    # Log request
-    logger.debug(f"[{request_id}] {request.method} {request.url.path}")
-    
     start_time = time.time()
+    
+    # Skip logging for health checks
+    if request.url.path in ["/health", "/favicon.ico"]:
+        return await call_next(request)
     
     try:
         response = await call_next(request)
+        duration = time.time() - start_time
         
-        # Calculate duration
-        duration = (time.time() - start_time) * 1000  # ms
-        
-        # Log response
-        status_emoji = "✔" if response.status_code < 400 else "✗"
-        logger.info(f"[{request_id}] {status_emoji} {request.method} {request.url.path} - {response.status_code} ({duration:.0f}ms)")
+        # Log only if slow or error
+        if duration > 1.0 or response.status_code >= 400:
+            logger.info(
+                f"{request.method} {request.url.path} "
+                f"→ {response.status_code} ({duration:.2f}s)"
+            )
         
         return response
-        
     except Exception as e:
-        duration = (time.time() - start_time) * 1000
-        logger.error(f"[{request_id}] ✗ {request.method} {request.url.path} - ERROR ({duration:.0f}ms)")
-        logger.error(f"[{request_id}] Exception: {str(e)}")
-        logger.error(f"[{request_id}] Traceback:\n{traceback.format_exc()}")
+        duration = time.time() - start_time
+        logger.error(
+            f"{request.method} {request.url.path} "
+            f"→ ERROR ({duration:.2f}s): {str(e)}"
+        )
         raise
 
 
-# ============ GLOBAL EXCEPTION HANDLER ============
+# ============ EXCEPTION HANDLERS ============
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    """Log all unhandled exceptions"""
-    logger.error(f"Unhandled exception on {request.method} {request.url.path}")
-    logger.error(f"Exception type: {type(exc).__name__}")
-    logger.error(f"Exception message: {str(exc)}")
-    logger.error(f"Traceback:\n{traceback.format_exc()}")
+    """Global exception handler for unhandled errors"""
+    tb = traceback.format_exc()
+    logger.error(f"Unhandled error on {request.url.path}:\n{tb}")
     
     return JSONResponse(
         status_code=500,
         content={
-            "error": "Internal server error",
-            "detail": str(exc),
+            "error": str(exc),
+            "type": type(exc).__name__,
             "path": str(request.url.path),
             "timestamp": datetime.now().isoformat()
         }
@@ -189,10 +190,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
-    """Log HTTP exceptions"""
-    if exc.status_code >= 500:
-        logger.error(f"HTTP {exc.status_code} on {request.url.path}: {exc.detail}")
-    elif exc.status_code >= 400:
+    """Handler for HTTP exceptions"""
+    if exc.status_code >= 400:
         logger.warning(f"HTTP {exc.status_code} on {request.url.path}: {exc.detail}")
     
     return JSONResponse(
@@ -274,6 +273,14 @@ try:
     logger.info("✔ Loaded: Preset Optimizer routes (/api/optimizer/*)")
 except ImportError as e:
     logger.warning(f"✗ Failed to load preset optimizer routes: {e}")
+
+# ============ OPTIMIZER HEATMAP ROUTES (Chat #48) ============
+try:
+    from app.api.heatmap_routes import router as heatmap_router
+    app.include_router(heatmap_router)
+    logger.info("✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load heatmap routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -383,7 +390,8 @@ async def root():
             "indicators": ["TRG", "Dominant"],
             "presets": "/api/presets/list",
             "dominant_presets": "/api/presets/dominant/list",
-            "filters": "/api/filters/available"
+            "filters": "/api/filters/available",
+            "optimizer_heatmap": "/api/optimizer/results/{run_id}/heatmap"
         }
     }
 

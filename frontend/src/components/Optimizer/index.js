@@ -6,6 +6,7 @@
  * Chat #45: Preset Optimizer Core
  * Chat #46: Preset Optimizer Modes
  * Chat #47: Preset Optimizer Results
+ * Chat #48: Preset Optimizer Heatmap
  */
 
 // Mode selection (Chat #46)
@@ -17,3 +18,6 @@ export { default as ResultsTable } from './ResultsTable';
 export { default as ComparisonModal } from './ComparisonModal';
 export { default as ExportButtons } from './ExportButtons';
 export { default as HistoryPanel, HistoryItem, StatusBadge } from './HistoryPanel';
+
+// Heatmap visualization (Chat #48)
+export { default as HeatmapPanel, HeatmapLegend, HeatmapCell, CellTooltip } from './HeatmapPanel';
