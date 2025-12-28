@@ -1,116 +1,154 @@
-# 📚 KOMAS Chat Reference
+# KOMAS v4.0 — Chat Reference
 
-> **Последнее обновление:** 28.12.2025
+> **Последнее обновление:** 28.12.2025  
+> **Текущий чат:** #47 — Preset Optimizer Results
 
 ---
 
-## Chat #46: Preset Optimizer Modes ✅
+## 📋 ИНДЕКС ЧАТОВ
+
+### Фаза 1: Стабилизация (#15-19) ✅
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 15 | Bugfixes UI | ✅ | 27.12.2025 |
+| 16 | Bugfixes Backend | ✅ | 27.12.2025 |
+| 17 | Data Futures Only | ✅ | 27.12.2025 |
+| 18 | Data Period Selection | ✅ | 27.12.2025 |
+| 19 | QA Checkpoint #1 | ✅ | 27.12.2025 |
+
+### Фаза 2: Dominant Indicator (#20-28) ✅
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 20 | Dominant Core | ✅ | 27.12.2025 |
+| 21 | Dominant Signals | ✅ | 27.12.2025 |
+| 22 | Dominant Filters | ✅ | 27.12.2025 |
+| 23 | Dominant SL Modes | ✅ | 27.12.2025 |
+| 24 | QA Checkpoint #2 | ✅ | 27.12.2025 |
+| 25 | Dominant Presets DB | ✅ | 27.12.2025 |
+| 26 | Dominant UI Integration | ✅ | 27.12.2025 |
+| 27 | Dominant Verification | ✅ | 27.12.2025 |
+| 28 | Dominant Final Polish | ✅ | 27.12.2025 |
+
+### Фаза 3: Preset System (#29-34) ✅
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 29 | QA Checkpoint #3 | ✅ | 27.12.2025 |
+| 30 | Presets Architecture | ✅ | 27.12.2025 |
+| 31 | Presets TRG Generator | ✅ | 27.12.2025 |
+| 32 | Presets Storage | ✅ | 28.12.2025 |
+| 33 | Presets User CRUD | ✅ | 28.12.2025 |
+| 34 | QA Checkpoint #4 | ✅ | 28.12.2025 |
+
+### Фаза 4: Signal Score (#35-37) ✅
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 35 | Score Core | ✅ | 28.12.2025 |
+| 36 | Score Multi-TF | ✅ | 28.12.2025 |
+| 37 | Score UI | ✅ | 28.12.2025 |
+
+### Фаза 5: General Filters (#38-44) ✅
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 38 | Filters Volatility | ✅ | 28.12.2025 |
+| 39 | QA Checkpoint #5 | ✅ | 28.12.2025 |
+| 40 | Filters Trend | ✅ | 28.12.2025 |
+| 41 | Filters Portfolio | ✅ | 28.12.2025 |
+| 42 | Filters Protection | ✅ | 28.12.2025 |
+| 43 | Filters Integration | ✅ | 28.12.2025 |
+| 44 | Filters UI | ✅ | 28.12.2025 |
+
+### Фаза 6: Preset Optimization (#45-49)
+| # | Название | Статус | Дата |
+|---|----------|--------|------|
+| 45 | Preset Optimizer Core | ✅ | 28.12.2025 |
+| 46 | Preset Optimizer Modes | ✅ | 28.12.2025 |
+| **47** | **Preset Optimizer Results** | **✅** | **28.12.2025** |
+| 48 | Preset Optimizer Heatmap | ⏳ | — |
+| 49 | QA Checkpoint #8 | ⬜ | — |
+
+---
+
+## 📄 Chat #47 — Preset Optimizer Results
 
 **Дата:** 28.12.2025  
-**Фаза:** 6 — Оптимизация пресетов  
-**Статус:** Завершён
+**Статус:** ✅ Завершён
 
-### Цель
-Реализация 4 режимов оптимизации пресетов с разными стратегиями выбора пар и пресетов.
+### Задачи
 
-### Что сделано
+**Backend:**
+- [x] SQLite persistence for results
+- [x] History endpoints (list, delete, clear)
+- [x] Scores endpoint with pagination/filtering
+- [x] CSV/JSON export endpoints
+- [x] Aggregation by preset and pair
 
-#### Backend — Optimizer Modes
-1. **optimization_modes.py** — новый модуль с:
-   - OptimizationMode enum: QUICK, STANDARD, SMART, FULL
-   - ModeConfig dataclass с конфигурацией каждого режима
-   - PAIR_LIQUIDITY_SCORES — рейтинг 40+ пар по ликвидности
-   - CORRELATION_GROUPS — 9 групп корреляции криптовалют
-   - PRESET_CLUSTERS — 5 кластеров пресетов по параметрам
-   - Функции выбора пар и пресетов
-   - Оценка времени оптимизации
+**Frontend:**
+- [x] ResultsPanel - main results display
+- [x] ResultsTable - sortable ranking table
+- [x] ComparisonModal - side-by-side comparison
+- [x] ExportButtons - CSV/JSON export
+- [x] HistoryPanel - past runs management
 
-2. **preset_optimizer.py** — обновлён:
-   - Добавлен параметр mode
-   - Интеграция с optimization_modes
-   - Кэширование результатов для smart mode
-
-3. **optimizer_routes.py** — добавлены endpoints:
-   - GET /api/optimizer/modes
-   - GET /api/optimizer/modes/{mode}
-   - POST /api/optimizer/estimate
-   - GET /api/optimizer/liquidity
-   - GET /api/optimizer/correlation-groups
-
-#### Backend — TRG Seed Fix (BUGFIX)
-4. **preset_routes.py** — добавлены недостающие TRG endpoints:
-   - GET /api/presets/trg/list — список TRG пресетов
-   - GET /api/presets/trg/categories — категории по i1
-   - POST /api/presets/trg/seed — генерация 200 системных пресетов
-   - DELETE /api/presets/trg/clear — очистка TRG пресетов
-
-#### Frontend
-1. **ModeSelector.jsx** — компонент выбора режима:
-   - ModeCard — карточка режима
-   - ModeDropdown — компактный dropdown
-   - TimeEstimate — оценка времени
-   - useModeSelector hook
-
-2. **api.js** — обновлён:
-   - Новые методы optimizerApi: getModes(), getModeInfo(), estimateTime(), etc.
-   - Исправлены методы presetsApi.trg: list(), categories(), seed(), clear()
-
-3. **Presets.jsx** — обновлён:
-   - Добавлена кнопка "📈 Seed TRG (200)"
-   - Добавлена кнопка "🎯 Seed Dominant (125)"
-   - Handlers для генерации пресетов
-
-#### Тесты
-- 50+ unit тестов для optimization_modes
-
-### Режимы оптимизации
-
-| Mode | Presets | Pairs | Strategy |
-|------|---------|-------|----------|
-| QUICK | Top 20 | 5 | Быстрая проверка лучших |
-| STANDARD | Max 100 | 10 | Balanced coverage |
-| SMART | 50 | 15 | Representative sampling |
-| FULL | All | All | Comprehensive analysis |
+**Tests:**
+- [x] Grade calculation tests
+- [x] Manager CRUD tests
+- [x] Aggregation tests
+- [x] Export tests
+- [x] Pagination tests
 
 ### Файлы
 
+**Новые:**
 ```
-backend/app/services/optimization_modes.py   # NEW
-backend/app/services/preset_optimizer.py     # UPDATED
-backend/app/api/optimizer_routes.py          # UPDATED
-backend/app/api/preset_routes.py             # UPDATED - TRG endpoints
-frontend/src/components/Optimizer/ModeSelector.jsx  # NEW
-frontend/src/components/Optimizer/index.js   # NEW
-frontend/src/api.js                          # UPDATED
-frontend/src/pages/Presets.jsx               # UPDATED - Seed buttons
-tests/test_optimization_modes.py             # NEW
+backend/app/db/optimizer_db.py          # SQLite models + manager
+frontend/src/components/Optimizer/
+├── ResultsPanel.jsx                    # Main display
+├── ResultsTable.jsx                    # Sortable table
+├── ComparisonModal.jsx                 # Comparison 2-5 presets
+├── ExportButtons.jsx                   # CSV/JSON export
+└── HistoryPanel.jsx                    # History management
+tests/test_optimizer_results.py         # Unit tests
 ```
+
+**Обновлённые:**
+```
+backend/app/api/optimizer_routes.py     # +15 endpoints
+frontend/src/components/Optimizer/index.js  # Exports
+frontend/src/api.js                     # API methods
+docs/TRACKER.md
+docs/CHAT_REFERENCE.md
+```
+
+### API Endpoints (Chat #47)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/optimizer/history | List optimization runs |
+| DELETE | /api/optimizer/results/{run_id} | Delete specific run |
+| DELETE | /api/optimizer/history/clear | Clear all/keep N |
+| GET | /api/optimizer/results/{run_id}/scores | Paginated scores |
+| GET | /api/optimizer/results/{run_id}/export/csv | Export CSV |
+| GET | /api/optimizer/results/{run_id}/export/json | Export JSON |
+| GET | /api/optimizer/aggregation/preset/{id} | By preset |
+| GET | /api/optimizer/aggregation/pair | By pair |
 
 ### Git Commit
+
 ```
-feat: implement optimization modes + fix TRG preset seed
+feat: implement optimization results display and export
 
-Optimizer Modes:
-- Add optimization_modes.py with 4 mode configurations
-- Add pair liquidity ranking (40+ pairs)
-- Add correlation groups (9 groups)
-- Add preset clustering (5 clusters)
-- Add time estimation with parallelization
-- Add ModeSelector UI component
-- Add 6 new optimizer API endpoints
-- Add 50+ unit tests
+- Add SQLite persistence for optimization results
+- Add history and aggregation endpoints
+- Add ResultsPanel with sortable ranking table
+- Add filtering by grade and indicator type
+- Add side-by-side comparison modal (2-5 presets)
+- Add CSV/JSON export functionality
+- Add HistoryPanel for past runs management
+- Add comprehensive unit tests
 
-TRG Seed Fix:
-- Add GET /api/presets/trg/list endpoint
-- Add GET /api/presets/trg/categories endpoint  
-- Add POST /api/presets/trg/seed endpoint (200 presets)
-- Add DELETE /api/presets/trg/clear endpoint
-- Add "Seed TRG" and "Seed Dominant" buttons to Presets page
-- Update presetsApi.trg methods in api.js
-
-Chat #46: Preset Optimizer Modes
+Chat #47: Preset Optimizer Results
 ```
 
 ---
 
-**Следующий чат:** #47 — Preset Optimizer Results
+**Следующий чат:** #48 — Preset Optimizer Heatmap

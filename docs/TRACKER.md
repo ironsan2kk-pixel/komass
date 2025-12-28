@@ -1,7 +1,7 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
 > **Последнее обновление:** 28.12.2025  
-> **Текущий чат:** #46 — Preset Optimizer Modes  
+> **Текущий чат:** #47 — Preset Optimizer Results  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
@@ -11,10 +11,10 @@
 | Метрика | Значение |
 |---------|----------|
 | **Всего чатов** | 75 (#15 — #89) |
-| **Завершено** | 32 (#15-#46) |
+| **Завершено** | 33 (#15-#47) |
 | **В процессе** | — |
-| **Осталось** | 43 |
-| **Прогресс** | 42.7% |
+| **Осталось** | 42 |
+| **Прогресс** | 44.0% |
 
 ---
 
@@ -55,60 +55,82 @@
 - [x] Unit тесты (50+ тестов)
 
 **🔧 BUGFIX: TRG Seed Endpoints**
-- [x] Добавлены недостающие TRG endpoints в preset_routes.py:
-  - GET /api/presets/trg/list — список TRG пресетов
-  - GET /api/presets/trg/categories — категории по i1
-  - POST /api/presets/trg/seed — генерация 200 пресетов
-  - DELETE /api/presets/trg/clear — очистка TRG пресетов
+- [x] Добавлены недостающие TRG endpoints в preset_routes.py
 - [x] Обновлён presetsApi.trg в api.js
 - [x] Добавлены кнопки "Seed TRG" и "Seed Dominant" в Presets.jsx
 
+---
+
+### Чат #47: Preset Optimizer Results ✅
+**Статус:** Завершён  
+**Дата:** 28.12.2025
+
+**Выполнено:**
+
+**Backend:**
+- [x] SQLite persistence (`optimizer_db.py`)
+- [x] PresetOptimizationRun model
+- [x] OptimizationResultsManager class
+- [x] Grade calculation (A-F based on score)
+- [x] CSV/JSON export methods
+- [x] GET /api/optimizer/history - list runs
+- [x] DELETE /api/optimizer/results/{run_id} - delete run
+- [x] DELETE /api/optimizer/history/clear - clear history
+- [x] GET /api/optimizer/results/{run_id}/scores - paginated scores
+- [x] GET /api/optimizer/results/{run_id}/export/csv
+- [x] GET /api/optimizer/results/{run_id}/export/json
+- [x] GET /api/optimizer/aggregation/preset/{preset_id}
+- [x] GET /api/optimizer/aggregation/pair
+
+**Frontend:**
+- [x] ResultsPanel.jsx - main display with summary, filters
+- [x] ResultsTable.jsx - sortable columns, grade badges
+- [x] ComparisonModal.jsx - side-by-side 2-5 presets
+- [x] ExportButtons.jsx - CSV/JSON download
+- [x] HistoryPanel.jsx - past runs management
+- [x] Updated index.js exports
+
+**Tests:**
+- [x] Grade calculation tests
+- [x] PresetAggregateScore tests
+- [x] ResultsManager CRUD tests
+- [x] Aggregation tests
+- [x] Export tests
+- [x] Pagination tests
+- [x] Integration tests
+
 **Новые файлы:**
-- `backend/app/services/optimization_modes.py`
-- `frontend/src/components/Optimizer/ModeSelector.jsx`
-- `frontend/src/components/Optimizer/index.js`
-- `tests/test_optimization_modes.py`
+- `backend/app/db/optimizer_db.py` (869 lines)
+- `backend/app/api/optimizer_routes.py` (updated, 994 lines)
+- `frontend/src/components/Optimizer/ResultsPanel.jsx` (628 lines)
+- `frontend/src/components/Optimizer/ResultsTable.jsx`
+- `frontend/src/components/Optimizer/ComparisonModal.jsx`
+- `frontend/src/components/Optimizer/ExportButtons.jsx`
+- `frontend/src/components/Optimizer/HistoryPanel.jsx`
+- `frontend/src/components/Optimizer/index.js` (updated)
+- `tests/test_optimizer_results.py`
 
-**Обновлённые файлы:**
-- `backend/app/services/preset_optimizer.py`
-- `backend/app/api/optimizer_routes.py`
-- `backend/app/api/preset_routes.py` — TRG endpoints
-- `frontend/src/api.js` — TRG API methods
-- `frontend/src/pages/Presets.jsx` — Seed buttons
-
-**Режимы оптимизации:**
-
-| Mode | Presets | Pairs | Combinations | Time |
-|------|---------|-------|--------------|------|
-| ⚡ QUICK | Top 20 | 5 liquid | ~100 | <1 min |
-| ⚖️ STANDARD | All (max 100) | 10 diverse | ~1000 | <5 min |
-| 🧠 SMART | 50 representative | 15 representative | ~750 | Variable |
-| 🔬 FULL | All | All | All | 10+ min |
+**Grade System:**
+| Score | Grade | Color |
+|-------|-------|-------|
+| 85-100 | A | Green |
+| 70-84 | B | Blue |
+| 55-69 | C | Yellow |
+| 40-54 | D | Orange |
+| 0-39 | F | Red |
 
 ---
 
-### Чат #47: Preset Optimizer Results ⏳
+### Чат #48: Preset Optimizer Heatmap ⏳
 **Статус:** Следующий
 
 **Задачи:**
-- [ ] OptimizationResultsPanel компонент
-- [ ] Ranking таблица с метриками
-- [ ] Сортировка и фильтрация
-- [ ] Export в CSV/JSON
-- [ ] Сравнение пресетов side-by-side
-- [ ] Unit тесты
-
----
-
-### Чат #48: Preset Optimizer Heatmap
-**Статус:** ⬜ Ожидает
-
-**Задачи:**
 - [ ] Matrix visualization (preset × pair)
-- [ ] Color scale by metric
-- [ ] Metric switcher (PnL/WinRate/DD/Sharpe)
+- [ ] Color scale by metric (PnL/WinRate/DD/Sharpe)
+- [ ] Metric switcher
 - [ ] Interactive tooltips
-- [ ] Export capabilities
+- [ ] Export heatmap data
+- [ ] Unit тесты
 
 ---
 
@@ -127,6 +149,7 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
+| 28.12.2025 | #47 | ✅ Results display: SQLite, UI components, export |
 | 28.12.2025 | #46 | ✅ Optimizer Modes + 🔧 TRG Seed Endpoints Fix |
 | 28.12.2025 | #45 | ✅ Preset Optimizer Core: multi-pair backtest |
 | 28.12.2025 | #44 | ✅ Filters UI: полный интерфейс фильтров |
@@ -134,9 +157,7 @@
 | 28.12.2025 | #42 | ✅ Protection Filters |
 | 28.12.2025 | #41 | ✅ Portfolio Filters |
 | 28.12.2025 | #40 | ✅ Trend Filters |
-| 28.12.2025 | #39 | ✅ QA Checkpoint #6 |
-| 28.12.2025 | #38 | ✅ Volatility Filters |
 
 ---
 
-*Обновлено: 28.12.2025, Chat #46*
+*Обновлено: 28.12.2025, Chat #47*

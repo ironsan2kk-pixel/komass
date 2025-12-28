@@ -5414,3 +5414,103 @@ favorites_count
 2025-12-28 14:46:22 | INFO     | app.main             | log_requests         | [1446220331] ✔ GET /api/presets/stats - 200 (4ms)
 2025-12-28 14:46:26 | DEBUG    | app.main             | log_requests         | [1446263405] GET /
 2025-12-28 14:46:26 | INFO     | app.main             | log_requests         | [1446263405] ✔ GET / - 200 (0ms)
+2025-12-28 14:48:22 | DEBUG    | app.main             | log_requests         | [1448225552] GET /api/presets/list
+2025-12-28 14:48:22 | INFO     | app.main             | log_requests         | [1448225552] ✔ GET /api/presets/list - 200 (6ms)
+2025-12-28 14:48:22 | DEBUG    | app.main             | log_requests         | [1448225623] GET /api/presets/stats
+2025-12-28 14:48:22 | INFO     | app.main             | log_requests         | [1448225623] ✔ GET /api/presets/stats - 200 (3ms)
+2025-12-28 14:48:36 | DEBUG    | app.main             | log_requests         | [1448365840] GET /
+2025-12-28 14:48:36 | INFO     | app.main             | log_requests         | [1448365840] ✔ GET / - 200 (1ms)
+2025-12-28 14:48:36 | DEBUG    | app.main             | log_requests         | [1448369182] GET /
+2025-12-28 14:48:36 | INFO     | app.main             | log_requests         | [1448369182] ✔ GET / - 200 (1ms)
+2025-12-28 14:48:37 | DEBUG    | app.main             | log_requests         | [1448372559] GET /wp-includes/wlwmanifest.xml
+2025-12-28 14:48:37 | INFO     | app.main             | log_requests         | [1448372559] ✗ GET /wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:37 | DEBUG    | app.main             | log_requests         | [1448375949] GET /xmlrpc.php
+2025-12-28 14:48:37 | INFO     | app.main             | log_requests         | [1448375949] ✗ GET /xmlrpc.php - 404 (1ms)
+2025-12-28 14:48:37 | DEBUG    | app.main             | log_requests         | [1448379291] GET /
+2025-12-28 14:48:37 | INFO     | app.main             | log_requests         | [1448379291] ✔ GET / - 200 (1ms)
+2025-12-28 14:48:38 | DEBUG    | app.main             | log_requests         | [1448383765] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:38 | INFO     | app.main             | log_requests         | [1448383765] ✗ GET /blog/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:38 | DEBUG    | app.main             | log_requests         | [1448387156] GET /web/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:38 | INFO     | app.main             | log_requests         | [1448387156] ✗ GET /web/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:39 | DEBUG    | app.main             | log_requests         | [1448390515] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:39 | INFO     | app.main             | log_requests         | [1448390515] ✗ GET /wordpress/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:39 | DEBUG    | app.main             | log_requests         | [1448393870] GET /website/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:39 | INFO     | app.main             | log_requests         | [1448393870] ✗ GET /website/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:39 | DEBUG    | app.main             | log_requests         | [1448397258] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:39 | INFO     | app.main             | log_requests         | [1448397258] ✗ GET /wp/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:40 | DEBUG    | app.main             | log_requests         | [1448400635] GET /news/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:40 | INFO     | app.main             | log_requests         | [1448400635] ✗ GET /news/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:40 | DEBUG    | app.main             | log_requests         | [1448404061] GET /2020/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:40 | INFO     | app.main             | log_requests         | [1448404061] ✗ GET /2020/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:40 | DEBUG    | app.main             | log_requests         | [1448407434] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:40 | INFO     | app.main             | log_requests         | [1448407434] ✗ GET /2019/wp-includes/wlwmanifest.xml - 404 (2ms)
+2025-12-28 14:48:41 | DEBUG    | app.main             | log_requests         | [1448410845] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:41 | INFO     | app.main             | log_requests         | [1448410845] ✗ GET /shop/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:41 | DEBUG    | app.main             | log_requests         | [1448414196] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:41 | INFO     | app.main             | log_requests         | [1448414196] ✗ GET /wp1/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:41 | DEBUG    | app.main             | log_requests         | [1448417609] GET /test/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:41 | INFO     | app.main             | log_requests         | [1448417609] ✗ GET /test/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:42 | DEBUG    | app.main             | log_requests         | [1448420988] GET /wp2/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:42 | INFO     | app.main             | log_requests         | [1448420988] ✗ GET /wp2/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:48:42 | DEBUG    | app.main             | log_requests         | [1448424321] GET /site/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:42 | INFO     | app.main             | log_requests         | [1448424321] ✗ GET /site/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:42 | DEBUG    | app.main             | log_requests         | [1448427916] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:42 | INFO     | app.main             | log_requests         | [1448427916] ✗ GET /cms/wp-includes/wlwmanifest.xml - 404 (1ms)
+2025-12-28 14:48:43 | DEBUG    | app.main             | log_requests         | [1448431283] GET /sito/wp-includes/wlwmanifest.xml
+2025-12-28 14:48:43 | INFO     | app.main             | log_requests         | [1448431283] ✗ GET /sito/wp-includes/wlwmanifest.xml - 404 (2ms)
+2025-12-28 14:49:23 | DEBUG    | app.main             | log_requests         | [1449233727] GET /api/data/available
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449233727] ✔ GET /api/data/available - 200 (9978ms)
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449333538] GET /api/signals/sse/stream
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449333538] GET /api/settings/presets
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449333538] GET /api/bots/
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449333538] ✗ GET /api/signals/sse/stream - 404 (3ms)
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449333538] ✗ GET /api/settings/presets - 404 (3ms)
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449333538] ✗ GET /api/bots/ - 404 (4ms)
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449333600] GET /api/settings/presets
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449333611] GET /api/bots/
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449333600] ✗ GET /api/settings/presets - 404 (1ms)
+2025-12-28 14:49:33 | INFO     | app.main             | log_requests         | [1449333611] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:49:33 | DEBUG    | app.main             | log_requests         | [1449336594] GET /api/data/available
+2025-12-28 14:49:38 | DEBUG    | app.main             | log_requests         | [1449388218] GET /api/presets/stats
+2025-12-28 14:49:38 | DEBUG    | app.main             | log_requests         | [1449388228] GET /api/presets/list
+2025-12-28 14:49:38 | INFO     | app.main             | log_requests         | [1449336594] ✔ GET /api/data/available - 200 (5163ms)
+2025-12-28 14:49:38 | INFO     | app.main             | log_requests         | [1449388218] ✔ GET /api/presets/stats - 200 (7ms)
+2025-12-28 14:49:38 | INFO     | app.main             | log_requests         | [1449388228] ✔ GET /api/presets/list - 200 (7ms)
+2025-12-28 14:49:38 | DEBUG    | app.main             | log_requests         | [1449388326] GET /api/presets/stats
+2025-12-28 14:49:38 | DEBUG    | app.main             | log_requests         | [1449388343] GET /api/presets/list
+2025-12-28 14:49:38 | INFO     | app.main             | log_requests         | [1449388326] ✔ GET /api/presets/stats - 200 (5ms)
+2025-12-28 14:49:38 | INFO     | app.main             | log_requests         | [1449388343] ✔ GET /api/presets/list - 200 (4ms)
+2025-12-28 14:55:19 | DEBUG    | app.main             | log_requests         | [1455199174] GET /
+2025-12-28 14:55:19 | INFO     | app.main             | log_requests         | [1455199174] ✔ GET / - 200 (0ms)
+2025-12-28 14:58:48 | DEBUG    | app.main             | log_requests         | [1458485556] GET /
+2025-12-28 14:58:48 | INFO     | app.main             | log_requests         | [1458485556] ✔ GET / - 200 (0ms)
+2025-12-28 14:58:50 | DEBUG    | app.main             | log_requests         | [1458500364] GET /wp-includes/ID3/license.txt
+2025-12-28 14:58:50 | INFO     | app.main             | log_requests         | [1458500364] ✗ GET /wp-includes/ID3/license.txt - 404 (0ms)
+2025-12-28 14:58:51 | DEBUG    | app.main             | log_requests         | [1458511353] GET /feed/
+2025-12-28 14:58:51 | INFO     | app.main             | log_requests         | [1458511353] ✗ GET /feed/ - 404 (0ms)
+2025-12-28 14:58:52 | DEBUG    | app.main             | log_requests         | [1458520459] GET /xmlrpc.php
+2025-12-28 14:58:52 | INFO     | app.main             | log_requests         | [1458520459] ✗ GET /xmlrpc.php - 404 (0ms)
+2025-12-28 14:58:52 | DEBUG    | app.main             | log_requests         | [1458528648] GET /blog/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:52 | INFO     | app.main             | log_requests         | [1458528648] ✗ GET /blog/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:58:53 | DEBUG    | app.main             | log_requests         | [1458537906] GET /web/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:53 | INFO     | app.main             | log_requests         | [1458537906] ✗ GET /web/wp-includes/wlwmanifest.xml - 404 (16ms)
+2025-12-28 14:58:55 | DEBUG    | app.main             | log_requests         | [1458550315] GET /wordpress/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:55 | INFO     | app.main             | log_requests         | [1458550315] ✗ GET /wordpress/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:58:55 | DEBUG    | app.main             | log_requests         | [1458559612] GET /wp/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:55 | INFO     | app.main             | log_requests         | [1458559612] ✗ GET /wp/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:58:57 | DEBUG    | app.main             | log_requests         | [1458570307] GET /2020/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:57 | INFO     | app.main             | log_requests         | [1458570307] ✗ GET /2020/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:58:58 | DEBUG    | app.main             | log_requests         | [1458581988] GET /2019/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:58 | INFO     | app.main             | log_requests         | [1458581988] ✗ GET /2019/wp-includes/wlwmanifest.xml - 404 (16ms)
+2025-12-28 14:58:59 | DEBUG    | app.main             | log_requests         | [1458592216] GET /2021/wp-includes/wlwmanifest.xml
+2025-12-28 14:58:59 | INFO     | app.main             | log_requests         | [1458592216] ✗ GET /2021/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:59:00 | DEBUG    | app.main             | log_requests         | [1459001051] GET /shop/wp-includes/wlwmanifest.xml
+2025-12-28 14:59:00 | INFO     | app.main             | log_requests         | [1459001051] ✗ GET /shop/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:59:00 | DEBUG    | app.main             | log_requests         | [1459006991] GET /wp1/wp-includes/wlwmanifest.xml
+2025-12-28 14:59:00 | INFO     | app.main             | log_requests         | [1459006991] ✗ GET /wp1/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:59:01 | DEBUG    | app.main             | log_requests         | [1459016285] GET /test/wp-includes/wlwmanifest.xml
+2025-12-28 14:59:01 | INFO     | app.main             | log_requests         | [1459016285] ✗ GET /test/wp-includes/wlwmanifest.xml - 404 (16ms)
+2025-12-28 14:59:02 | DEBUG    | app.main             | log_requests         | [1459025379] GET /site/wp-includes/wlwmanifest.xml
+2025-12-28 14:59:02 | INFO     | app.main             | log_requests         | [1459025379] ✗ GET /site/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 14:59:03 | DEBUG    | app.main             | log_requests         | [1459030690] GET /cms/wp-includes/wlwmanifest.xml
+2025-12-28 14:59:03 | INFO     | app.main             | log_requests         | [1459030690] ✗ GET /cms/wp-includes/wlwmanifest.xml - 404 (0ms)

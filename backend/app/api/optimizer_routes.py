@@ -11,14 +11,24 @@ Endpoints:
 - GET    /api/optimizer/presets/active      - List active optimizations
 - GET    /api/optimizer/presets/status/{id} - Get status of specific run
 
-Mode endpoints (NEW in Chat #46):
+Mode endpoints (Chat #46):
 - GET    /api/optimizer/modes               - List all optimization modes
 - GET    /api/optimizer/modes/{mode}        - Get mode configuration
 - POST   /api/optimizer/estimate            - Estimate optimization time
 - GET    /api/optimizer/liquidity           - Get pair liquidity ranking
 
+Results endpoints (NEW in Chat #47):
+- GET    /api/optimizer/history             - List optimization history
+- DELETE /api/optimizer/results/{run_id}    - Delete specific run
+- GET    /api/optimizer/results/{run_id}/scores - Get preset scores with pagination
+- GET    /api/optimizer/results/{run_id}/export/csv - Export as CSV
+- GET    /api/optimizer/results/{run_id}/export/json - Export as JSON
+- GET    /api/optimizer/aggregation/preset/{preset_id} - Aggregate by preset
+- GET    /api/optimizer/aggregation/pair    - Aggregate by pair
+
 Chat #45: Preset Optimizer Core
 Chat #46: Preset Optimizer Modes
+Chat #47: Preset Optimizer Results
 """
 
 import asyncio
@@ -29,7 +39,7 @@ from typing import Optional, List
 from dataclasses import asdict
 
 from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -83,6 +93,7 @@ class PresetScoreResponse(BaseModel):
     indicator_type: str
     rank: int
     overall_score: float
+    grade: str
     profitability_score: float
     stability_score: float
     universality_score: float
@@ -99,22 +110,25 @@ class PresetScoreResponse(BaseModel):
     worst_pnl: float
 
 
-class OptimizationResultResponse(BaseModel):
-    """Full optimization result response"""
-    run_id: str
-    status: str
-    mode: str
-    started_at: Optional[str]
-    completed_at: Optional[str]
-    duration_seconds: float
-    total_combinations: int
-    completed_combinations: int
-    effective_presets: int
-    effective_pairs: int
-    num_workers: int
-    top_10_presets: List[dict]
-    result_matrix: dict
-    errors: List[str]
+class OptimizationHistoryRequest(BaseModel):
+    """Request for optimization history"""
+    limit: int = Field(default=20, ge=1, le=100)
+    offset: int = Field(default=0, ge=0)
+    mode: Optional[str] = None
+    status: Optional[str] = None
+    sort_by: str = Field(default="created_at")
+    sort_order: str = Field(default="desc", pattern="^(asc|desc)$")
+
+
+class PresetScoresRequest(BaseModel):
+    """Request for preset scores with filters"""
+    limit: int = Field(default=50, ge=1, le=200)
+    offset: int = Field(default=0, ge=0)
+    sort_by: str = Field(default="overall_score")
+    sort_order: str = Field(default="desc", pattern="^(asc|desc)$")
+    min_score: Optional[float] = Field(None, ge=0, le=100)
+    indicator_type: Optional[str] = None
+    search: Optional[str] = None
 
 
 class TimeEstimateRequest(BaseModel):
@@ -150,28 +164,64 @@ class ModeInfoResponse(BaseModel):
 
 
 # ============================================================================
-# OPTIMIZATION RESULTS STORAGE
+# OPTIMIZATION RESULTS STORAGE (hybrid: in-memory + SQLite)
 # ============================================================================
 
-# In-memory storage for completed results
+# In-memory cache for active/recent results
 _completed_results = {}
-MAX_STORED_RESULTS = 50
+MAX_MEMORY_RESULTS = 20
 
 
 def store_result(run_id: str, result: dict):
-    """Store completed optimization result"""
+    """Store completed optimization result (memory + SQLite)"""
     global _completed_results
+    
+    # Store in memory cache
     _completed_results[run_id] = result
     
-    # Keep only last N results
-    if len(_completed_results) > MAX_STORED_RESULTS:
+    # Keep only last N in memory
+    if len(_completed_results) > MAX_MEMORY_RESULTS:
         oldest_key = next(iter(_completed_results))
         del _completed_results[oldest_key]
+    
+    # Persist to SQLite
+    try:
+        from app.db.optimizer_db import OptimizationResultsManager
+        OptimizationResultsManager.save_run(result)
+    except Exception as e:
+        logger.error(f"Failed to persist result to SQLite: {e}")
 
 
 def get_stored_result(run_id: str) -> Optional[dict]:
-    """Get stored optimization result"""
-    return _completed_results.get(run_id)
+    """Get stored optimization result (memory first, then SQLite)"""
+    # Check memory cache first
+    if run_id in _completed_results:
+        return _completed_results[run_id]
+    
+    # Try SQLite
+    try:
+        from app.db.optimizer_db import OptimizationResultsManager
+        detail = OptimizationResultsManager.get_run(run_id)
+        if detail:
+            return asdict(detail)
+    except Exception as e:
+        logger.error(f"Failed to get result from SQLite: {e}")
+    
+    return None
+
+
+def calculate_grade(score: float) -> str:
+    """Calculate letter grade from score (0-100)"""
+    if score >= 85:
+        return "A"
+    elif score >= 70:
+        return "B"
+    elif score >= 55:
+        return "C"
+    elif score >= 40:
+        return "D"
+    else:
+        return "F"
 
 
 # ============================================================================
@@ -239,6 +289,9 @@ async def optimization_stream_generator(
             'run_id': result.run_id,
             'status': result.status.value,
             'mode': result.mode,
+            'timeframe': result.timeframe,
+            'start_date': result.start_date,
+            'end_date': result.end_date,
             'started_at': result.started_at,
             'completed_at': result.completed_at,
             'duration_seconds': result.duration_seconds,
@@ -248,6 +301,8 @@ async def optimization_stream_generator(
             'original_pair_count': result.original_pair_count,
             'effective_preset_count': result.effective_preset_count,
             'effective_pair_count': result.effective_pair_count,
+            'preset_ids': result.preset_ids,
+            'pairs': result.pairs,
             'num_workers': result.num_workers,
             'top_10_presets': result.top_10_presets,
             'result_matrix': result.result_matrix,
@@ -268,7 +323,7 @@ async def optimization_stream_generator(
 
 
 # ============================================================================
-# MODE ENDPOINTS (NEW in Chat #46)
+# MODE ENDPOINTS (Chat #46)
 # ============================================================================
 
 @router.get("/modes")
@@ -301,158 +356,376 @@ async def get_mode_info(mode: str):
         valid_modes = [m.value for m in OptimizationMode]
         raise HTTPException(
             status_code=400, 
-            detail=f"Invalid mode '{mode}'. Valid modes: {valid_modes}"
+            detail=f"Invalid mode: {mode}. Valid modes: {valid_modes}"
         )
 
 
-@router.post("/estimate", response_model=TimeEstimateResponse)
+@router.post("/estimate")
 async def estimate_optimization_time(request: TimeEstimateRequest):
     """
-    Estimate optimization time based on parameters and mode.
+    Estimate optimization time based on preset count, pair count, and mode.
     """
-    from app.services.preset_optimizer import get_preset_optimizer
-    from app.services.optimization_modes import estimate_optimization_time
+    from app.services.optimization_modes import estimate_optimization_time, get_mode_config
     
-    optimizer = get_preset_optimizer()
-    
-    estimate = estimate_optimization_time(
-        mode=request.mode,
-        num_presets=request.preset_count,
-        num_pairs=request.pair_count,
-        num_workers=optimizer.num_workers
-    )
-    
-    return TimeEstimateResponse(**estimate)
+    try:
+        config = get_mode_config(request.mode)
+        estimate = estimate_optimization_time(
+            request.preset_count,
+            request.pair_count,
+            request.mode
+        )
+        
+        return {
+            "mode": request.mode,
+            "mode_name": config.name,
+            "total_combinations": estimate["total_combinations"],
+            "effective_presets": estimate["effective_presets"],
+            "effective_pairs": estimate["effective_pairs"],
+            "num_workers": estimate["num_workers"],
+            "estimated_seconds": estimate["estimated_seconds"],
+            "estimated_minutes": estimate["estimated_seconds"] / 60,
+            "human_readable": estimate["human_readable"],
+            "description": config.description
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.get("/liquidity")
-async def get_liquidity_ranking(
-    pairs: str = Query(None, description="Comma-separated pairs to rank (optional)")
-):
+async def get_liquidity_ranking(pairs: Optional[str] = Query(None)):
     """
     Get liquidity ranking for trading pairs.
-    If pairs not specified, returns all known pairs.
     """
-    from app.services.optimization_modes import (
-        get_liquidity_ranking, 
-        PAIR_LIQUIDITY_SCORES
-    )
+    from app.services.optimization_modes import get_liquidity_ranking
     
-    if pairs:
-        pair_list = [p.strip().upper() for p in pairs.split(",")]
-    else:
-        pair_list = list(PAIR_LIQUIDITY_SCORES.keys())
-    
+    pair_list = pairs.split(",") if pairs else None
     ranking = get_liquidity_ranking(pair_list)
     
     return {
-        "total_pairs": len(ranking),
-        "ranking": [
-            {"pair": pair, "liquidity_score": score, "rank": i + 1}
-            for i, (pair, score) in enumerate(ranking)
-        ]
+        "ranking": ranking,
+        "total": len(ranking)
     }
 
 
 @router.get("/correlation-groups")
 async def get_correlation_groups():
     """
-    Get predefined correlation groups for pairs.
+    Get correlation groups for trading pairs.
     """
     from app.services.optimization_modes import CORRELATION_GROUPS
     
     return {
-        "groups": [
-            {
-                "name": name,
-                "pairs": pairs,
-                "count": len(pairs)
-            }
-            for name, pairs in CORRELATION_GROUPS.items()
-        ],
+        "groups": CORRELATION_GROUPS,
         "total_groups": len(CORRELATION_GROUPS)
     }
 
 
 # ============================================================================
-# API ENDPOINTS
+# HISTORY ENDPOINTS (NEW in Chat #47)
 # ============================================================================
 
-@router.post("/presets/run", response_model=OptimizationStartResponse)
-async def start_preset_optimization(request: OptimizationRequest):
+@router.get("/history")
+async def get_optimization_history(
+    limit: int = Query(default=20, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    mode: Optional[str] = Query(default=None),
+    status: Optional[str] = Query(default=None),
+    sort_by: str = Query(default="created_at"),
+    sort_order: str = Query(default="desc", pattern="^(asc|desc)$")
+):
     """
-    Start preset optimization.
+    Get optimization run history with filtering and pagination.
     
-    Returns immediately with run_id for tracking.
-    Use /stream endpoint for real-time progress.
+    Query params:
+    - limit: Max results (1-100)
+    - offset: Skip first N results
+    - mode: Filter by mode (quick/standard/smart/full)
+    - status: Filter by status (completed/error/cancelled)
+    - sort_by: Sort field (created_at, duration_seconds, best_overall_score)
+    - sort_order: asc or desc
     """
-    from app.services.preset_optimizer import get_preset_optimizer
-    from app.services.optimization_modes import estimate_optimization_time, get_mode_config
+    from app.db.optimizer_db import OptimizationResultsManager
     
     try:
-        optimizer = get_preset_optimizer()
-        
-        # Validate inputs
-        if not request.preset_ids:
-            raise HTTPException(status_code=400, detail="No presets specified")
-        if not request.pairs:
-            raise HTTPException(status_code=400, detail="No pairs specified")
-        
-        # Get mode config
-        mode_config = get_mode_config(request.mode)
-        
-        # Calculate effective counts based on mode
-        effective_presets = len(request.preset_ids)
-        effective_pairs = len(request.pairs)
-        
-        if mode_config.max_presets:
-            effective_presets = min(effective_presets, mode_config.max_presets)
-        if mode_config.max_pairs:
-            effective_pairs = min(effective_pairs, mode_config.max_pairs)
-        
-        # Estimate time
-        estimate = estimate_optimization_time(
-            mode=request.mode,
-            num_presets=effective_presets,
-            num_pairs=effective_pairs,
-            num_workers=optimizer.num_workers
+        runs = OptimizationResultsManager.list_runs(
+            limit=limit,
+            offset=offset,
+            mode=mode,
+            status=status,
+            sort_by=sort_by,
+            sort_order=sort_order
         )
         
-        # Generate run ID
-        run_id = optimizer.generate_run_id()
+        total = OptimizationResultsManager.count_runs(mode=mode, status=status)
         
-        # Calculate total combinations
-        total = effective_presets * effective_pairs
-        
-        return OptimizationStartResponse(
-            run_id=run_id,
-            status="pending",
-            mode=request.mode,
-            total_combinations=total,
-            effective_presets=effective_presets,
-            effective_pairs=effective_pairs,
-            workers=optimizer.num_workers,
-            estimated_seconds=estimate['estimated_seconds'],
-            estimated_time=estimate['human_readable'],
-            message=f"Optimization ready. Use /stream endpoint with mode={request.mode}"
-        )
-        
+        return {
+            "runs": [asdict(r) for r in runs],
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "has_more": offset + len(runs) < total
+        }
     except Exception as e:
-        logger.error(f"Error starting optimization: {e}")
+        logger.error(f"Failed to get history: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/presets/stream")
-async def stream_preset_optimization(request: OptimizationRequest):
+@router.delete("/results/{run_id}")
+async def delete_optimization_result(run_id: str):
     """
-    Start optimization and stream progress via SSE.
+    Delete a specific optimization result.
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
     
-    Returns Server-Sent Events stream with:
-    - start: Initial configuration (includes mode and estimates)
-    - progress: Progress updates (every 5 completions)
-    - heartbeat: Keep-alive (every 30s)
-    - complete: Final summary
-    - result: Full result data
+    # Remove from memory cache
+    if run_id in _completed_results:
+        del _completed_results[run_id]
+    
+    # Remove from SQLite
+    success = OptimizationResultsManager.delete_run(run_id)
+    
+    if not success:
+        raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
+    
+    return {"success": True, "deleted": run_id}
+
+
+@router.delete("/history/clear")
+async def clear_optimization_history(keep_count: int = Query(default=0, ge=0)):
+    """
+    Clear optimization history.
+    
+    Query params:
+    - keep_count: Number of recent runs to keep (0 = delete all)
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    if keep_count == 0:
+        deleted = OptimizationResultsManager.clear_all()
+    else:
+        deleted = OptimizationResultsManager.delete_old_runs(keep_count=keep_count)
+    
+    # Clear memory cache
+    global _completed_results
+    _completed_results = {}
+    
+    return {"success": True, "deleted_count": deleted}
+
+
+# ============================================================================
+# RESULTS ENDPOINTS (Enhanced in Chat #47)
+# ============================================================================
+
+@router.get("/results/{run_id}")
+async def get_optimization_result(run_id: str):
+    """
+    Get full optimization result by run ID.
+    """
+    result = get_stored_result(run_id)
+    
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Result {run_id} not found")
+    
+    return result
+
+
+@router.get("/results/{run_id}/scores")
+async def get_preset_scores(
+    run_id: str,
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
+    sort_by: str = Query(default="overall_score"),
+    sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
+    min_score: Optional[float] = Query(default=None, ge=0, le=100),
+    indicator_type: Optional[str] = Query(default=None),
+    search: Optional[str] = Query(default=None)
+):
+    """
+    Get preset scores for a run with filtering, sorting, and pagination.
+    
+    Query params:
+    - limit: Max results
+    - offset: Skip first N
+    - sort_by: Field to sort by (overall_score, avg_pnl, avg_win_rate, avg_sharpe, etc.)
+    - sort_order: asc or desc
+    - min_score: Minimum overall score filter
+    - indicator_type: Filter by indicator (trg/dominant)
+    - search: Search in preset name/id
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    try:
+        result = OptimizationResultsManager.get_preset_scores(
+            run_id=run_id,
+            limit=limit,
+            offset=offset,
+            sort_by=sort_by,
+            sort_order=sort_order,
+            min_score=min_score,
+            indicator_type=indicator_type,
+            search=search
+        )
+        
+        # Add grades to scores
+        for score in result["scores"]:
+            score["grade"] = calculate_grade(score.get("overall_score", 0))
+        
+        return result
+    except Exception as e:
+        logger.error(f"Failed to get preset scores: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/results/{run_id}/export/csv")
+async def export_results_csv(run_id: str):
+    """
+    Export optimization results as CSV.
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    csv_content = OptimizationResultsManager.export_to_csv(run_id)
+    
+    if not csv_content:
+        raise HTTPException(status_code=404, detail=f"Results for {run_id} not found")
+    
+    return PlainTextResponse(
+        content=csv_content,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=optimization_{run_id}.csv"
+        }
+    )
+
+
+@router.get("/results/{run_id}/export/json")
+async def export_results_json(run_id: str):
+    """
+    Export full optimization results as JSON file.
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    json_data = OptimizationResultsManager.export_to_json(run_id)
+    
+    if not json_data:
+        raise HTTPException(status_code=404, detail=f"Results for {run_id} not found")
+    
+    return {
+        "export_time": datetime.now().isoformat(),
+        "run_id": run_id,
+        "data": json_data
+    }
+
+
+# ============================================================================
+# AGGREGATION ENDPOINTS (NEW in Chat #47)
+# ============================================================================
+
+@router.get("/aggregation/preset/{preset_id}")
+async def get_preset_aggregation(
+    preset_id: str,
+    limit: int = Query(default=10, ge=1, le=50)
+):
+    """
+    Get aggregated results for a specific preset across multiple optimization runs.
+    
+    Shows how a preset performed in different runs/conditions.
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    results = OptimizationResultsManager.get_aggregated_by_preset(preset_id, limit=limit)
+    
+    if not results:
+        return {
+            "preset_id": preset_id,
+            "runs": [],
+            "message": "No optimization results found for this preset"
+        }
+    
+    # Calculate averages across runs
+    avg_pnl = sum(r["score"].get("avg_pnl", 0) for r in results) / len(results)
+    avg_score = sum(r["score"].get("overall_score", 0) for r in results) / len(results)
+    
+    return {
+        "preset_id": preset_id,
+        "runs_count": len(results),
+        "avg_pnl_across_runs": avg_pnl,
+        "avg_score_across_runs": avg_score,
+        "runs": results
+    }
+
+
+@router.get("/aggregation/pair")
+async def get_pair_aggregation(
+    run_id: str = Query(..., description="Run ID"),
+    pair: str = Query(..., description="Trading pair (e.g., BTCUSDT)")
+):
+    """
+    Get all preset results for a specific pair in a run.
+    
+    Shows how all presets performed on a specific trading pair.
+    """
+    from app.db.optimizer_db import OptimizationResultsManager
+    
+    results = OptimizationResultsManager.get_aggregated_by_pair(pair, run_id)
+    
+    if not results:
+        return {
+            "run_id": run_id,
+            "pair": pair,
+            "presets": [],
+            "message": "No results found for this pair"
+        }
+    
+    return {
+        "run_id": run_id,
+        "pair": pair,
+        "preset_count": len(results),
+        "presets": results
+    }
+
+
+# ============================================================================
+# EXISTING ENDPOINTS (from Chat #45-46)
+# ============================================================================
+
+@router.post("/presets/run")
+async def start_optimization(request: OptimizationRequest, background_tasks: BackgroundTasks):
+    """
+    Start preset optimization (non-streaming).
+    Returns immediately with run_id, use /status endpoint to check progress.
+    """
+    from app.services.preset_optimizer import get_preset_optimizer
+    from app.services.optimization_modes import get_mode_config, estimate_optimization_time
+    
+    optimizer = get_preset_optimizer()
+    config = get_mode_config(request.mode)
+    
+    # Calculate effective counts
+    estimate = estimate_optimization_time(
+        len(request.preset_ids),
+        len(request.pairs),
+        request.mode
+    )
+    
+    return {
+        "run_id": f"pending_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+        "status": "use_streaming",
+        "mode": request.mode,
+        "total_combinations": estimate["total_combinations"],
+        "effective_presets": estimate["effective_presets"],
+        "effective_pairs": estimate["effective_pairs"],
+        "workers": estimate["num_workers"],
+        "estimated_seconds": estimate["estimated_seconds"],
+        "estimated_time": estimate["human_readable"],
+        "message": "Use /presets/stream endpoint for actual optimization with progress updates"
+    }
+
+
+@router.post("/presets/stream")
+async def stream_optimization(request: OptimizationRequest):
+    """
+    Start preset optimization with SSE streaming.
+    Returns a stream of progress events.
     """
     return StreamingResponse(
         optimization_stream_generator(
@@ -463,29 +736,8 @@ async def stream_preset_optimization(request: OptimizationRequest):
             end_date=request.end_date,
             mode=request.mode
         ),
-        media_type="text/event-stream",
-        headers={
-            "Cache-Control": "no-cache",
-            "Connection": "keep-alive",
-            "X-Accel-Buffering": "no"
-        }
+        media_type="text/event-stream"
     )
-
-
-@router.get("/presets/results/{run_id}")
-async def get_optimization_results(run_id: str):
-    """
-    Get results of a completed optimization by run_id.
-    """
-    result = get_stored_result(run_id)
-    
-    if not result:
-        raise HTTPException(
-            status_code=404, 
-            detail=f"Results for run_id {run_id} not found. May have expired or still running."
-        )
-    
-    return result
 
 
 @router.post("/presets/cancel/{run_id}")
@@ -496,33 +748,27 @@ async def cancel_optimization(run_id: str):
     from app.services.preset_optimizer import get_preset_optimizer
     
     optimizer = get_preset_optimizer()
-    cancelled = optimizer.cancel_optimization(run_id)
+    success = optimizer.cancel_run(run_id)
     
-    if cancelled:
-        return {"success": True, "message": f"Optimization {run_id} cancelled"}
-    else:
-        return {"success": False, "message": f"Optimization {run_id} not found or already completed"}
+    if success:
+        return {"success": True, "run_id": run_id, "message": "Optimization cancelled"}
+    
+    raise HTTPException(status_code=404, detail=f"Run {run_id} not found or already completed")
 
 
 @router.get("/presets/active")
 async def list_active_optimizations():
     """
-    List all currently running optimizations.
+    List currently running optimizations.
     """
     from app.services.preset_optimizer import get_preset_optimizer
     
     optimizer = get_preset_optimizer()
-    active_runs = optimizer.get_active_runs()
-    
-    statuses = []
-    for run_id in active_runs:
-        status = optimizer.get_run_status(run_id)
-        if status:
-            statuses.append(status)
+    active = optimizer.get_active_runs()
     
     return {
-        "active_count": len(statuses),
-        "runs": statuses
+        "active_runs": active,
+        "count": len(active)
     }
 
 
@@ -565,12 +811,14 @@ async def get_result_matrix(run_id: str):
     if not result:
         raise HTTPException(status_code=404, detail=f"Results for {run_id} not found")
     
+    matrix = result.get("result_matrix", {})
+    
     return {
         "run_id": run_id,
         "mode": result.get("mode", "standard"),
-        "matrix": result.get("result_matrix", {}),
-        "presets_count": len(result.get("result_matrix", {})),
-        "pairs_count": len(result.get("result_matrix", {}).get(next(iter(result.get("result_matrix", {})), ""), {}))
+        "matrix": matrix,
+        "presets_count": len(matrix),
+        "pairs_count": len(matrix.get(next(iter(matrix), ""), {})) if matrix else 0
     }
 
 
@@ -595,6 +843,10 @@ async def get_top_presets(
         key=lambda x: x.get("overall_score", 0), 
         reverse=True
     )[:limit]
+    
+    # Add grades
+    for score in sorted_scores:
+        score["grade"] = calculate_grade(score.get("overall_score", 0))
     
     return {
         "run_id": run_id,
@@ -626,6 +878,7 @@ async def compare_presets(
     comparison = []
     for score in preset_scores:
         if score.get("preset_id") in ids_to_compare:
+            score["grade"] = calculate_grade(score.get("overall_score", 0))
             comparison.append(score)
     
     # Sort by overall score
@@ -634,7 +887,8 @@ async def compare_presets(
     return {
         "run_id": run_id,
         "mode": result.get("mode", "standard"),
-        "compared_presets": len(comparison),
+        "requested": ids_to_compare,
+        "found": len(comparison),
         "presets": comparison
     }
 
@@ -710,6 +964,9 @@ async def quick_optimization(
             'run_id': result.run_id,
             'status': result.status.value,
             'mode': result.mode,
+            'timeframe': result.timeframe,
+            'start_date': result.start_date,
+            'end_date': result.end_date,
             'started_at': result.started_at,
             'completed_at': result.completed_at,
             'duration_seconds': result.duration_seconds,
@@ -719,6 +976,8 @@ async def quick_optimization(
             'original_pair_count': result.original_pair_count,
             'effective_preset_count': result.effective_preset_count,
             'effective_pair_count': result.effective_pair_count,
+            'preset_ids': result.preset_ids,
+            'pairs': result.pairs,
             'num_workers': result.num_workers,
             'top_10_presets': result.top_10_presets,
             'result_matrix': result.result_matrix,
