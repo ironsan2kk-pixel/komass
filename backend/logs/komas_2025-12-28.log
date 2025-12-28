@@ -1788,3 +1788,901 @@
 2025-12-28 07:19:33 | INFO     | app.main             | log_requests         | [0719336993] ✔ GET / - 200 (0ms)
 2025-12-28 07:22:58 | DEBUG    | app.main             | log_requests         | [0722580741] GET /api/signals/sse/stream
 2025-12-28 07:22:58 | INFO     | app.main             | log_requests         | [0722580741] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 09:57:52 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 09:57:52 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 09:57:53 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 09:57:53 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 09:57:53 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 09:57:53 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 09:57:53 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 09:57:53 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 09:57:53 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 09:57:53 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 09:57:53 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 09:57:53 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 09:57:53 | DEBUG    | app.main             | log_requests         | [0957535804] GET /admin.php
+2025-12-28 09:57:53 | INFO     | app.main             | log_requests         | [0957535804] ✗ GET /admin.php - 404 (0ms)
+2025-12-28 09:57:53 | DEBUG    | app.main             | log_requests         | [0957537555] GET /ar.php
+2025-12-28 09:57:53 | INFO     | app.main             | log_requests         | [0957537555] ✗ GET /ar.php - 404 (0ms)
+2025-12-28 09:57:53 | DEBUG    | app.main             | log_requests         | [0957539331] GET /wp-includes/IXR/
+2025-12-28 09:57:53 | INFO     | app.main             | log_requests         | [0957539331] ✗ GET /wp-includes/IXR/ - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957541093] GET /.tmb/wp-login.php
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957541093] ✗ GET /.tmb/wp-login.php - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957542842] GET /link.php
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957542842] ✗ GET /link.php - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957544605] GET /wp-admin/network/vx.php
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957544605] ✗ GET /wp-admin/network/vx.php - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957546384] GET /wp-includes/js/tinymce/plugins/fullscreen/
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957546384] ✗ GET /wp-includes/js/tinymce/plugins/fullscreen/ - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957548160] GET /abcd.php
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957548160] ✗ GET /abcd.php - 404 (0ms)
+2025-12-28 09:57:54 | DEBUG    | app.main             | log_requests         | [0957549906] GET /adminfuns.php/.well-known/acme-challenge/file.php
+2025-12-28 09:57:54 | INFO     | app.main             | log_requests         | [0957549906] ✗ GET /adminfuns.php/.well-known/acme-challenge/file.php - 404 (0ms)
+2025-12-28 09:57:55 | DEBUG    | app.main             | log_requests         | [0957551697] GET /k.php
+2025-12-28 09:57:55 | INFO     | app.main             | log_requests         | [0957551697] ✗ GET /k.php - 404 (0ms)
+2025-12-28 09:57:55 | DEBUG    | app.main             | log_requests         | [0957553469] GET /wp-includes/images/vx.php
+2025-12-28 09:57:55 | INFO     | app.main             | log_requests         | [0957553469] ✗ GET /wp-includes/images/vx.php - 404 (0ms)
+2025-12-28 09:57:55 | DEBUG    | app.main             | log_requests         | [0957555389] GET /wp-content/uploads/vx.php
+2025-12-28 09:57:55 | INFO     | app.main             | log_requests         | [0957555389] ✗ GET /wp-content/uploads/vx.php - 404 (0ms)
+2025-12-28 09:57:55 | DEBUG    | app.main             | log_requests         | [0957557150] GET /wp-includes/Requests/index.php
+2025-12-28 09:57:55 | INFO     | app.main             | log_requests         | [0957557150] ✗ GET /wp-includes/Requests/index.php - 404 (1ms)
+2025-12-28 09:57:55 | DEBUG    | app.main             | log_requests         | [0957558925] GET /update/gely.php
+2025-12-28 09:57:55 | INFO     | app.main             | log_requests         | [0957558925] ✗ GET /update/gely.php - 404 (1ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957560774] GET /wp-admin/images/vx.php
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957560774] ✗ GET /wp-admin/images/vx.php - 404 (2ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957562537] GET /wp-content/uploads/index.php
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957562537] ✗ GET /wp-content/uploads/index.php - 404 (1ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957564283] GET /wp-includes/Text/Diff/
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957564283] ✗ GET /wp-includes/Text/Diff/ - 404 (0ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957566067] GET /wp-includes/admin.php
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957566067] ✗ GET /wp-includes/admin.php - 404 (1ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957567853] GET /wp.php
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957567853] ✗ GET /wp.php - 404 (1ms)
+2025-12-28 09:57:56 | DEBUG    | app.main             | log_requests         | [0957569640] GET /wp-admin/classwithtostring.php
+2025-12-28 09:57:56 | INFO     | app.main             | log_requests         | [0957569640] ✗ GET /wp-admin/classwithtostring.php - 404 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957570846] GET /api/indicator/cache-stats
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957570846] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957570905] GET /api/indicator/cache-stats
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957570905] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957571389] GET /wp-includes/PHPMailer/vx.php
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957571389] ✗ GET /wp-includes/PHPMailer/vx.php - 404 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957573030] GET /wp-includes/block-supports/
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957573030] ✗ GET /wp-includes/block-supports/ - 404 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957574802] GET /menu.php
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957574802] ✗ GET /menu.php - 404 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957576594] GET /wp-admin/css/colors/
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957576594] ✗ GET /wp-admin/css/colors/ - 404 (0ms)
+2025-12-28 09:57:57 | DEBUG    | app.main             | log_requests         | [0957578344] GET /wp-content/themes/about.php
+2025-12-28 09:57:57 | INFO     | app.main             | log_requests         | [0957578344] ✗ GET /wp-content/themes/about.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957580170] GET /fx.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957580170] ✗ GET /fx.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957581933] GET /assets/images/about.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957581933] ✗ GET /assets/images/about.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957583675] GET /c.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957583675] ✗ GET /c.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957585346] GET /db6d0/vx.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957585346] ✗ GET /db6d0/vx.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957587067] GET /wp-content/admin.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957587067] ✗ GET /wp-content/admin.php - 404 (0ms)
+2025-12-28 09:57:58 | DEBUG    | app.main             | log_requests         | [0957588845] GET /wp-content/themes/chosen.php
+2025-12-28 09:57:58 | INFO     | app.main             | log_requests         | [0957588845] ✗ GET /wp-content/themes/chosen.php - 404 (0ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957590660] GET /about.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957590660] ✗ GET /about.php - 404 (0ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957592379] GET /wp-signin.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957592379] ✗ GET /wp-signin.php - 404 (0ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957594255] GET /xmldoc/vx.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957594255] ✗ GET /xmldoc/vx.php - 404 (0ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957596016] GET /wp-admin/js/autoload_classmap.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957596016] ✗ GET /wp-admin/js/autoload_classmap.php - 404 (0ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957597639] GET /content.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957597639] ✗ GET /content.php - 404 (16ms)
+2025-12-28 09:57:59 | DEBUG    | app.main             | log_requests         | [0957599429] GET /ee.php
+2025-12-28 09:57:59 | INFO     | app.main             | log_requests         | [0957599429] ✗ GET /ee.php - 404 (13ms)
+2025-12-28 09:58:00 | DEBUG    | app.main             | log_requests         | [0958001316] GET /vx.php
+2025-12-28 09:58:00 | INFO     | app.main             | log_requests         | [0958001316] ✗ GET /vx.php - 404 (0ms)
+2025-12-28 09:58:00 | DEBUG    | app.main             | log_requests         | [0958002999] GET /wp-admin/js/
+2025-12-28 09:58:00 | INFO     | app.main             | log_requests         | [0958002999] ✗ GET /wp-admin/js/ - 404 (0ms)
+2025-12-28 09:58:00 | DEBUG    | app.main             | log_requests         | [0958004721] GET /wp-admin/maint/
+2025-12-28 09:58:00 | INFO     | app.main             | log_requests         | [0958004721] ✗ GET /wp-admin/maint/ - 404 (0ms)
+2025-12-28 09:58:00 | DEBUG    | app.main             | log_requests         | [0958006596] GET /gecko-new.php
+2025-12-28 09:58:00 | INFO     | app.main             | log_requests         | [0958006596] ✗ GET /gecko-new.php - 404 (0ms)
+2025-12-28 09:58:00 | DEBUG    | app.main             | log_requests         | [0958008237] GET /wp-content/themes/pridmag/vx.php
+2025-12-28 09:58:00 | INFO     | app.main             | log_requests         | [0958008237] ✗ GET /wp-content/themes/pridmag/vx.php - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958010126] GET /wp-includes/Text/
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958010126] ✗ GET /wp-includes/Text/ - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958011786] GET /wp-includes/js/dist/development/
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958011786] ✗ GET /wp-includes/js/dist/development/ - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958013565] GET /.well-known/
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958013565] ✗ GET /.well-known/ - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958015341] GET /gg.php
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958015341] ✗ GET /gg.php - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958017112] GET /ioxi-o.php
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958017112] ✗ GET /ioxi-o.php - 404 (0ms)
+2025-12-28 09:58:01 | DEBUG    | app.main             | log_requests         | [0958018890] GET /wp-admin/network/admin.php
+2025-12-28 09:58:01 | INFO     | app.main             | log_requests         | [0958018890] ✗ GET /wp-admin/network/admin.php - 404 (0ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958020657] GET /admin.php/.well-known/acme-challenge/file.php
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958020657] ✗ GET /admin.php/.well-known/acme-challenge/file.php - 404 (0ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958022441] GET /adminfuns.php
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958022441] ✗ GET /adminfuns.php - 404 (0ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958024096] GET /wp-content/index.php
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958024096] ✗ GET /wp-content/index.php - 404 (13ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958025969] GET /wp-includes/images/crystal/
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958025969] ✗ GET /wp-includes/images/crystal/ - 404 (0ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958027612] GET /function/function.php
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958027612] ✗ GET /function/function.php - 404 (0ms)
+2025-12-28 09:58:02 | DEBUG    | app.main             | log_requests         | [0958029409] GET /wp-admin/css/colors/ocean/vx.php
+2025-12-28 09:58:02 | INFO     | app.main             | log_requests         | [0958029409] ✗ GET /wp-admin/css/colors/ocean/vx.php - 404 (0ms)
+2025-12-28 09:58:03 | DEBUG    | app.main             | log_requests         | [0958031132] GET /wp-content/vx.php
+2025-12-28 09:58:03 | INFO     | app.main             | log_requests         | [0958031132] ✗ GET /wp-content/vx.php - 404 (0ms)
+2025-12-28 09:58:03 | DEBUG    | app.main             | log_requests         | [0958032917] GET /wp-includes/Requests/
+2025-12-28 09:58:03 | INFO     | app.main             | log_requests         | [0958032917] ✗ GET /wp-includes/Requests/ - 404 (0ms)
+2025-12-28 09:58:03 | DEBUG    | app.main             | log_requests         | [0958034721] GET /wp-includes/Text/autoload_classmap.php
+2025-12-28 09:58:03 | INFO     | app.main             | log_requests         | [0958034721] ✗ GET /wp-includes/Text/autoload_classmap.php - 404 (0ms)
+2025-12-28 09:58:03 | DEBUG    | app.main             | log_requests         | [0958036441] GET /wp-includes/fonts/autoload_classmap.php
+2025-12-28 09:58:03 | INFO     | app.main             | log_requests         | [0958036441] ✗ GET /wp-includes/fonts/autoload_classmap.php - 404 (0ms)
+2025-12-28 09:58:03 | DEBUG    | app.main             | log_requests         | [0958038201] GET /wp-includes/js/
+2025-12-28 09:58:03 | INFO     | app.main             | log_requests         | [0958038201] ✗ GET /wp-includes/js/ - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958040033] GET /wp-admin/classwithtostring.php/.well-known/acme-challenge/file.php
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958040033] ✗ GET /wp-admin/classwithtostring.php/.well-known/acme-challenge/file.php - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958041754] GET /13.php
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958041754] ✗ GET /13.php - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958043531] GET /wp-content/uploads/wc-logs/vx.php
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958043531] ✗ GET /wp-content/uploads/wc-logs/vx.php - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958045347] GET /wp-includes/fonts/
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958045347] ✗ GET /wp-includes/fonts/ - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958047064] GET /wp-includes/fonts/vx.php
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958047064] ✗ GET /wp-includes/fonts/vx.php - 404 (0ms)
+2025-12-28 09:58:04 | DEBUG    | app.main             | log_requests         | [0958048880] GET /file.php
+2025-12-28 09:58:04 | INFO     | app.main             | log_requests         | [0958048880] ✗ GET /file.php - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958050603] GET /wp-content/uploads/
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958050603] ✗ GET /wp-content/uploads/ - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958052367] GET /adminfuns.php
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958052367] ✗ GET /adminfuns.php - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958054148] GET /uploads/vx.php
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958054148] ✗ GET /uploads/vx.php - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958055915] GET /wp-includes/Text/Diff/Engine/
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958055915] ✗ GET /wp-includes/Text/Diff/Engine/ - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958057690] GET /.well-known/acme-challenge/file.php
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958057690] ✗ GET /.well-known/acme-challenge/file.php - 404 (0ms)
+2025-12-28 09:58:05 | DEBUG    | app.main             | log_requests         | [0958059443] GET /fm.php
+2025-12-28 09:58:05 | INFO     | app.main             | log_requests         | [0958059443] ✗ GET /fm.php - 404 (0ms)
+2025-12-28 09:58:06 | DEBUG    | app.main             | log_requests         | [0958061216] GET /wp-includes/blocks/code/
+2025-12-28 09:58:06 | INFO     | app.main             | log_requests         | [0958061216] ✗ GET /wp-includes/blocks/code/ - 404 (0ms)
+2025-12-28 09:58:06 | DEBUG    | app.main             | log_requests         | [0958062993] GET /wp-content/plugins/revslider/includes/external/page/index.php
+2025-12-28 09:58:06 | INFO     | app.main             | log_requests         | [0958062993] ✗ GET /wp-content/plugins/revslider/includes/external/page/index.php - 404 (0ms)
+2025-12-28 09:58:06 | DEBUG    | app.main             | log_requests         | [0958064747] GET /atomlib.php
+2025-12-28 09:58:06 | INFO     | app.main             | log_requests         | [0958064747] ✗ GET /atomlib.php - 404 (0ms)
+2025-12-28 09:58:06 | DEBUG    | app.main             | log_requests         | [0958066371] GET /wp-admin/css/colors/blue/
+2025-12-28 09:58:06 | INFO     | app.main             | log_requests         | [0958066371] ✗ GET /wp-admin/css/colors/blue/ - 404 (0ms)
+2025-12-28 09:58:06 | DEBUG    | app.main             | log_requests         | [0958068232] GET /wp-includes/sitemaps/autoload_classmap.php/.well-known/acme-challenge/file.php
+2025-12-28 09:58:06 | INFO     | app.main             | log_requests         | [0958068232] ✗ GET /wp-includes/sitemaps/autoload_classmap.php/.well-known/acme-challenge/file.php - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958070033] GET /wp-includes/ID3/
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958070033] ✗ GET /wp-includes/ID3/ - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958071786] GET /customize.php
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958071786] ✗ GET /customize.php - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958073519] GET /i.php
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958073519] ✗ GET /i.php - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958075288] GET /wp-admin/includes/index.php
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958075288] ✗ GET /wp-admin/includes/index.php - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958077064] GET /wp-admin/includes/vx.php
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958077064] ✗ GET /wp-admin/includes/vx.php - 404 (0ms)
+2025-12-28 09:58:07 | DEBUG    | app.main             | log_requests         | [0958078818] GET /wp-includes/block-bindings/index.php
+2025-12-28 09:58:07 | INFO     | app.main             | log_requests         | [0958078818] ✗ GET /wp-includes/block-bindings/index.php - 404 (0ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958080601] GET /wp-includes/html-api/
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958080601] ✗ GET /wp-includes/html-api/ - 404 (0ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958082394] GET /wp-content/plugins/pwnd/as.php
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958082394] ✗ GET /wp-content/plugins/pwnd/as.php - 404 (0ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958084123] GET /aa.php
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958084123] ✗ GET /aa.php - 404 (0ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958085900] GET /ahax.php
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958085900] ✗ GET /ahax.php - 404 (0ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958087629] GET /wp-admin/css/about.php
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958087629] ✗ GET /wp-admin/css/about.php - 404 (5ms)
+2025-12-28 09:58:08 | DEBUG    | app.main             | log_requests         | [0958089420] GET /wp-content/
+2025-12-28 09:58:08 | INFO     | app.main             | log_requests         | [0958089420] ✗ GET /wp-content/ - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958091193] GET /wp-content/languages/vx.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958091193] ✗ GET /wp-content/languages/vx.php - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958092847] GET /wp-includes/customize/chosen.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958092847] ✗ GET /wp-includes/customize/chosen.php - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958094718] GET /alf.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958094718] ✗ GET /alf.php - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958096367] GET /.tresh/index.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958096367] ✗ GET /.tresh/index.php - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958098158] GET /buy.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958098158] ✗ GET /buy.php - 404 (0ms)
+2025-12-28 09:58:09 | DEBUG    | app.main             | log_requests         | [0958099879] GET /info.php
+2025-12-28 09:58:09 | INFO     | app.main             | log_requests         | [0958099879] ✗ GET /info.php - 404 (0ms)
+2025-12-28 09:58:10 | DEBUG    | app.main             | log_requests         | [0958101609] GET /user.php
+2025-12-28 09:58:10 | INFO     | app.main             | log_requests         | [0958101609] ✗ GET /user.php - 404 (0ms)
+2025-12-28 09:58:10 | DEBUG    | app.main             | log_requests         | [0958103469] GET /wp-includes/
+2025-12-28 09:58:10 | INFO     | app.main             | log_requests         | [0958103469] ✗ GET /wp-includes/ - 404 (0ms)
+2025-12-28 09:58:10 | DEBUG    | app.main             | log_requests         | [0958105168] GET /wp-includes/widgets/about.php
+2025-12-28 09:58:10 | INFO     | app.main             | log_requests         | [0958105168] ✗ GET /wp-includes/widgets/about.php - 404 (0ms)
+2025-12-28 09:58:10 | DEBUG    | app.main             | log_requests         | [0958106966] GET /ALFA_DATA/
+2025-12-28 09:58:10 | INFO     | app.main             | log_requests         | [0958106966] ✗ GET /ALFA_DATA/ - 404 (0ms)
+2025-12-28 09:58:10 | DEBUG    | app.main             | log_requests         | [0958108690] GET /shell.php
+2025-12-28 09:58:10 | INFO     | app.main             | log_requests         | [0958108690] ✗ GET /shell.php - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958110535] GET /wp-admin/js/widgets/vx.php
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958110535] ✗ GET /wp-admin/js/widgets/vx.php - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958112216] GET /wp-includes/block-bindings/
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958112216] ✗ GET /wp-includes/block-bindings/ - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958113987] GET /edit.php
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958113987] ✗ GET /edit.php - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958115749] GET /xxl.php
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958115749] ✗ GET /xxl.php - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958117536] GET /help.php
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958117536] ✗ GET /help.php - 404 (0ms)
+2025-12-28 09:58:11 | DEBUG    | app.main             | log_requests         | [0958119255] GET /inputs.php
+2025-12-28 09:58:11 | INFO     | app.main             | log_requests         | [0958119255] ✗ GET /inputs.php - 404 (0ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958120985] GET /new.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958120985] ✗ GET /new.php - 404 (16ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958122894] GET /root.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958122894] ✗ GET /root.php - 404 (1ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958124535] GET /wp-content/packed.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958124535] ✗ GET /wp-content/packed.php - 404 (0ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958126313] GET /wp-includes/certificates/index.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958126313] ✗ GET /wp-includes/certificates/index.php - 404 (0ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958128157] GET /wp-includes/rest-api/vx.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958128157] ✗ GET /wp-includes/rest-api/vx.php - 404 (0ms)
+2025-12-28 09:58:12 | DEBUG    | app.main             | log_requests         | [0958129864] GET /autoload_classmap/function.php
+2025-12-28 09:58:12 | INFO     | app.main             | log_requests         | [0958129864] ✗ GET /autoload_classmap/function.php - 404 (0ms)
+2025-12-28 09:58:13 | DEBUG    | app.main             | log_requests         | [0958131595] GET /css/index.php
+2025-12-28 09:58:13 | INFO     | app.main             | log_requests         | [0958131595] ✗ GET /css/index.php - 404 (0ms)
+2025-12-28 09:58:13 | DEBUG    | app.main             | log_requests         | [0958133332] GET /wp-admin/maint/index.php
+2025-12-28 09:58:13 | INFO     | app.main             | log_requests         | [0958133332] ✗ GET /wp-admin/maint/index.php - 404 (14ms)
+2025-12-28 09:58:13 | DEBUG    | app.main             | log_requests         | [0958135088] GET /wp-includes/ID3/autoload_classmap.php
+2025-12-28 09:58:13 | INFO     | app.main             | log_requests         | [0958135088] ✗ GET /wp-includes/ID3/autoload_classmap.php - 404 (0ms)
+2025-12-28 09:58:13 | DEBUG    | app.main             | log_requests         | [0958136910] GET /as.php
+2025-12-28 09:58:13 | INFO     | app.main             | log_requests         | [0958136910] ✗ GET /as.php - 404 (0ms)
+2025-12-28 09:58:13 | DEBUG    | app.main             | log_requests         | [0958138745] GET /assets/index.php
+2025-12-28 09:58:13 | INFO     | app.main             | log_requests         | [0958138745] ✗ GET /assets/index.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958140503] GET /chosen.php
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958140503] ✗ GET /chosen.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958142218] GET /gel4y.php
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958142218] ✗ GET /gel4y.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958143904] GET /index/function.php
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958143904] ✗ GET /index/function.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958145737] GET /admin/function.php
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958145737] ✗ GET /admin/function.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958147534] GET /goods.php
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958147534] ✗ GET /goods.php - 404 (0ms)
+2025-12-28 09:58:14 | DEBUG    | app.main             | log_requests         | [0958149295] GET /wp-admin/
+2025-12-28 09:58:14 | INFO     | app.main             | log_requests         | [0958149295] ✗ GET /wp-admin/ - 404 (0ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958150971] GET /wp-includes/rest-api/fields/vx.php
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958150971] ✗ GET /wp-includes/rest-api/fields/vx.php - 404 (0ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958152738] GET /api.php
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958152738] ✗ GET /api.php - 404 (11ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958154521] GET /wp-admin/css/colors/about.php
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958154521] ✗ GET /wp-admin/css/colors/about.php - 404 (0ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958156282] GET /wp-content/themes/aahana/json.php
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958156282] ✗ GET /wp-content/themes/aahana/json.php - 404 (0ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958158058] GET /css/admin.php
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958158058] ✗ GET /css/admin.php - 404 (0ms)
+2025-12-28 09:58:15 | DEBUG    | app.main             | log_requests         | [0958159835] GET /public/assets/
+2025-12-28 09:58:15 | INFO     | app.main             | log_requests         | [0958159835] ✗ GET /public/assets/ - 404 (0ms)
+2025-12-28 09:58:16 | DEBUG    | app.main             | log_requests         | [0958161592] GET /termps.php
+2025-12-28 09:58:16 | INFO     | app.main             | log_requests         | [0958161592] ✗ GET /termps.php - 404 (0ms)
+2025-12-28 09:58:16 | DEBUG    | app.main             | log_requests         | [0958163359] GET /wp-includes/ID3/vx.php
+2025-12-28 09:58:16 | INFO     | app.main             | log_requests         | [0958163359] ✗ GET /wp-includes/ID3/vx.php - 404 (0ms)
+2025-12-28 09:58:16 | DEBUG    | app.main             | log_requests         | [0958165146] GET /2.php
+2025-12-28 09:58:16 | INFO     | app.main             | log_requests         | [0958165146] ✗ GET /2.php - 404 (0ms)
+2025-12-28 09:58:16 | DEBUG    | app.main             | log_requests         | [0958166905] GET /num.php
+2025-12-28 09:58:16 | INFO     | app.main             | log_requests         | [0958166905] ✗ GET /num.php - 404 (0ms)
+2025-12-28 09:58:16 | DEBUG    | app.main             | log_requests         | [0958168636] GET /wp-admin/vx.php
+2025-12-28 09:58:16 | INFO     | app.main             | log_requests         | [0958168636] ✗ GET /wp-admin/vx.php - 404 (0ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958170389] GET /wp-includes/PHPMailer/
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958170389] ✗ GET /wp-includes/PHPMailer/ - 404 (0ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958172160] GET /.well-known/gecko-litespeed.php
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958172160] ✗ GET /.well-known/gecko-litespeed.php - 404 (0ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958173787] GET /assets/
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958173787] ✗ GET /assets/ - 404 (15ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958175661] GET /bolt.php
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958175661] ✗ GET /bolt.php - 404 (0ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958177434] GET /images/index.php
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958177434] ✗ GET /images/index.php - 404 (0ms)
+2025-12-28 09:58:17 | DEBUG    | app.main             | log_requests         | [0958179098] GET /wp-includes/assets/admin.php
+2025-12-28 09:58:17 | INFO     | app.main             | log_requests         | [0958179098] ✗ GET /wp-includes/assets/admin.php - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958180838] GET /.well-known/alfacgiapi/getdir.alfa
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958180838] ✗ GET /.well-known/alfacgiapi/getdir.alfa - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958182576] GET /wp-content/themes/twentytwentyfour/
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958182576] ✗ GET /wp-content/themes/twentytwentyfour/ - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958184411] GET /alfa.php
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958184411] ✗ GET /alfa.php - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958186130] GET /wp-content/themes/vx.php
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958186130] ✗ GET /wp-content/themes/vx.php - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958187841] GET /alfa-rex.php
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958187841] ✗ GET /alfa-rex.php - 404 (0ms)
+2025-12-28 09:58:18 | DEBUG    | app.main             | log_requests         | [0958189720] GET /alfashell.php
+2025-12-28 09:58:18 | INFO     | app.main             | log_requests         | [0958189720] ✗ GET /alfashell.php - 404 (0ms)
+2025-12-28 09:58:19 | DEBUG    | app.main             | log_requests         | [0958191366] GET /tiny.php
+2025-12-28 09:58:19 | INFO     | app.main             | log_requests         | [0958191366] ✗ GET /tiny.php - 404 (0ms)
+2025-12-28 09:58:27 | DEBUG    | app.main             | log_requests         | [0958273737] GET /api/indicator/cache-stats
+2025-12-28 09:58:27 | INFO     | app.main             | log_requests         | [0958273737] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:58:28 | DEBUG    | app.main             | log_requests         | [0958282527] GET /api/indicator/cache-stats
+2025-12-28 09:58:28 | INFO     | app.main             | log_requests         | [0958282527] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:58:28 | DEBUG    | app.main             | log_requests         | [0958284667] GET /api/indicator/cache-stats
+2025-12-28 09:58:28 | INFO     | app.main             | log_requests         | [0958284667] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:58:30 | DEBUG    | app.main             | log_requests         | [0958306469] GET /api/data/available
+2025-12-28 09:58:38 | INFO     | app.main             | log_requests         | [0958306469] ✔ GET /api/data/available - 200 (7904ms)
+2025-12-28 09:58:38 | DEBUG    | app.main             | log_requests         | [0958385532] GET /api/presets/list
+2025-12-28 09:58:38 | DEBUG    | app.main             | log_requests         | [0958385532] GET /api/presets/stats
+2025-12-28 09:58:38 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 09:58:38 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 09:58:38 | INFO     | app.main             | log_requests         | [0958385532] ✔ GET /api/presets/list - 200 (12ms)
+2025-12-28 09:58:38 | INFO     | app.main             | log_requests         | [0958385532] ✗ GET /api/presets/stats - 500 (12ms)
+2025-12-28 09:58:38 | DEBUG    | app.main             | log_requests         | [0958385683] GET /api/data/available
+2025-12-28 09:58:43 | INFO     | app.main             | log_requests         | [0958385683] ✔ GET /api/data/available - 200 (5098ms)
+2025-12-28 09:58:43 | DEBUG    | app.main             | log_requests         | [0958436673] GET /api/presets/stats
+2025-12-28 09:58:43 | DEBUG    | app.main             | log_requests         | [0958436673] GET /api/presets/list
+2025-12-28 09:58:43 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 09:58:43 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 09:58:43 | DEBUG    | app.main             | log_requests         | [0958436738] GET /api/signals/sse/stream
+2025-12-28 09:58:43 | INFO     | app.main             | log_requests         | [0958436673] ✗ GET /api/presets/stats - 500 (7ms)
+2025-12-28 09:58:43 | INFO     | app.main             | log_requests         | [0958436673] ✔ GET /api/presets/list - 200 (8ms)
+2025-12-28 09:58:43 | INFO     | app.main             | log_requests         | [0958436738] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-28 09:58:45 | DEBUG    | app.main             | log_requests         | [0958459246] GET /api/bots/
+2025-12-28 09:58:45 | INFO     | app.main             | log_requests         | [0958459246] ✗ GET /api/bots/ - 404 (2ms)
+2025-12-28 09:58:45 | DEBUG    | app.main             | log_requests         | [0958459287] GET /api/settings/presets
+2025-12-28 09:58:45 | INFO     | app.main             | log_requests         | [0958459287] ✗ GET /api/settings/presets - 404 (2ms)
+2025-12-28 09:58:45 | DEBUG    | app.main             | log_requests         | [0958459313] GET /api/bots/
+2025-12-28 09:58:45 | INFO     | app.main             | log_requests         | [0958459313] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 09:58:45 | DEBUG    | app.main             | log_requests         | [0958459332] GET /api/settings/presets
+2025-12-28 09:58:45 | INFO     | app.main             | log_requests         | [0958459332] ✗ GET /api/settings/presets - 404 (1ms)
+2025-12-28 09:58:48 | DEBUG    | app.main             | log_requests         | [0958481865] GET /api/data/available
+2025-12-28 09:58:53 | INFO     | app.main             | log_requests         | [0958481865] ✔ GET /api/data/available - 200 (4938ms)
+2025-12-28 09:58:53 | DEBUG    | app.main             | log_requests         | [0958531255] GET /api/indicator/cache-stats
+2025-12-28 09:58:53 | DEBUG    | app.main             | log_requests         | [0958531255] GET /api/signals/sse/stream
+2025-12-28 09:58:53 | INFO     | app.main             | log_requests         | [0958531255] ✔ GET /api/indicator/cache-stats - 200 (2ms)
+2025-12-28 09:58:53 | INFO     | app.main             | log_requests         | [0958531255] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-28 09:58:53 | DEBUG    | app.main             | log_requests         | [0958531331] GET /api/data/available
+2025-12-28 09:58:58 | INFO     | app.main             | log_requests         | [0958531331] ✔ GET /api/data/available - 200 (5581ms)
+2025-12-28 09:58:58 | DEBUG    | app.main             | log_requests         | [0958587138] GET /api/indicator/cache-stats
+2025-12-28 09:58:58 | DEBUG    | app.main             | log_requests         | [0958587138] GET /api/signals/sse/stream
+2025-12-28 09:58:58 | INFO     | app.main             | log_requests         | [0958587138] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:58:58 | INFO     | app.main             | log_requests         | [0958587138] ✗ GET /api/signals/sse/stream - 404 (16ms)
+2025-12-28 09:59:04 | DEBUG    | app.main             | log_requests         | [0959040422] GET /api/signals/sse/stream
+2025-12-28 09:59:04 | INFO     | app.main             | log_requests         | [0959040422] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:09 | DEBUG    | app.main             | log_requests         | [0959090483] GET /api/signals/sse/stream
+2025-12-28 09:59:09 | INFO     | app.main             | log_requests         | [0959090483] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:14 | DEBUG    | app.main             | log_requests         | [0959143521] GET /api/signals/sse/stream
+2025-12-28 09:59:14 | INFO     | app.main             | log_requests         | [0959143521] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:19 | DEBUG    | app.main             | log_requests         | [0959193570] GET /api/signals/sse/stream
+2025-12-28 09:59:19 | INFO     | app.main             | log_requests         | [0959193570] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:20 | DEBUG    | app.main             | log_requests         | [0959201010] GET /api/indicator/cache-stats
+2025-12-28 09:59:20 | INFO     | app.main             | log_requests         | [0959201010] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:59:24 | DEBUG    | app.main             | log_requests         | [0959243694] GET /api/signals/sse/stream
+2025-12-28 09:59:24 | INFO     | app.main             | log_requests         | [0959243694] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:29 | DEBUG    | app.main             | log_requests         | [0959296916] GET /api/signals/sse/stream
+2025-12-28 09:59:29 | INFO     | app.main             | log_requests         | [0959296916] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:34 | DEBUG    | app.main             | log_requests         | [0959346923] GET /api/signals/sse/stream
+2025-12-28 09:59:34 | INFO     | app.main             | log_requests         | [0959346923] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:40 | DEBUG    | app.main             | log_requests         | [0959400022] GET /api/signals/sse/stream
+2025-12-28 09:59:40 | INFO     | app.main             | log_requests         | [0959400022] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:45 | DEBUG    | app.main             | log_requests         | [0959450105] GET /api/signals/sse/stream
+2025-12-28 09:59:45 | INFO     | app.main             | log_requests         | [0959450105] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:50 | DEBUG    | app.main             | log_requests         | [0959501058] GET /api/indicator/cache-stats
+2025-12-28 09:59:50 | INFO     | app.main             | log_requests         | [0959501058] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 09:59:50 | DEBUG    | app.main             | log_requests         | [0959503162] GET /api/signals/sse/stream
+2025-12-28 09:59:50 | INFO     | app.main             | log_requests         | [0959503162] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 09:59:55 | DEBUG    | app.main             | log_requests         | [0959553285] GET /api/signals/sse/stream
+2025-12-28 09:59:55 | INFO     | app.main             | log_requests         | [0959553285] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:00 | DEBUG    | app.main             | log_requests         | [1000006376] GET /api/signals/sse/stream
+2025-12-28 10:00:00 | INFO     | app.main             | log_requests         | [1000006376] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:05 | DEBUG    | app.main             | log_requests         | [1000056450] GET /api/signals/sse/stream
+2025-12-28 10:00:05 | INFO     | app.main             | log_requests         | [1000056450] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:10 | DEBUG    | app.main             | log_requests         | [1000109590] GET /api/signals/sse/stream
+2025-12-28 10:00:10 | INFO     | app.main             | log_requests         | [1000109590] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:15 | DEBUG    | app.main             | log_requests         | [1000159702] GET /api/signals/sse/stream
+2025-12-28 10:00:15 | INFO     | app.main             | log_requests         | [1000159702] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:20 | DEBUG    | app.main             | log_requests         | [1000200974] GET /api/indicator/cache-stats
+2025-12-28 10:00:20 | INFO     | app.main             | log_requests         | [1000200974] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:00:20 | DEBUG    | app.main             | log_requests         | [1000209797] GET /api/signals/sse/stream
+2025-12-28 10:00:20 | INFO     | app.main             | log_requests         | [1000209797] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:26 | DEBUG    | app.main             | log_requests         | [1000262922] GET /api/signals/sse/stream
+2025-12-28 10:00:26 | INFO     | app.main             | log_requests         | [1000262922] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:31 | DEBUG    | app.main             | log_requests         | [1000313069] GET /api/signals/sse/stream
+2025-12-28 10:00:31 | INFO     | app.main             | log_requests         | [1000313069] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:36 | DEBUG    | app.main             | log_requests         | [1000366180] GET /api/signals/sse/stream
+2025-12-28 10:00:36 | INFO     | app.main             | log_requests         | [1000366180] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:41 | DEBUG    | app.main             | log_requests         | [1000416381] GET /api/signals/sse/stream
+2025-12-28 10:00:41 | INFO     | app.main             | log_requests         | [1000416381] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:46 | DEBUG    | app.main             | log_requests         | [1000469629] GET /api/signals/sse/stream
+2025-12-28 10:00:46 | INFO     | app.main             | log_requests         | [1000469629] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:49 | DEBUG    | app.main             | log_requests         | [1000497978] GET /api/indicator/cache-stats
+2025-12-28 10:00:49 | INFO     | app.main             | log_requests         | [1000497978] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:00:52 | DEBUG    | app.main             | log_requests         | [1000522930] GET /api/signals/sse/stream
+2025-12-28 10:00:52 | INFO     | app.main             | log_requests         | [1000522930] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:00:57 | DEBUG    | app.main             | log_requests         | [1000572945] GET /api/signals/sse/stream
+2025-12-28 10:00:57 | INFO     | app.main             | log_requests         | [1000572945] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:02 | DEBUG    | app.main             | log_requests         | [1001026068] GET /api/signals/sse/stream
+2025-12-28 10:01:02 | INFO     | app.main             | log_requests         | [1001026068] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:07 | DEBUG    | app.main             | log_requests         | [1001076212] GET /api/signals/sse/stream
+2025-12-28 10:01:07 | INFO     | app.main             | log_requests         | [1001076212] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:12 | DEBUG    | app.main             | log_requests         | [1001129341] GET /api/signals/sse/stream
+2025-12-28 10:01:12 | INFO     | app.main             | log_requests         | [1001129341] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:17 | DEBUG    | app.main             | log_requests         | [1001179428] GET /api/signals/sse/stream
+2025-12-28 10:01:17 | INFO     | app.main             | log_requests         | [1001179428] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:20 | DEBUG    | app.main             | log_requests         | [1001200937] GET /api/indicator/cache-stats
+2025-12-28 10:01:20 | INFO     | app.main             | log_requests         | [1001200937] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:01:22 | DEBUG    | app.main             | log_requests         | [1001229464] GET /api/signals/sse/stream
+2025-12-28 10:01:22 | INFO     | app.main             | log_requests         | [1001229464] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:28 | DEBUG    | app.main             | log_requests         | [1001282585] GET /api/signals/sse/stream
+2025-12-28 10:01:28 | INFO     | app.main             | log_requests         | [1001282585] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:33 | DEBUG    | app.main             | log_requests         | [1001332649] GET /api/signals/sse/stream
+2025-12-28 10:01:33 | INFO     | app.main             | log_requests         | [1001332649] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:38 | DEBUG    | app.main             | log_requests         | [1001385785] GET /api/signals/sse/stream
+2025-12-28 10:01:38 | INFO     | app.main             | log_requests         | [1001385785] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:43 | DEBUG    | app.main             | log_requests         | [1001435908] GET /api/signals/sse/stream
+2025-12-28 10:01:43 | INFO     | app.main             | log_requests         | [1001435908] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:48 | DEBUG    | app.main             | log_requests         | [1001488953] GET /api/signals/sse/stream
+2025-12-28 10:01:48 | INFO     | app.main             | log_requests         | [1001488953] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:49 | DEBUG    | app.main             | log_requests         | [1001497940] GET /api/indicator/cache-stats
+2025-12-28 10:01:49 | INFO     | app.main             | log_requests         | [1001497940] ✔ GET /api/indicator/cache-stats - 200 (29ms)
+2025-12-28 10:01:54 | DEBUG    | app.main             | log_requests         | [1001542108] GET /api/signals/sse/stream
+2025-12-28 10:01:54 | INFO     | app.main             | log_requests         | [1001542108] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:01:59 | DEBUG    | app.main             | log_requests         | [1001592235] GET /api/signals/sse/stream
+2025-12-28 10:01:59 | INFO     | app.main             | log_requests         | [1001592235] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:04 | DEBUG    | app.main             | log_requests         | [1002045286] GET /api/signals/sse/stream
+2025-12-28 10:02:04 | INFO     | app.main             | log_requests         | [1002045286] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:09 | DEBUG    | app.main             | log_requests         | [1002095406] GET /api/signals/sse/stream
+2025-12-28 10:02:09 | INFO     | app.main             | log_requests         | [1002095406] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:14 | DEBUG    | app.main             | log_requests         | [1002148561] GET /api/signals/sse/stream
+2025-12-28 10:02:14 | INFO     | app.main             | log_requests         | [1002148561] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:19 | DEBUG    | app.main             | log_requests         | [1002197945] GET /api/indicator/cache-stats
+2025-12-28 10:02:19 | INFO     | app.main             | log_requests         | [1002197945] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:02:20 | DEBUG    | app.main             | log_requests         | [1002201628] GET /api/signals/sse/stream
+2025-12-28 10:02:20 | INFO     | app.main             | log_requests         | [1002201628] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:25 | DEBUG    | app.main             | log_requests         | [1002254094] GET /api/signals/sse/stream
+2025-12-28 10:02:25 | INFO     | app.main             | log_requests         | [1002254094] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:31 | DEBUG    | app.main             | log_requests         | [1002317056] GET /api/signals/sse/stream
+2025-12-28 10:02:31 | INFO     | app.main             | log_requests         | [1002317056] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:02:37 | DEBUG    | app.main             | log_requests         | [1002374037] GET /api/signals/sse/stream
+2025-12-28 10:02:37 | INFO     | app.main             | log_requests         | [1002374037] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:02:43 | DEBUG    | app.main             | log_requests         | [1002437043] GET /api/signals/sse/stream
+2025-12-28 10:02:43 | INFO     | app.main             | log_requests         | [1002437043] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:02:49 | DEBUG    | app.main             | log_requests         | [1002494041] GET /api/signals/sse/stream
+2025-12-28 10:02:49 | INFO     | app.main             | log_requests         | [1002494041] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:02:50 | DEBUG    | app.main             | log_requests         | [1002507038] GET /api/indicator/cache-stats
+2025-12-28 10:02:50 | INFO     | app.main             | log_requests         | [1002507038] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-28 10:02:55 | DEBUG    | app.main             | log_requests         | [1002554030] GET /api/signals/sse/stream
+2025-12-28 10:02:55 | INFO     | app.main             | log_requests         | [1002554030] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:01 | DEBUG    | app.main             | log_requests         | [1003017036] GET /api/signals/sse/stream
+2025-12-28 10:03:01 | INFO     | app.main             | log_requests         | [1003017036] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:07 | DEBUG    | app.main             | log_requests         | [1003074038] GET /api/signals/sse/stream
+2025-12-28 10:03:07 | INFO     | app.main             | log_requests         | [1003074038] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:13 | DEBUG    | app.main             | log_requests         | [1003137033] GET /api/signals/sse/stream
+2025-12-28 10:03:13 | INFO     | app.main             | log_requests         | [1003137033] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:03:19 | DEBUG    | app.main             | log_requests         | [1003194029] GET /api/signals/sse/stream
+2025-12-28 10:03:19 | INFO     | app.main             | log_requests         | [1003194029] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:20 | DEBUG    | app.main             | log_requests         | [1003207050] GET /api/indicator/cache-stats
+2025-12-28 10:03:20 | INFO     | app.main             | log_requests         | [1003207050] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:03:25 | DEBUG    | app.main             | log_requests         | [1003254027] GET /api/signals/sse/stream
+2025-12-28 10:03:25 | INFO     | app.main             | log_requests         | [1003254027] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:31 | DEBUG    | app.main             | log_requests         | [1003317054] GET /api/signals/sse/stream
+2025-12-28 10:03:31 | INFO     | app.main             | log_requests         | [1003317054] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:37 | DEBUG    | app.main             | log_requests         | [1003374031] GET /api/signals/sse/stream
+2025-12-28 10:03:37 | INFO     | app.main             | log_requests         | [1003374031] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:43 | DEBUG    | app.main             | log_requests         | [1003437030] GET /api/signals/sse/stream
+2025-12-28 10:03:43 | INFO     | app.main             | log_requests         | [1003437030] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:49 | DEBUG    | app.main             | log_requests         | [1003494026] GET /api/signals/sse/stream
+2025-12-28 10:03:49 | INFO     | app.main             | log_requests         | [1003494026] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:03:52 | DEBUG    | app.main             | log_requests         | [1003527037] GET /api/indicator/cache-stats
+2025-12-28 10:03:52 | INFO     | app.main             | log_requests         | [1003527037] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-28 10:03:55 | DEBUG    | app.main             | log_requests         | [1003554012] GET /api/signals/sse/stream
+2025-12-28 10:03:55 | INFO     | app.main             | log_requests         | [1003554012] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:04:01 | DEBUG    | app.main             | log_requests         | [1004017051] GET /api/signals/sse/stream
+2025-12-28 10:04:01 | INFO     | app.main             | log_requests         | [1004017051] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:07 | DEBUG    | app.main             | log_requests         | [1004074024] GET /api/signals/sse/stream
+2025-12-28 10:04:07 | INFO     | app.main             | log_requests         | [1004074024] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:04:13 | DEBUG    | app.main             | log_requests         | [1004137031] GET /api/signals/sse/stream
+2025-12-28 10:04:13 | INFO     | app.main             | log_requests         | [1004137031] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:04:19 | DEBUG    | app.main             | log_requests         | [1004193995] GET /api/signals/sse/stream
+2025-12-28 10:04:19 | INFO     | app.main             | log_requests         | [1004193995] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:25 | DEBUG    | app.main             | log_requests         | [1004257152] GET /api/signals/sse/stream
+2025-12-28 10:04:25 | INFO     | app.main             | log_requests         | [1004257152] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:31 | DEBUG    | app.main             | log_requests         | [1004314053] GET /api/signals/sse/stream
+2025-12-28 10:04:31 | INFO     | app.main             | log_requests         | [1004314053] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:37 | DEBUG    | app.main             | log_requests         | [1004377106] GET /api/signals/sse/stream
+2025-12-28 10:04:37 | INFO     | app.main             | log_requests         | [1004377106] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:43 | DEBUG    | app.main             | log_requests         | [1004433996] GET /api/signals/sse/stream
+2025-12-28 10:04:43 | INFO     | app.main             | log_requests         | [1004433996] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:49 | DEBUG    | app.main             | log_requests         | [1004497159] GET /api/signals/sse/stream
+2025-12-28 10:04:49 | INFO     | app.main             | log_requests         | [1004497159] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:04:52 | DEBUG    | app.main             | log_requests         | [1004524001] GET /api/indicator/cache-stats
+2025-12-28 10:04:52 | INFO     | app.main             | log_requests         | [1004524001] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:04:55 | DEBUG    | app.main             | log_requests         | [1004557181] GET /api/signals/sse/stream
+2025-12-28 10:04:55 | INFO     | app.main             | log_requests         | [1004557181] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:01 | DEBUG    | app.main             | log_requests         | [1005014132] GET /api/signals/sse/stream
+2025-12-28 10:05:01 | INFO     | app.main             | log_requests         | [1005014132] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:07 | DEBUG    | app.main             | log_requests         | [1005077011] GET /api/signals/sse/stream
+2025-12-28 10:05:07 | INFO     | app.main             | log_requests         | [1005077011] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:13 | DEBUG    | app.main             | log_requests         | [1005134115] GET /api/signals/sse/stream
+2025-12-28 10:05:13 | INFO     | app.main             | log_requests         | [1005134115] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:19 | DEBUG    | app.main             | log_requests         | [1005197042] GET /api/signals/sse/stream
+2025-12-28 10:05:19 | INFO     | app.main             | log_requests         | [1005197042] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:25 | DEBUG    | app.main             | log_requests         | [1005254131] GET /api/signals/sse/stream
+2025-12-28 10:05:25 | INFO     | app.main             | log_requests         | [1005254131] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:31 | DEBUG    | app.main             | log_requests         | [1005317039] GET /api/signals/sse/stream
+2025-12-28 10:05:31 | INFO     | app.main             | log_requests         | [1005317039] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:37 | DEBUG    | app.main             | log_requests         | [1005374052] GET /api/signals/sse/stream
+2025-12-28 10:05:37 | INFO     | app.main             | log_requests         | [1005374052] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:43 | DEBUG    | app.main             | log_requests         | [1005437143] GET /api/signals/sse/stream
+2025-12-28 10:05:43 | INFO     | app.main             | log_requests         | [1005437143] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:49 | DEBUG    | app.main             | log_requests         | [1005494065] GET /api/signals/sse/stream
+2025-12-28 10:05:49 | INFO     | app.main             | log_requests         | [1005494065] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:05:52 | DEBUG    | app.main             | log_requests         | [1005526988] GET /api/indicator/cache-stats
+2025-12-28 10:05:52 | INFO     | app.main             | log_requests         | [1005526988] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:05:55 | DEBUG    | app.main             | log_requests         | [1005554060] GET /api/signals/sse/stream
+2025-12-28 10:05:55 | INFO     | app.main             | log_requests         | [1005554060] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:01 | DEBUG    | app.main             | log_requests         | [1006017039] GET /api/signals/sse/stream
+2025-12-28 10:06:01 | INFO     | app.main             | log_requests         | [1006017039] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:07 | DEBUG    | app.main             | log_requests         | [1006074094] GET /api/signals/sse/stream
+2025-12-28 10:06:07 | INFO     | app.main             | log_requests         | [1006074094] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:13 | DEBUG    | app.main             | log_requests         | [1006137115] GET /api/signals/sse/stream
+2025-12-28 10:06:13 | INFO     | app.main             | log_requests         | [1006137115] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:19 | DEBUG    | app.main             | log_requests         | [1006194003] GET /api/signals/sse/stream
+2025-12-28 10:06:19 | INFO     | app.main             | log_requests         | [1006194003] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:25 | DEBUG    | app.main             | log_requests         | [1006257170] GET /api/signals/sse/stream
+2025-12-28 10:06:25 | INFO     | app.main             | log_requests         | [1006257170] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:31 | DEBUG    | app.main             | log_requests         | [1006313999] GET /api/signals/sse/stream
+2025-12-28 10:06:31 | INFO     | app.main             | log_requests         | [1006313999] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:37 | DEBUG    | app.main             | log_requests         | [1006377026] GET /api/signals/sse/stream
+2025-12-28 10:06:37 | INFO     | app.main             | log_requests         | [1006377026] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:43 | DEBUG    | app.main             | log_requests         | [1006434052] GET /api/signals/sse/stream
+2025-12-28 10:06:43 | INFO     | app.main             | log_requests         | [1006434052] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:49 | DEBUG    | app.main             | log_requests         | [1006497147] GET /api/signals/sse/stream
+2025-12-28 10:06:49 | INFO     | app.main             | log_requests         | [1006497147] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:06:52 | DEBUG    | app.main             | log_requests         | [1006524139] GET /api/indicator/cache-stats
+2025-12-28 10:06:52 | INFO     | app.main             | log_requests         | [1006524139] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:06:55 | DEBUG    | app.main             | log_requests         | [1006557040] GET /api/signals/sse/stream
+2025-12-28 10:06:55 | INFO     | app.main             | log_requests         | [1006557040] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:07:01 | DEBUG    | app.main             | log_requests         | [1007014063] GET /api/signals/sse/stream
+2025-12-28 10:07:01 | INFO     | app.main             | log_requests         | [1007014063] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:07 | DEBUG    | app.main             | log_requests         | [1007077024] GET /api/signals/sse/stream
+2025-12-28 10:07:07 | INFO     | app.main             | log_requests         | [1007077024] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:13 | DEBUG    | app.main             | log_requests         | [1007134056] GET /api/signals/sse/stream
+2025-12-28 10:07:13 | INFO     | app.main             | log_requests         | [1007134056] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:19 | DEBUG    | app.main             | log_requests         | [1007197123] GET /api/signals/sse/stream
+2025-12-28 10:07:19 | INFO     | app.main             | log_requests         | [1007197123] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:25 | DEBUG    | app.main             | log_requests         | [1007254117] GET /api/signals/sse/stream
+2025-12-28 10:07:25 | INFO     | app.main             | log_requests         | [1007254117] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:31 | DEBUG    | app.main             | log_requests         | [1007317130] GET /api/signals/sse/stream
+2025-12-28 10:07:31 | INFO     | app.main             | log_requests         | [1007317130] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:37 | DEBUG    | app.main             | log_requests         | [1007374133] GET /api/signals/sse/stream
+2025-12-28 10:07:37 | INFO     | app.main             | log_requests         | [1007374133] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:43 | DEBUG    | app.main             | log_requests         | [1007437251] GET /api/signals/sse/stream
+2025-12-28 10:07:43 | INFO     | app.main             | log_requests         | [1007437251] ✗ GET /api/signals/sse/stream - 404 (4ms)
+2025-12-28 10:07:49 | DEBUG    | app.main             | log_requests         | [1007494006] GET /api/signals/sse/stream
+2025-12-28 10:07:49 | INFO     | app.main             | log_requests         | [1007494006] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:52 | DEBUG    | app.main             | log_requests         | [1007527058] GET /api/indicator/cache-stats
+2025-12-28 10:07:52 | INFO     | app.main             | log_requests         | [1007527058] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:07:55 | DEBUG    | app.main             | log_requests         | [1007554019] GET /api/signals/sse/stream
+2025-12-28 10:07:55 | INFO     | app.main             | log_requests         | [1007554019] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:07:59 | DEBUG    | app.main             | log_requests         | [1007596256] GET /
+2025-12-28 10:07:59 | INFO     | app.main             | log_requests         | [1007596256] ✔ GET / - 200 (0ms)
+2025-12-28 10:08:01 | DEBUG    | app.main             | log_requests         | [1008017045] GET /api/signals/sse/stream
+2025-12-28 10:08:01 | INFO     | app.main             | log_requests         | [1008017045] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:07 | DEBUG    | app.main             | log_requests         | [1008074034] GET /api/signals/sse/stream
+2025-12-28 10:08:07 | INFO     | app.main             | log_requests         | [1008074034] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:13 | DEBUG    | app.main             | log_requests         | [1008137052] GET /api/signals/sse/stream
+2025-12-28 10:08:13 | INFO     | app.main             | log_requests         | [1008137052] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:19 | DEBUG    | app.main             | log_requests         | [1008193998] GET /api/signals/sse/stream
+2025-12-28 10:08:19 | INFO     | app.main             | log_requests         | [1008193998] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:25 | DEBUG    | app.main             | log_requests         | [1008257073] GET /api/signals/sse/stream
+2025-12-28 10:08:25 | INFO     | app.main             | log_requests         | [1008257073] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:31 | DEBUG    | app.main             | log_requests         | [1008314045] GET /api/signals/sse/stream
+2025-12-28 10:08:31 | INFO     | app.main             | log_requests         | [1008314045] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:37 | DEBUG    | app.main             | log_requests         | [1008377143] GET /api/signals/sse/stream
+2025-12-28 10:08:37 | INFO     | app.main             | log_requests         | [1008377143] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:43 | DEBUG    | app.main             | log_requests         | [1008434108] GET /api/signals/sse/stream
+2025-12-28 10:08:43 | INFO     | app.main             | log_requests         | [1008434108] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:49 | DEBUG    | app.main             | log_requests         | [1008497037] GET /api/signals/sse/stream
+2025-12-28 10:08:49 | INFO     | app.main             | log_requests         | [1008497037] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:08:52 | DEBUG    | app.main             | log_requests         | [1008524084] GET /api/indicator/cache-stats
+2025-12-28 10:08:52 | INFO     | app.main             | log_requests         | [1008524084] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:08:55 | DEBUG    | app.main             | log_requests         | [1008557173] GET /api/signals/sse/stream
+2025-12-28 10:08:55 | INFO     | app.main             | log_requests         | [1008557173] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:01 | DEBUG    | app.main             | log_requests         | [1009014094] GET /api/signals/sse/stream
+2025-12-28 10:09:01 | INFO     | app.main             | log_requests         | [1009014094] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:07 | DEBUG    | app.main             | log_requests         | [1009077145] GET /api/signals/sse/stream
+2025-12-28 10:09:07 | INFO     | app.main             | log_requests         | [1009077145] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:13 | DEBUG    | app.main             | log_requests         | [1009134005] GET /api/signals/sse/stream
+2025-12-28 10:09:13 | INFO     | app.main             | log_requests         | [1009134005] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:19 | DEBUG    | app.main             | log_requests         | [1009197067] GET /api/signals/sse/stream
+2025-12-28 10:09:19 | INFO     | app.main             | log_requests         | [1009197067] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:25 | DEBUG    | app.main             | log_requests         | [1009254015] GET /api/signals/sse/stream
+2025-12-28 10:09:25 | INFO     | app.main             | log_requests         | [1009254015] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:31 | DEBUG    | app.main             | log_requests         | [1009317088] GET /api/signals/sse/stream
+2025-12-28 10:09:31 | INFO     | app.main             | log_requests         | [1009317088] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:37 | DEBUG    | app.main             | log_requests         | [1009374083] GET /api/signals/sse/stream
+2025-12-28 10:09:37 | INFO     | app.main             | log_requests         | [1009374083] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:43 | DEBUG    | app.main             | log_requests         | [1009437125] GET /api/signals/sse/stream
+2025-12-28 10:09:43 | INFO     | app.main             | log_requests         | [1009437125] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:49 | DEBUG    | app.main             | log_requests         | [1009494140] GET /api/signals/sse/stream
+2025-12-28 10:09:49 | INFO     | app.main             | log_requests         | [1009494140] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:09:52 | DEBUG    | app.main             | log_requests         | [1009527131] GET /api/indicator/cache-stats
+2025-12-28 10:09:52 | INFO     | app.main             | log_requests         | [1009527131] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:09:55 | DEBUG    | app.main             | log_requests         | [1009554027] GET /api/signals/sse/stream
+2025-12-28 10:09:55 | INFO     | app.main             | log_requests         | [1009554027] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:01 | DEBUG    | app.main             | log_requests         | [1010017056] GET /api/signals/sse/stream
+2025-12-28 10:10:01 | INFO     | app.main             | log_requests         | [1010017056] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:07 | DEBUG    | app.main             | log_requests         | [1010074050] GET /api/signals/sse/stream
+2025-12-28 10:10:07 | INFO     | app.main             | log_requests         | [1010074050] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:13 | DEBUG    | app.main             | log_requests         | [1010137161] GET /api/signals/sse/stream
+2025-12-28 10:10:13 | INFO     | app.main             | log_requests         | [1010137161] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:19 | DEBUG    | app.main             | log_requests         | [1010194049] GET /api/signals/sse/stream
+2025-12-28 10:10:19 | INFO     | app.main             | log_requests         | [1010194049] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:25 | DEBUG    | app.main             | log_requests         | [1010257090] GET /api/signals/sse/stream
+2025-12-28 10:10:25 | INFO     | app.main             | log_requests         | [1010257090] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:27 | DEBUG    | app.main             | log_requests         | [1010276678] GET /
+2025-12-28 10:10:27 | INFO     | app.main             | log_requests         | [1010276678] ✔ GET / - 200 (0ms)
+2025-12-28 10:10:31 | DEBUG    | app.main             | log_requests         | [1010314028] GET /api/signals/sse/stream
+2025-12-28 10:10:31 | INFO     | app.main             | log_requests         | [1010314028] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:37 | DEBUG    | app.main             | log_requests         | [1010377146] GET /api/signals/sse/stream
+2025-12-28 10:10:37 | INFO     | app.main             | log_requests         | [1010377146] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:43 | DEBUG    | app.main             | log_requests         | [1010434085] GET /api/signals/sse/stream
+2025-12-28 10:10:43 | INFO     | app.main             | log_requests         | [1010434085] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:49 | DEBUG    | app.main             | log_requests         | [1010497231] GET /api/signals/sse/stream
+2025-12-28 10:10:49 | INFO     | app.main             | log_requests         | [1010497231] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:10:52 | DEBUG    | app.main             | log_requests         | [1010524130] GET /api/indicator/cache-stats
+2025-12-28 10:10:52 | INFO     | app.main             | log_requests         | [1010524130] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:10:55 | DEBUG    | app.main             | log_requests         | [1010557085] GET /api/signals/sse/stream
+2025-12-28 10:10:55 | INFO     | app.main             | log_requests         | [1010557085] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:01 | DEBUG    | app.main             | log_requests         | [1011013994] GET /api/signals/sse/stream
+2025-12-28 10:11:01 | INFO     | app.main             | log_requests         | [1011013994] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:07 | DEBUG    | app.main             | log_requests         | [1011077128] GET /api/signals/sse/stream
+2025-12-28 10:11:07 | INFO     | app.main             | log_requests         | [1011077128] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:13 | DEBUG    | app.main             | log_requests         | [1011134018] GET /api/signals/sse/stream
+2025-12-28 10:11:13 | INFO     | app.main             | log_requests         | [1011134018] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:19 | DEBUG    | app.main             | log_requests         | [1011197094] GET /api/signals/sse/stream
+2025-12-28 10:11:19 | INFO     | app.main             | log_requests         | [1011197094] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:25 | DEBUG    | app.main             | log_requests         | [1011254084] GET /api/signals/sse/stream
+2025-12-28 10:11:25 | INFO     | app.main             | log_requests         | [1011254084] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:31 | DEBUG    | app.main             | log_requests         | [1011317044] GET /api/signals/sse/stream
+2025-12-28 10:11:31 | INFO     | app.main             | log_requests         | [1011317044] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:37 | DEBUG    | app.main             | log_requests         | [1011374103] GET /api/signals/sse/stream
+2025-12-28 10:11:37 | INFO     | app.main             | log_requests         | [1011374103] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:43 | DEBUG    | app.main             | log_requests         | [1011437060] GET /api/signals/sse/stream
+2025-12-28 10:11:43 | INFO     | app.main             | log_requests         | [1011437060] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:49 | DEBUG    | app.main             | log_requests         | [1011494111] GET /api/signals/sse/stream
+2025-12-28 10:11:49 | INFO     | app.main             | log_requests         | [1011494111] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:11:52 | DEBUG    | app.main             | log_requests         | [1011527040] GET /api/indicator/cache-stats
+2025-12-28 10:11:52 | INFO     | app.main             | log_requests         | [1011527040] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:11:55 | DEBUG    | app.main             | log_requests         | [1011554038] GET /api/signals/sse/stream
+2025-12-28 10:11:55 | INFO     | app.main             | log_requests         | [1011554038] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:01 | DEBUG    | app.main             | log_requests         | [1012017091] GET /api/signals/sse/stream
+2025-12-28 10:12:01 | INFO     | app.main             | log_requests         | [1012017091] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:07 | DEBUG    | app.main             | log_requests         | [1012073990] GET /api/signals/sse/stream
+2025-12-28 10:12:07 | INFO     | app.main             | log_requests         | [1012073990] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:13 | DEBUG    | app.main             | log_requests         | [1012137097] GET /api/signals/sse/stream
+2025-12-28 10:12:13 | INFO     | app.main             | log_requests         | [1012137097] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:19 | DEBUG    | app.main             | log_requests         | [1012194129] GET /api/signals/sse/stream
+2025-12-28 10:12:19 | INFO     | app.main             | log_requests         | [1012194129] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:25 | DEBUG    | app.main             | log_requests         | [1012257071] GET /api/signals/sse/stream
+2025-12-28 10:12:25 | INFO     | app.main             | log_requests         | [1012257071] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:31 | DEBUG    | app.main             | log_requests         | [1012313993] GET /api/signals/sse/stream
+2025-12-28 10:12:31 | INFO     | app.main             | log_requests         | [1012313993] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:37 | DEBUG    | app.main             | log_requests         | [1012377097] GET /api/signals/sse/stream
+2025-12-28 10:12:37 | INFO     | app.main             | log_requests         | [1012377097] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:43 | DEBUG    | app.main             | log_requests         | [1012434049] GET /api/signals/sse/stream
+2025-12-28 10:12:43 | INFO     | app.main             | log_requests         | [1012434049] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:49 | DEBUG    | app.main             | log_requests         | [1012497135] GET /api/signals/sse/stream
+2025-12-28 10:12:49 | INFO     | app.main             | log_requests         | [1012497135] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:12:52 | DEBUG    | app.main             | log_requests         | [1012523988] GET /api/indicator/cache-stats
+2025-12-28 10:12:52 | INFO     | app.main             | log_requests         | [1012523988] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:12:55 | DEBUG    | app.main             | log_requests         | [1012557138] GET /api/signals/sse/stream
+2025-12-28 10:12:55 | INFO     | app.main             | log_requests         | [1012557138] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:01 | DEBUG    | app.main             | log_requests         | [1013014019] GET /api/signals/sse/stream
+2025-12-28 10:13:01 | INFO     | app.main             | log_requests         | [1013014019] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:07 | DEBUG    | app.main             | log_requests         | [1013077077] GET /api/signals/sse/stream
+2025-12-28 10:13:07 | INFO     | app.main             | log_requests         | [1013077077] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:13 | DEBUG    | app.main             | log_requests         | [1013133993] GET /api/signals/sse/stream
+2025-12-28 10:13:13 | INFO     | app.main             | log_requests         | [1013133993] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:19 | DEBUG    | app.main             | log_requests         | [1013197067] GET /api/signals/sse/stream
+2025-12-28 10:13:19 | INFO     | app.main             | log_requests         | [1013197067] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:25 | DEBUG    | app.main             | log_requests         | [1013254024] GET /api/signals/sse/stream
+2025-12-28 10:13:25 | INFO     | app.main             | log_requests         | [1013254024] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:31 | DEBUG    | app.main             | log_requests         | [1013317049] GET /api/signals/sse/stream
+2025-12-28 10:13:31 | INFO     | app.main             | log_requests         | [1013317049] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:37 | DEBUG    | app.main             | log_requests         | [1013374016] GET /api/signals/sse/stream
+2025-12-28 10:13:37 | INFO     | app.main             | log_requests         | [1013374016] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:43 | DEBUG    | app.main             | log_requests         | [1013437043] GET /api/signals/sse/stream
+2025-12-28 10:13:43 | INFO     | app.main             | log_requests         | [1013437043] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:49 | DEBUG    | app.main             | log_requests         | [1013494023] GET /api/signals/sse/stream
+2025-12-28 10:13:49 | INFO     | app.main             | log_requests         | [1013494023] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:13:52 | DEBUG    | app.main             | log_requests         | [1013527098] GET /api/indicator/cache-stats
+2025-12-28 10:13:52 | INFO     | app.main             | log_requests         | [1013527098] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:13:55 | DEBUG    | app.main             | log_requests         | [1013553994] GET /api/signals/sse/stream
+2025-12-28 10:13:55 | INFO     | app.main             | log_requests         | [1013553994] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:01 | DEBUG    | app.main             | log_requests         | [1014017112] GET /api/signals/sse/stream
+2025-12-28 10:14:01 | INFO     | app.main             | log_requests         | [1014017112] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:07 | DEBUG    | app.main             | log_requests         | [1014074033] GET /api/signals/sse/stream
+2025-12-28 10:14:07 | INFO     | app.main             | log_requests         | [1014074033] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:13 | DEBUG    | app.main             | log_requests         | [1014137173] GET /api/signals/sse/stream
+2025-12-28 10:14:13 | INFO     | app.main             | log_requests         | [1014137173] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:13 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:13 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 10:14:13 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:14 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 10:14:14 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 10:14:14 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 10:14:15 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 10:14:15 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 10:14:15 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 10:14:15 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 10:14:15 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:15 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 10:14:15 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 10:14:15 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 10:14:15 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:15 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 10:14:15 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 10:14:16 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 10:14:16 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 10:14:16 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 10:14:16 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 10:14:16 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 10:14:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:16 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 10:14:16 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 10:14:16 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 10:14:16 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:17 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 10:14:17 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 10:14:17 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 10:14:17 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 10:14:17 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 10:14:17 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 10:14:17 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 10:14:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:17 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 10:14:17 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 10:14:17 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 10:14:17 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:14:19 | DEBUG    | app.main             | log_requests         | [1014194089] GET /api/signals/sse/stream
+2025-12-28 10:14:19 | INFO     | app.main             | log_requests         | [1014194089] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:25 | DEBUG    | app.main             | log_requests         | [1014257044] GET /api/signals/sse/stream
+2025-12-28 10:14:25 | INFO     | app.main             | log_requests         | [1014257044] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:31 | DEBUG    | app.main             | log_requests         | [1014314028] GET /api/signals/sse/stream
+2025-12-28 10:14:31 | INFO     | app.main             | log_requests         | [1014314028] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:14:37 | DEBUG    | app.main             | log_requests         | [1014377047] GET /api/signals/sse/stream
+2025-12-28 10:14:37 | INFO     | app.main             | log_requests         | [1014377047] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:14:43 | DEBUG    | app.main             | log_requests         | [1014434022] GET /api/signals/sse/stream
+2025-12-28 10:14:43 | INFO     | app.main             | log_requests         | [1014434022] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:14:49 | DEBUG    | app.main             | log_requests         | [1014497055] GET /api/signals/sse/stream
+2025-12-28 10:14:49 | INFO     | app.main             | log_requests         | [1014497055] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:14:52 | DEBUG    | app.main             | log_requests         | [1014524036] GET /api/indicator/cache-stats
+2025-12-28 10:14:52 | INFO     | app.main             | log_requests         | [1014524036] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-28 10:14:55 | DEBUG    | app.main             | log_requests         | [1014557055] GET /api/signals/sse/stream
+2025-12-28 10:14:55 | INFO     | app.main             | log_requests         | [1014557055] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:15:01 | DEBUG    | app.main             | log_requests         | [1015014021] GET /api/signals/sse/stream
+2025-12-28 10:15:01 | INFO     | app.main             | log_requests         | [1015014021] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:15:07 | DEBUG    | app.main             | log_requests         | [1015077035] GET /api/signals/sse/stream
+2025-12-28 10:15:07 | INFO     | app.main             | log_requests         | [1015077035] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:15:13 | DEBUG    | app.main             | log_requests         | [1015134032] GET /api/signals/sse/stream
+2025-12-28 10:15:13 | INFO     | app.main             | log_requests         | [1015134032] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:15:19 | DEBUG    | app.main             | log_requests         | [1015197052] GET /api/signals/sse/stream
+2025-12-28 10:15:19 | INFO     | app.main             | log_requests         | [1015197052] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:15:25 | DEBUG    | app.main             | log_requests         | [1015254038] GET /api/signals/sse/stream
+2025-12-28 10:15:25 | INFO     | app.main             | log_requests         | [1015254038] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:15:31 | DEBUG    | app.main             | log_requests         | [1015317039] GET /api/signals/sse/stream
+2025-12-28 10:15:31 | INFO     | app.main             | log_requests         | [1015317039] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:15:37 | DEBUG    | app.main             | log_requests         | [1015374043] GET /api/signals/sse/stream
+2025-12-28 10:15:37 | INFO     | app.main             | log_requests         | [1015374043] ✗ GET /api/signals/sse/stream - 404 (3ms)
+2025-12-28 10:15:43 | DEBUG    | app.main             | log_requests         | [1015437059] GET /api/signals/sse/stream
+2025-12-28 10:15:43 | INFO     | app.main             | log_requests         | [1015437059] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:15:49 | DEBUG    | app.main             | log_requests         | [1015494092] GET /api/signals/sse/stream
+2025-12-28 10:15:49 | INFO     | app.main             | log_requests         | [1015494092] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:15:52 | DEBUG    | app.main             | log_requests         | [1015527011] GET /api/indicator/cache-stats
+2025-12-28 10:15:52 | INFO     | app.main             | log_requests         | [1015527011] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:15:55 | DEBUG    | app.main             | log_requests         | [1015554065] GET /api/signals/sse/stream
+2025-12-28 10:15:55 | INFO     | app.main             | log_requests         | [1015554065] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:01 | DEBUG    | app.main             | log_requests         | [1016017098] GET /api/signals/sse/stream
+2025-12-28 10:16:01 | INFO     | app.main             | log_requests         | [1016017098] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:07 | DEBUG    | app.main             | log_requests         | [1016074080] GET /api/signals/sse/stream
+2025-12-28 10:16:07 | INFO     | app.main             | log_requests         | [1016074080] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:13 | DEBUG    | app.main             | log_requests         | [1016137195] GET /api/signals/sse/stream
+2025-12-28 10:16:13 | INFO     | app.main             | log_requests         | [1016137195] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:19 | DEBUG    | app.main             | log_requests         | [1016194077] GET /api/signals/sse/stream
+2025-12-28 10:16:19 | INFO     | app.main             | log_requests         | [1016194077] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:25 | DEBUG    | app.main             | log_requests         | [1016257150] GET /api/signals/sse/stream
+2025-12-28 10:16:25 | INFO     | app.main             | log_requests         | [1016257150] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:31 | DEBUG    | app.main             | log_requests         | [1016314098] GET /api/signals/sse/stream
+2025-12-28 10:16:31 | INFO     | app.main             | log_requests         | [1016314098] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:37 | DEBUG    | app.main             | log_requests         | [1016377069] GET /api/signals/sse/stream
+2025-12-28 10:16:37 | INFO     | app.main             | log_requests         | [1016377069] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:43 | DEBUG    | app.main             | log_requests         | [1016434135] GET /api/signals/sse/stream
+2025-12-28 10:16:43 | INFO     | app.main             | log_requests         | [1016434135] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:49 | DEBUG    | app.main             | log_requests         | [1016497081] GET /api/signals/sse/stream
+2025-12-28 10:16:49 | INFO     | app.main             | log_requests         | [1016497081] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:16:52 | DEBUG    | app.main             | log_requests         | [1016524056] GET /api/indicator/cache-stats
+2025-12-28 10:16:52 | INFO     | app.main             | log_requests         | [1016524056] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:16:55 | DEBUG    | app.main             | log_requests         | [1016557134] GET /api/signals/sse/stream
+2025-12-28 10:16:55 | INFO     | app.main             | log_requests         | [1016557134] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:01 | DEBUG    | app.main             | log_requests         | [1017014092] GET /api/signals/sse/stream
+2025-12-28 10:17:01 | INFO     | app.main             | log_requests         | [1017014092] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:07 | DEBUG    | app.main             | log_requests         | [1017077121] GET /api/signals/sse/stream
+2025-12-28 10:17:07 | INFO     | app.main             | log_requests         | [1017077121] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:13 | DEBUG    | app.main             | log_requests         | [1017134110] GET /api/signals/sse/stream
+2025-12-28 10:17:13 | INFO     | app.main             | log_requests         | [1017134110] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:19 | DEBUG    | app.main             | log_requests         | [1017197009] GET /api/signals/sse/stream
+2025-12-28 10:17:19 | INFO     | app.main             | log_requests         | [1017197009] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:25 | DEBUG    | app.main             | log_requests         | [1017254016] GET /api/signals/sse/stream
+2025-12-28 10:17:25 | INFO     | app.main             | log_requests         | [1017254016] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:31 | DEBUG    | app.main             | log_requests         | [1017317084] GET /api/signals/sse/stream
+2025-12-28 10:17:31 | INFO     | app.main             | log_requests         | [1017317084] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:37 | DEBUG    | app.main             | log_requests         | [1017374164] GET /api/signals/sse/stream
+2025-12-28 10:17:37 | INFO     | app.main             | log_requests         | [1017374164] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:43 | DEBUG    | app.main             | log_requests         | [1017437136] GET /api/signals/sse/stream
+2025-12-28 10:17:43 | INFO     | app.main             | log_requests         | [1017437136] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:49 | DEBUG    | app.main             | log_requests         | [1017494020] GET /api/signals/sse/stream
+2025-12-28 10:17:49 | INFO     | app.main             | log_requests         | [1017494020] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:17:52 | DEBUG    | app.main             | log_requests         | [1017527060] GET /api/indicator/cache-stats
+2025-12-28 10:17:52 | INFO     | app.main             | log_requests         | [1017527060] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 10:17:55 | DEBUG    | app.main             | log_requests         | [1017554103] GET /api/signals/sse/stream
+2025-12-28 10:17:55 | INFO     | app.main             | log_requests         | [1017554103] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:18:01 | DEBUG    | app.main             | log_requests         | [1018017175] GET /api/signals/sse/stream
+2025-12-28 10:18:01 | INFO     | app.main             | log_requests         | [1018017175] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:18:07 | DEBUG    | app.main             | log_requests         | [1018074042] GET /api/signals/sse/stream
+2025-12-28 10:18:07 | INFO     | app.main             | log_requests         | [1018074042] ✗ GET /api/signals/sse/stream - 404 (5ms)
+2025-12-28 10:18:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:07 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 10:18:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:08 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 10:18:08 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 10:18:08 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 10:18:08 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:08 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 10:18:08 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 10:18:08 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 10:18:08 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:09 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 10:18:09 | WARNING  | app.main             | <module>             | ✗ Failed to load optimizer routes: No module named 'app.api.optimizer_routes'
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 10:18:10 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 10:18:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:10 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 10:18:10 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 10:18:10 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 10:18:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 10:18:13 | DEBUG    | app.main             | log_requests         | [1018137099] GET /api/signals/sse/stream
+2025-12-28 10:18:13 | INFO     | app.main             | log_requests         | [1018137099] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:18:19 | DEBUG    | app.main             | log_requests         | [1018194034] GET /api/signals/sse/stream
+2025-12-28 10:18:19 | INFO     | app.main             | log_requests         | [1018194034] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 10:18:25 | DEBUG    | app.main             | log_requests         | [1018257030] GET /api/signals/sse/stream
+2025-12-28 10:18:25 | INFO     | app.main             | log_requests         | [1018257030] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 10:18:31 | DEBUG    | app.main             | log_requests         | [1018314038] GET /api/signals/sse/stream
+2025-12-28 10:18:31 | INFO     | app.main             | log_requests         | [1018314038] ✗ GET /api/signals/sse/stream - 404 (1ms)

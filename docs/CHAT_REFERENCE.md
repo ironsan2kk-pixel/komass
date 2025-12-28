@@ -1,84 +1,106 @@
-# KOMAS v4.0 — Chat Reference
+# 📚 KOMAS v4.0 — CHAT REFERENCE
 
-> **Last updated:** 28.12.2025
+> **Last updated:** 28.12.2025  
+> **Current version:** v4.0  
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
 ## Phase 5: General Filters
 
-### Chat #41 — Filters Portfolio ✅
-**Date:** 28.12.2025  
-**Focus:** Portfolio-based filters for position diversity and risk distribution
+### Chat #37: Filters Architecture ✅
+**Date:** 27.12.2025  
+**Focus:** Base classes for modular filter system
 
-**Implemented:**
-- **CorrelationFilter** — Limits positions in correlated assets
-  - Uses predefined correlation groups (BTC, ETH ecosystem, meme coins, AI, etc.)
-  - Configurable max correlated positions and threshold
-  - Supports custom correlation groups
-  
-- **DirectionFilter** — Controls long/short position balance
-  - Separate limits for long and short positions
-  - Net exposure limit (max difference between longs and shorts)
-  - Option to allow/disallow both directions simultaneously
-  
-- **SectorFilter** — Enforces diversification across sectors
-  - 11 sectors: layer1, layer2, defi, meme, ai, gaming, infrastructure, exchange, privacy, oracle, rwa
-  - 60+ symbols classified by sector
-  - Configurable max positions per sector
-  - Sector exclusion support
-
-**Files:**
-- `backend/app/filters/portfolio_filters.py` — Main filter implementations
-- `backend/app/filters/__init__.py` — Updated exports
-- `backend/app/filters/registry.py` — Updated imports
-- `tests/test_portfolio_filters.py` — 45+ unit tests
-- `run_portfolio_filter_tests.py` — Test runner
-- `run_portfolio_filter_tests.bat` — Windows batch file
+**Created:**
+- `filters/base.py` — BaseFilter, Signal, SignalContext, FilterDecision
+- `filters/registry.py` — FilterRegistry with decorator
+- `filters/chain.py` — FilterChain for sequential execution
 
 ---
 
-### Chat #40 — Filters Trend ✅
-**Date:** 28.12.2025  
-**Focus:** Trend-based filters
-
-**Implemented:**
-- BTCTrendFilter — Trade with BTC trend direction
-- MultiTFFilter — Multi-timeframe confirmation
-- RegimeFilter — Market regime detection (trending/ranging)
-
----
-
-### Chat #39 — Filters Volatility ✅
-**Date:** 28.12.2025  
-**Focus:** Volatility-based filters
-
-**Implemented:**
-- ATRFilter — ATR range filtering
-- VolumeFilter — Volume threshold filtering
-- ExtremeFilter — Volatility spike protection
-
----
-
-### Chat #38 — Filters Time ✅
+### Chat #38: Filters Time ✅
 **Date:** 27.12.2025  
 **Focus:** Time-based filters
 
-**Implemented:**
-- SessionFilter — Trading session control
-- WeekdayFilter — Day-of-week filtering
-- CooldownFilter — Post-trade pause
+**Created:**
+- `filters/time_filters.py` — SessionFilter, WeekdayFilter, CooldownFilter
+- 48 unit tests
 
 ---
 
-### Chat #37 — Filters Architecture ✅
-**Date:** 27.12.2025  
-**Focus:** Filter system foundation
+### Chat #39: Filters Volatility ✅
+**Date:** 28.12.2025  
+**Focus:** Volatility-based filters
 
-**Implemented:**
-- BaseFilter abstract class
-- FilterRegistry with decorator
-- FilterChain for sequential execution
-- Signal and SignalContext classes
+**Created:**
+- `filters/volatility_filters.py` — ATRFilter, VolumeFilter, ExtremeFilter
+- 40+ unit tests
+
+---
+
+### Chat #40: Filters Trend ✅
+**Date:** 28.12.2025  
+**Focus:** Trend-based filters
+
+**Created:**
+- `filters/trend_filters.py` — BTCTrendFilter, MultiTFFilter, RegimeFilter
+- 35+ unit tests
+
+---
+
+### Chat #41: Filters Portfolio ✅
+**Date:** 28.12.2025  
+**Focus:** Portfolio-based filters
+
+**Created:**
+- `filters/portfolio_filters.py` — CorrelationFilter, DirectionFilter, SectorFilter
+- Sector classification (11 sectors, 60+ symbols)
+- Correlation groups (9 predefined groups)
+- 45+ unit tests
+
+---
+
+### Chat #42: Filters Protection ✅
+**Date:** 28.12.2025  
+**Focus:** Protection-based filters
+
+**Created:**
+- `filters/protection_filters.py` — EquityCurveFilter, MaxDDFilter, StreakFilter, RecoveryFilter
+- 35+ unit tests
+
+---
+
+### Chat #43: Filters Integration ✅
+**Date:** 28.12.2025  
+**Focus:** FilterManager for unified filter management
+
+**Created:**
+- `filters/manager.py` — FilterManager, FilterStats, DecisionLog
+- `api/filter_routes.py` — Filter config API endpoints
+- Database schema for bot_filter_configs
+- Filter profiles (minimal/conservative/balanced/aggressive)
+- 60+ unit tests
+
+**Key Features:**
+- Load/save filter configs to database
+- Apply filter chain to signals
+- Track filter statistics
+- Log filter decisions for debugging
+- Filter validation
+
+---
+
+### Chat #44: Filters UI ⏳
+**Date:** TBD  
+**Focus:** UI for filter configuration
+
+**Planned:**
+- Filter settings section in bot config
+- Category grouping
+- Toggle switches with parameters
+- Profile selector
+- Statistics display
 
 ---
 

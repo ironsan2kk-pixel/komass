@@ -23,7 +23,9 @@ Usage:
 Chat #37: Filters Architecture
 Chat #38: Filters Time
 Chat #39: Filters Volatility
+Chat #40: Filters Trend
 Chat #41: Filters Portfolio
+Chat #43: Filters Integration
 Author: KOMAS Team
 Version: 4.0
 """
@@ -265,9 +267,17 @@ def discover_filters() -> int:
     from . import time_filters
     from . import volatility_filters
     from . import portfolio_filters
-    # Future imports:
-    # from . import trend_filters
-    # from . import protection_filters
+    
+    # Try to import optional modules
+    try:
+        from . import trend_filters
+    except ImportError:
+        logger.debug("trend_filters not available")
+    
+    try:
+        from . import protection_filters
+    except ImportError:
+        logger.debug("protection_filters not available")
     
     FilterRegistry._initialized = True
     count = FilterRegistry.count()

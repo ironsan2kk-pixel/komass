@@ -7,12 +7,17 @@ Modular filter system for controlling trade execution.
 Filter Categories:
 - TIME: Session, Weekday, Cooldown
 - VOLATILITY: ATR, Volume, Extreme
-- TREND: BTC trend, Multi-TF, Regime (future)
+- TREND: BTC trend, Multi-TF, Regime
 - PORTFOLIO: Correlation, Direction, Sector
-- PROTECTION: Equity Curve, DD, Streak, Recovery (future)
+- PROTECTION: Equity Curve, DD, Streak, Recovery
 
 Usage:
     from app.filters import (
+        # Manager (primary interface)
+        FilterManager,
+        create_filter_manager,
+        get_filter_profiles,
+        
         # Chain and registry
         FilterChain,
         FilterRegistry,
@@ -32,30 +37,28 @@ Usage:
         DirectionFilter,
         SectorFilter,
         
+        # Protection filters (if available)
+        # EquityCurveFilter,
+        # MaxDDFilter,
+        # StreakFilter,
+        # RecoveryFilter,
+        
         # Core classes
         Signal,
         SignalContext,
     )
     
-    # Create filters
-    session_filter = SessionFilter({"sessions": ["europe", "us"]})
-    atr_filter = ATRFilter({"min_atr": 1.0, "max_atr": 5.0, "use_atr_percent": True})
-    volume_filter = VolumeFilter({"min_volume_ratio": 1.5})
-    extreme_filter = ExtremeFilter({"atr_multiplier": 3.0, "pause_minutes": 60})
-    correlation_filter = CorrelationFilter({"max_correlated_positions": 2})
-    direction_filter = DirectionFilter({"max_long_positions": 5, "max_short_positions": 5})
-    sector_filter = SectorFilter({"max_per_sector": 2})
+    # Create filter manager for a bot
+    manager = FilterManager("my_bot")
+    manager.apply_profile("balanced")
     
-    # Create chain
-    chain = FilterChain([
-        session_filter, atr_filter, volume_filter, extreme_filter,
-        correlation_filter, direction_filter, sector_filter
-    ])
+    # Or load from database
+    manager.load_config("data/komas.db")
     
     # Apply to signal
     signal = Signal(symbol="BTCUSDT", direction="long", entry_price=50000, ...)
-    context = SignalContext(current_time=datetime.now(), atr=1500, volume=1000000, ...)
-    result = chain.apply(signal, context)
+    context = SignalContext(current_time=datetime.now(), ...)
+    result = manager.apply_filters(signal, context)
     
     if result.is_passed:
         # Execute trade
@@ -65,6 +68,7 @@ Chat #37: Filters Architecture
 Chat #38: Time Filters
 Chat #39: Filters Volatility
 Chat #41: Filters Portfolio
+Chat #43: Filters Integration
 Author: KOMAS Team
 Version: 4.0
 """
@@ -108,6 +112,18 @@ from .chain import (
     FilterChain,
     ChainResult,
     create_chain_from_config,
+)
+
+# Manager
+from .manager import (
+    FilterManager,
+    FilterStats,
+    DecisionLog,
+    DecisionLogEntry,
+    get_filter_profiles,
+    create_filter_manager,
+    validate_filter_config,
+    get_filter_categories,
 )
 
 # Time filters
@@ -192,6 +208,30 @@ from .portfolio_filters import (
     create_portfolio_profile,
 )
 
+# Try to import trend filters (may not exist yet)
+try:
+    from .trend_filters import (
+        BTCTrendFilter,
+        MultiTFFilter,
+        RegimeFilter,
+    )
+    _HAS_TREND_FILTERS = True
+except ImportError:
+    _HAS_TREND_FILTERS = False
+
+# Try to import protection filters (may not exist yet)
+try:
+    from .protection_filters import (
+        EquityCurveFilter,
+        MaxDDFilter,
+        StreakFilter,
+        RecoveryFilter,
+    )
+    _HAS_PROTECTION_FILTERS = True
+except ImportError:
+    _HAS_PROTECTION_FILTERS = False
+
+
 # All exports
 __all__ = [
     # Enums
@@ -227,6 +267,16 @@ __all__ = [
     "FilterChain",
     "ChainResult",
     "create_chain_from_config",
+    
+    # Manager
+    "FilterManager",
+    "FilterStats",
+    "DecisionLog",
+    "DecisionLogEntry",
+    "get_filter_profiles",
+    "create_filter_manager",
+    "validate_filter_config",
+    "get_filter_categories",
     
     # Time filters
     "SessionFilter",
@@ -304,6 +354,24 @@ __all__ = [
     "validate_portfolio_config",
     "create_portfolio_profile",
 ]
+
+# Conditionally add trend filters
+if _HAS_TREND_FILTERS:
+    __all__.extend([
+        "BTCTrendFilter",
+        "MultiTFFilter",
+        "RegimeFilter",
+    ])
+
+# Conditionally add protection filters
+if _HAS_PROTECTION_FILTERS:
+    __all__.extend([
+        "EquityCurveFilter",
+        "MaxDDFilter",
+        "StreakFilter",
+        "RecoveryFilter",
+    ])
+
 
 # Version
 __version__ = "4.0.0"

@@ -1,7 +1,7 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
 > **Last updated:** 28.12.2025  
-> **Current chat:** #41  
+> **Current chat:** #43  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
@@ -11,10 +11,10 @@
 | Metric | Value |
 |--------|-------|
 | **Total chats** | 83 (#15 — #97) |
-| **Completed** | 27 (#15-#41) |
-| **In progress** | #42 |
-| **Remaining** | 56 |
-| **Progress** | 32.5% |
+| **Completed** | 29 (#15-#43) |
+| **In progress** | #44 |
+| **Remaining** | 54 |
+| **Progress** | 34.9% |
 
 ---
 
@@ -26,7 +26,7 @@
 | 2 | Dominant Indicator | #20-27 | 8 | ✅ Complete |
 | 3 | Preset System | #28-33 | 6 | ✅ Complete |
 | 4 | Signal Score | #34-36 | 3 | ✅ Complete |
-| 5 | General Filters | #37-44 | 8 | ⏳ 5/8 done |
+| 5 | General Filters | #37-44 | 8 | ⏳ 7/8 done |
 | 6 | Preset Optimization | #45-49 | 5 | ⬜ Waiting |
 | 7 | Bot Config | #50-53 | 4 | ⬜ Waiting |
 | 8 | Bot Backtest | #54-59 | 6 | ⬜ Waiting |
@@ -111,63 +111,113 @@
 - [x] Config validation
 - [x] 45+ unit tests
 
-**New Files:**
-- `backend/app/filters/portfolio_filters.py`
-- `tests/test_portfolio_filters.py`
-- `run_portfolio_filter_tests.py`
-- `run_portfolio_filter_tests.bat`
-
-**Updated Files:**
-- `backend/app/filters/__init__.py` — added portfolio exports
-- `backend/app/filters/registry.py` — added portfolio import
-
 ---
 
 ### Chat #42: Filters Protection
-**Status:** ⏳ Next
+**Status:** ✅ Complete  
+**Date:** 28.12.2025
 
-**Tasks:**
-- [ ] EquityCurveFilter — trade when equity above/below MA
-- [ ] MaxDDFilter — stop trading on max drawdown
-- [ ] StreakFilter — pause after N consecutive losses
-- [ ] RecoveryFilter — reduce position size after drawdown
-- [ ] Unit tests (30+)
+**Completed:**
+- [x] EquityCurveFilter — trade when equity above/below MA
+- [x] MaxDDFilter — stop trading on max drawdown
+- [x] StreakFilter — pause after N consecutive losses
+- [x] RecoveryFilter — reduce position size after drawdown
+- [x] Equity and drawdown helpers
+- [x] 35+ unit tests
 
 ---
 
 ### Chat #43: Filters Integration
-**Status:** ⬜ Waiting
+**Status:** ✅ Complete  
+**Date:** 28.12.2025
 
-**Tasks:**
-- [ ] FilterManager class
-- [ ] Load configs from database
-- [ ] Apply filter chain to signals
-- [ ] Log rejection reasons
+**Completed:**
+- [x] FilterManager class for unified filter management
+- [x] FilterStats for tracking filter performance
+- [x] DecisionLog for filter decision logging
+- [x] Database schema for bot_filter_configs table
+- [x] API endpoints for filter config CRUD
+- [x] Filter profiles (minimal/conservative/balanced/aggressive)
+- [x] Filter validation helper
+- [x] Configuration import/export
+- [x] 60+ unit tests
+
+**New Files:**
+- `backend/app/filters/manager.py`
+- `backend/app/api/filter_routes.py`
+- `tests/test_filter_integration.py`
+- `run_filter_integration_tests.py`
+- `run_filter_integration_tests.bat`
+
+**Updated Files:**
+- `backend/app/filters/__init__.py` — added manager exports
+- `backend/app/filters/registry.py` — updated discover_filters
 
 ---
 
 ### Chat #44: Filters UI
-**Status:** ⬜ Waiting
+**Status:** ⏳ Next
 
 **Tasks:**
-- [ ] Filters section in bot settings
-- [ ] Category grouping
-- [ ] Enable/disable toggles + parameters
-- [ ] Filter effect preview
-- [ ] Filter presets (Conservative/Balanced/Aggressive)
+- [ ] Filter settings section in bot configuration
+- [ ] Category grouping (Time/Volatility/Trend/Portfolio/Protection)
+- [ ] Filter toggle switches with parameters
+- [ ] Preview filter effect
+- [ ] Filter profiles selector (Conservative/Balanced/Aggressive)
+- [ ] Filter statistics display
 
 ---
 
-## 📝 CHANGE HISTORY
+## 📊 FILTER SYSTEM SUMMARY
 
-| Date | Chat | Change |
-|------|------|--------|
-| 28.12.2025 | #41 | ✅ Portfolio filters: Correlation, Direction, Sector |
-| 28.12.2025 | #40 | ✅ Trend filters: BTC trend, Multi-TF, Regime |
-| 28.12.2025 | #39 | ✅ Volatility filters: ATR, Volume, Extreme |
-| 27.12.2025 | #38 | ✅ Time filters: Session, Weekday, Cooldown |
-| 27.12.2025 | #37 | ✅ Filters architecture: base, registry, chain |
-| 27.12.2025 | #15-36 | Previous phases completed |
+### Available Filters (12 total)
+
+| Category | Filters | Count |
+|----------|---------|-------|
+| **Time** | SessionFilter, WeekdayFilter, CooldownFilter | 3 |
+| **Volatility** | ATRFilter, VolumeFilter, ExtremeFilter | 3 |
+| **Trend** | BTCTrendFilter, MultiTFFilter, RegimeFilter | 3 |
+| **Portfolio** | CorrelationFilter, DirectionFilter, SectorFilter | 3 |
+| **Protection** | EquityCurveFilter, MaxDDFilter, StreakFilter, RecoveryFilter | 4 |
+
+### Filter Profiles
+
+| Profile | Description | Filters |
+|---------|-------------|---------|
+| **Minimal** | Basic time restrictions only | 1-2 filters |
+| **Conservative** | Strict risk control | 8-10 filters |
+| **Balanced** | Moderate restrictions | 8-10 filters |
+| **Aggressive** | Fewer restrictions | 4-6 filters |
+
+### Database Schema
+
+```sql
+CREATE TABLE bot_filter_configs (
+    id INTEGER PRIMARY KEY,
+    bot_id TEXT NOT NULL,
+    filter_name TEXT NOT NULL,
+    enabled BOOLEAN DEFAULT TRUE,
+    config JSON NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(bot_id, filter_name)
+);
+```
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/filters/available` | GET | List all available filters |
+| `/api/filters/categories` | GET | List filter categories |
+| `/api/filters/profiles` | GET | List filter profiles |
+| `/api/filters/bot/{bot_id}` | GET | Get filter config for bot |
+| `/api/filters/bot/{bot_id}` | POST | Save filter config for bot |
+| `/api/filters/bot/{bot_id}/{filter}` | PUT | Update single filter |
+| `/api/filters/bot/{bot_id}/{filter}` | DELETE | Delete filter config |
+| `/api/filters/validate` | POST | Validate filter configuration |
+| `/api/filters/bot/{bot_id}/stats` | GET | Get filter statistics |
+| `/api/filters/bot/{bot_id}/log` | GET | Get filter decision log |
 
 ---
 

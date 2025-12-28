@@ -3,8 +3,8 @@ Komas Trading Server - Main Application
 =======================================
 FastAPI application with comprehensive logging
 
-Chat: Dominant Presets Fix
-- Added preset_routes router for /api/presets/* endpoints
+Chat #43: Filters Integration
+- Added filter_routes router for /api/filters/* endpoints
 """
 import os
 import sys
@@ -243,7 +243,7 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load TRG preset routes: {e}")
 
-# ============ DOMINANT PRESETS ROUTER (FIX) ============
+# ============ DOMINANT PRESETS ROUTER ============
 try:
     from app.api.preset_routes import router as preset_router
     app.include_router(preset_router)
@@ -258,6 +258,14 @@ try:
     logger.info("✔ Loaded: Signal score routes (/api/signal-score/*)")
 except ImportError as e:
     logger.warning(f"✗ Failed to load signal routes: {e}")
+
+# ============ FILTER ROUTES (Chat #43) ============
+try:
+    from app.api.filter_routes import router as filter_router
+    app.include_router(filter_router)
+    logger.info("✔ Loaded: Filter routes (/api/filters/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load filter routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
@@ -366,7 +374,8 @@ async def root():
         "features": {
             "indicators": ["TRG", "Dominant"],
             "presets": "/api/presets/list",
-            "dominant_presets": "/api/presets/dominant/list"
+            "dominant_presets": "/api/presets/dominant/list",
+            "filters": "/api/filters/available"
         }
     }
 
