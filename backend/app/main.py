@@ -267,6 +267,14 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load filter routes: {e}")
 
+# ============ PRESET OPTIMIZER ROUTES (Chat #45) ============
+try:
+    from app.api.optimizer_routes import router as preset_optimizer_router
+    app.include_router(preset_optimizer_router)
+    logger.info("✔ Loaded: Preset Optimizer routes (/api/optimizer/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load preset optimizer routes: {e}")
+
 
 # ============ LOG ENDPOINTS ============
 

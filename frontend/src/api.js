@@ -276,4 +276,101 @@ export const botsApi = {
     api.post('/api/bots/import', { config, name_override: nameOverride }),
 };
 
+// ============ PRESET OPTIMIZER API (Chat #45) ============
+
+export const optimizerApi = {
+  // Start optimization (returns run info)
+  startOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) =>
+    api.post('/api/optimizer/presets/run', {
+      preset_ids: presetIds,
+      pairs: pairs,
+      timeframe: timeframe,
+      start_date: startDate,
+      end_date: endDate
+    }),
+  
+  // Quick optimization (for small sets, < 100 combinations)
+  quickOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) =>
+    api.post('/api/optimizer/presets/quick', {
+      preset_ids: presetIds,
+      pairs: pairs,
+      timeframe: timeframe,
+      start_date: startDate,
+      end_date: endDate
+    }),
+  
+  // Get results by run ID
+  getResults: (runId) => api.get(`/api/optimizer/presets/results/${runId}`),
+  
+  // Cancel running optimization
+  cancelOptimization: (runId) => api.post(`/api/optimizer/presets/cancel/${runId}`),
+  
+  // List active optimizations
+  getActiveRuns: () => api.get('/api/optimizer/presets/active'),
+  
+  // Get status of specific run
+  getRunStatus: (runId) => api.get(`/api/optimizer/presets/status/${runId}`),
+  
+  // Get result matrix
+  getResultMatrix: (runId) => api.get(`/api/optimizer/presets/matrix/${runId}`),
+  
+  // Get top presets
+  getTopPresets: (runId, limit = 10) => 
+    api.get(`/api/optimizer/presets/top/${runId}`, { params: { limit } }),
+  
+  // Compare specific presets
+  comparePresets: (runId, presetIds) =>
+    api.get('/api/optimizer/presets/comparison', { 
+      params: { run_id: runId, preset_ids: presetIds.join(',') } 
+    }),
+  
+  // Export results
+  exportResults: (runId) => api.get(`/api/optimizer/presets/export/${runId}`),
+  
+  // SSE Stream for optimization progress
+  streamOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) => {
+    // Note: For SSE with POST body, we need to use fetch
+    return fetch(`${API_BASE}/api/optimizer/presets/stream`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        preset_ids: presetIds,
+        pairs: pairs,
+        timeframe: timeframe,
+        start_date: startDate,
+        end_date: endDate
+      })
+    });
+  },
+  
+  // Parse SSE stream from fetch response
+  async* parseSSEStream(response) {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          try {
+            const data = JSON.parse(line.slice(6));
+            yield data;
+          } catch (e) {
+            console.error('SSE parse error:', e);
+          }
+        }
+      }
+    }
+  }
+};
+
 export default api;

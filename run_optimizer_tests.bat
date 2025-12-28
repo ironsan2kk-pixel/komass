@@ -1,0 +1,36 @@
+@echo off
+echo ========================================
+echo Running Preset Optimizer Tests
+echo ========================================
+echo.
+
+cd /d "%~dp0"
+cd backend
+
+if not exist "venv\Scripts\activate.bat" (
+    echo ERROR: Virtual environment not found
+    echo Please run install.bat first
+    pause
+    exit /b 1
+)
+
+call venv\Scripts\activate.bat
+set PYTHONPATH=%CD%\app
+
+echo Running tests...
+python -m pytest app/tests/test_preset_optimizer.py -v --tb=short
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo ========================================
+    echo SOME TESTS FAILED
+    echo ========================================
+    pause
+    exit /b 1
+)
+
+echo.
+echo ========================================
+echo ALL TESTS PASSED
+echo ========================================
+pause

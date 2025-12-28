@@ -12,10 +12,10 @@
 | Метрика | Значение |
 |---------|----------|
 | **Всего чатов** | 83 (#15 — #97) |
-| **Завершено** | 30 (#15-44) |
-| **В процессе** | #45 |
-| **Осталось** | 53 |
-| **Прогресс** | 36.1% |
+| **Завершено** | 31 (#15-45) |
+| **В процессе** | #46 |
+| **Осталось** | 52 |
+| **Прогресс** | 37.3% |
 
 ---
 
@@ -28,7 +28,7 @@
 | 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
 | 4 | Signal Score | #34-36 | 3 | ✅ Завершено |
 | 5 | Общие фильтры | #37-44 | 8 | ✅ Завершено |
-| 6 | Оптимизация пресетов | #45-49 | 5 | ⏳ В процессе |
+| 6 | Оптимизация пресетов | #45-49 | 5 | ⏳ 1/5 завершено |
 | 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
 | 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
 | 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
@@ -41,119 +41,107 @@
 
 ---
 
-## 🔧 ФАЗА 5: ОБЩИЕ ФИЛЬТРЫ (8 чатов) — ✅ ЗАВЕРШЕНО
+## ⚡ ФАЗА 6: ОПТИМИЗАЦИЯ ПРЕСЕТОВ (5 чатов) — IN PROGRESS
 
-### Чат #37: Filters Architecture
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] BaseFilter абстрактный класс
-- [x] FilterRegistry для регистрации фильтров
-- [x] FilterChain для применения цепочки
-- [x] Signal и SignalContext dataclasses
-- [x] FilterDecision с детальной информацией
-
-### Чат #38: Filters Time
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] SessionFilter (Asia/Europe/US sessions)
-- [x] WeekdayFilter (trading days)
-- [x] CooldownFilter (pause after trades)
-- [x] Timezone support (UTC)
-- [x] Unit тесты
-
-### Чат #39: Filters Volatility
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] ATRFilter (min/max ATR bounds)
-- [x] VolumeFilter (minimum volume)
-- [x] ExtremeFilter (pause at extremes)
-- [x] Unit тесты
-
-### Чат #40: Filters Trend
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] BTCTrendFilter (follow BTC direction)
-- [x] MultiTFFilter (multi-timeframe confirmation)
-- [x] RegimeFilter (trending/ranging detection)
-- [x] Unit тесты
-
-### Чат #41: Filters Portfolio
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] CorrelationFilter (limit correlated positions)
-- [x] DirectionFilter (long/short limits)
-- [x] SectorFilter (sector diversification)
-- [x] Sector classification (11 sectors, 60+ symbols)
-- [x] Correlation groups (9 predefined)
-- [x] Unit тесты
-
-### Чат #42: Filters Protection
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] EquityCurveFilter (trade above/below MA)
-- [x] DrawdownFilter (pause at DD threshold)
-- [x] StreakFilter (stop after N losses)
-- [x] RecoveryFilter (gradual size increase)
-- [x] Unit тесты
-
-### Чат #43: Filters Integration
-**Статус:** ✅ Завершён
-
-**Выполнено:**
-- [x] FilterManager class
-- [x] FilterStats for tracking
-- [x] DecisionLog for logging
-- [x] Database schema for bot_filter_configs
-- [x] Filter config API endpoints (15 endpoints)
-- [x] Filter profiles (minimal/conservative/balanced/aggressive)
-- [x] Configuration import/export
-- [x] Unit тесты (50+)
-
-### Чат #44: Filters UI
+### Чат #45: Preset Optimizer Core
 **Статус:** ✅ Завершён  
 **Дата завершения:** 28.12.2025
 
 **Выполнено:**
-- [x] FilterSettings main component
-- [x] FilterCategory collapsible component
-- [x] FilterCard with toggle and params
-- [x] FilterParams dynamic inputs
-- [x] FilterProfileSelector dropdown
-- [x] FilterStats display
-- [x] Filters API in api.js
-- [x] Integration in Bots.jsx (new Filters tab)
+- [x] `preset_optimizer.py` — Main optimizer class (900+ lines)
+- [x] Multi-pair parallel backtest runner with ProcessPoolExecutor
+- [x] PresetBacktestResult dataclass for single backtest
+- [x] PresetAggregateScore dataclass for preset scoring
+- [x] OptimizationResult dataclass for full results
+- [x] TRG backtest function with indicators and filters
+- [x] Dominant backtest function with all SL modes
+- [x] Aggregate score calculation (profitability, stability, universality)
+- [x] Result matrix generation (preset × pair)
+- [x] SSE streaming endpoint for progress
+- [x] API routes: run, stream, results, cancel, status, matrix, top, compare, export
+- [x] Quick optimization endpoint (< 100 combinations)
+- [x] Frontend API methods (optimizerApi with 12 methods)
+- [x] Comprehensive unit tests (30+ tests)
+- [x] Integration with main.py
+
+**Scoring System:**
+- Profitability Score (0-100): Based on avg_pnl
+- Stability Score (0-100): Based on max_dd and consistency
+- Universality Score (0-100): Based on positive_ratio
+- Overall Score: Weighted combination (40% prof, 30% stab, 30% univ)
+
+**API Endpoints Created:**
+```
+POST /api/optimizer/presets/run         - Start optimization
+POST /api/optimizer/presets/stream      - SSE progress stream
+POST /api/optimizer/presets/quick       - Quick optimization
+GET  /api/optimizer/presets/results/{id} - Get results
+POST /api/optimizer/presets/cancel/{id}  - Cancel
+GET  /api/optimizer/presets/active       - List active
+GET  /api/optimizer/presets/status/{id}  - Get status
+GET  /api/optimizer/presets/matrix/{id}  - Result matrix
+GET  /api/optimizer/presets/top/{id}     - Top presets
+GET  /api/optimizer/presets/comparison   - Compare presets
+GET  /api/optimizer/presets/export/{id}  - Export results
+```
 
 **Файлы созданы:**
-- `frontend/src/components/Filters/FilterSettings.jsx`
-- `frontend/src/components/Filters/FilterCategory.jsx`
-- `frontend/src/components/Filters/FilterCard.jsx`
-- `frontend/src/components/Filters/FilterParams.jsx`
-- `frontend/src/components/Filters/FilterProfileSelector.jsx`
-- `frontend/src/components/Filters/FilterStats.jsx`
-- `frontend/src/components/Filters/index.js`
-- `frontend/src/api.js` (updated with filtersApi)
-- `frontend/src/pages/Bots.jsx` (updated with Filters tab)
+- `backend/app/services/__init__.py`
+- `backend/app/services/preset_optimizer.py`
+- `backend/app/api/optimizer_routes.py`
+- `backend/app/tests/test_preset_optimizer.py`
+- `frontend/src/api.js` (updated with optimizerApi)
+- `backend/app/main.py` (updated with optimizer routes)
 
 ---
 
-## ⚡ ФАЗА 6: ОПТИМИЗАЦИЯ ПРЕСЕТОВ (5 чатов) — NEXT
-
-### Чат #45: Preset Optimizer Core
+### Чат #46: Preset Optimizer Modes
 **Статус:** ⏳ СЛЕДУЮЩИЙ
 
 **Задачи:**
-- [ ] Multi-pair backtest runner
-- [ ] Preset scoring system
-- [ ] Matrix generation (preset × pair)
-- [ ] SSE streaming progress
-- [ ] Aggregation of results
-- [ ] Unit тесты
+- [ ] Quick mode — top 20 presets × 5 pairs
+- [ ] Standard mode — all presets × 10 pairs
+- [ ] Smart mode — adaptive selection based on correlation
+- [ ] Full mode — all presets × all pairs
+- [ ] Mode selection UI
+- [ ] Estimated time calculation
+- [ ] Unit tests
+
+---
+
+### Чат #47: Preset Optimizer Results
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Results visualization component
+- [ ] Ranking table with sorting
+- [ ] Preset comparison view
+- [ ] Export to CSV/JSON
+- [ ] Save best preset as user preset
+
+---
+
+### Чат #48: Heatmap Matrix
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Heatmap component for result matrix
+- [ ] Color scale by metric (PnL/WinRate/DD)
+- [ ] Metric selector
+- [ ] Interactive tooltips
+- [ ] Zoom and pan
+
+---
+
+### Чат #49: Presets Optimizer UI
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Full optimization page
+- [ ] Preset selection (multi-select)
+- [ ] Pair selection (groups, all)
+- [ ] Progress visualization
+- [ ] Results tabs
 
 ---
 
@@ -161,15 +149,16 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
-| 28.12.2025 | #44 | ✅ Filters UI components, api.js updated, Bots.jsx integrated |
-| 28.12.2025 | #43 | ✅ FilterManager, FilterStats, API endpoints |
-| 28.12.2025 | #42 | ✅ Protection filters (equity, DD, streak, recovery) |
-| 28.12.2025 | #41 | ✅ Portfolio filters (correlation, direction, sector) |
-| 28.12.2025 | #40 | ✅ Trend filters (BTC, Multi-TF, Regime) |
-| 28.12.2025 | #39 | ✅ Volatility filters (ATR, Volume, Extreme) |
-| 28.12.2025 | #38 | ✅ Time filters (Session, Weekday, Cooldown) |
-| 28.12.2025 | #37 | ✅ Filter architecture (Base, Registry, Chain) |
-| 27.12.2025 | #15 | ✅ Bugfixes UI, UTF-8 fix |
+| 28.12.2025 | #45 | ✅ Preset Optimizer Core — multi-pair backtest, scoring, SSE streaming |
+| 28.12.2025 | #44 | ✅ Filters UI — FilterSettings, FilterCard, integration |
+| 28.12.2025 | #43 | ✅ Filters Integration — FilterManager, API, profiles |
+| 28.12.2025 | #42 | ✅ Filters Protection — Equity, DD, Streak, Recovery |
+| 28.12.2025 | #41 | ✅ Filters Portfolio — Correlation, Direction, Sector |
+| 28.12.2025 | #40 | ✅ Filters Trend — BTC, Multi-TF, Regime |
+| 28.12.2025 | #39 | ✅ Filters Volatility — ATR, Volume, Extreme |
+| 28.12.2025 | #38 | ✅ Filters Time — Session, Weekday, Cooldown |
+| 28.12.2025 | #37 | ✅ Filters Architecture — BaseFilter, Registry, Chain |
+| ... | ... | ... |
 
 ---
 
