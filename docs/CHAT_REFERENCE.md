@@ -1,145 +1,153 @@
-# 📚 KOMAS v4.0 — Chat Reference
+# KOMAS v4.0 — CHAT REFERENCE
 
 > **Последнее обновление:** 28.12.2025  
-> **Текущий чат:** #36 — Score UI ✅
-
----
-
-## 📊 Фаза 4: Signal Score ✅ ЗАВЕРШЕНА
-
-### Chat #34 — Signal Score Core ✅
-**Дата:** 27.12.2025  
-**Описание:** Создание системы оценки качества сигналов
-
-**Новые файлы:**
-- `backend/app/services/signal_score.py` — SignalScorer класс
-- `backend/app/api/signal_routes.py` — API endpoints
-- `tests/test_signal_score.py` — Unit тесты
-
-**Ключевые фичи:**
-- 4 компонента скоринга (по 25 pts каждый)
-- Confluence: согласованность индикаторов
-- Multi-TF: подтверждение старших TF
-- Market Context: тренд + волатильность
-- Technical Levels: S/R уровни
-- Грейды A-F
-- Batch scoring
-
----
-
-### Chat #35 — Score Multi-TF ✅
-**Дата:** 28.12.2025  
-**Описание:** Улучшение Multi-TF компонента с авто-загрузкой данных
-
-**Новые файлы:**
-- `backend/app/services/multi_tf_loader.py` — MultiTFLoader
-- `backend/app/services/__init__.py` — Module exports
-- `tests/test_multi_tf_loader.py` — Unit тесты
-- `run_tests.py` — Test runner
-- `run_tests.bat` — Windows batch
-
-**Обновлённые файлы:**
-- `backend/app/services/signal_score.py` — MultiTFLoader integration
-- `backend/app/api/signal_routes.py` — auto_load_higher_tfs
-
-**Ключевые фичи:**
-- 4 метода детекции тренда (EMA, SuperTrend, ADX, Combined)
-- Авто-агрегация данных (1h → 4h → 1d)
-- Binance Futures API fallback
-- TF-specific weights (4h: 10pts, 1d: 15pts)
-- Новые endpoints: /multi-tf/hierarchy, /multi-tf/analyze
-- 30+ unit тестов
-
----
-
-### Chat #36 — Score UI ✅
-**Дата:** 28.12.2025  
-**Описание:** UI компоненты для отображения Signal Score
-
-**Новые файлы:**
-- `frontend/src/components/Indicator/ScoreBadge.jsx` — Badge компонент A-F
-- `backend/app/utils/__init__.py` — Utils module
-- `backend/app/utils/score_integration.py` — Backend integration
-- `tests/test_score_ui.py` — Unit тесты
-
-**Обновлённые файлы:**
-- `frontend/src/components/Indicator/TradesTable.jsx` — Score column + grade filter
-- `frontend/src/components/Indicator/StatsPanel.jsx` — Grade statistics section
-- `frontend/src/components/Indicator/index.js` — ScoreBadge exports
-
-**Ключевые фичи:**
-- ScoreBadge — цветной badge с грейдами A-F
-- ScoreBreakdown — tooltip с breakdown по 4 компонентам
-- GradeLegend — компонент легенды грейдов
-- TradesTable:
-  - Новая колонка Score с badge
-  - Фильтр по грейду (All/A/B/C/D/F)
-  - Сортировка по Score
-  - Hover tooltip с breakdown
-- StatsPanel:
-  - Секция Grade Statistics
-  - Grade distribution bar
-  - Win rate по грейдам
-  - Avg PnL по грейдам
-  - Total PnL по грейдам
-- Backend integration utility для scoring trades
-- 30+ unit тестов
-
-**UI Design:**
-```
-Цвета грейдов:
-- A: #22c55e (зелёный) — Excellent
-- B: #84cc16 (лайм) — Good
-- C: #eab308 (жёлтый) — Average
-- D: #f97316 (оранжевый) — Below Avg
-- F: #ef4444 (красный) — Poor
-
-Score breakdown:
-┌─────────────────────────┐
-│ Score: 78 (B)           │
-├─────────────────────────┤
-│ Confluence:      22/25  │
-│ Multi-TF:        18/25  │
-│ Market Context:  20/25  │
-│ Tech Levels:     18/25  │
-└─────────────────────────┘
-```
-
-**Git Commit:**
-```
-feat: Add Signal Score UI components
-
-- Add ScoreBadge component with A-F grades
-- Add Score column to TradesTable
-- Add score breakdown tooltip
-- Add grade filter for trades (All/A/B/C/D/F)
-- Add grade statistics to StatsPanel
-- Add grade distribution bar
-- Add backend score integration utility
-- Add 30+ unit tests
-
-Chat #36: Score UI
-```
+> **Текущий чат:** #37 — Filters Architecture ✅  
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
 ## 🔍 Фаза 5: Общие фильтры
 
-### Chat #37 — Filters Architecture ⏳
-**Статус:** Следующий
+### Chat #37 — Filters Architecture ✅
+**Статус:** Завершён  
+**Дата:** 28.12.2025
 
-**Задачи:**
-- BaseFilter класс
-- FilterRegistry — реестр фильтров
-- FilterChain — цепочка фильтров
-- Interface: can_trade(signal) -> bool
-- Unit тесты
+**Выполнено:**
+- ✅ `filters/base.py` — BaseFilter абстрактный класс
+- ✅ `filters/registry.py` — FilterRegistry (Singleton pattern)
+- ✅ `filters/chain.py` — FilterChain с short-circuit
+- ✅ `filters/__init__.py` — экспорты модуля
+- ✅ 35+ unit тестов
 
-**Планируемые файлы:**
+**Ключевые компоненты:**
+
+```python
+# Enums
+FilterCategory: TIME, VOLATILITY, TREND, PORTFOLIO, PROTECTION
+FilterPriority: CRITICAL, HIGH, NORMAL, LOW
+
+# Data Classes
+FilterResult(allowed, reason, filter_name, category, details)
+FilterConfig(name, enabled, params, priority)
+SignalContext(signal, symbol, timeframe, current_price, ...)
+
+# Main Classes
+BaseFilter — abstract base class
+├── name, display_name, description
+├── category, priority, enabled
+├── can_trade(context) -> FilterResult
+└── get_config_schema() -> dict
+
+FilterRegistry — Singleton for filter management
+├── register(cls), unregister(name)
+├── get(name) -> FilterClass
+├── create(name, config) -> Filter
+└── list_all(), list_by_category()
+
+FilterChain — Apply filters sequentially
+├── add(filter), remove(name)
+├── apply(context) -> ChainResult
+├── check(context) -> (bool, reason)
+└── enable/disable filters
+
+FilterChainBuilder — Fluent API
+├── add(name, **params)
+├── with_short_circuit(bool)
+└── build() -> FilterChain
+```
+
+**Пример использования:**
+
+```python
+from app.filters import (
+    FilterChain, get_registry, SignalContext,
+    register_filter, BaseFilter, FilterCategory
+)
+
+# Register custom filter
+@register_filter
+class MaxPositionsFilter(BaseFilter):
+    name = "max_positions"
+    category = FilterCategory.PORTFOLIO
+    
+    def can_trade(self, context):
+        if context.position_count >= self.config.get("max_positions", 3):
+            return FilterResult.block("Max positions reached")
+        return FilterResult.allow()
+    
+    def get_config_schema(self):
+        return {"type": "object", "properties": {...}}
+
+# Create chain
+chain = FilterChain()
+chain.add_by_name("max_positions", {"max_positions": 3})
+
+# Apply to signal
+context = SignalContext(signal=signal, symbol="BTCUSDT", ...)
+result = chain.apply(context)
+
+if result.allowed:
+    print("Execute trade")
+else:
+    print(f"Blocked: {result.primary_rejection.reason}")
+```
+
+**Файлы созданы:**
+- `backend/app/filters/__init__.py`
 - `backend/app/filters/base.py`
 - `backend/app/filters/registry.py`
 - `backend/app/filters/chain.py`
-- `backend/app/filters/__init__.py`
+- `tests/test_filters_architecture.py`
+- `run_filter_tests.bat`
+
+**Git Commit:**
+```
+feat: Add filters module architecture
+
+- Add BaseFilter abstract class with can_trade interface
+- Add FilterRegistry for filter management (Singleton)
+- Add FilterChain for applying multiple filters
+- Add FilterResult and ChainResult dataclasses
+- Add SignalContext for complete signal context
+- Add FilterCategory and FilterPriority enums
+- Add JSON schema support for filter configs
+- Add AlwaysAllowFilter and AlwaysBlockFilter for testing
+- Add FilterChainBuilder for fluent API
+- Add 35+ unit tests
+
+Chat #37: Filters Architecture
+```
+
+---
+
+### Chat #38 — Filters Time ⏳
+**Статус:** Следующий
+
+**Задачи:**
+- [ ] SessionFilter — торговые сессии (Asia/Europe/US)
+- [ ] WeekdayFilter — дни недели
+- [ ] CooldownFilter — пауза после сделки
+- [ ] Timezone support
+- [ ] Unit тесты
+
+**Планируемые файлы:**
+- `backend/app/filters/time_filters.py`
+- `tests/test_time_filters.py`
+
+---
+
+## 📋 Полный список чатов Фазы 5
+
+| # | Название | Статус | Описание |
+|---|----------|--------|----------|
+| 37 | Filters Architecture | ✅ | BaseFilter, Registry, Chain |
+| 38 | Filters Time | ⏳ | Session, Weekday, Cooldown |
+| 39 | Filters Volatility | ⬜ | ATR, Volume, Extreme |
+| 40 | Filters Trend | ⬜ | BTC Trend, Multi-TF, Regime |
+| 41 | Filters Portfolio | ⬜ | Correlation, Direction, Sector |
+| 42 | Filters Protection | ⬜ | Equity Curve, DD, Streak |
+| 43 | Filters Integration | ⬜ | FilterManager, API, DB |
+| 44 | Filters UI | ⬜ | Frontend components |
 
 ---
 
@@ -147,17 +155,20 @@ Chat #36: Score UI
 
 | Предыдущий | Текущий | Следующий |
 |------------|---------|-----------|
-| #35 Score Multi-TF | **#36 Score UI** | #37 Filters Architecture |
+| #36 Score UI | **#37 Filters Architecture** | #38 Filters Time |
 
 ---
 
-## 📋 Полный список чатов Фазы 4
+## 📊 Фаза 4: Signal Score ✅ ЗАВЕРШЕНА
 
-| # | Название | Статус | Описание |
-|---|----------|--------|----------|
-| 34 | Signal Score Core | ✅ | SignalScorer, 4 компонента, A-F grades |
-| 35 | Score Multi-TF | ✅ | MultiTFLoader, auto-aggregation, 4 methods |
-| 36 | Score UI | ✅ | ScoreBadge, TradesTable, StatsPanel |
+### Chat #34 — Signal Score Core ✅
+**Дата:** 27.12.2025
+
+### Chat #35 — Score Multi-TF ✅
+**Дата:** 28.12.2025
+
+### Chat #36 — Score UI ✅
+**Дата:** 28.12.2025
 
 ---
 

@@ -1,12 +1,8 @@
-#!/usr/bin/env python
 """
-Test Runner for KOMAS Chat #36: Score UI
-========================================
+Test runner for KOMAS Filter Architecture
+=========================================
 
-Runs all tests for the Signal Score UI integration.
-
-Usage:
-    python run_tests.py
+Run this script to execute all filter tests.
 """
 
 import sys
@@ -14,41 +10,21 @@ import os
 from pathlib import Path
 
 # Add backend to path
-backend_path = Path(__file__).parent / "backend"
+backend_path = Path(__file__).parent / "backend" / "app"
 sys.path.insert(0, str(backend_path))
-sys.path.insert(0, str(backend_path / "app"))
 
-def run_tests():
-    """Run all Score UI tests"""
+# Run pytest
+if __name__ == "__main__":
     import pytest
     
-    test_path = Path(__file__).parent / "tests" / "test_score_ui.py"
+    test_dir = Path(__file__).parent / "tests"
     
-    print("=" * 60)
-    print("KOMAS Chat #36: Signal Score UI Tests")
-    print("=" * 60)
-    print()
-    
-    # Run pytest
+    # Run with verbose output
     exit_code = pytest.main([
-        str(test_path),
+        str(test_dir),
         "-v",
         "--tb=short",
         "-x",  # Stop on first failure
     ])
     
-    print()
-    if exit_code == 0:
-        print("=" * 60)
-        print("All tests PASSED!")
-        print("=" * 60)
-    else:
-        print("=" * 60)
-        print("Some tests FAILED!")
-        print("=" * 60)
-    
-    return exit_code
-
-
-if __name__ == "__main__":
-    sys.exit(run_tests())
+    sys.exit(exit_code)
