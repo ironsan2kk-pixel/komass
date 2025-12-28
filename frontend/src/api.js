@@ -4,6 +4,7 @@
  * API client for Komas Trading Server.
  * 
  * Chat #27: Added Dominant preset API methods
+ * Chat #44: Added Filters API methods
  */
 
 import axios from 'axios';
@@ -165,6 +166,54 @@ export const settingsApi = {
 export const calendarApi = {
   getEvents: (params) => api.get('/api/calendar/events', { params }),
   refresh: () => api.post('/api/calendar/refresh'),
+};
+
+// ============ FILTERS API (NEW - Chat #44) ============
+export const filtersApi = {
+  // Available filters from registry
+  getAvailable: () => api.get('/api/filters/available'),
+  
+  // Filter categories
+  getCategories: () => api.get('/api/filters/categories'),
+  
+  // Filter profiles
+  getProfiles: () => api.get('/api/filters/profiles'),
+  
+  // Bot filter configuration
+  getBotConfig: (botId) => api.get(`/api/filters/bot/${botId}`),
+  saveBotConfig: (botId, config) => api.post(`/api/filters/bot/${botId}`, config),
+  
+  // Single filter update
+  updateFilter: (botId, filterName, config) => 
+    api.put(`/api/filters/bot/${botId}/${filterName}`, config),
+  deleteFilter: (botId, filterName) => 
+    api.delete(`/api/filters/bot/${botId}/${filterName}`),
+  
+  // Enable/disable shortcuts
+  enableFilter: (botId, filterName) => 
+    api.post(`/api/filters/bot/${botId}/enable/${filterName}`),
+  disableFilter: (botId, filterName) => 
+    api.post(`/api/filters/bot/${botId}/disable/${filterName}`),
+  
+  // Apply profile
+  applyProfile: (botId, profileName) => 
+    api.post(`/api/filters/bot/${botId}/profile/${profileName}`),
+  
+  // Validation
+  validate: (filterName, config) => 
+    api.post('/api/filters/validate', { filter_name: filterName, config }),
+  
+  // Statistics
+  getStats: (botId) => api.get(`/api/filters/bot/${botId}/stats`),
+  getLog: (botId, params = {}) => api.get(`/api/filters/bot/${botId}/log`, { params }),
+  resetStats: (botId) => api.post(`/api/filters/bot/${botId}/reset`),
+  
+  // Filter list for bot
+  listBotFilters: (botId) => api.get(`/api/filters/bot/${botId}/list`),
+  
+  // Test filter
+  test: (filterName, config, signal, context) => 
+    api.post('/api/filters/test', { filter_name: filterName, config, signal, context }),
 };
 
 // ============ BOTS API ============

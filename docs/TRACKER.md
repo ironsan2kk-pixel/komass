@@ -1,227 +1,179 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
-> **Last updated:** 28.12.2025  
-> **Current chat:** #43  
+> **Создано:** 27.12.2025  
+> **Последнее обновление:** 28.12.2025  
+> **Текущая версия:** v3.5 → v4.0  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## 📊 OVERALL PROGRESS
+## 📊 ОБЩИЙ ПРОГРЕСС
 
-| Metric | Value |
-|--------|-------|
-| **Total chats** | 83 (#15 — #97) |
-| **Completed** | 29 (#15-#43) |
-| **In progress** | #44 |
-| **Remaining** | 54 |
-| **Progress** | 34.9% |
-
----
-
-## 🗂️ PHASE SUMMARY
-
-| # | Phase | Chats | Count | Status |
-|---|-------|-------|-------|--------|
-| 1 | Stabilization & Base | #15-19 | 5 | ✅ Complete |
-| 2 | Dominant Indicator | #20-27 | 8 | ✅ Complete |
-| 3 | Preset System | #28-33 | 6 | ✅ Complete |
-| 4 | Signal Score | #34-36 | 3 | ✅ Complete |
-| 5 | General Filters | #37-44 | 8 | ⏳ 7/8 done |
-| 6 | Preset Optimization | #45-49 | 5 | ⬜ Waiting |
-| 7 | Bot Config | #50-53 | 4 | ⬜ Waiting |
-| 8 | Bot Backtest | #54-59 | 6 | ⬜ Waiting |
-| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Waiting |
-| 10 | Live Engine | #65-70 | 6 | ⬜ Waiting |
-| 11 | Telegram | #71-76 | 6 | ⬜ Waiting |
-| 12 | Design | #77-80 | 4 | ⬜ Waiting |
-| 13 | QA & Testing | #81-88 | 8 | ⬜ Waiting |
-| 14 | GitHub & Deploy | #89-94 | 6 | ⬜ Waiting |
-| 15 | Finalization | #95-97 | 3 | ⬜ Waiting |
+| Метрика | Значение |
+|---------|----------|
+| **Всего чатов** | 83 (#15 — #97) |
+| **Завершено** | 30 (#15-44) |
+| **В процессе** | #45 |
+| **Осталось** | 53 |
+| **Прогресс** | 36.1% |
 
 ---
 
-## 🔍 PHASE 5: GENERAL FILTERS (8 chats)
+## 🗂️ СВОДКА ПО ФАЗАМ
 
-### Chat #37: Filters Architecture
-**Status:** ✅ Complete  
-**Date:** 27.12.2025
-
-**Completed:**
-- [x] `filters/base.py` — BaseFilter, Signal, SignalContext, FilterDecision
-- [x] `filters/registry.py` — FilterRegistry with decorator
-- [x] `filters/chain.py` — FilterChain for sequential execution
-- [x] Enums: FilterCategory, FilterPriority, FilterResult
-- [x] Helper functions: create_pass/block/skip_decision
-
----
-
-### Chat #38: Filters Time
-**Status:** ✅ Complete  
-**Date:** 27.12.2025
-
-**Completed:**
-- [x] SessionFilter — trading session control (Asia/Europe/US)
-- [x] WeekdayFilter — day-of-week filtering
-- [x] CooldownFilter — post-trade pause with win/loss variants
-- [x] Timezone support (UTC/local)
-- [x] Session overlap detection
-- [x] 48 unit tests
+| # | Фаза | Чаты | Кол-во | Статус |
+|---|------|------|--------|--------|
+| 1 | Стабилизация и база | #15-19 | 5 | ✅ Завершено |
+| 2 | Dominant Indicator | #20-27 | 8 | ✅ Завершено |
+| 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
+| 4 | Signal Score | #34-36 | 3 | ✅ Завершено |
+| 5 | Общие фильтры | #37-44 | 8 | ✅ Завершено |
+| 6 | Оптимизация пресетов | #45-49 | 5 | ⏳ В процессе |
+| 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
+| 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
+| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
+| 10 | Live Engine | #65-70 | 6 | ⬜ Ожидает |
+| 11 | Telegram | #71-76 | 6 | ⬜ Ожидает |
+| 12 | Дизайн | #77-80 | 4 | ⬜ Ожидает |
+| 13 | QA и тестирование | #81-88 | 8 | ⬜ Ожидает |
+| 14 | GitHub и деплой | #89-94 | 6 | ⬜ Ожидает |
+| 15 | Финализация | #95-97 | 3 | ⬜ Ожидает |
 
 ---
 
-### Chat #39: Filters Volatility
-**Status:** ✅ Complete  
-**Date:** 28.12.2025
+## 🔧 ФАЗА 5: ОБЩИЕ ФИЛЬТРЫ (8 чатов) — ✅ ЗАВЕРШЕНО
 
-**Completed:**
-- [x] ATRFilter — ATR range filtering (min/max, % or absolute)
-- [x] VolumeFilter — volume threshold filtering (ratio vs MA)
-- [x] ExtremeFilter — volatility spike protection with pause period
-- [x] Volatility calculation helpers
-- [x] Volatility profiles (conservative/balanced/aggressive)
-- [x] 40+ unit tests
+### Чат #37: Filters Architecture
+**Статус:** ✅ Завершён
 
----
+**Выполнено:**
+- [x] BaseFilter абстрактный класс
+- [x] FilterRegistry для регистрации фильтров
+- [x] FilterChain для применения цепочки
+- [x] Signal и SignalContext dataclasses
+- [x] FilterDecision с детальной информацией
 
-### Chat #40: Filters Trend
-**Status:** ✅ Complete  
-**Date:** 28.12.2025
+### Чат #38: Filters Time
+**Статус:** ✅ Завершён
 
-**Completed:**
-- [x] BTCTrendFilter — trade with BTC trend
-- [x] MultiTFFilter — multi-timeframe confirmation
-- [x] RegimeFilter — market regime detection (trending/ranging)
-- [x] Trend calculation helpers
-- [x] 35+ unit tests
+**Выполнено:**
+- [x] SessionFilter (Asia/Europe/US sessions)
+- [x] WeekdayFilter (trading days)
+- [x] CooldownFilter (pause after trades)
+- [x] Timezone support (UTC)
+- [x] Unit тесты
 
----
+### Чат #39: Filters Volatility
+**Статус:** ✅ Завершён
 
-### Chat #41: Filters Portfolio
-**Status:** ✅ Complete  
-**Date:** 28.12.2025
+**Выполнено:**
+- [x] ATRFilter (min/max ATR bounds)
+- [x] VolumeFilter (minimum volume)
+- [x] ExtremeFilter (pause at extremes)
+- [x] Unit тесты
 
-**Completed:**
-- [x] CorrelationFilter — limit correlated positions
-- [x] DirectionFilter — long/short position limits
-- [x] SectorFilter — sector diversification
-- [x] Sector classification data (layer1, defi, meme, ai, gaming, etc.)
-- [x] Correlation groups (BTC, ETH ecosystem, meme coins, etc.)
-- [x] Portfolio summary helpers
-- [x] Portfolio profiles (conservative/balanced/aggressive)
-- [x] Config validation
-- [x] 45+ unit tests
+### Чат #40: Filters Trend
+**Статус:** ✅ Завершён
 
----
+**Выполнено:**
+- [x] BTCTrendFilter (follow BTC direction)
+- [x] MultiTFFilter (multi-timeframe confirmation)
+- [x] RegimeFilter (trending/ranging detection)
+- [x] Unit тесты
 
-### Chat #42: Filters Protection
-**Status:** ✅ Complete  
-**Date:** 28.12.2025
+### Чат #41: Filters Portfolio
+**Статус:** ✅ Завершён
 
-**Completed:**
-- [x] EquityCurveFilter — trade when equity above/below MA
-- [x] MaxDDFilter — stop trading on max drawdown
-- [x] StreakFilter — pause after N consecutive losses
-- [x] RecoveryFilter — reduce position size after drawdown
-- [x] Equity and drawdown helpers
-- [x] 35+ unit tests
+**Выполнено:**
+- [x] CorrelationFilter (limit correlated positions)
+- [x] DirectionFilter (long/short limits)
+- [x] SectorFilter (sector diversification)
+- [x] Sector classification (11 sectors, 60+ symbols)
+- [x] Correlation groups (9 predefined)
+- [x] Unit тесты
 
----
+### Чат #42: Filters Protection
+**Статус:** ✅ Завершён
 
-### Chat #43: Filters Integration
-**Status:** ✅ Complete  
-**Date:** 28.12.2025
+**Выполнено:**
+- [x] EquityCurveFilter (trade above/below MA)
+- [x] DrawdownFilter (pause at DD threshold)
+- [x] StreakFilter (stop after N losses)
+- [x] RecoveryFilter (gradual size increase)
+- [x] Unit тесты
 
-**Completed:**
-- [x] FilterManager class for unified filter management
-- [x] FilterStats for tracking filter performance
-- [x] DecisionLog for filter decision logging
-- [x] Database schema for bot_filter_configs table
-- [x] API endpoints for filter config CRUD
+### Чат #43: Filters Integration
+**Статус:** ✅ Завершён
+
+**Выполнено:**
+- [x] FilterManager class
+- [x] FilterStats for tracking
+- [x] DecisionLog for logging
+- [x] Database schema for bot_filter_configs
+- [x] Filter config API endpoints (15 endpoints)
 - [x] Filter profiles (minimal/conservative/balanced/aggressive)
-- [x] Filter validation helper
 - [x] Configuration import/export
-- [x] 60+ unit tests
+- [x] Unit тесты (50+)
 
-**New Files:**
-- `backend/app/filters/manager.py`
-- `backend/app/api/filter_routes.py`
-- `tests/test_filter_integration.py`
-- `run_filter_integration_tests.py`
-- `run_filter_integration_tests.bat`
+### Чат #44: Filters UI
+**Статус:** ✅ Завершён  
+**Дата завершения:** 28.12.2025
 
-**Updated Files:**
-- `backend/app/filters/__init__.py` — added manager exports
-- `backend/app/filters/registry.py` — updated discover_filters
+**Выполнено:**
+- [x] FilterSettings main component
+- [x] FilterCategory collapsible component
+- [x] FilterCard with toggle and params
+- [x] FilterParams dynamic inputs
+- [x] FilterProfileSelector dropdown
+- [x] FilterStats display
+- [x] Filters API in api.js
+- [x] Integration in Bots.jsx (new Filters tab)
 
----
-
-### Chat #44: Filters UI
-**Status:** ⏳ Next
-
-**Tasks:**
-- [ ] Filter settings section in bot configuration
-- [ ] Category grouping (Time/Volatility/Trend/Portfolio/Protection)
-- [ ] Filter toggle switches with parameters
-- [ ] Preview filter effect
-- [ ] Filter profiles selector (Conservative/Balanced/Aggressive)
-- [ ] Filter statistics display
-
----
-
-## 📊 FILTER SYSTEM SUMMARY
-
-### Available Filters (12 total)
-
-| Category | Filters | Count |
-|----------|---------|-------|
-| **Time** | SessionFilter, WeekdayFilter, CooldownFilter | 3 |
-| **Volatility** | ATRFilter, VolumeFilter, ExtremeFilter | 3 |
-| **Trend** | BTCTrendFilter, MultiTFFilter, RegimeFilter | 3 |
-| **Portfolio** | CorrelationFilter, DirectionFilter, SectorFilter | 3 |
-| **Protection** | EquityCurveFilter, MaxDDFilter, StreakFilter, RecoveryFilter | 4 |
-
-### Filter Profiles
-
-| Profile | Description | Filters |
-|---------|-------------|---------|
-| **Minimal** | Basic time restrictions only | 1-2 filters |
-| **Conservative** | Strict risk control | 8-10 filters |
-| **Balanced** | Moderate restrictions | 8-10 filters |
-| **Aggressive** | Fewer restrictions | 4-6 filters |
-
-### Database Schema
-
-```sql
-CREATE TABLE bot_filter_configs (
-    id INTEGER PRIMARY KEY,
-    bot_id TEXT NOT NULL,
-    filter_name TEXT NOT NULL,
-    enabled BOOLEAN DEFAULT TRUE,
-    config JSON NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(bot_id, filter_name)
-);
-```
-
-### API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/filters/available` | GET | List all available filters |
-| `/api/filters/categories` | GET | List filter categories |
-| `/api/filters/profiles` | GET | List filter profiles |
-| `/api/filters/bot/{bot_id}` | GET | Get filter config for bot |
-| `/api/filters/bot/{bot_id}` | POST | Save filter config for bot |
-| `/api/filters/bot/{bot_id}/{filter}` | PUT | Update single filter |
-| `/api/filters/bot/{bot_id}/{filter}` | DELETE | Delete filter config |
-| `/api/filters/validate` | POST | Validate filter configuration |
-| `/api/filters/bot/{bot_id}/stats` | GET | Get filter statistics |
-| `/api/filters/bot/{bot_id}/log` | GET | Get filter decision log |
+**Файлы созданы:**
+- `frontend/src/components/Filters/FilterSettings.jsx`
+- `frontend/src/components/Filters/FilterCategory.jsx`
+- `frontend/src/components/Filters/FilterCard.jsx`
+- `frontend/src/components/Filters/FilterParams.jsx`
+- `frontend/src/components/Filters/FilterProfileSelector.jsx`
+- `frontend/src/components/Filters/FilterStats.jsx`
+- `frontend/src/components/Filters/index.js`
+- `frontend/src/api.js` (updated with filtersApi)
+- `frontend/src/pages/Bots.jsx` (updated with Filters tab)
 
 ---
 
-## 🔗 LINKS
+## ⚡ ФАЗА 6: ОПТИМИЗАЦИЯ ПРЕСЕТОВ (5 чатов) — NEXT
+
+### Чат #45: Preset Optimizer Core
+**Статус:** ⏳ СЛЕДУЮЩИЙ
+
+**Задачи:**
+- [ ] Multi-pair backtest runner
+- [ ] Preset scoring system
+- [ ] Matrix generation (preset × pair)
+- [ ] SSE streaming progress
+- [ ] Aggregation of results
+- [ ] Unit тесты
+
+---
+
+## 📝 ИСТОРИЯ ИЗМЕНЕНИЙ
+
+| Дата | Чат | Изменение |
+|------|-----|-----------|
+| 28.12.2025 | #44 | ✅ Filters UI components, api.js updated, Bots.jsx integrated |
+| 28.12.2025 | #43 | ✅ FilterManager, FilterStats, API endpoints |
+| 28.12.2025 | #42 | ✅ Protection filters (equity, DD, streak, recovery) |
+| 28.12.2025 | #41 | ✅ Portfolio filters (correlation, direction, sector) |
+| 28.12.2025 | #40 | ✅ Trend filters (BTC, Multi-TF, Regime) |
+| 28.12.2025 | #39 | ✅ Volatility filters (ATR, Volume, Extreme) |
+| 28.12.2025 | #38 | ✅ Time filters (Session, Weekday, Cooldown) |
+| 28.12.2025 | #37 | ✅ Filter architecture (Base, Registry, Chain) |
+| 27.12.2025 | #15 | ✅ Bugfixes UI, UTF-8 fix |
+
+---
+
+## 🔗 ССЫЛКИ
 
 - **GitHub:** https://github.com/ironsan2kk-pixel/komass
 - **Local API:** http://localhost:8000/docs
@@ -229,4 +181,4 @@ CREATE TABLE bot_filter_configs (
 
 ---
 
-*Updated: 28.12.2025*
+*Обновлено: 28.12.2025*

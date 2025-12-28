@@ -1,117 +1,139 @@
-# 📚 KOMAS v4.0 — CHAT REFERENCE
+# KOMAS v4.0 — Chat Reference
 
-> **Last updated:** 28.12.2025  
-> **Current version:** v4.0  
-> **GitHub:** https://github.com/ironsan2kk-pixel/komass
-
----
-
-## Phase 5: General Filters
-
-### Chat #37: Filters Architecture ✅
-**Date:** 27.12.2025  
-**Focus:** Base classes for modular filter system
-
-**Created:**
-- `filters/base.py` — BaseFilter, Signal, SignalContext, FilterDecision
-- `filters/registry.py` — FilterRegistry with decorator
-- `filters/chain.py` — FilterChain for sequential execution
+> **Last Updated:** 28.12.2025  
+> **Total Chats:** 44 completed
 
 ---
 
-### Chat #38: Filters Time ✅
-**Date:** 27.12.2025  
-**Focus:** Time-based filters
+## Phase 5: General Filters (Chats #37-44)
 
-**Created:**
-- `filters/time_filters.py` — SessionFilter, WeekdayFilter, CooldownFilter
-- 48 unit tests
-
----
-
-### Chat #39: Filters Volatility ✅
+### Chat #44: Filters UI ✅
 **Date:** 28.12.2025  
-**Focus:** Volatility-based filters
+**Goal:** Create React UI components for filter configuration
 
-**Created:**
-- `filters/volatility_filters.py` — ATRFilter, VolumeFilter, ExtremeFilter
-- 40+ unit tests
+**Completed:**
+- FilterSettings — Main component with categories
+- FilterCategory — Collapsible category groups
+- FilterCard — Individual filter toggle + params
+- FilterParams — Dynamic parameter inputs
+- FilterProfileSelector — Quick profile dropdown
+- FilterStats — Statistics display
+- Updated api.js with filtersApi
+- Integrated FilterSettings in Bots.jsx
 
----
+**Files Created:**
+```
+frontend/src/components/Filters/
+├── index.js
+├── FilterSettings.jsx
+├── FilterCategory.jsx
+├── FilterCard.jsx
+├── FilterParams.jsx
+├── FilterProfileSelector.jsx
+└── FilterStats.jsx
 
-### Chat #40: Filters Trend ✅
-**Date:** 28.12.2025  
-**Focus:** Trend-based filters
+frontend/src/api.js (updated)
+frontend/src/pages/Bots.jsx (updated)
+```
 
-**Created:**
-- `filters/trend_filters.py` — BTCTrendFilter, MultiTFFilter, RegimeFilter
-- 35+ unit tests
-
----
-
-### Chat #41: Filters Portfolio ✅
-**Date:** 28.12.2025  
-**Focus:** Portfolio-based filters
-
-**Created:**
-- `filters/portfolio_filters.py` — CorrelationFilter, DirectionFilter, SectorFilter
-- Sector classification (11 sectors, 60+ symbols)
-- Correlation groups (9 predefined groups)
-- 45+ unit tests
-
----
-
-### Chat #42: Filters Protection ✅
-**Date:** 28.12.2025  
-**Focus:** Protection-based filters
-
-**Created:**
-- `filters/protection_filters.py` — EquityCurveFilter, MaxDDFilter, StreakFilter, RecoveryFilter
-- 35+ unit tests
+**API Methods Added:**
+- `filtersApi.getAvailable()` - List all filters
+- `filtersApi.getCategories()` - Get filter categories
+- `filtersApi.getProfiles()` - Get filter profiles
+- `filtersApi.getBotConfig(botId)` - Get bot's filter config
+- `filtersApi.saveBotConfig(botId, config)` - Save config
+- `filtersApi.enableFilter(botId, filterName)` - Enable filter
+- `filtersApi.disableFilter(botId, filterName)` - Disable filter
+- `filtersApi.applyProfile(botId, profileName)` - Apply profile
+- `filtersApi.getStats(botId)` - Get filter statistics
+- `filtersApi.resetStats(botId)` - Reset statistics
 
 ---
 
 ### Chat #43: Filters Integration ✅
-**Date:** 28.12.2025  
-**Focus:** FilterManager for unified filter management
+**Date:** 28.12.2025
 
-**Created:**
-- `filters/manager.py` — FilterManager, FilterStats, DecisionLog
-- `api/filter_routes.py` — Filter config API endpoints
-- Database schema for bot_filter_configs
-- Filter profiles (minimal/conservative/balanced/aggressive)
-- 60+ unit tests
-
-**Key Features:**
-- Load/save filter configs to database
-- Apply filter chain to signals
-- Track filter statistics
-- Log filter decisions for debugging
-- Filter validation
+**Completed:**
+- FilterManager class
+- FilterStats tracking
+- DecisionLog system
+- Database schema
+- 15 API endpoints
+- Filter profiles
 
 ---
 
-### Chat #44: Filters UI ⏳
-**Date:** TBD  
-**Focus:** UI for filter configuration
+### Chat #42: Filters Protection ✅
+**Date:** 28.12.2025
 
-**Planned:**
-- Filter settings section in bot config
-- Category grouping
-- Toggle switches with parameters
-- Profile selector
-- Statistics display
+**Completed:**
+- EquityCurveFilter
+- DrawdownFilter
+- StreakFilter
+- RecoveryFilter
 
 ---
 
-## Previous Phases
+### Chat #41: Filters Portfolio ✅
+**Date:** 28.12.2025
 
-### Phase 1-4: Completed
-- Stabilization & Base (#15-19)
-- Dominant Indicator (#20-27)
-- Preset System (#28-33)
-- Signal Score (#34-36)
+**Completed:**
+- CorrelationFilter
+- DirectionFilter
+- SectorFilter
+- Sector classification
 
 ---
 
-*See TRACKER.md for detailed task lists*
+### Chat #40: Filters Trend ✅
+**Date:** 28.12.2025
+
+**Completed:**
+- BTCTrendFilter
+- MultiTFFilter
+- RegimeFilter
+
+---
+
+### Chat #39: Filters Volatility ✅
+**Date:** 28.12.2025
+
+**Completed:**
+- ATRFilter
+- VolumeFilter
+- ExtremeFilter
+
+---
+
+### Chat #38: Filters Time ✅
+**Date:** 28.12.2025
+
+**Completed:**
+- SessionFilter
+- WeekdayFilter
+- CooldownFilter
+
+---
+
+### Chat #37: Filters Architecture ✅
+**Date:** 28.12.2025
+
+**Completed:**
+- BaseFilter class
+- FilterRegistry
+- FilterChain
+- Signal/SignalContext
+
+---
+
+## Next Chat
+
+**Chat #45: Preset Optimizer Core**
+- Multi-pair backtest runner
+- Preset scoring system
+- Matrix generation
+- SSE streaming
+
+---
+
+*Updated: 28.12.2025*
