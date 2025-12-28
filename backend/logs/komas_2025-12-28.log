@@ -5230,3 +5230,187 @@ favorites_count
 2025-12-28 14:36:50 | INFO     | app.main             | log_requests         | [1436504715] ✗ GET /api/signals/sse/stream - 404 (1ms)
 2025-12-28 14:36:55 | DEBUG    | app.main             | log_requests         | [1436557812] GET /api/signals/sse/stream
 2025-12-28 14:36:55 | INFO     | app.main             | log_requests         | [1436557812] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:37:00 | DEBUG    | app.main             | log_requests         | [1437007877] GET /api/signals/sse/stream
+2025-12-28 14:37:00 | INFO     | app.main             | log_requests         | [1437007877] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:06 | DEBUG    | app.main             | log_requests         | [1437060968] GET /api/signals/sse/stream
+2025-12-28 14:37:06 | INFO     | app.main             | log_requests         | [1437060968] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:11 | DEBUG    | app.main             | log_requests         | [1437111047] GET /api/signals/sse/stream
+2025-12-28 14:37:11 | INFO     | app.main             | log_requests         | [1437111047] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:16 | DEBUG    | app.main             | log_requests         | [1437164131] GET /api/signals/sse/stream
+2025-12-28 14:37:16 | INFO     | app.main             | log_requests         | [1437164131] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:37:21 | DEBUG    | app.main             | log_requests         | [1437214223] GET /api/signals/sse/stream
+2025-12-28 14:37:21 | INFO     | app.main             | log_requests         | [1437214223] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:26 | DEBUG    | app.main             | log_requests         | [1437267309] GET /api/signals/sse/stream
+2025-12-28 14:37:26 | INFO     | app.main             | log_requests         | [1437267309] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:37:31 | DEBUG    | app.main             | log_requests         | [1437317411] GET /api/signals/sse/stream
+2025-12-28 14:37:31 | INFO     | app.main             | log_requests         | [1437317411] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:37 | DEBUG    | app.main             | log_requests         | [1437370512] GET /api/signals/sse/stream
+2025-12-28 14:37:37 | INFO     | app.main             | log_requests         | [1437370512] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:42 | DEBUG    | app.main             | log_requests         | [1437420605] GET /api/signals/sse/stream
+2025-12-28 14:37:42 | INFO     | app.main             | log_requests         | [1437420605] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:47 | DEBUG    | app.main             | log_requests         | [1437473728] GET /api/signals/sse/stream
+2025-12-28 14:37:47 | INFO     | app.main             | log_requests         | [1437473728] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:37:52 | DEBUG    | app.main             | log_requests         | [1437523800] GET /api/signals/sse/stream
+2025-12-28 14:37:52 | INFO     | app.main             | log_requests         | [1437523800] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-28 14:37:57 | DEBUG    | app.main             | log_requests         | [1437576887] GET /api/signals/sse/stream
+2025-12-28 14:37:57 | INFO     | app.main             | log_requests         | [1437576887] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:02 | DEBUG    | app.main             | log_requests         | [1438026963] GET /api/signals/sse/stream
+2025-12-28 14:38:02 | INFO     | app.main             | log_requests         | [1438026963] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:08 | DEBUG    | app.main             | log_requests         | [1438080055] GET /api/signals/sse/stream
+2025-12-28 14:38:08 | INFO     | app.main             | log_requests         | [1438080055] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:38:13 | DEBUG    | app.main             | log_requests         | [1438130141] GET /api/signals/sse/stream
+2025-12-28 14:38:13 | INFO     | app.main             | log_requests         | [1438130141] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:18 | DEBUG    | app.main             | log_requests         | [1438183236] GET /api/signals/sse/stream
+2025-12-28 14:38:18 | INFO     | app.main             | log_requests         | [1438183236] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:23 | DEBUG    | app.main             | log_requests         | [1438233327] GET /api/signals/sse/stream
+2025-12-28 14:38:23 | INFO     | app.main             | log_requests         | [1438233327] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:28 | DEBUG    | app.main             | log_requests         | [1438286410] GET /api/signals/sse/stream
+2025-12-28 14:38:28 | INFO     | app.main             | log_requests         | [1438286410] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:33 | DEBUG    | app.main             | log_requests         | [1438336502] GET /api/signals/sse/stream
+2025-12-28 14:38:33 | INFO     | app.main             | log_requests         | [1438336502] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:38:38 | DEBUG    | app.main             | log_requests         | [1438389591] GET /api/signals/sse/stream
+2025-12-28 14:38:38 | INFO     | app.main             | log_requests         | [1438389591] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:38:43 | DEBUG    | app.main             | log_requests         | [1438439672] GET /api/signals/sse/stream
+2025-12-28 14:38:43 | INFO     | app.main             | log_requests         | [1438439672] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:49 | DEBUG    | app.main             | log_requests         | [1438492747] GET /api/signals/sse/stream
+2025-12-28 14:38:49 | INFO     | app.main             | log_requests         | [1438492747] ✗ GET /api/signals/sse/stream - 404 (2ms)
+2025-12-28 14:38:54 | DEBUG    | app.main             | log_requests         | [1438542841] GET /api/signals/sse/stream
+2025-12-28 14:38:54 | INFO     | app.main             | log_requests         | [1438542841] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:38:59 | DEBUG    | app.main             | log_requests         | [1438595932] GET /api/signals/sse/stream
+2025-12-28 14:38:59 | INFO     | app.main             | log_requests         | [1438595932] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:04 | DEBUG    | app.main             | log_requests         | [1439045993] GET /api/signals/sse/stream
+2025-12-28 14:39:04 | INFO     | app.main             | log_requests         | [1439045993] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:09 | DEBUG    | app.main             | log_requests         | [1439099088] GET /api/signals/sse/stream
+2025-12-28 14:39:09 | INFO     | app.main             | log_requests         | [1439099088] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:14 | DEBUG    | app.main             | log_requests         | [1439149180] GET /api/signals/sse/stream
+2025-12-28 14:39:14 | INFO     | app.main             | log_requests         | [1439149180] ✗ GET /api/signals/sse/stream - 404 (0ms)
+2025-12-28 14:39:20 | DEBUG    | app.main             | log_requests         | [1439202269] GET /api/signals/sse/stream
+2025-12-28 14:39:20 | INFO     | app.main             | log_requests         | [1439202269] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:25 | DEBUG    | app.main             | log_requests         | [1439252350] GET /api/signals/sse/stream
+2025-12-28 14:39:25 | INFO     | app.main             | log_requests         | [1439252350] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:30 | DEBUG    | app.main             | log_requests         | [1439305426] GET /api/signals/sse/stream
+2025-12-28 14:39:30 | INFO     | app.main             | log_requests         | [1439305426] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:35 | DEBUG    | app.main             | log_requests         | [1439355509] GET /api/signals/sse/stream
+2025-12-28 14:39:35 | INFO     | app.main             | log_requests         | [1439355509] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:40 | DEBUG    | app.main             | log_requests         | [1439408619] GET /api/signals/sse/stream
+2025-12-28 14:39:40 | INFO     | app.main             | log_requests         | [1439408619] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:45 | DEBUG    | app.main             | log_requests         | [1439458704] GET /api/signals/sse/stream
+2025-12-28 14:39:45 | INFO     | app.main             | log_requests         | [1439458704] ✗ GET /api/signals/sse/stream - 404 (1ms)
+2025-12-28 14:39:46 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:46 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 14:39:46 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:47 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:39:47 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:39:48 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:39:48 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:48 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:39:48 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:39:48 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:39:48 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:49 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:39:49 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:39:49 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:49 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 14:39:49 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:49 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:50 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:39:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:39:50 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:39:50 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:39:59 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:40:00 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:40:00 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:40:00 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:40:00 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:40:00 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:40:00 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:42:44 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:42:44 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:42:44 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:42:44 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:42:44 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:42:44 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:42:44 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:45:49 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:45:49 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:45:50 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:45:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:45:50 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:45:50 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:45:50 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:45:50 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:46:06 | DEBUG    | app.main             | log_requests         | [1446062517] GET /api/indicator/cache-stats
+2025-12-28 14:46:06 | INFO     | app.main             | log_requests         | [1446062517] ✔ GET /api/indicator/cache-stats - 200 (1ms)
+2025-12-28 14:46:06 | DEBUG    | app.main             | log_requests         | [1446062586] GET /api/indicator/cache-stats
+2025-12-28 14:46:06 | INFO     | app.main             | log_requests         | [1446062586] ✔ GET /api/indicator/cache-stats - 200 (0ms)
+2025-12-28 14:46:11 | DEBUG    | app.main             | log_requests         | [1446115680] GET /api/presets/stats
+2025-12-28 14:46:11 | DEBUG    | app.main             | log_requests         | [1446115686] GET /api/presets/list
+2025-12-28 14:46:11 | INFO     | app.main             | log_requests         | [1446115680] ✔ GET /api/presets/stats - 200 (32ms)
+2025-12-28 14:46:11 | INFO     | app.main             | log_requests         | [1446115686] ✔ GET /api/presets/list - 200 (32ms)
+2025-12-28 14:46:11 | DEBUG    | app.main             | log_requests         | [1446116038] GET /api/presets/stats
+2025-12-28 14:46:11 | DEBUG    | app.main             | log_requests         | [1446116069] GET /api/presets/list
+2025-12-28 14:46:11 | INFO     | app.main             | log_requests         | [1446116038] ✔ GET /api/presets/stats - 200 (7ms)
+2025-12-28 14:46:11 | INFO     | app.main             | log_requests         | [1446116069] ✔ GET /api/presets/list - 200 (5ms)
+2025-12-28 14:46:15 | DEBUG    | app.main             | log_requests         | [1446153575] GET /api/presets/list
+2025-12-28 14:46:15 | DEBUG    | app.main             | log_requests         | [1446153610] GET /api/presets/stats
+2025-12-28 14:46:15 | INFO     | app.main             | log_requests         | [1446153575] ✔ GET /api/presets/list - 200 (4ms)
+2025-12-28 14:46:15 | INFO     | app.main             | log_requests         | [1446153610] ✔ GET /api/presets/stats - 200 (2ms)
+2025-12-28 14:46:18 | DEBUG    | app.main             | log_requests         | [1446182090] POST /api/presets/trg/seed
+2025-12-28 14:46:18 | INFO     | app.presets.generator | run                  | [TRG System Generator] Starting generation of 200 presets
+2025-12-28 14:46:19 | INFO     | app.presets.generator | run                  | [TRG System Generator] Generation complete: GenerationResult(total_generated=200, total_saved=200, total_skipped=0, total_errors=0, errors=[])
+2025-12-28 14:46:19 | INFO     | app.main             | log_requests         | [1446182090] ✔ POST /api/presets/trg/seed - 200 (1140ms)
+2025-12-28 14:46:22 | DEBUG    | app.main             | log_requests         | [1446220263] GET /api/presets/list
+2025-12-28 14:46:22 | DEBUG    | app.main             | log_requests         | [1446220331] GET /api/presets/stats
+2025-12-28 14:46:22 | INFO     | app.main             | log_requests         | [1446220263] ✔ GET /api/presets/list - 200 (6ms)
+2025-12-28 14:46:22 | INFO     | app.main             | log_requests         | [1446220331] ✔ GET /api/presets/stats - 200 (4ms)
+2025-12-28 14:46:26 | DEBUG    | app.main             | log_requests         | [1446263405] GET /
+2025-12-28 14:46:26 | INFO     | app.main             | log_requests         | [1446263405] ✔ GET / - 200 (0ms)

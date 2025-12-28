@@ -145,7 +145,6 @@ class BasePresetGenerator(ABC):
             if self.save_to_db and self._db:
                 try:
                     self._db.create_preset(
-                        preset_id=preset.id,
                         name=preset.name,
                         indicator_type=preset.config.indicator_type,
                         params=preset.params,
@@ -159,9 +158,11 @@ class BasePresetGenerator(ABC):
                     # Already exists
                     if replace_existing:
                         try:
-                            self._db.delete_preset(preset.id)
+                            # Find by name and delete
+                            existing = self._db.get_preset_by_name(preset.name)
+                            if existing:
+                                self._db.delete_preset(existing["id"])
                             self._db.create_preset(
-                                preset_id=preset.id,
                                 name=preset.name,
                                 indicator_type=preset.config.indicator_type,
                                 params=preset.params,

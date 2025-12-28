@@ -610,8 +610,8 @@ def get_preset_stats() -> Dict[str, Any]:
         "by_indicator": {},
         "by_category": {},
         "by_source": {},
-        "active": 0,
-        "favorites": 0
+        "active_count": 0,
+        "favorites_count": 0
     }
     
     # Total
@@ -635,11 +635,11 @@ def get_preset_stats() -> Dict[str, Any]:
     
     # Active
     cursor.execute(f"SELECT COUNT(*) FROM {TABLE_NAME} WHERE is_active = 1")
-    stats["active"] = cursor.fetchone()[0]
+    stats["active_count"] = cursor.fetchone()[0]
     
     # Favorites
     cursor.execute(f"SELECT COUNT(*) FROM {TABLE_NAME} WHERE is_favorite = 1")
-    stats["favorites"] = cursor.fetchone()[0]
+    stats["favorites_count"] = cursor.fetchone()[0]
     
     conn.close()
     
