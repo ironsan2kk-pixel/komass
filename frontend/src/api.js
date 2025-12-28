@@ -276,25 +276,55 @@ export const botsApi = {
     api.post('/api/bots/import', { config, name_override: nameOverride }),
 };
 
-// ============ PRESET OPTIMIZER API (Chat #45) ============
+
+// ============ PRESET OPTIMIZER API (Chat #45, #46) ============
 
 export const optimizerApi = {
-  // Start optimization (returns run info)
-  startOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) =>
+  // ============ MODE METHODS (Chat #46) ============
+  
+  // Get all optimization modes
+  getModes: () => api.get('/api/optimizer/modes'),
+  
+  // Get specific mode info
+  getModeInfo: (mode) => api.get(`/api/optimizer/modes/${mode}`),
+  
+  // Estimate optimization time
+  estimateTime: (presetCount, pairCount, mode = 'standard') =>
+    api.post('/api/optimizer/estimate', {
+      preset_count: presetCount,
+      pair_count: pairCount,
+      mode: mode
+    }),
+  
+  // Get liquidity ranking for pairs
+  getLiquidityRanking: (pairs = null) =>
+    api.get('/api/optimizer/liquidity', { 
+      params: pairs ? { pairs: pairs.join(',') } : {} 
+    }),
+  
+  // Get correlation groups
+  getCorrelationGroups: () => api.get('/api/optimizer/correlation-groups'),
+  
+  // ============ OPTIMIZATION METHODS ============
+  
+  // Start optimization with mode (updated in Chat #46)
+  startOptimization: (presetIds, pairs, timeframe, mode = 'standard', startDate = null, endDate = null) =>
     api.post('/api/optimizer/presets/run', {
       preset_ids: presetIds,
       pairs: pairs,
       timeframe: timeframe,
+      mode: mode,
       start_date: startDate,
       end_date: endDate
     }),
   
-  // Quick optimization (for small sets, < 100 combinations)
+  // Quick optimization (forces quick mode)
   quickOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) =>
     api.post('/api/optimizer/presets/quick', {
       preset_ids: presetIds,
       pairs: pairs,
       timeframe: timeframe,
+      mode: 'quick',
       start_date: startDate,
       end_date: endDate
     }),
@@ -327,8 +357,8 @@ export const optimizerApi = {
   // Export results
   exportResults: (runId) => api.get(`/api/optimizer/presets/export/${runId}`),
   
-  // SSE Stream for optimization progress
-  streamOptimization: (presetIds, pairs, timeframe, startDate = null, endDate = null) => {
+  // SSE Stream for optimization progress (updated with mode in Chat #46)
+  streamOptimization: (presetIds, pairs, timeframe, mode = 'standard', startDate = null, endDate = null) => {
     // Note: For SSE with POST body, we need to use fetch
     return fetch(`${API_BASE}/api/optimizer/presets/stream`, {
       method: 'POST',
@@ -339,6 +369,7 @@ export const optimizerApi = {
         preset_ids: presetIds,
         pairs: pairs,
         timeframe: timeframe,
+        mode: mode,
         start_date: startDate,
         end_date: endDate
       })

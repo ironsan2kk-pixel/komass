@@ -1,177 +1,96 @@
-# KOMAS v4.0 — Chat Reference
+# 📚 KOMAS Chat Reference
 
-> **Последнее обновление:** 28.12.2025  
-> **Текущий чат:** #45 ✅  
-> **Следующий:** #46
+> **Последнее обновление:** 28.12.2025
 
 ---
 
-## 📋 Быстрый переход
-
-| Фаза | Чаты | Статус |
-|------|------|--------|
-| [Фаза 1: Стабилизация](#фаза-1-стабилизация) | #15-19 | ✅ |
-| [Фаза 2: Dominant](#фаза-2-dominant-indicator) | #20-27 | ✅ |
-| [Фаза 3: Пресеты](#фаза-3-система-пресетов) | #28-33 | ✅ |
-| [Фаза 4: Signal Score](#фаза-4-signal-score) | #34-36 | ✅ |
-| [Фаза 5: Фильтры](#фаза-5-общие-фильтры) | #37-44 | ✅ |
-| [Фаза 6: Оптимизация](#фаза-6-оптимизация-пресетов) | #45-49 | ⏳ |
-
----
-
-## Фаза 6: Оптимизация пресетов
-
-### Chat #45 — Preset Optimizer Core ✅
+## Chat #46: Preset Optimizer Modes ✅
 
 **Дата:** 28.12.2025  
+**Фаза:** 6 — Оптимизация пресетов  
 **Статус:** Завершён
 
-**Создано:**
-- `backend/app/services/preset_optimizer.py` — Main optimizer class (900+ lines)
-- `backend/app/services/__init__.py` — Services module init
-- `backend/app/api/optimizer_routes.py` — API endpoints (15 endpoints)
-- `backend/app/tests/test_preset_optimizer.py` — Unit tests (30+)
-- `frontend/src/api.js` — Updated with optimizerApi
+### Цель
+Реализация 4 режимов оптимизации пресетов с разными стратегиями выбора пар и пресетов.
 
-**Ключевые компоненты:**
-- `PresetOptimizer` class — main optimization engine
-- `run_preset_backtest_worker()` — parallel worker function
-- `PresetBacktestResult` — single backtest result
-- `PresetAggregateScore` — aggregate scoring per preset
-- `OptimizationResult` — full optimization result
+### Что сделано
 
-**API Endpoints:**
+#### Backend
+1. **optimization_modes.py** — новый модуль с:
+   - OptimizationMode enum: QUICK, STANDARD, SMART, FULL
+   - ModeConfig dataclass с конфигурацией каждого режима
+   - PAIR_LIQUIDITY_SCORES — рейтинг 40+ пар по ликвидности
+   - CORRELATION_GROUPS — 9 групп корреляции криптовалют
+   - PRESET_CLUSTERS — 5 кластеров пресетов по параметрам
+   - Функции выбора пар и пресетов
+   - Оценка времени оптимизации
+
+2. **preset_optimizer.py** — обновлён:
+   - Добавлен параметр mode
+   - Интеграция с optimization_modes
+   - Кэширование результатов для smart mode
+
+3. **optimizer_routes.py** — добавлены endpoints:
+   - GET /api/optimizer/modes
+   - GET /api/optimizer/modes/{mode}
+   - POST /api/optimizer/estimate
+   - GET /api/optimizer/liquidity
+   - GET /api/optimizer/correlation-groups
+
+#### Frontend
+1. **ModeSelector.jsx** — компонент выбора режима:
+   - ModeCard — карточка режима
+   - ModeDropdown — компактный dropdown
+   - TimeEstimate — оценка времени
+   - useModeSelector hook
+
+2. **api.js** — новые методы:
+   - getModes()
+   - getModeInfo(mode)
+   - estimateTime(presets, pairs, mode)
+   - getLiquidityRanking()
+   - getCorrelationGroups()
+
+#### Тесты
+- 50+ unit тестов для optimization_modes
+
+### Режимы оптимизации
+
+| Mode | Presets | Pairs | Strategy |
+|------|---------|-------|----------|
+| QUICK | Top 20 | 5 | Быстрая проверка лучших |
+| STANDARD | Max 100 | 10 | Balanced coverage |
+| SMART | 50 | 15 | Representative sampling |
+| FULL | All | All | Comprehensive analysis |
+
+### Файлы
+
 ```
-POST /api/optimizer/presets/run
-POST /api/optimizer/presets/stream (SSE)
-POST /api/optimizer/presets/quick
-GET  /api/optimizer/presets/results/{id}
-POST /api/optimizer/presets/cancel/{id}
-GET  /api/optimizer/presets/active
-GET  /api/optimizer/presets/status/{id}
-GET  /api/optimizer/presets/matrix/{id}
-GET  /api/optimizer/presets/top/{id}
-GET  /api/optimizer/presets/comparison
-GET  /api/optimizer/presets/export/{id}
-```
-
-**Git commit:**
-```
-feat: Add preset optimizer core
-
-- Add PresetOptimizer class for multi-pair backtest
-- Add preset scoring system with stability metrics
-- Add result matrix generation
-- Add SSE streaming for optimization progress
-- Add optimizer API routes (15 endpoints)
-- Add ProcessPoolExecutor parallelization
-- Add TRG and Dominant backtest functions
-- Add frontend optimizerApi (12 methods)
-- Add 30+ unit tests
-
-Chat #45: Preset Optimizer Core
-```
-
----
-
-### Chat #46 — Preset Optimizer Modes ⏳
-
-**Следующий чат**
-
-**Задачи:**
-- Quick mode (20 presets × 5 pairs)
-- Standard mode (all × 10 pairs)
-- Smart mode (adaptive selection)
-- Full mode (all × all)
-- Estimated time calculation
-- Mode selection UI
-
----
-
-## Фаза 5: Общие фильтры
-
-### Chat #44 — Filters UI ✅
-
-**Создано:**
-- `frontend/src/components/Filters/FilterSettings.jsx`
-- `frontend/src/components/Filters/FilterCategory.jsx`
-- `frontend/src/components/Filters/FilterCard.jsx`
-- `frontend/src/components/Filters/FilterParams.jsx`
-- `frontend/src/components/Filters/FilterProfileSelector.jsx`
-- `frontend/src/components/Filters/FilterStats.jsx`
-
-### Chat #43 — Filters Integration ✅
-
-**Создано:**
-- `backend/app/filters/filter_manager.py`
-- `backend/app/filters/filter_stats.py`
-- `backend/app/api/filter_routes.py`
-
-### Chat #42 — Filters Protection ✅
-
-**Создано:**
-- EquityCurveFilter
-- DrawdownFilter
-- StreakFilter
-- RecoveryFilter
-
-### Chat #41 — Filters Portfolio ✅
-
-**Создано:**
-- CorrelationFilter
-- DirectionFilter
-- SectorFilter
-
-### Chat #40 — Filters Trend ✅
-
-**Создано:**
-- BTCTrendFilter
-- MultiTFFilter
-- RegimeFilter
-
-### Chat #39 — Filters Volatility ✅
-
-**Создано:**
-- ATRFilter
-- VolumeFilter
-- ExtremeFilter
-
-### Chat #38 — Filters Time ✅
-
-**Создано:**
-- SessionFilter
-- WeekdayFilter
-- CooldownFilter
-
-### Chat #37 — Filters Architecture ✅
-
-**Создано:**
-- `backend/app/filters/base.py`
-- `backend/app/filters/registry.py`
-- `backend/app/filters/chain.py`
-
----
-
-## Полезные команды
-
-### Проверка GitHub
-
-```bash
-# Последние коммиты
-curl -H "Authorization: token TOKEN" \
-  "https://api.github.com/repos/ironsan2kk-pixel/komass/commits?per_page=5"
-
-# Содержимое файла
-curl -s "https://raw.githubusercontent.com/ironsan2kk-pixel/komass/main/FILE_PATH"
+backend/app/services/optimization_modes.py   # NEW
+backend/app/services/preset_optimizer.py     # UPDATED
+backend/app/api/optimizer_routes.py          # UPDATED
+frontend/src/components/Optimizer/ModeSelector.jsx  # NEW
+frontend/src/components/Optimizer/index.js   # NEW
+frontend/src/api.js                          # UPDATED
+tests/test_optimization_modes.py             # NEW
 ```
 
-### Запуск тестов
+### Git Commit
+```
+feat: implement 4 optimization modes (QUICK/STANDARD/SMART/FULL)
 
-```bash
-cd backend
-python -m pytest app/tests/test_preset_optimizer.py -v
+- Add optimization_modes.py with mode configurations
+- Add pair liquidity ranking (40+ pairs)
+- Add correlation groups (9 groups)
+- Add preset clustering (5 clusters)
+- Add time estimation with parallelization
+- Add ModeSelector UI component
+- Add 6 new API endpoints for modes
+- Add 50+ unit tests
+
+Chat #46: Preset Optimizer Modes
 ```
 
 ---
 
-*Обновлено: 28.12.2025*
+**Следующий чат:** #47 — Preset Optimizer Results

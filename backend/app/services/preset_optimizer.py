@@ -9,8 +9,10 @@ Features:
 - Generate result matrix (preset × pair)
 - SSE streaming for progress updates
 - Stability and consistency metrics
+- Multiple optimization modes (Quick/Standard/Smart/Full)
 
 Chat #45: Preset Optimizer Core
+Chat #46: Preset Optimizer Modes
 """
 
 import asyncio
@@ -30,6 +32,17 @@ from enum import Enum
 import hashlib
 import time
 import threading
+
+# Import optimization modes
+from app.services.optimization_modes import (
+    OptimizationMode,
+    ModeConfig,
+    get_mode_config,
+    select_presets_for_mode,
+    select_pairs_for_mode,
+    estimate_optimization_time,
+    get_liquidity_ranking,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -149,6 +162,13 @@ class OptimizationResult:
     start_date: Optional[str]
     end_date: Optional[str]
     
+    # Mode information (NEW in Chat #46)
+    mode: str = "standard"
+    original_preset_count: int = 0
+    original_pair_count: int = 0
+    effective_preset_count: int = 0
+    effective_pair_count: int = 0
+    
     # Progress
     total_combinations: int = 0
     completed_combinations: int = 0
@@ -158,6 +178,7 @@ class OptimizationResult:
     started_at: Optional[str] = None
     completed_at: Optional[str] = None
     duration_seconds: float = 0.0
+    estimated_seconds: float = 0.0
     
     # Results
     preset_scores: List[PresetAggregateScore] = field(default_factory=list)
@@ -974,6 +995,7 @@ class PresetOptimizer:
     - Calculate aggregate scores per preset
     - Generate result matrix
     - SSE streaming for progress updates
+    - Multiple optimization modes (Quick/Standard/Smart/Full)
     """
     
     def __init__(self, data_dir: str = "data", db_path: str = "data/komas.db"):
@@ -987,6 +1009,9 @@ class PresetOptimizer:
         self._active_runs: Dict[str, OptimizationResult] = {}
         self._cancelled_runs: set = set()
         self._lock = threading.Lock()
+        
+        # Previous results cache (for smart mode)
+        self._previous_results: Dict[str, Dict] = {}
         
         logger.info(f"PresetOptimizer initialized with {self.num_workers} workers")
     
@@ -1029,6 +1054,29 @@ class PresetOptimizer:
                 logger.warning(f"Preset not found: {preset_id}")
         
         return presets
+    
+    def get_all_presets(self, indicator_type: Optional[str] = None) -> List[Dict]:
+        """
+        Load all presets from database.
+        Optionally filter by indicator type.
+        """
+        from app.database.presets_db import list_presets
+        
+        try:
+            filters = {}
+            if indicator_type:
+                filters['indicator_type'] = indicator_type
+            
+            presets = list_presets(
+                indicator_type=indicator_type,
+                category=None,
+                is_active=True,
+                limit=1000
+            )
+            return presets
+        except Exception as e:
+            logger.error(f"Error loading presets: {e}")
+            return []
     
     def calculate_aggregate_scores(
         self, 
@@ -1184,6 +1232,7 @@ class PresetOptimizer:
         timeframe: str,
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
+        mode: str = "standard",
         progress_callback: Optional[Callable] = None
     ) -> OptimizationResult:
         """
@@ -1195,6 +1244,7 @@ class PresetOptimizer:
             timeframe: Timeframe for backtest
             start_date: Optional start date (YYYY-MM-DD)
             end_date: Optional end date (YYYY-MM-DD)
+            mode: Optimization mode (quick/standard/smart/full)
             progress_callback: Async callback for progress updates
         
         Returns:
@@ -1202,6 +1252,13 @@ class PresetOptimizer:
         """
         run_id = self.generate_run_id()
         started_at = datetime.now().isoformat()
+        
+        # Get mode configuration
+        mode_config = get_mode_config(mode)
+        
+        # Store original counts
+        original_preset_count = len(preset_ids)
+        original_pair_count = len(pairs)
         
         # Initialize result
         result = OptimizationResult(
@@ -1212,6 +1269,9 @@ class PresetOptimizer:
             timeframe=timeframe,
             start_date=start_date,
             end_date=end_date,
+            mode=mode,
+            original_preset_count=original_preset_count,
+            original_pair_count=original_pair_count,
             started_at=started_at,
             num_workers=self.num_workers
         )
@@ -1227,9 +1287,23 @@ class PresetOptimizer:
                 result.errors.append("No valid presets found")
                 return result
             
-            # Prepare data for all pairs
+            # Apply mode selection to presets
+            previous_results = self._previous_results.get(timeframe, {})
+            selected_presets = select_presets_for_mode(presets, mode, previous_results)
+            
+            # Apply mode selection to pairs
+            selected_pairs = select_pairs_for_mode(pairs, mode)
+            
+            # Update effective counts
+            result.effective_preset_count = len(selected_presets)
+            result.effective_pair_count = len(selected_pairs)
+            
+            logger.info(f"Mode '{mode}': {len(selected_presets)}/{len(presets)} presets, "
+                       f"{len(selected_pairs)}/{len(pairs)} pairs")
+            
+            # Prepare data for selected pairs
             pair_data = {}
-            for symbol in pairs:
+            for symbol in selected_pairs:
                 df = self.load_candle_data(symbol, timeframe)
                 if df is not None:
                     pair_data[symbol] = df.to_json(orient='split', date_format='iso')
@@ -1242,22 +1316,31 @@ class PresetOptimizer:
                 return result
             
             # Calculate total combinations
-            total_combinations = len(presets) * len(pair_data)
+            total_combinations = len(selected_presets) * len(pair_data)
             result.total_combinations = total_combinations
+            
+            # Estimate time
+            time_estimate = estimate_optimization_time(
+                mode, len(selected_presets), len(pair_data), self.num_workers
+            )
+            result.estimated_seconds = time_estimate['estimated_seconds']
             
             if progress_callback:
                 await progress_callback({
                     'type': 'start',
                     'run_id': run_id,
+                    'mode': mode,
                     'total': total_combinations,
-                    'presets': len(presets),
+                    'presets': len(selected_presets),
                     'pairs': len(pair_data),
-                    'workers': self.num_workers
+                    'workers': self.num_workers,
+                    'estimated_seconds': result.estimated_seconds,
+                    'estimated_time': time_estimate['human_readable']
                 })
             
             # Prepare work items
             work_items = []
-            for preset in presets:
+            for preset in selected_presets:
                 for symbol, df_json in pair_data.items():
                     work_items.append({
                         'df_json': df_json,
@@ -1344,7 +1427,7 @@ class PresetOptimizer:
             
             # Calculate aggregate scores per preset
             preset_scores = []
-            for preset in presets:
+            for preset in selected_presets:
                 preset_results = [r for r in all_results if r.preset_id == preset['id']]
                 score = self.calculate_aggregate_scores(
                     preset_results,
@@ -1369,6 +1452,9 @@ class PresetOptimizer:
                 asdict(s) for s in preset_scores[:10]
             ]
             
+            # Cache results for smart mode
+            self._cache_results(timeframe, preset_scores)
+            
             # Finalize
             result.status = OptimizationStatus.COMPLETED
             result.completed_at = datetime.now().isoformat()
@@ -1381,6 +1467,7 @@ class PresetOptimizer:
                 await progress_callback({
                     'type': 'complete',
                     'run_id': run_id,
+                    'mode': mode,
                     'duration': round(result.duration_seconds, 2),
                     'top_preset': result.top_10_presets[0] if result.top_10_presets else None
                 })
@@ -1397,6 +1484,17 @@ class PresetOptimizer:
             with self._lock:
                 if run_id in self._active_runs:
                     del self._active_runs[run_id]
+    
+    def _cache_results(self, timeframe: str, preset_scores: List[PresetAggregateScore]):
+        """Cache results for smart mode optimization"""
+        self._previous_results[timeframe] = {
+            score.preset_id: {
+                'overall_score': score.overall_score,
+                'avg_pnl': score.avg_pnl,
+                'positive_ratio': score.positive_ratio
+            }
+            for score in preset_scores
+        }
     
     def cancel_optimization(self, run_id: str) -> bool:
         """Cancel a running optimization"""
@@ -1419,9 +1517,11 @@ class PresetOptimizer:
                 return {
                     'run_id': run_id,
                     'status': run.status.value,
+                    'mode': run.mode,
                     'progress': run.progress_percent,
                     'completed': run.completed_combinations,
-                    'total': run.total_combinations
+                    'total': run.total_combinations,
+                    'estimated_seconds': run.estimated_seconds
                 }
             return None
 

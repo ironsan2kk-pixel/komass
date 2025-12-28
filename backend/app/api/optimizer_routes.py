@@ -5,13 +5,20 @@ REST API and SSE endpoints for preset optimization.
 
 Endpoints:
 - POST   /api/optimizer/presets/run         - Start optimization
-- GET    /api/optimizer/presets/stream      - SSE progress stream
+- POST   /api/optimizer/presets/stream      - SSE progress stream
 - GET    /api/optimizer/presets/results     - Get results by run_id
 - POST   /api/optimizer/presets/cancel      - Cancel running optimization
 - GET    /api/optimizer/presets/active      - List active optimizations
 - GET    /api/optimizer/presets/status/{id} - Get status of specific run
 
+Mode endpoints (NEW in Chat #46):
+- GET    /api/optimizer/modes               - List all optimization modes
+- GET    /api/optimizer/modes/{mode}        - Get mode configuration
+- POST   /api/optimizer/estimate            - Estimate optimization time
+- GET    /api/optimizer/liquidity           - Get pair liquidity ranking
+
 Chat #45: Preset Optimizer Core
+Chat #46: Preset Optimizer Modes
 """
 
 import asyncio
@@ -41,14 +48,20 @@ class OptimizationRequest(BaseModel):
     timeframe: str = Field(default="1h", description="Timeframe for backtest")
     start_date: Optional[str] = Field(None, description="Start date (YYYY-MM-DD)")
     end_date: Optional[str] = Field(None, description="End date (YYYY-MM-DD)")
+    mode: str = Field(default="standard", description="Optimization mode: quick/standard/smart/full")
 
 
 class OptimizationStartResponse(BaseModel):
     """Response when optimization starts"""
     run_id: str
     status: str
+    mode: str
     total_combinations: int
+    effective_presets: int
+    effective_pairs: int
     workers: int
+    estimated_seconds: float
+    estimated_time: str
     message: str
 
 
@@ -56,9 +69,11 @@ class OptimizationStatusResponse(BaseModel):
     """Response for optimization status"""
     run_id: str
     status: str
+    mode: str
     progress: float
     completed: int
     total: int
+    estimated_seconds: float
 
 
 class PresetScoreResponse(BaseModel):
@@ -88,15 +103,50 @@ class OptimizationResultResponse(BaseModel):
     """Full optimization result response"""
     run_id: str
     status: str
+    mode: str
     started_at: Optional[str]
     completed_at: Optional[str]
     duration_seconds: float
     total_combinations: int
     completed_combinations: int
+    effective_presets: int
+    effective_pairs: int
     num_workers: int
     top_10_presets: List[dict]
     result_matrix: dict
     errors: List[str]
+
+
+class TimeEstimateRequest(BaseModel):
+    """Request for time estimation"""
+    preset_count: int = Field(..., ge=1, description="Number of presets")
+    pair_count: int = Field(..., ge=1, description="Number of pairs")
+    mode: str = Field(default="standard", description="Optimization mode")
+
+
+class TimeEstimateResponse(BaseModel):
+    """Response for time estimation"""
+    mode: str
+    total_combinations: int
+    effective_presets: int
+    effective_pairs: int
+    num_workers: int
+    estimated_seconds: float
+    estimated_minutes: float
+    human_readable: str
+    description: str
+
+
+class ModeInfoResponse(BaseModel):
+    """Response for mode information"""
+    mode: str
+    name: str
+    description: str
+    max_presets: Optional[int]
+    max_pairs: Optional[int]
+    preset_selection: str
+    pair_selection: str
+    use_clustering: bool
 
 
 # ============================================================================
@@ -133,7 +183,8 @@ async def optimization_stream_generator(
     pairs: List[str],
     timeframe: str,
     start_date: Optional[str],
-    end_date: Optional[str]
+    end_date: Optional[str],
+    mode: str
 ):
     """
     SSE generator for optimization progress.
@@ -158,6 +209,7 @@ async def optimization_stream_generator(
             timeframe=timeframe,
             start_date=start_date,
             end_date=end_date,
+            mode=mode,
             progress_callback=progress_callback
         )
     )
@@ -186,11 +238,16 @@ async def optimization_stream_generator(
         result_dict = {
             'run_id': result.run_id,
             'status': result.status.value,
+            'mode': result.mode,
             'started_at': result.started_at,
             'completed_at': result.completed_at,
             'duration_seconds': result.duration_seconds,
             'total_combinations': result.total_combinations,
             'completed_combinations': result.completed_combinations,
+            'original_preset_count': result.original_preset_count,
+            'original_pair_count': result.original_pair_count,
+            'effective_preset_count': result.effective_preset_count,
+            'effective_pair_count': result.effective_pair_count,
             'num_workers': result.num_workers,
             'top_10_presets': result.top_10_presets,
             'result_matrix': result.result_matrix,
@@ -211,6 +268,113 @@ async def optimization_stream_generator(
 
 
 # ============================================================================
+# MODE ENDPOINTS (NEW in Chat #46)
+# ============================================================================
+
+@router.get("/modes")
+async def list_optimization_modes():
+    """
+    List all available optimization modes with their configurations.
+    """
+    from app.services.optimization_modes import get_all_modes_info
+    
+    modes = get_all_modes_info()
+    return {
+        "modes": modes,
+        "default": "standard",
+        "recommended_for_quick_test": "quick",
+        "recommended_for_production": "full"
+    }
+
+
+@router.get("/modes/{mode}")
+async def get_mode_info(mode: str):
+    """
+    Get detailed information about a specific optimization mode.
+    """
+    from app.services.optimization_modes import get_mode_info, OptimizationMode
+    
+    try:
+        info = get_mode_info(mode)
+        return info
+    except ValueError:
+        valid_modes = [m.value for m in OptimizationMode]
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Invalid mode '{mode}'. Valid modes: {valid_modes}"
+        )
+
+
+@router.post("/estimate", response_model=TimeEstimateResponse)
+async def estimate_optimization_time(request: TimeEstimateRequest):
+    """
+    Estimate optimization time based on parameters and mode.
+    """
+    from app.services.preset_optimizer import get_preset_optimizer
+    from app.services.optimization_modes import estimate_optimization_time
+    
+    optimizer = get_preset_optimizer()
+    
+    estimate = estimate_optimization_time(
+        mode=request.mode,
+        num_presets=request.preset_count,
+        num_pairs=request.pair_count,
+        num_workers=optimizer.num_workers
+    )
+    
+    return TimeEstimateResponse(**estimate)
+
+
+@router.get("/liquidity")
+async def get_liquidity_ranking(
+    pairs: str = Query(None, description="Comma-separated pairs to rank (optional)")
+):
+    """
+    Get liquidity ranking for trading pairs.
+    If pairs not specified, returns all known pairs.
+    """
+    from app.services.optimization_modes import (
+        get_liquidity_ranking, 
+        PAIR_LIQUIDITY_SCORES
+    )
+    
+    if pairs:
+        pair_list = [p.strip().upper() for p in pairs.split(",")]
+    else:
+        pair_list = list(PAIR_LIQUIDITY_SCORES.keys())
+    
+    ranking = get_liquidity_ranking(pair_list)
+    
+    return {
+        "total_pairs": len(ranking),
+        "ranking": [
+            {"pair": pair, "liquidity_score": score, "rank": i + 1}
+            for i, (pair, score) in enumerate(ranking)
+        ]
+    }
+
+
+@router.get("/correlation-groups")
+async def get_correlation_groups():
+    """
+    Get predefined correlation groups for pairs.
+    """
+    from app.services.optimization_modes import CORRELATION_GROUPS
+    
+    return {
+        "groups": [
+            {
+                "name": name,
+                "pairs": pairs,
+                "count": len(pairs)
+            }
+            for name, pairs in CORRELATION_GROUPS.items()
+        ],
+        "total_groups": len(CORRELATION_GROUPS)
+    }
+
+
+# ============================================================================
 # API ENDPOINTS
 # ============================================================================
 
@@ -223,6 +387,7 @@ async def start_preset_optimization(request: OptimizationRequest):
     Use /stream endpoint for real-time progress.
     """
     from app.services.preset_optimizer import get_preset_optimizer
+    from app.services.optimization_modes import estimate_optimization_time, get_mode_config
     
     try:
         optimizer = get_preset_optimizer()
@@ -233,18 +398,43 @@ async def start_preset_optimization(request: OptimizationRequest):
         if not request.pairs:
             raise HTTPException(status_code=400, detail="No pairs specified")
         
+        # Get mode config
+        mode_config = get_mode_config(request.mode)
+        
+        # Calculate effective counts based on mode
+        effective_presets = len(request.preset_ids)
+        effective_pairs = len(request.pairs)
+        
+        if mode_config.max_presets:
+            effective_presets = min(effective_presets, mode_config.max_presets)
+        if mode_config.max_pairs:
+            effective_pairs = min(effective_pairs, mode_config.max_pairs)
+        
+        # Estimate time
+        estimate = estimate_optimization_time(
+            mode=request.mode,
+            num_presets=effective_presets,
+            num_pairs=effective_pairs,
+            num_workers=optimizer.num_workers
+        )
+        
         # Generate run ID
         run_id = optimizer.generate_run_id()
         
         # Calculate total combinations
-        total = len(request.preset_ids) * len(request.pairs)
+        total = effective_presets * effective_pairs
         
         return OptimizationStartResponse(
             run_id=run_id,
             status="pending",
+            mode=request.mode,
             total_combinations=total,
+            effective_presets=effective_presets,
+            effective_pairs=effective_pairs,
             workers=optimizer.num_workers,
-            message=f"Optimization ready. Use /stream endpoint with run_id={run_id}"
+            estimated_seconds=estimate['estimated_seconds'],
+            estimated_time=estimate['human_readable'],
+            message=f"Optimization ready. Use /stream endpoint with mode={request.mode}"
         )
         
     except Exception as e:
@@ -258,7 +448,7 @@ async def stream_preset_optimization(request: OptimizationRequest):
     Start optimization and stream progress via SSE.
     
     Returns Server-Sent Events stream with:
-    - start: Initial configuration
+    - start: Initial configuration (includes mode and estimates)
     - progress: Progress updates (every 5 completions)
     - heartbeat: Keep-alive (every 30s)
     - complete: Final summary
@@ -270,7 +460,8 @@ async def stream_preset_optimization(request: OptimizationRequest):
             pairs=request.pairs,
             timeframe=request.timeframe,
             start_date=request.start_date,
-            end_date=request.end_date
+            end_date=request.end_date,
+            mode=request.mode
         ),
         media_type="text/event-stream",
         headers={
@@ -354,6 +545,7 @@ async def get_optimization_status(run_id: str):
         return {
             "run_id": run_id,
             "status": result.get("status", "completed"),
+            "mode": result.get("mode", "standard"),
             "progress": 100.0,
             "completed": result.get("completed_combinations", 0),
             "total": result.get("total_combinations", 0)
@@ -375,6 +567,7 @@ async def get_result_matrix(run_id: str):
     
     return {
         "run_id": run_id,
+        "mode": result.get("mode", "standard"),
         "matrix": result.get("result_matrix", {}),
         "presets_count": len(result.get("result_matrix", {})),
         "pairs_count": len(result.get("result_matrix", {}).get(next(iter(result.get("result_matrix", {})), ""), {}))
@@ -405,6 +598,7 @@ async def get_top_presets(
     
     return {
         "run_id": run_id,
+        "mode": result.get("mode", "standard"),
         "total_presets": len(preset_scores),
         "top_presets": sorted_scores
     }
@@ -439,6 +633,7 @@ async def compare_presets(
     
     return {
         "run_id": run_id,
+        "mode": result.get("mode", "standard"),
         "compared_presets": len(comparison),
         "presets": comparison
     }
@@ -458,6 +653,7 @@ async def export_optimization_results(run_id: str):
     return {
         "export_time": datetime.now().isoformat(),
         "run_id": run_id,
+        "mode": result.get("mode", "standard"),
         "data": result
     }
 
@@ -476,15 +672,25 @@ async def quick_optimization(
     
     For small optimizations (< 50 combinations).
     For larger optimizations, use /stream endpoint.
+    
+    Note: Mode is forced to 'quick' regardless of request.
     """
     from app.services.preset_optimizer import get_preset_optimizer
+    from app.services.optimization_modes import get_mode_config
     
-    total_combinations = len(request.preset_ids) * len(request.pairs)
+    # Force quick mode
+    mode = "quick"
+    mode_config = get_mode_config(mode)
     
-    if total_combinations > 100:
+    # Calculate effective combinations
+    effective_presets = min(len(request.preset_ids), mode_config.max_presets or 20)
+    effective_pairs = min(len(request.pairs), mode_config.max_pairs or 5)
+    total_combinations = effective_presets * effective_pairs
+    
+    if total_combinations > 200:
         raise HTTPException(
             status_code=400, 
-            detail=f"Too many combinations ({total_combinations}). Use /stream for optimizations > 100 combinations."
+            detail=f"Too many combinations ({total_combinations}). Use /stream for optimizations > 200 combinations."
         )
     
     optimizer = get_preset_optimizer()
@@ -495,18 +701,24 @@ async def quick_optimization(
             pairs=request.pairs,
             timeframe=request.timeframe,
             start_date=request.start_date,
-            end_date=request.end_date
+            end_date=request.end_date,
+            mode=mode
         )
         
         # Store result
         result_dict = {
             'run_id': result.run_id,
             'status': result.status.value,
+            'mode': result.mode,
             'started_at': result.started_at,
             'completed_at': result.completed_at,
             'duration_seconds': result.duration_seconds,
             'total_combinations': result.total_combinations,
             'completed_combinations': result.completed_combinations,
+            'original_preset_count': result.original_preset_count,
+            'original_pair_count': result.original_pair_count,
+            'effective_preset_count': result.effective_preset_count,
+            'effective_pair_count': result.effective_pair_count,
             'num_workers': result.num_workers,
             'top_10_presets': result.top_10_presets,
             'result_matrix': result.result_matrix,

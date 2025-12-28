@@ -4558,3 +4558,360 @@ favorites_count
 2025-12-28 14:04:27 | INFO     | app.main             | log_requests         | [1404274525] ✗ GET /api/bots/ - 404 (0ms)
 2025-12-28 14:04:37 | DEBUG    | app.main             | log_requests         | [1404371518] GET /api/bots/
 2025-12-28 14:04:37 | INFO     | app.main             | log_requests         | [1404371518] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:04:47 | DEBUG    | app.main             | log_requests         | [1404474504] GET /api/bots/
+2025-12-28 14:04:47 | INFO     | app.main             | log_requests         | [1404474504] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:04:57 | DEBUG    | app.main             | log_requests         | [1404571571] GET /api/bots/
+2025-12-28 14:04:57 | INFO     | app.main             | log_requests         | [1404571571] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:07 | DEBUG    | app.main             | log_requests         | [1405074538] GET /api/bots/
+2025-12-28 14:05:07 | INFO     | app.main             | log_requests         | [1405074538] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:17 | DEBUG    | app.main             | log_requests         | [1405171501] GET /api/bots/
+2025-12-28 14:05:17 | INFO     | app.main             | log_requests         | [1405171501] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:27 | DEBUG    | app.main             | log_requests         | [1405274624] GET /api/bots/
+2025-12-28 14:05:27 | INFO     | app.main             | log_requests         | [1405274624] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:37 | DEBUG    | app.main             | log_requests         | [1405371590] GET /api/bots/
+2025-12-28 14:05:37 | INFO     | app.main             | log_requests         | [1405371590] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:47 | DEBUG    | app.main             | log_requests         | [1405474572] GET /api/bots/
+2025-12-28 14:05:47 | INFO     | app.main             | log_requests         | [1405474572] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:05:57 | DEBUG    | app.main             | log_requests         | [1405571558] GET /api/bots/
+2025-12-28 14:05:57 | INFO     | app.main             | log_requests         | [1405571558] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:07 | DEBUG    | app.main             | log_requests         | [1406074499] GET /api/bots/
+2025-12-28 14:06:07 | INFO     | app.main             | log_requests         | [1406074499] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:17 | DEBUG    | app.main             | log_requests         | [1406171523] GET /api/bots/
+2025-12-28 14:06:17 | INFO     | app.main             | log_requests         | [1406171523] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:27 | DEBUG    | app.main             | log_requests         | [1406274544] GET /api/bots/
+2025-12-28 14:06:27 | INFO     | app.main             | log_requests         | [1406274544] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:37 | DEBUG    | app.main             | log_requests         | [1406371591] GET /api/bots/
+2025-12-28 14:06:37 | INFO     | app.main             | log_requests         | [1406371591] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:47 | DEBUG    | app.main             | log_requests         | [1406474602] GET /api/bots/
+2025-12-28 14:06:47 | INFO     | app.main             | log_requests         | [1406474602] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:06:57 | DEBUG    | app.main             | log_requests         | [1406571575] GET /api/bots/
+2025-12-28 14:06:57 | INFO     | app.main             | log_requests         | [1406571575] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:07 | DEBUG    | app.main             | log_requests         | [1407074513] GET /api/bots/
+2025-12-28 14:07:07 | INFO     | app.main             | log_requests         | [1407074513] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:17 | DEBUG    | app.main             | log_requests         | [1407171461] GET /api/bots/
+2025-12-28 14:07:17 | INFO     | app.main             | log_requests         | [1407171461] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:27 | DEBUG    | app.main             | log_requests         | [1407274715] GET /api/bots/
+2025-12-28 14:07:27 | INFO     | app.main             | log_requests         | [1407274715] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:37 | DEBUG    | app.main             | log_requests         | [1407371504] GET /api/bots/
+2025-12-28 14:07:37 | INFO     | app.main             | log_requests         | [1407371504] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:47 | DEBUG    | app.main             | log_requests         | [1407474502] GET /api/bots/
+2025-12-28 14:07:47 | INFO     | app.main             | log_requests         | [1407474502] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:07:57 | DEBUG    | app.main             | log_requests         | [1407571550] GET /api/bots/
+2025-12-28 14:07:57 | INFO     | app.main             | log_requests         | [1407571550] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:07 | DEBUG    | app.main             | log_requests         | [1408074588] GET /api/bots/
+2025-12-28 14:08:07 | INFO     | app.main             | log_requests         | [1408074588] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:17 | DEBUG    | app.main             | log_requests         | [1408171501] GET /api/bots/
+2025-12-28 14:08:17 | INFO     | app.main             | log_requests         | [1408171501] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:27 | DEBUG    | app.main             | log_requests         | [1408274611] GET /api/bots/
+2025-12-28 14:08:27 | INFO     | app.main             | log_requests         | [1408274611] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:37 | DEBUG    | app.main             | log_requests         | [1408371496] GET /api/bots/
+2025-12-28 14:08:37 | INFO     | app.main             | log_requests         | [1408371496] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:47 | DEBUG    | app.main             | log_requests         | [1408474533] GET /api/bots/
+2025-12-28 14:08:47 | INFO     | app.main             | log_requests         | [1408474533] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:08:57 | DEBUG    | app.main             | log_requests         | [1408571455] GET /api/bots/
+2025-12-28 14:08:57 | INFO     | app.main             | log_requests         | [1408571455] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:07 | DEBUG    | app.main             | log_requests         | [1409074562] GET /api/bots/
+2025-12-28 14:09:07 | INFO     | app.main             | log_requests         | [1409074562] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:17 | DEBUG    | app.main             | log_requests         | [1409171470] GET /api/bots/
+2025-12-28 14:09:17 | INFO     | app.main             | log_requests         | [1409171470] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:27 | DEBUG    | app.main             | log_requests         | [1409274603] GET /api/bots/
+2025-12-28 14:09:27 | INFO     | app.main             | log_requests         | [1409274603] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:37 | DEBUG    | app.main             | log_requests         | [1409371535] GET /api/bots/
+2025-12-28 14:09:37 | INFO     | app.main             | log_requests         | [1409371535] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:47 | DEBUG    | app.main             | log_requests         | [1409474585] GET /api/bots/
+2025-12-28 14:09:47 | INFO     | app.main             | log_requests         | [1409474585] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:09:57 | DEBUG    | app.main             | log_requests         | [1409571546] GET /api/bots/
+2025-12-28 14:09:57 | INFO     | app.main             | log_requests         | [1409571546] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:07 | DEBUG    | app.main             | log_requests         | [1410074561] GET /api/bots/
+2025-12-28 14:10:07 | INFO     | app.main             | log_requests         | [1410074561] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:17 | DEBUG    | app.main             | log_requests         | [1410171490] GET /api/bots/
+2025-12-28 14:10:17 | INFO     | app.main             | log_requests         | [1410171490] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:27 | DEBUG    | app.main             | log_requests         | [1410274532] GET /api/bots/
+2025-12-28 14:10:27 | INFO     | app.main             | log_requests         | [1410274532] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:37 | DEBUG    | app.main             | log_requests         | [1410371592] GET /api/bots/
+2025-12-28 14:10:37 | INFO     | app.main             | log_requests         | [1410371592] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:47 | DEBUG    | app.main             | log_requests         | [1410474554] GET /api/bots/
+2025-12-28 14:10:47 | INFO     | app.main             | log_requests         | [1410474554] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:10:57 | DEBUG    | app.main             | log_requests         | [1410571457] GET /api/bots/
+2025-12-28 14:10:57 | INFO     | app.main             | log_requests         | [1410571457] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:07 | DEBUG    | app.main             | log_requests         | [1411074591] GET /api/bots/
+2025-12-28 14:11:07 | INFO     | app.main             | log_requests         | [1411074591] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:17 | DEBUG    | app.main             | log_requests         | [1411171557] GET /api/bots/
+2025-12-28 14:11:17 | INFO     | app.main             | log_requests         | [1411171557] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:27 | DEBUG    | app.main             | log_requests         | [1411274546] GET /api/bots/
+2025-12-28 14:11:27 | INFO     | app.main             | log_requests         | [1411274546] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:37 | DEBUG    | app.main             | log_requests         | [1411371538] GET /api/bots/
+2025-12-28 14:11:37 | INFO     | app.main             | log_requests         | [1411371538] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:47 | DEBUG    | app.main             | log_requests         | [1411474650] GET /api/bots/
+2025-12-28 14:11:47 | INFO     | app.main             | log_requests         | [1411474650] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:11:57 | DEBUG    | app.main             | log_requests         | [1411571564] GET /api/bots/
+2025-12-28 14:11:57 | INFO     | app.main             | log_requests         | [1411571564] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:07 | DEBUG    | app.main             | log_requests         | [1412074580] GET /api/bots/
+2025-12-28 14:12:07 | INFO     | app.main             | log_requests         | [1412074580] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:17 | DEBUG    | app.main             | log_requests         | [1412171578] GET /api/bots/
+2025-12-28 14:12:17 | INFO     | app.main             | log_requests         | [1412171578] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:27 | DEBUG    | app.main             | log_requests         | [1412274629] GET /api/bots/
+2025-12-28 14:12:27 | INFO     | app.main             | log_requests         | [1412274629] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:37 | DEBUG    | app.main             | log_requests         | [1412371585] GET /api/bots/
+2025-12-28 14:12:37 | INFO     | app.main             | log_requests         | [1412371585] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:47 | DEBUG    | app.main             | log_requests         | [1412474502] GET /api/bots/
+2025-12-28 14:12:47 | INFO     | app.main             | log_requests         | [1412474502] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:12:57 | DEBUG    | app.main             | log_requests         | [1412571482] GET /api/bots/
+2025-12-28 14:12:57 | INFO     | app.main             | log_requests         | [1412571482] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:07 | DEBUG    | app.main             | log_requests         | [1413074539] GET /api/bots/
+2025-12-28 14:13:07 | INFO     | app.main             | log_requests         | [1413074539] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:17 | DEBUG    | app.main             | log_requests         | [1413171520] GET /api/bots/
+2025-12-28 14:13:17 | INFO     | app.main             | log_requests         | [1413171520] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:27 | DEBUG    | app.main             | log_requests         | [1413274555] GET /api/bots/
+2025-12-28 14:13:27 | INFO     | app.main             | log_requests         | [1413274555] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:37 | DEBUG    | app.main             | log_requests         | [1413371539] GET /api/bots/
+2025-12-28 14:13:37 | INFO     | app.main             | log_requests         | [1413371539] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:47 | DEBUG    | app.main             | log_requests         | [1413474562] GET /api/bots/
+2025-12-28 14:13:47 | INFO     | app.main             | log_requests         | [1413474562] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:13:57 | DEBUG    | app.main             | log_requests         | [1413571515] GET /api/bots/
+2025-12-28 14:13:57 | INFO     | app.main             | log_requests         | [1413571515] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:07 | DEBUG    | app.main             | log_requests         | [1414074555] GET /api/bots/
+2025-12-28 14:14:07 | INFO     | app.main             | log_requests         | [1414074555] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:17 | DEBUG    | app.main             | log_requests         | [1414171514] GET /api/bots/
+2025-12-28 14:14:17 | INFO     | app.main             | log_requests         | [1414171514] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:27 | DEBUG    | app.main             | log_requests         | [1414274548] GET /api/bots/
+2025-12-28 14:14:27 | INFO     | app.main             | log_requests         | [1414274548] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:37 | DEBUG    | app.main             | log_requests         | [1414371543] GET /api/bots/
+2025-12-28 14:14:37 | INFO     | app.main             | log_requests         | [1414371543] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:47 | DEBUG    | app.main             | log_requests         | [1414474541] GET /api/bots/
+2025-12-28 14:14:47 | INFO     | app.main             | log_requests         | [1414474541] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:14:57 | DEBUG    | app.main             | log_requests         | [1414571487] GET /api/bots/
+2025-12-28 14:14:57 | INFO     | app.main             | log_requests         | [1414571487] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:07 | DEBUG    | app.main             | log_requests         | [1415074540] GET /api/bots/
+2025-12-28 14:15:07 | INFO     | app.main             | log_requests         | [1415074540] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:17 | DEBUG    | app.main             | log_requests         | [1415171505] GET /api/bots/
+2025-12-28 14:15:17 | INFO     | app.main             | log_requests         | [1415171505] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:27 | DEBUG    | app.main             | log_requests         | [1415274579] GET /api/bots/
+2025-12-28 14:15:27 | INFO     | app.main             | log_requests         | [1415274579] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:27 | DEBUG    | app.main             | log_requests         | [1415278937] POST /
+2025-12-28 14:15:27 | INFO     | app.main             | log_requests         | [1415278937] ✗ POST / - 405 (0ms)
+2025-12-28 14:15:37 | DEBUG    | app.main             | log_requests         | [1415371457] GET /api/bots/
+2025-12-28 14:15:37 | INFO     | app.main             | log_requests         | [1415371457] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:47 | DEBUG    | app.main             | log_requests         | [1415474568] GET /api/bots/
+2025-12-28 14:15:47 | INFO     | app.main             | log_requests         | [1415474568] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:15:57 | DEBUG    | app.main             | log_requests         | [1415571562] GET /api/bots/
+2025-12-28 14:15:57 | INFO     | app.main             | log_requests         | [1415571562] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:07 | DEBUG    | app.main             | log_requests         | [1416074633] GET /api/bots/
+2025-12-28 14:16:07 | INFO     | app.main             | log_requests         | [1416074633] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:17 | DEBUG    | app.main             | log_requests         | [1416171474] GET /api/bots/
+2025-12-28 14:16:17 | INFO     | app.main             | log_requests         | [1416171474] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:27 | DEBUG    | app.main             | log_requests         | [1416274706] GET /api/bots/
+2025-12-28 14:16:27 | INFO     | app.main             | log_requests         | [1416274706] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:37 | DEBUG    | app.main             | log_requests         | [1416371536] GET /api/bots/
+2025-12-28 14:16:37 | INFO     | app.main             | log_requests         | [1416371536] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:47 | DEBUG    | app.main             | log_requests         | [1416474544] GET /api/bots/
+2025-12-28 14:16:47 | INFO     | app.main             | log_requests         | [1416474544] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:16:57 | DEBUG    | app.main             | log_requests         | [1416571464] GET /api/bots/
+2025-12-28 14:16:57 | INFO     | app.main             | log_requests         | [1416571464] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:07 | DEBUG    | app.main             | log_requests         | [1417074615] GET /api/bots/
+2025-12-28 14:17:07 | INFO     | app.main             | log_requests         | [1417074615] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:17 | DEBUG    | app.main             | log_requests         | [1417171509] GET /api/bots/
+2025-12-28 14:17:17 | INFO     | app.main             | log_requests         | [1417171509] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:27 | DEBUG    | app.main             | log_requests         | [1417274601] GET /api/bots/
+2025-12-28 14:17:27 | INFO     | app.main             | log_requests         | [1417274601] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:37 | DEBUG    | app.main             | log_requests         | [1417371467] GET /api/bots/
+2025-12-28 14:17:37 | INFO     | app.main             | log_requests         | [1417371467] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:47 | DEBUG    | app.main             | log_requests         | [1417474565] GET /api/bots/
+2025-12-28 14:17:47 | INFO     | app.main             | log_requests         | [1417474565] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:17:57 | DEBUG    | app.main             | log_requests         | [1417571576] GET /api/bots/
+2025-12-28 14:17:57 | INFO     | app.main             | log_requests         | [1417571576] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:18:07 | DEBUG    | app.main             | log_requests         | [1418074563] GET /api/bots/
+2025-12-28 14:18:07 | INFO     | app.main             | log_requests         | [1418074563] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:18:17 | DEBUG    | app.main             | log_requests         | [1418171576] GET /api/bots/
+2025-12-28 14:18:17 | INFO     | app.main             | log_requests         | [1418171576] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:18:27 | DEBUG    | app.main             | log_requests         | [1418274547] GET /api/bots/
+2025-12-28 14:18:27 | INFO     | app.main             | log_requests         | [1418274547] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:18:37 | DEBUG    | app.main             | log_requests         | [1418371471] GET /api/bots/
+2025-12-28 14:18:37 | INFO     | app.main             | log_requests         | [1418371471] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:18:47 | DEBUG    | app.main             | log_requests         | [1418474479] GET /api/bots/
+2025-12-28 14:18:47 | INFO     | app.main             | log_requests         | [1418474479] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:18:57 | DEBUG    | app.main             | log_requests         | [1418571553] GET /api/bots/
+2025-12-28 14:18:57 | INFO     | app.main             | log_requests         | [1418571553] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:19:07 | DEBUG    | app.main             | log_requests         | [1419074609] GET /api/bots/
+2025-12-28 14:19:07 | INFO     | app.main             | log_requests         | [1419074609] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:19:17 | DEBUG    | app.main             | log_requests         | [1419171525] GET /api/bots/
+2025-12-28 14:19:17 | INFO     | app.main             | log_requests         | [1419171525] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:19:27 | DEBUG    | app.main             | log_requests         | [1419274600] GET /api/bots/
+2025-12-28 14:19:27 | INFO     | app.main             | log_requests         | [1419274600] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:19:37 | DEBUG    | app.main             | log_requests         | [1419371608] GET /api/bots/
+2025-12-28 14:19:37 | INFO     | app.main             | log_requests         | [1419371608] ✗ GET /api/bots/ - 404 (3ms)
+2025-12-28 14:19:47 | DEBUG    | app.main             | log_requests         | [1419474577] GET /api/bots/
+2025-12-28 14:19:47 | INFO     | app.main             | log_requests         | [1419474577] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:19:57 | DEBUG    | app.main             | log_requests         | [1419571490] GET /api/bots/
+2025-12-28 14:19:57 | INFO     | app.main             | log_requests         | [1419571490] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:20:07 | DEBUG    | app.main             | log_requests         | [1420074578] GET /api/bots/
+2025-12-28 14:20:07 | INFO     | app.main             | log_requests         | [1420074578] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:20:17 | DEBUG    | app.main             | log_requests         | [1420171588] GET /api/bots/
+2025-12-28 14:20:17 | INFO     | app.main             | log_requests         | [1420171588] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:20:27 | DEBUG    | app.main             | log_requests         | [1420274640] GET /api/bots/
+2025-12-28 14:20:27 | INFO     | app.main             | log_requests         | [1420274640] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:20:37 | DEBUG    | app.main             | log_requests         | [1420371493] GET /api/bots/
+2025-12-28 14:20:37 | INFO     | app.main             | log_requests         | [1420371493] ✗ GET /api/bots/ - 404 (4ms)
+2025-12-28 14:20:47 | DEBUG    | app.main             | log_requests         | [1420474519] GET /api/bots/
+2025-12-28 14:20:47 | INFO     | app.main             | log_requests         | [1420474519] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:20:57 | DEBUG    | app.main             | log_requests         | [1420571574] GET /api/bots/
+2025-12-28 14:20:57 | INFO     | app.main             | log_requests         | [1420571574] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:07 | DEBUG    | app.main             | log_requests         | [1421074661] GET /api/bots/
+2025-12-28 14:21:07 | INFO     | app.main             | log_requests         | [1421074661] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:17 | DEBUG    | app.main             | log_requests         | [1421171467] GET /api/bots/
+2025-12-28 14:21:17 | INFO     | app.main             | log_requests         | [1421171467] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:27 | DEBUG    | app.main             | log_requests         | [1421274504] GET /api/bots/
+2025-12-28 14:21:27 | INFO     | app.main             | log_requests         | [1421274504] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:37 | DEBUG    | app.main             | log_requests         | [1421371505] GET /api/bots/
+2025-12-28 14:21:37 | INFO     | app.main             | log_requests         | [1421371505] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:47 | DEBUG    | app.main             | log_requests         | [1421474619] GET /api/bots/
+2025-12-28 14:21:47 | INFO     | app.main             | log_requests         | [1421474619] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:21:57 | DEBUG    | app.main             | log_requests         | [1421571462] GET /api/bots/
+2025-12-28 14:21:57 | INFO     | app.main             | log_requests         | [1421571462] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:07 | DEBUG    | app.main             | log_requests         | [1422074553] GET /api/bots/
+2025-12-28 14:22:07 | INFO     | app.main             | log_requests         | [1422074553] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:17 | DEBUG    | app.main             | log_requests         | [1422171472] GET /api/bots/
+2025-12-28 14:22:17 | INFO     | app.main             | log_requests         | [1422171472] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:27 | DEBUG    | app.main             | log_requests         | [1422274561] GET /api/bots/
+2025-12-28 14:22:27 | INFO     | app.main             | log_requests         | [1422274561] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:37 | DEBUG    | app.main             | log_requests         | [1422371585] GET /api/bots/
+2025-12-28 14:22:37 | INFO     | app.main             | log_requests         | [1422371585] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:47 | DEBUG    | app.main             | log_requests         | [1422474592] GET /api/bots/
+2025-12-28 14:22:47 | INFO     | app.main             | log_requests         | [1422474592] ✗ GET /api/bots/ - 404 (0ms)
+2025-12-28 14:22:55 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:55 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 14:22:55 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:56 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:22:56 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:22:56 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:22:56 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:22:57 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:22:57 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:22:57 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:22:57 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:22:57 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:22:57 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:57 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:22:57 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:22:57 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:22:57 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:58 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:22:58 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:22:58 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:58 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:22:58 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:22:58 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:22:58 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:22:59 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:22:59 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:23:00 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:23:00 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:00 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:23:00 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:23:00 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:23:00 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:01 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:23:01 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:23:01 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:01 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:23:01 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:23:01 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:23:01 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:01 | DEBUG    | app.main             | log_requests         | [1423018876] GET /api/bots/
+2025-12-28 14:23:01 | INFO     | app.main             | log_requests         | [1423018876] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:23:07 | DEBUG    | app.main             | log_requests         | [1423071485] GET /api/bots/
+2025-12-28 14:23:07 | INFO     | app.main             | log_requests         | [1423071485] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:23:09 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 14:23:09 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 14:23:09 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 14:23:09 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 14:23:09 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 14:23:10 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 14:23:10 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 14:23:10 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 14:23:10 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 14:23:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:10 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 14:23:10 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 14:23:10 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 14:23:10 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 14:23:17 | DEBUG    | app.main             | log_requests         | [1423174501] GET /api/bots/
+2025-12-28 14:23:17 | INFO     | app.main             | log_requests         | [1423174501] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:23:27 | DEBUG    | app.main             | log_requests         | [1423271474] GET /api/bots/
+2025-12-28 14:23:27 | INFO     | app.main             | log_requests         | [1423271474] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:23:37 | DEBUG    | app.main             | log_requests         | [1423374494] GET /api/bots/
+2025-12-28 14:23:37 | INFO     | app.main             | log_requests         | [1423374494] ✗ GET /api/bots/ - 404 (1ms)
+2025-12-28 14:23:42 | DEBUG    | app.main             | log_requests         | [1423429570] GET /api/presets/list
+2025-12-28 14:23:42 | INFO     | app.main             | log_requests         | [1423429570] ✔ GET /api/presets/list - 200 (14ms)
+2025-12-28 14:23:42 | DEBUG    | app.main             | log_requests         | [1423429742] GET /api/presets/stats
+2025-12-28 14:23:42 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | INFO     | app.main             | log_requests         | [1423429742] ✗ GET /api/presets/stats - 500 (4ms)
+2025-12-28 14:23:42 | DEBUG    | app.main             | log_requests         | [1423429800] GET /api/presets/list
+2025-12-28 14:23:42 | INFO     | app.main             | log_requests         | [1423429800] ✔ GET /api/presets/list - 200 (5ms)
+2025-12-28 14:23:42 | DEBUG    | app.main             | log_requests         | [1423429879] GET /api/presets/stats
+2025-12-28 14:23:42 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | INFO     | app.main             | log_requests         | [1423429879] ✗ GET /api/presets/stats - 500 (2ms)
+2025-12-28 14:23:47 | DEBUG    | app.main             | log_requests         | [1423474250] GET /api/presets/list
+2025-12-28 14:23:47 | DEBUG    | app.main             | log_requests         | [1423474310] GET /api/presets/stats
+2025-12-28 14:23:47 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:47 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:47 | INFO     | app.main             | log_requests         | [1423474250] ✔ GET /api/presets/list - 200 (11ms)
+2025-12-28 14:23:47 | INFO     | app.main             | log_requests         | [1423474310] ✗ GET /api/presets/stats - 500 (7ms)
