@@ -26,3 +26,103 @@ active_count
 favorites_count
   Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:42 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:47 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:23:47 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:28 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:28 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:28 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:28 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:37 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:35:37 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:36:28 | ERROR    | app.api.preset_routes | seed_dominant_presets | Error seeding presets: bulk_create_presets() got an unexpected keyword argument 'skip_duplicates'
+2025-12-28 14:36:28 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/dominant/seed: bulk_create_presets() got an unexpected keyword argument 'skip_duplicates'
+2025-12-28 14:36:34 | ERROR    | app.api.preset_routes | get_stats            | Error getting preset stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+2025-12-28 14:36:34 | ERROR    | app.main             | http_exception_handler | HTTP 500 on /api/presets/stats: 2 validation errors for PresetStatsResponse
+active_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing
+favorites_count
+  Field required [type=missing, input_value={'total_presets': 125, 'b...e': 125, 'favorites': 0}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.5/v/missing

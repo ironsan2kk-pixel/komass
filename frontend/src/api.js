@@ -103,10 +103,12 @@ export const presetsApi = {
     seed: () => api.post('/api/presets/dominant/seed'),
   },
   
-  // TRG-specific (future)
+  // TRG-specific (Chat #46)
   trg: {
-    list: (params = {}) => api.get('/api/presets/list', { params: { ...params, indicator_type: 'trg' } }),
-    generate: () => api.post('/api/presets/trg/generate'),
+    list: (params = {}) => api.get('/api/presets/trg/list', { params }),
+    categories: () => api.get('/api/presets/trg/categories'),
+    seed: (force = false) => api.post(`/api/presets/trg/seed?force=${force}`),
+    clear: (source = 'system') => api.delete(`/api/presets/trg/clear?source=${source}`),
   },
   
   // Legacy API for backward compatibility

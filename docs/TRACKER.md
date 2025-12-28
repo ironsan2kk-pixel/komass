@@ -54,6 +54,15 @@
 - [x] 6 новых API endpoints для режимов
 - [x] Unit тесты (50+ тестов)
 
+**🔧 BUGFIX: TRG Seed Endpoints**
+- [x] Добавлены недостающие TRG endpoints в preset_routes.py:
+  - GET /api/presets/trg/list — список TRG пресетов
+  - GET /api/presets/trg/categories — категории по i1
+  - POST /api/presets/trg/seed — генерация 200 пресетов
+  - DELETE /api/presets/trg/clear — очистка TRG пресетов
+- [x] Обновлён presetsApi.trg в api.js
+- [x] Добавлены кнопки "Seed TRG" и "Seed Dominant" в Presets.jsx
+
 **Новые файлы:**
 - `backend/app/services/optimization_modes.py`
 - `frontend/src/components/Optimizer/ModeSelector.jsx`
@@ -63,7 +72,9 @@
 **Обновлённые файлы:**
 - `backend/app/services/preset_optimizer.py`
 - `backend/app/api/optimizer_routes.py`
-- `frontend/src/api.js`
+- `backend/app/api/preset_routes.py` — TRG endpoints
+- `frontend/src/api.js` — TRG API methods
+- `frontend/src/pages/Presets.jsx` — Seed buttons
 
 **Режимы оптимизации:**
 
@@ -116,7 +127,7 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
-| 28.12.2025 | #46 | ✅ Optimizer Modes: QUICK/STANDARD/SMART/FULL |
+| 28.12.2025 | #46 | ✅ Optimizer Modes + 🔧 TRG Seed Endpoints Fix |
 | 28.12.2025 | #45 | ✅ Preset Optimizer Core: multi-pair backtest |
 | 28.12.2025 | #44 | ✅ Filters UI: полный интерфейс фильтров |
 | 28.12.2025 | #43 | ✅ Filters Integration: FilterManager |

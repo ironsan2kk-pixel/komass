@@ -352,6 +352,64 @@ export default function Presets() {
     input.click();
   };
   
+  // Seed TRG presets (200 system presets)
+  const [seedingTrg, setSeedingTrg] = useState(false);
+  const handleSeedTrg = async () => {
+    if (!confirm('Сгенерировать 200 системных TRG пресетов?\n\nGrid:\n- 8 × i1: [14, 25, 40, 60, 80, 110, 150, 200]\n- 5 × i2: [2.0, 3.0, 4.0, 5.5, 7.5]\n- 5 × filters: [N, T, M, S, F]')) {
+      return;
+    }
+    
+    try {
+      setSeedingTrg(true);
+      const response = await fetch(`${API_URL}/api/presets/trg/seed?force=false`, {
+        method: 'POST'
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.detail || 'TRG seed failed');
+      }
+      
+      alert(`TRG пресеты сгенерированы!\n\nСоздано: ${result.saved}\nПропущено: ${result.skipped}\nОшибок: ${result.errors}\n\nВсего TRG: ${result.total_trg}`);
+      loadPresets();
+      loadStats();
+    } catch (err) {
+      alert(`Ошибка генерации TRG: ${err.message}`);
+    } finally {
+      setSeedingTrg(false);
+    }
+  };
+  
+  // Seed Dominant presets (125 system presets from GG Pine Script)
+  const [seedingDominant, setSeedingDominant] = useState(false);
+  const handleSeedDominant = async () => {
+    if (!confirm('Сгенерировать 125 системных Dominant пресетов из GG Pine Script?')) {
+      return;
+    }
+    
+    try {
+      setSeedingDominant(true);
+      const response = await fetch(`${API_URL}/api/presets/dominant/seed?force=false`, {
+        method: 'POST'
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.detail || 'Dominant seed failed');
+      }
+      
+      alert(`Dominant пресеты сгенерированы!\n\nСоздано: ${result.created}\nПропущено: ${result.skipped}\nОшибок: ${result.errors}\n\nВсего Dominant: ${result.total_dominant}`);
+      loadPresets();
+      loadStats();
+    } catch (err) {
+      alert(`Ошибка генерации Dominant: ${err.message}`);
+    } finally {
+      setSeedingDominant(false);
+    }
+  };
+  
   // Batch delete
   const handleBatchDelete = async () => {
     if (selectedIds.size === 0) return;
@@ -450,6 +508,30 @@ export default function Presets() {
             className="px-4 py-2 bg-orange-600 hover:bg-orange-700 rounded-lg flex items-center gap-2"
           >
             📤 Восстановить
+          </button>
+          <button
+            onClick={handleSeedTrg}
+            disabled={seedingTrg}
+            className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
+              seedingTrg 
+                ? 'bg-gray-600 cursor-not-allowed' 
+                : 'bg-yellow-600 hover:bg-yellow-700'
+            }`}
+            title="Сгенерировать 200 системных TRG пресетов"
+          >
+            {seedingTrg ? '⏳' : '📈'} Seed TRG (200)
+          </button>
+          <button
+            onClick={handleSeedDominant}
+            disabled={seedingDominant}
+            className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
+              seedingDominant 
+                ? 'bg-gray-600 cursor-not-allowed' 
+                : 'bg-teal-600 hover:bg-teal-700'
+            }`}
+            title="Сгенерировать 125 системных Dominant пресетов из GG Pine Script"
+          >
+            {seedingDominant ? '⏳' : '🎯'} Seed Dominant (125)
           </button>
         </div>
       </div>

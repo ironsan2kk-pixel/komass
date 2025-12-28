@@ -772,6 +772,187 @@ async def clear_dominant_presets(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ============ TRG SPECIFIC ENDPOINTS ============
+
+@router.get("/trg/list")
+async def list_trg_presets(
+    category: Optional[str] = Query(None, description="Filter by category"),
+    source: Optional[str] = Query(None, description="Filter by source: system, user, optimizer"),
+    is_active: Optional[bool] = Query(None, description="Filter by active status"),
+    is_favorite: Optional[bool] = Query(None, description="Filter by favorite"),
+    search: Optional[str] = Query(None, description="Search in name/description"),
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0)
+):
+    """
+    List TRG presets only.
+    
+    TRG presets are generated using 200 system combinations:
+    - 8 i1 values × 5 i2 values × 5 filter profiles = 200 presets
+    """
+    try:
+        presets = list_presets(
+            indicator_type="trg",
+            category=category,
+            source=source,
+            is_active=is_active,
+            is_favorite=is_favorite,
+            search=search,
+            limit=limit,
+            offset=offset
+        )
+        
+        total = count_presets(indicator_type="trg")
+        
+        return {
+            "presets": [_dict_to_response(p) for p in presets],
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "indicator": "trg"
+        }
+    except Exception as e:
+        logger.error(f"Error listing TRG presets: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/trg/categories")
+async def get_trg_categories():
+    """Get TRG preset categories with counts"""
+    try:
+        stats = get_preset_stats()
+        trg_stats = stats.get("by_indicator", {}).get("trg", {})
+        
+        # Define TRG categories based on i1 parameter
+        categories = [
+            {
+                "value": "scalp",
+                "label": "Скальп (i1: 14-25)",
+                "icon": "⚡",
+                "description": "Быстрые сделки, высокая частота",
+                "i1_range": [14, 25]
+            },
+            {
+                "value": "short-term",
+                "label": "Краткосрочные (i1: 40-60)",
+                "icon": "🎯",
+                "description": "Дневные/недельные сделки",
+                "i1_range": [40, 60]
+            },
+            {
+                "value": "mid-term",
+                "label": "Среднесрочные (i1: 80-110)",
+                "icon": "📊",
+                "description": "Недельные/месячные позиции",
+                "i1_range": [80, 110]
+            },
+            {
+                "value": "swing",
+                "label": "Свинг (i1: 150-200)",
+                "icon": "🌊",
+                "description": "Долгосрочные тренды",
+                "i1_range": [150, 200]
+            }
+        ]
+        
+        return {
+            "categories": categories,
+            "total_trg": trg_stats.get("total", 0),
+            "by_source": trg_stats.get("by_source", {})
+        }
+    except Exception as e:
+        logger.error(f"Error getting TRG categories: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/trg/seed")
+async def seed_trg_presets(
+    force: bool = Query(False, description="Delete existing system TRG presets and re-seed")
+):
+    """
+    Seed TRG system presets (200 presets).
+    
+    Generation grid:
+    - 8 i1 values: [14, 25, 40, 60, 80, 110, 150, 200]
+    - 5 i2 values: [2.0, 3.0, 4.0, 5.5, 7.5]
+    - 5 filter profiles: [N, T, M, S, F]
+    
+    Total: 8 × 5 × 5 = 200 presets
+    
+    Naming convention: {FILTER}_{i1}_{i2*10}
+    Examples: N_45_40, T_60_55, F_80_30
+    """
+    try:
+        from app.presets.generator import generate_trg_presets
+        
+        deleted_count = 0
+        if force:
+            # Delete existing system TRG presets (by getting IDs and deleting)
+            existing = list_presets(indicator_type="trg", source="system", limit=500)
+            if existing:
+                ids_to_delete = [p["id"] for p in existing]
+                deleted_count = delete_presets_by_ids(ids_to_delete)
+                logger.info(f"Deleted {deleted_count} existing system TRG presets")
+        
+        # Generate all 200 TRG presets
+        result = generate_trg_presets(save_to_db=True, replace_existing=force)
+        
+        return {
+            "success": True,
+            "deleted_before": deleted_count,
+            "generated": result.total_generated,
+            "saved": result.total_saved,
+            "skipped": result.total_skipped,
+            "errors": result.total_errors,
+            "error_details": result.errors[:10] if result.errors else [],
+            "total_trg": count_presets(indicator_type="trg")
+        }
+    except ImportError as e:
+        logger.error(f"Import error in TRG seed: {e}")
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Generator module not found. Check app.presets.generator: {str(e)}"
+        )
+    except Exception as e:
+        logger.error(f"Error seeding TRG presets: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/trg/clear")
+async def clear_trg_presets(
+    source: str = Query("system", description="Source to clear: system, user, optimizer, all")
+):
+    """
+    Clear TRG presets by source.
+    
+    WARNING: Use with caution! This will delete presets permanently.
+    - source=system: Delete 200 system presets (can be re-generated)
+    - source=user: Delete user-created presets
+    - source=optimizer: Delete optimizer-generated presets
+    - source=all: Delete ALL TRG presets
+    """
+    try:
+        # Get TRG presets by source (or all)
+        if source == "all":
+            presets = list_presets(indicator_type="trg", limit=1000)
+        else:
+            presets = list_presets(indicator_type="trg", source=source, limit=1000)
+        
+        deleted = 0
+        if presets:
+            ids_to_delete = [p["id"] for p in presets]
+            deleted = delete_presets_by_ids(ids_to_delete)
+        
+        return {
+            "success": True,
+            "deleted": deleted,
+            "remaining": count_presets(indicator_type="trg")
+        }
+    except Exception as e:
+        logger.error(f"Error clearing TRG presets: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ============ HELPERS ============
 
 def _dict_to_response(d: dict) -> PresetResponse:
