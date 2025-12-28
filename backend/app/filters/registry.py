@@ -21,6 +21,8 @@ Usage:
     time_filters = FilterRegistry.get_by_category(FilterCategory.TIME)
 
 Chat #37: Filters Architecture
+Chat #38: Filters Time
+Chat #39: Filters Volatility
 Author: KOMAS Team
 Version: 4.0
 """
@@ -209,6 +211,21 @@ class FilterRegistry:
     def count(cls) -> int:
         """Get number of registered filters."""
         return len(cls._filters)
+    
+    @classmethod
+    def get_category_summary(cls) -> Dict[str, List[str]]:
+        """
+        Get summary of filters by category.
+        
+        Returns:
+            Dict of category_name -> list of filter names
+        """
+        summary = {}
+        for category in FilterCategory:
+            filters = cls.get_by_category(category)
+            if filters:
+                summary[category.value] = list(filters.keys())
+        return summary
 
 
 # =============================================================================
@@ -245,8 +262,8 @@ def discover_filters() -> int:
     
     # Import filter modules to trigger registration
     from . import time_filters
+    from . import volatility_filters
     # Future imports:
-    # from . import volatility_filters
     # from . import trend_filters
     # from . import portfolio_filters
     # from . import protection_filters

@@ -11,11 +11,11 @@
 
 | Метрика | Значение |
 |---------|----------|
-| **Всего чатов** | 83 (#15 — #97) |
-| **Завершено** | 24 (#15-38) |
-| **В процессе** | #39 |
-| **Осталось** | 59 |
-| **Прогресс** | 29% |
+| **Всего чатов** | 75 (#15 — #89) |
+| **Завершено** | 25 (#15-39) |
+| **В процессе** | — |
+| **Осталось** | 50 |
+| **Прогресс** | 33.3% |
 
 ---
 
@@ -27,7 +27,7 @@
 | 2 | Dominant Indicator | #20-27 | 8 | ✅ Завершено |
 | 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
 | 4 | Signal Score | #34-36 | 3 | ✅ Завершено |
-| 5 | Общие фильтры | #37-44 | 8 | ⏳ 2/8 завершено |
+| 5 | Общие фильтры | #37-44 | 8 | ⏳ 3/8 завершено |
 | 6 | Оптимизация пресетов | #45-49 | 5 | ⬜ Ожидает |
 | 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
 | 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
@@ -35,69 +35,77 @@
 | 10 | Live Engine | #65-70 | 6 | ⬜ Ожидает |
 | 11 | Telegram | #71-76 | 6 | ⬜ Ожидает |
 | 12 | Дизайн | #77-80 | 4 | ⬜ Ожидает |
-| 13 | QA и тестирование | #81-88 | 8 | ⬜ Ожидает |
-| 14 | GitHub и деплой | #89-94 | 6 | ⬜ Ожидает |
-| 15 | Финализация | #95-97 | 3 | ⬜ Ожидает |
+| 13 | QA и тестирование | #81-85 | 5 | ⬜ Ожидает |
+| 14 | GitHub и деплой | #86-89 | 4 | ⬜ Ожидает |
 
 ---
 
 ## 🔍 ФАЗА 5: ОБЩИЕ ФИЛЬТРЫ (8 чатов)
 
-### Чат #37: Filters Architecture
+### Чат #37: Filters Architecture ✅
 **Статус:** ✅ Завершён  
 **Дата завершения:** 28.12.2025
 
 **Выполнено:**
-- [x] `filters/base.py` — BaseFilter, Signal, SignalContext, FilterDecision
-- [x] `filters/registry.py` — FilterRegistry с декоратором @register_filter
-- [x] `filters/chain.py` — FilterChain с short-circuit и статистикой
+- [x] `filters/base.py` — базовые классы (Signal, SignalContext, FilterDecision)
+- [x] `filters/registry.py` — реестр фильтров с декоратором @register_filter
+- [x] `filters/chain.py` — FilterChain для применения нескольких фильтров
+- [x] FilterCategory, FilterPriority enum'ы
+- [x] 33 unit теста
 
 ---
 
-### Чат #38: Filters Time
+### Чат #38: Filters Time ✅
 **Статус:** ✅ Завершён  
 **Дата завершения:** 28.12.2025
 
 **Выполнено:**
-- [x] SessionFilter — фильтр по торговым сессиям (Asia/Europe/US)
-- [x] WeekdayFilter — фильтр по дням недели
-- [x] CooldownFilter — пауза после сделки с разными cooldowns
-- [x] Timezone support (UTC)
+- [x] SessionFilter — торговые сессии (Asia/Europe/US)
+- [x] WeekdayFilter — дни недели (Пн-Пт/включая выходные)
+- [x] CooldownFilter — пауза между сделками
+- [x] Timezone support (UTC/local)
 - [x] Session overlap detection
-- [x] Per-symbol vs global cooldown
-- [x] 48 unit тестов (все пройдены)
-- [x] run_time_filter_tests.bat
-
-**Файлы созданы:**
-- `backend/app/filters/__init__.py`
-- `backend/app/filters/base.py`
-- `backend/app/filters/registry.py`
-- `backend/app/filters/chain.py`
-- `backend/app/filters/time_filters.py`
-- `tests/test_time_filters.py`
-- `run_tests.py`
-- `run_time_filter_tests.bat`
+- [x] 48 unit тестов
 
 ---
 
-### Чат #39: Filters Volatility
-**Статус:** ⏳ Следующий
+### Чат #39: Filters Volatility ✅
+**Статус:** ✅ Завершён  
+**Дата завершения:** 28.12.2025
 
-**Задачи:**
-- [ ] ATRFilter — фильтр по ATR (мин/макс границы)
-- [ ] VolumeFilter — фильтр по объёму
-- [ ] ExtremeFilter — блокировка при экстремальной волатильности
-- [ ] Unit тесты
+**Выполнено:**
+- [x] ATRFilter — фильтр по ATR (мин/макс границы)
+  - ATR как % от цены или абсолютное значение
+  - Настраиваемый период ATR
+- [x] VolumeFilter — фильтр по объёму
+  - Минимальный ratio vs MA
+  - Абсолютный минимум объёма
+- [x] ExtremeFilter — блокировка при экстремальной волатильности
+  - ATR spike detection
+  - Volume spike detection
+  - Pause period с таймером
+- [x] Helper функции (calculate_atr_percent, calculate_volume_ratio, etc.)
+- [x] Volatility profiles (conservative/balanced/aggressive)
+- [x] Config validation
+- [x] 40+ unit тестов
+- [x] run_volatility_filter_tests.bat
+
+**Файлы обновлены:**
+- `backend/app/filters/volatility_filters.py` — NEW
+- `backend/app/filters/registry.py` — updated imports
+- `backend/app/filters/__init__.py` — updated exports
+- `tests/test_volatility_filters.py` — NEW
 
 ---
 
 ### Чат #40: Filters Trend
-**Статус:** ⬜ Ожидает
+**Статус:** ⏳ Следующий
 
 **Задачи:**
 - [ ] BTCTrendFilter — торговля по тренду BTC
 - [ ] MultiTFFilter — согласованность таймфреймов
 - [ ] RegimeFilter — trending/ranging detection
+- [ ] Unit тесты
 
 ---
 
@@ -108,6 +116,7 @@
 - [ ] CorrelationFilter — лимит коррелированных позиций
 - [ ] DirectionFilter — лимит Long/Short
 - [ ] SectorFilter — лимит по секторам
+- [ ] Unit тесты
 
 ---
 
@@ -119,6 +128,7 @@
 - [ ] DrawdownFilter — пауза при DD > X%
 - [ ] StreakFilter — стоп после N убытков
 - [ ] RecoveryFilter — постепенный вход после DD
+- [ ] Unit тесты
 
 ---
 
@@ -130,6 +140,7 @@
 - [ ] Загрузка конфигов из БД
 - [ ] Применение цепочки к сигналам
 - [ ] Логирование причин блокировки
+- [ ] Unit тесты
 
 ---
 
@@ -141,6 +152,7 @@
 - [ ] Группировка по категориям
 - [ ] Переключатели enabled + параметры
 - [ ] Preview эффекта фильтра
+- [ ] Presets фильтров (Conservative/Balanced/Aggressive)
 
 ---
 
@@ -148,13 +160,15 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
-| 28.12.2025 | #38 | ✅ Time Filters: Session, Weekday, Cooldown + 48 тестов |
-| 28.12.2025 | #37 | ✅ Filters Architecture: base, registry, chain |
-| 27.12.2025 | #36 | ✅ Score UI: badges, breakdown, grade filter |
-| 27.12.2025 | #35 | ✅ Multi-TF Loader: 4 trend detection methods |
-| 27.12.2025 | #34 | ✅ Signal Score Core: 4 components, grades |
-| 27.12.2025 | #15 | ✅ Bugfixes UI |
-| 27.12.2025 | — | Создан трекер разработки |
+| 28.12.2025 | #39 | ✅ Volatility Filters: ATRFilter, VolumeFilter, ExtremeFilter |
+| 28.12.2025 | #38 | ✅ Time Filters: SessionFilter, WeekdayFilter, CooldownFilter |
+| 28.12.2025 | #37 | ✅ Filters Architecture: base.py, registry.py, chain.py |
+| 28.12.2025 | #36 | ✅ Score UI: Badge, breakdown, filter by score |
+| 28.12.2025 | #35 | ✅ Score Multi-TF: Higher timeframe alignment |
+| 28.12.2025 | #34 | ✅ Score Core: 4 components, 0-100, grades |
+| 28.12.2025 | #33 | ✅ Presets UI: Library, search, creation |
+| 28.12.2025 | #32 | ✅ Presets Import/Export: JSON format |
+| 27.12.2025 | #15 | ✅ Bugfixes UI: Monthly, Stats, UTF-8 |
 
 ---
 

@@ -1,112 +1,191 @@
-# KOMAS v4.0 — Chat Reference
+# 📚 KOMAS v4.0 — Chat Reference
 
-> **Последнее обновление:** 28.12.2025
-
----
-
-## Чат #38: Filters Time
-
-**Дата:** 28.12.2025  
-**Статус:** ✅ Завершён
-
-### Что сделано:
-1. **SessionFilter** — фильтр по торговым сессиям
-   - Asia: 00:00 - 08:00 UTC
-   - Europe: 08:00 - 16:00 UTC
-   - US: 13:00 - 22:00 UTC
-   - Поддержка overlap detection
-
-2. **WeekdayFilter** — фильтр по дням недели
-   - Настраиваемые дни (0=Monday, 6=Sunday)
-   - Timezone support
-
-3. **CooldownFilter** — пауза между сделками
-   - after_win_cooldown: 30 мин (после выигрыша)
-   - cooldown_minutes: 60 мин (default)
-   - after_loss_cooldown: 120 мин (после проигрыша)
-   - Per-symbol или global cooldown
-
-### Файлы:
-```
-backend/app/filters/
-├── __init__.py
-├── base.py
-├── registry.py
-├── chain.py
-└── time_filters.py
-
-tests/
-└── test_time_filters.py (48 tests)
-
-run_tests.py
-run_time_filter_tests.bat
-```
-
-### Git Commit:
-```
-feat: Add time-based filters
-
-- Add SessionFilter for trading session control (Asia/Europe/US)
-- Add WeekdayFilter for day-of-week filtering
-- Add CooldownFilter with win/loss-based cooldowns
-- Add timezone support (UTC/local)
-- Add session overlap detection
-- Add 48 unit tests
-
-Chat #38: Filters Time
-```
+> **Последнее обновление:** 28.12.2025  
+> **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## Чат #37: Filters Architecture
+## 🗂️ ОГЛАВЛЕНИЕ
 
-**Дата:** 28.12.2025  
-**Статус:** ✅ Завершён
-
-### Что сделано:
-- BaseFilter abstract class
-- FilterRegistry с @register_filter decorator
-- FilterChain с short-circuit execution
-- Signal, SignalContext, FilterDecision dataclasses
-- FilterCategory, FilterPriority enums
+- [Фаза 1: Стабилизация](#фаза-1-стабилизация-15-19)
+- [Фаза 2: Dominant Indicator](#фаза-2-dominant-indicator-20-27)
+- [Фаза 3: Система пресетов](#фаза-3-система-пресетов-28-33)
+- [Фаза 4: Signal Score](#фаза-4-signal-score-34-36)
+- [Фаза 5: Общие фильтры](#фаза-5-общие-фильтры-37-44)
 
 ---
 
-## Чат #36: Score UI
+## Фаза 1: Стабилизация (#15-19)
 
-**Дата:** 27.12.2025  
-**Статус:** ✅ Завершён
+### #15 — Bugfixes UI ✅
+- Monthly Panel белый экран fix
+- Stats Panel ошибки fix
+- UTF-8 encoding fix
+- LogsPanel авто-скролл
 
-### Что сделано:
-- ScoreBadge component
-- Score column in TradesTable
-- Grade filter for trades
-- Grade statistics in StatsPanel
+### #16 — Bugfixes Backend ✅
+- Network Error duplicate timestamps fix
+- Endpoints validation
+- Error logging
 
----
+### #17 — Data Futures Only ✅
+- Убрали spot торговлю
+- Только Binance Futures
+- Обновлён список символов
 
-## Чат #35: Score Multi-TF
+### #18 — Data Period Selection ✅
+- UI выбора периода
+- Datepicker компоненты
+- API start_date/end_date
 
-**Дата:** 27.12.2025  
-**Статус:** ✅ Завершён
-
-### Что сделано:
-- MultiTFLoader with 4 trend detection methods
-- Timeframe aggregation (1h->4h, 1h->1d)
-- Integration with SignalScorer
-
----
-
-## Чат #34: Score Core
-
-**Дата:** 27.12.2025  
-**Статус:** ✅ Завершён
-
-### Что сделано:
-- SignalScorer class
-- 4 scoring components (Confluence, Multi-TF, Market Context, Technical Levels)
-- Grade system (A-F)
+### #19 — Data Caching ✅
+- LRU кэш для OHLCV
+- Метрики hit/miss
 
 ---
 
-*Следующий чат: #39 — Filters Volatility*
+## Фаза 2: Dominant Indicator (#20-27)
+
+### #20 — Dominant Core ✅
+- indicators/dominant.py
+- Channel calculation
+- Fibonacci levels
+
+### #21 — Dominant Signals ✅
+- can_long / can_short
+- Trend tracking
+
+### #22 — Dominant Filters ✅
+- 5 filter types (0-4)
+
+### #23 — Dominant SL Modes ✅
+- 5 SL modes
+
+### #24 — Dominant AI Resolution ✅
+- Scoring function
+- Auto-optimization
+
+### #25 — Dominant Presets DB ✅
+- SQLite table
+- 125 presets migration
+
+### #26 — Dominant UI Integration ✅
+- Indicator selector
+- Preset dropdown
+
+### #27 — Dominant Verification ✅
+- TradingView comparison
+- Signal accuracy check
+
+---
+
+## Фаза 3: Система пресетов (#28-33)
+
+### #28 — Presets Architecture ✅
+- Base classes
+- Registry pattern
+
+### #29 — Presets TRG Generator ✅
+- 200 presets (8×5×5)
+- Naming convention
+
+### #30 — Presets TRG Storage ✅
+- SQLite storage
+- API endpoints
+
+### #31 — Presets User CRUD ✅
+- Create/Edit/Delete
+- Clone from system
+
+### #32 — Presets Import/Export ✅
+- JSON format
+- Batch export
+
+### #33 — Presets UI ✅
+- Library page
+- Search & filters
+- Categories
+
+---
+
+## Фаза 4: Signal Score (#34-36)
+
+### #34 — Score Core ✅
+- 4 components × 25 points
+- Grades A-F
+- scoring/signal_score.py
+
+### #35 — Score Multi-TF ✅
+- Higher TF loading
+- Alignment calculation
+
+### #36 — Score UI ✅
+- Badge component
+- Score breakdown tooltip
+- Filter by grade
+
+---
+
+## Фаза 5: Общие фильтры (#37-44)
+
+### #37 — Filters Architecture ✅
+- BaseFilter class
+- FilterRegistry
+- FilterChain
+- 33 unit tests
+
+### #38 — Filters Time ✅
+- SessionFilter (Asia/Europe/US)
+- WeekdayFilter (Mon-Sun)
+- CooldownFilter (win/loss cooldowns)
+- Timezone support
+- 48 unit tests
+
+### #39 — Filters Volatility ✅
+- ATRFilter (min/max ATR range, % or absolute)
+- VolumeFilter (ratio vs MA, absolute minimum)
+- ExtremeFilter (ATR/volume spike detection, pause period)
+- Volatility profiles (conservative/balanced/aggressive)
+- Config validation
+- 40+ unit tests
+
+### #40 — Filters Trend ⏳
+- BTCTrendFilter
+- MultiTFFilter
+- RegimeFilter
+
+### #41 — Filters Portfolio ⬜
+- CorrelationFilter
+- DirectionFilter
+- SectorFilter
+
+### #42 — Filters Protection ⬜
+- EquityCurveFilter
+- DrawdownFilter
+- StreakFilter
+- RecoveryFilter
+
+### #43 — Filters Integration ⬜
+- FilterManager
+- DB config loading
+- Chain application
+
+### #44 — Filters UI ⬜
+- Filter settings section
+- Category grouping
+- Filter presets
+
+---
+
+## 📊 Статистика
+
+| Метрика | Значение |
+|---------|----------|
+| Всего чатов | 75 |
+| Завершено | 25 |
+| Прогресс | 33.3% |
+| Unit тестов | 150+ |
+
+---
+
+*Обновлено: 28.12.2025*
