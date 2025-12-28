@@ -5514,3 +5514,453 @@ favorites_count
 2025-12-28 14:59:02 | INFO     | app.main             | log_requests         | [1459025379] ✗ GET /site/wp-includes/wlwmanifest.xml - 404 (0ms)
 2025-12-28 14:59:03 | DEBUG    | app.main             | log_requests         | [1459030690] GET /cms/wp-includes/wlwmanifest.xml
 2025-12-28 14:59:03 | INFO     | app.main             | log_requests         | [1459030690] ✗ GET /cms/wp-includes/wlwmanifest.xml - 404 (0ms)
+2025-12-28 15:44:38 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 15:44:38 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 15:44:38 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 15:44:38 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 15:44:38 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 15:44:39 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 15:44:39 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 15:44:39 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 15:44:39 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 15:44:39 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 15:44:39 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:44:39 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 15:44:39 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 15:44:39 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 15:44:39 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:44:55 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:45:00 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:45:47 | INFO     | app.main             | log_requests         | GET /.well-known/rk2.php → 404 (0.00s)
+2025-12-28 15:45:47 | INFO     | app.main             | log_requests         | GET /ioxi-o.php → 404 (0.00s)
+2025-12-28 15:45:47 | INFO     | app.main             | log_requests         | GET /0x.php → 404 (0.01s)
+2025-12-28 15:45:48 | INFO     | app.main             | log_requests         | GET /222.php → 404 (0.00s)
+2025-12-28 15:45:48 | INFO     | app.main             | log_requests         | GET /aa.php → 404 (0.00s)
+2025-12-28 15:45:48 | INFO     | app.main             | log_requests         | GET /abcd.php → 404 (0.00s)
+2025-12-28 15:45:48 | INFO     | app.main             | log_requests         | GET /admin.php → 404 (0.00s)
+2025-12-28 15:45:49 | INFO     | app.main             | log_requests         | GET /admin/controller/extension/extension/jnweppgp.php → 404 (0.00s)
+2025-12-28 15:45:49 | INFO     | app.main             | log_requests         | GET /adminfuns.php → 404 (0.00s)
+2025-12-28 15:45:49 | INFO     | app.main             | log_requests         | GET /akc.php → 404 (0.00s)
+2025-12-28 15:45:49 | INFO     | app.main             | log_requests         | GET /buy.php → 404 (0.00s)
+2025-12-28 15:45:50 | INFO     | app.main             | log_requests         | GET /cong.php → 404 (0.00s)
+2025-12-28 15:45:50 | INFO     | app.main             | log_requests         | GET /css/classwithtostring.php → 404 (0.00s)
+2025-12-28 15:45:50 | INFO     | app.main             | log_requests         | GET /db.php → 404 (0.00s)
+2025-12-28 15:45:50 | INFO     | app.main             | log_requests         | GET /dropdown.php → 404 (0.01s)
+2025-12-28 15:45:51 | INFO     | app.main             | log_requests         | GET /file.php → 404 (0.00s)
+2025-12-28 15:45:51 | INFO     | app.main             | log_requests         | GET /goods.php → 404 (0.00s)
+2025-12-28 15:45:51 | INFO     | app.main             | log_requests         | GET /hplfuns.php → 404 (0.00s)
+2025-12-28 15:45:51 | INFO     | app.main             | log_requests         | GET /htaccess.php → 404 (0.00s)
+2025-12-28 15:45:51 | INFO     | app.main             | log_requests         | GET /images/wso.php → 404 (0.00s)
+2025-12-28 15:45:52 | INFO     | app.main             | log_requests         | GET /index/function.php → 404 (0.00s)
+2025-12-28 15:45:52 | INFO     | app.main             | log_requests         | GET /info.php → 404 (0.00s)
+2025-12-28 15:45:52 | INFO     | app.main             | log_requests         | GET /profile.php → 404 (0.00s)
+2025-12-28 15:45:52 | INFO     | app.main             | log_requests         | GET /sx.php → 404 (0.00s)
+2025-12-28 15:45:59 | INFO     | app.main             | log_requests         | GET /api/data/available → 200 (6.03s)
+2025-12-28 15:45:59 | INFO     | app.main             | log_requests         | GET /wp-admin/css/colors/blue/index.php → 404 (0.00s)
+2025-12-28 15:46:12 | INFO     | app.main             | log_requests         | POST /api/indicator/calculate → 200 (13.07s)
+2025-12-28 15:46:17 | INFO     | app.main             | log_requests         | GET /wp-admin/images/admin.php → 404 (5.10s)
+2025-12-28 15:46:17 | INFO     | app.main             | log_requests         | GET /api/data/available → 200 (5.09s)
+2025-12-28 15:48:51 | INFO     | app.main             | log_requests         | POST /api/indicator/heatmap → 200 (159.06s)
+2025-12-28 15:48:51 | INFO     | app.main             | log_requests         | GET /.well-known/security.txt → 404 (0.02s)
+2025-12-28 15:48:53 | INFO     | app.main             | log_requests         | POST /api/indicator/calculate → 200 (2.21s)
+2025-12-28 15:49:08 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:50:14 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 15:50:14 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 15:50:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:50:14 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 15:50:14 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 15:50:14 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 15:50:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:50:23 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:51:29 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:52:19 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:52:21 | INFO     | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → 405 (0.00s)
+2025-12-28 15:54:37 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 15:54:37 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 15:54:38 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 15:58:06 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 15:58:06 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 15:58:07 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 15:58:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:58:07 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 15:58:07 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 15:58:07 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 15:58:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 15:58:26 | ERROR    | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → ERROR (0.00s): cannot access local variable 'StreamingResponse' where it is not associated with a value
+2025-12-28 15:58:26 | ERROR    | app.main             | global_exception_handler | Unhandled error on /api/indicator/auto-optimize-stream:
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\main.py", line 152, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2356, in auto_optimize_stream_get
+    return await auto_optimize_stream(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2759, in auto_optimize_stream
+    return StreamingResponse(generate(), media_type="text/event-stream")
+           ^^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'StreamingResponse' where it is not associated with a value
+
+2025-12-28 15:58:29 | ERROR    | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → ERROR (0.00s): cannot access local variable 'StreamingResponse' where it is not associated with a value
+2025-12-28 15:58:29 | ERROR    | app.main             | global_exception_handler | Unhandled error on /api/indicator/auto-optimize-stream:
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\main.py", line 152, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2356, in auto_optimize_stream_get
+    return await auto_optimize_stream(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2759, in auto_optimize_stream
+    return StreamingResponse(generate(), media_type="text/event-stream")
+           ^^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'StreamingResponse' where it is not associated with a value
+
+2025-12-28 15:58:31 | ERROR    | app.main             | log_requests         | GET /api/indicator/auto-optimize-stream → ERROR (0.00s): cannot access local variable 'StreamingResponse' where it is not associated with a value
+2025-12-28 15:58:31 | ERROR    | app.main             | global_exception_handler | Unhandled error on /api/indicator/auto-optimize-stream:
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 108, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\main.py", line 152, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2356, in auto_optimize_stream_get
+    return await auto_optimize_stream(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\indicator_routes.py", line 2759, in auto_optimize_stream
+    return StreamingResponse(generate(), media_type="text/event-stream")
+           ^^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'StreamingResponse' where it is not associated with a value
+
+2025-12-28 16:12:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:20 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 16:12:20 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:21 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:12:21 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:12:21 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:21 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:12:21 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:12:21 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:12:21 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:22 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:12:22 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:12:23 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:12:23 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:23 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:12:23 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:12:23 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:12:23 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:24 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:12:24 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:12:25 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:12:25 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:25 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:12:25 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:12:25 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:12:25 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:26 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:26 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 16:12:27 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:27 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:12:27 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:12:28 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:12:28 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:28 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:12:28 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:12:28 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:12:28 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:12:54 | INFO     | app.main             | log_requests         | GET /api/optimizer/presets/stream → 405 (0.00s)
+2025-12-28 16:13:07 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:13:07 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:13:08 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:13:08 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:13:08 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:13:08 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:13:08 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:13:08 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:13:30 | INFO     | app.main             | log_requests         | GET /api/optimizer/presets/stream → 405 (0.00s)
+2025-12-28 16:14:15 | INFO     | app.main             | log_requests         | GET /api/presets/dominant/list → 200 (7.58s)
+2025-12-28 16:15:18 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:15:18 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:15:18 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:15:18 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:15:18 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:15:18 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:15:18 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:15:36 | INFO     | app.main             | log_requests         | GET /api/optimizer/presets/stream → 405 (0.00s)
+2025-12-28 16:20:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:07 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 16:20:07 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:08 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:20:08 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:20:09 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:20:09 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:09 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:20:09 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:20:09 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:20:09 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:22 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:20:22 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:20:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:22 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:20:22 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:20:22 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:20:22 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:20:32 | ERROR    | app.api.optimizer_routes | stream_optimization_get | Database error: no such table: presets
+2025-12-28 16:20:32 | ERROR    | app.main             | global_exception_handler | Unhandled error on /api/optimizer/presets/stream:
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 109, in __call__
+    await response(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 270, in __call__
+    async with anyio.create_task_group() as task_group:
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 597, in __aexit__
+    raise exceptions[0]
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 273, in wrap
+    await func()
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 134, in stream_response
+    return await super().stream_response(send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 262, in stream_response
+    async for chunk in self.body_iterator:
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 98, in body_stream
+    raise app_exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\routing.py", line 69, in app
+    await response(scope, receive, send)
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 270, in __call__
+    async with anyio.create_task_group() as task_group:
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 597, in __aexit__
+    raise exceptions[0]
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 273, in wrap
+    await func()
+  File "C:\Users\Administrator\Desktop\komass\backend\venv\Lib\site-packages\starlette\responses.py", line 262, in stream_response
+    async for chunk in self.body_iterator:
+  File "C:\Users\Administrator\Desktop\komass\backend\app\api\optimizer_routes.py", line 790, in db_error
+    yield f'data: {json.dumps({"type": "error", "message": f"Database error: {str(e)}"})}\n\n'
+                                                                                  ^
+NameError: cannot access free variable 'e' where it is not associated with a value in enclosing scope
+
