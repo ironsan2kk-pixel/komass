@@ -737,7 +737,7 @@ async def stream_optimization_get(
     Automatically loads presets from database based on indicator_type filter.
     """
     import sqlite3
-    import os
+    from pathlib import Path
     
     # Parse pairs
     pairs_list = [p.strip() for p in pairs.split(",") if p.strip()]
@@ -749,9 +749,30 @@ async def stream_optimization_get(
     
     # Get presets from database
     try:
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "komas.db")
-        conn = sqlite3.connect(db_path)
+        # Database path: <project_root>/data/komas.db
+        # __file__ is in backend/app/api/optimizer_routes.py
+        db_path = Path(__file__).parent.parent.parent.parent / "data" / "komas.db"
+        
+        if not db_path.exists():
+            async def no_db():
+                msg = f"База данных не найдена: {db_path}. Нажмите 'Seed TRG' или 'Seed Dominant' на странице Пресетов."
+                yield f'data: {json.dumps({"type": "error", "message": msg})}\n\n'
+            return StreamingResponse(no_db(), media_type="text/event-stream")
+        
+        conn = sqlite3.connect(str(db_path))
         cursor = conn.cursor()
+        
+        # Check if presets table exists
+        cursor.execute("""
+            SELECT name FROM sqlite_master 
+            WHERE type='table' AND name='presets'
+        """)
+        if not cursor.fetchone():
+            conn.close()
+            async def no_table():
+                msg = "Таблица presets не найдена. Нажмите 'Seed TRG' или 'Seed Dominant' на странице Пресетов."
+                yield f'data: {json.dumps({"type": "error", "message": msg})}\n\n'
+            return StreamingResponse(no_table(), media_type="text/event-stream")
         
         # Build query based on mode and indicator_type
         if mode == "quick":
@@ -777,7 +798,8 @@ async def stream_optimization_get(
         
         if not presets:
             async def no_presets():
-                yield f'data: {json.dumps({"type": "error", "message": "No presets found in database"})}\n\n'
+                msg = "Пресеты не найдены. Нажмите 'Seed TRG' или 'Seed Dominant' на странице Пресетов."
+                yield f'data: {json.dumps({"type": "error", "message": msg})}\n\n'
             return StreamingResponse(no_presets(), media_type="text/event-stream")
         
         preset_ids = [str(p[0]) for p in presets]
@@ -785,9 +807,12 @@ async def stream_optimization_get(
         logger.info(f"GET /presets/stream: {len(preset_ids)} presets, {len(pairs_list)} pairs, mode={mode}")
         
     except Exception as e:
-        logger.error(f"Database error: {e}")
+        # IMPORTANT: Save error message BEFORE defining async function (closure fix)
+        error_message = f"Database error: {str(e)}"
+        logger.error(error_message)
+        
         async def db_error():
-            yield f'data: {json.dumps({"type": "error", "message": f"Database error: {str(e)}"})}\n\n'
+            yield f'data: {json.dumps({"type": "error", "message": error_message})}\n\n'
         return StreamingResponse(db_error(), media_type="text/event-stream")
     
     return StreamingResponse(

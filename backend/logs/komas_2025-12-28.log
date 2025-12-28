@@ -5964,3 +5964,39 @@ Traceback (most recent call last):
                                                                                   ^
 NameError: cannot access free variable 'e' where it is not associated with a value in enclosing scope
 
+2025-12-28 16:24:54 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:24:54 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER - SHUTDOWN
+2025-12-28 16:24:54 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:24:55 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:24:55 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:24:55 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:24:55 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:24:55 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:24:56 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:24:56 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:24:56 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:24:56 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:24:56 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:24:56 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:24:56 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:24:56 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:24:56 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:24:56 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:25:14 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 16:25:14 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 16:25:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:25:14 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 16:25:14 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 16:25:14 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 16:25:14 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 16:25:24 | INFO     | app.api.optimizer_routes | stream_optimization_get | GET /presets/stream: 20 presets, 3 pairs, mode=quick
+2025-12-28 16:25:24 | INFO     | app.services.preset_optimizer | __init__             | PresetOptimizer initialized with 4 workers
+2025-12-28 16:25:24 | INFO     | app.services.preset_optimizer | run_optimization     | Mode 'quick': 20/20 presets, 3/3 pairs
