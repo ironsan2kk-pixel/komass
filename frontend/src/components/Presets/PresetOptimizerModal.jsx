@@ -2,9 +2,9 @@
  * Preset Optimizer Modal
  * Run optimization across all presets for selected pairs
  * 
- * Chat #48 - SSE Fix + Preset Optimization
+ * Chat #48 - Fixed with polling fallback for long-running optimizations
  */
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 const API_URL = 'http://localhost:8000';
 
@@ -27,14 +27,17 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
   const [progress, setProgress] = useState({ current: 0, total: 0, percent: 0 });
   const [results, setResults] = useState([]);
   const [logs, setLogs] = useState([]);
+  const [runId, setRunId] = useState(null);
+  const [startTime, setStartTime] = useState(null);
   
   const eventSourceRef = useRef(null);
+  const pollingRef = useRef(null);
   const logsEndRef = useRef(null);
   
-  const addLog = (message, type = 'info') => {
+  const addLog = useCallback((message, type = 'info') => {
     const time = new Date().toLocaleTimeString();
     setLogs(prev => [...prev.slice(-100), { time, message, type }]);
-  };
+  }, []);
   
   // Auto-scroll logs
   useEffect(() => {
@@ -52,6 +55,110 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
   const selectAllPairs = () => setSelectedPairs([...AVAILABLE_PAIRS]);
   const clearPairs = () => setSelectedPairs([]);
   
+  // Load results from API
+  const loadResults = useCallback(async (rid) => {
+    try {
+      addLog(`📥 Загрузка результатов...`, 'info');
+      const response = await fetch(`${API_URL}/api/optimizer/results/${rid}/scores?limit=50`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.scores && data.scores.length > 0) {
+        // Map API response to our format
+        const mappedResults = data.scores.map(s => ({
+          preset_id: s.preset_id,
+          preset_name: s.preset_name,
+          indicator_type: s.indicator_type,
+          avg_pnl: s.avg_pnl,
+          avg_win_rate: s.avg_win_rate,
+          avg_sharpe: s.avg_sharpe,
+          avg_max_dd: s.avg_max_dd,
+          positive_pairs: s.positive_pairs,
+          total_pairs: s.total_pairs,
+          grade: s.grade,
+          overall_score: s.overall_score
+        }));
+        
+        setResults(mappedResults);
+        addLog(`✅ Загружено ${mappedResults.length} результатов`, 'success');
+        
+        if (mappedResults.length > 0) {
+          const best = mappedResults[0];
+          addLog(`🏆 Лучший: ${best.preset_name} (PnL: ${best.avg_pnl?.toFixed(2)}%)`, 'success');
+        }
+      } else {
+        addLog(`⚠️ Результаты пусты`, 'warning');
+      }
+    } catch (error) {
+      addLog(`❌ Ошибка загрузки результатов: ${error.message}`, 'error');
+    }
+  }, [addLog]);
+  
+  // Check optimization history for our run
+  const checkHistory = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/optimizer/history?limit=5`);
+      if (!response.ok) return null;
+      
+      const data = await response.json();
+      
+      // Find most recent completed run
+      const completed = data.runs?.find(r => r.status === 'completed');
+      return completed;
+    } catch (error) {
+      return null;
+    }
+  }, []);
+  
+  // Polling function to check for completion
+  const pollForCompletion = useCallback(async () => {
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    
+    // Update progress display with elapsed time
+    setProgress(prev => ({
+      ...prev,
+      elapsed
+    }));
+    
+    // Check if optimization completed
+    const completed = await checkHistory();
+    
+    if (completed && completed.run_id && !results.length) {
+      // Found a completed run, load results
+      addLog(`🏁 Оптимизация завершена за ${elapsed} сек`, 'success');
+      setRunning(false);
+      setRunId(completed.run_id);
+      
+      // Stop polling
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+        pollingRef.current = null;
+      }
+      
+      // Load results
+      await loadResults(completed.run_id);
+    }
+  }, [startTime, results.length, checkHistory, loadResults, addLog]);
+  
+  // Start polling when running
+  useEffect(() => {
+    if (running && startTime) {
+      // Poll every 5 seconds
+      pollingRef.current = setInterval(pollForCompletion, 5000);
+      
+      return () => {
+        if (pollingRef.current) {
+          clearInterval(pollingRef.current);
+          pollingRef.current = null;
+        }
+      };
+    }
+  }, [running, startTime, pollForCompletion]);
+  
   const startOptimization = async () => {
     if (selectedPairs.length === 0) {
       addLog('❌ Выберите хотя бы одну пару', 'error');
@@ -60,7 +167,9 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
     
     setRunning(true);
     setResults([]);
-    setProgress({ current: 0, total: 0, percent: 0 });
+    setRunId(null);
+    setStartTime(Date.now());
+    setProgress({ current: 0, total: 0, percent: 0, elapsed: 0 });
     addLog(`🚀 Запуск оптимизации: ${selectedPairs.length} пар, режим ${mode}`, 'info');
     
     try {
@@ -72,30 +181,41 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
       });
       
       const url = `${API_URL}/api/optimizer/presets/stream?${params}`;
-      addLog(`📡 Подключение к ${url.split('?')[0]}...`, 'info');
+      addLog(`📡 Подключение к серверу...`, 'info');
       
       eventSourceRef.current = new EventSource(url);
       
+      let receivedEvents = false;
+      
       eventSourceRef.current.onopen = () => {
         addLog('✅ Соединение установлено', 'success');
+        addLog('⏳ Ожидание результатов (может занять несколько минут)...', 'info');
       };
       
       eventSourceRef.current.onmessage = (event) => {
         try {
+          receivedEvents = true;
           const data = JSON.parse(event.data);
           
+          if (data.type === 'heartbeat') {
+            // Just a keepalive, ignore
+            return;
+          }
+          
           if (data.type === 'start') {
-            setProgress({ current: 0, total: data.total, percent: 0 });
-            addLog(`📊 Тестируем ${data.total} комбинаций (${data.presets} пресетов × ${data.pairs} пар)`, 'info');
+            const totalCombinations = data.total || (data.presets * data.pairs);
+            setProgress(prev => ({ ...prev, current: 0, total: totalCombinations, percent: 0 }));
+            addLog(`📊 Тестируем ${totalCombinations} комбинаций (${data.presets} пресетов × ${data.pairs} пар)`, 'info');
             addLog(`⚡ Используем ${data.workers || 'N/A'} ядер`, 'info');
           }
           else if (data.type === 'progress') {
             const pct = Math.round((data.current / data.total) * 100);
-            setProgress({
+            setProgress(prev => ({
+              ...prev,
               current: data.current,
               total: data.total,
               percent: pct
-            });
+            }));
             if (data.current % 10 === 0 || data.current === data.total) {
               addLog(`📈 Прогресс: ${data.current}/${data.total} (${pct}%)`, 'info');
             }
@@ -107,11 +227,25 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
           }
           else if (data.type === 'complete') {
             setRunning(false);
-            setResults(data.results || []);
-            addLog(`🏁 Оптимизация завершена!`, 'success');
-            if (data.best) {
-              addLog(`🏆 Лучший пресет: ${data.best.preset_name} (PnL: ${data.best.avg_pnl?.toFixed(2)}%)`, 'success');
+            
+            // Stop polling
+            if (pollingRef.current) {
+              clearInterval(pollingRef.current);
+              pollingRef.current = null;
             }
+            
+            if (data.results && data.results.length > 0) {
+              setResults(data.results);
+              addLog(`🏁 Оптимизация завершена!`, 'success');
+              if (data.best) {
+                addLog(`🏆 Лучший пресет: ${data.best.preset_name} (PnL: ${data.best.avg_pnl?.toFixed(2)}%)`, 'success');
+              }
+            } else if (data.run_id) {
+              // Results not in SSE, load from API
+              setRunId(data.run_id);
+              loadResults(data.run_id);
+            }
+            
             addLog(`⏱️ Время: ${data.duration?.toFixed(1) || 'N/A'} сек`, 'info');
             eventSourceRef.current?.close();
           }
@@ -122,15 +256,34 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
           }
         } catch (e) {
           console.error('Parse error:', e);
-          addLog(`⚠️ Ошибка парсинга: ${e.message}`, 'warning');
         }
       };
       
-      eventSourceRef.current.onerror = (e) => {
-        setRunning(false);
-        addLog('❌ Ошибка соединения с сервером', 'error');
-        addLog('💡 Проверьте, что бэкенд запущен и endpoint /api/optimizer/presets/stream доступен', 'warning');
+      eventSourceRef.current.onerror = async (e) => {
         eventSourceRef.current?.close();
+        
+        // If we didn't receive any events, it's a connection error
+        if (!receivedEvents) {
+          setRunning(false);
+          addLog('❌ Ошибка соединения с сервером', 'error');
+          return;
+        }
+        
+        // Otherwise, connection closed after work started - check for results
+        addLog('📡 Соединение закрыто, проверяем результаты...', 'info');
+        
+        // Wait a bit and check history
+        setTimeout(async () => {
+          const completed = await checkHistory();
+          if (completed) {
+            setRunning(false);
+            setRunId(completed.run_id);
+            await loadResults(completed.run_id);
+          } else {
+            // Still running, continue polling
+            addLog('⏳ Оптимизация продолжается в фоне...', 'info');
+          }
+        }, 2000);
       };
       
     } catch (error) {
@@ -141,13 +294,32 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
   
   const stopOptimization = () => {
     eventSourceRef.current?.close();
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+      pollingRef.current = null;
+    }
     setRunning(false);
     addLog('⏹️ Остановлено пользователем', 'warning');
+  };
+  
+  // Load results manually
+  const loadLatestResults = async () => {
+    addLog('🔍 Поиск последних результатов...', 'info');
+    const completed = await checkHistory();
+    if (completed) {
+      setRunId(completed.run_id);
+      await loadResults(completed.run_id);
+    } else {
+      addLog('⚠️ Нет завершённых оптимизаций', 'warning');
+    }
   };
   
   useEffect(() => {
     return () => {
       eventSourceRef.current?.close();
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current);
+      }
     };
   }, []);
   
@@ -260,12 +432,19 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
                 <span className="text-gray-400">Прогресс</span>
                 <span className="text-white font-mono">
                   {progress.current} / {progress.total} ({progress.percent}%)
+                  {progress.elapsed > 0 && (
+                    <span className="text-gray-500 ml-2">
+                      {Math.floor(progress.elapsed / 60)}:{String(progress.elapsed % 60).padStart(2, '0')}
+                    </span>
+                  )}
                 </span>
               </div>
               <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-300"
-                  style={{ width: `${progress.percent}%` }}
+                  className={`h-full transition-all duration-300 ${
+                    running ? 'bg-gradient-to-r from-blue-600 to-purple-600 animate-pulse' : 'bg-green-600'
+                  }`}
+                  style={{ width: `${Math.max(progress.percent, running ? 5 : 0)}%` }}
                 />
               </div>
             </div>
@@ -274,32 +453,52 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
           {/* Results */}
           {results.length > 0 && (
             <div className="bg-gray-800 rounded-lg p-4">
-              <h3 className="text-white font-medium mb-3 flex items-center gap-2">
-                🏆 Топ-10 результатов
-              </h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-white font-medium flex items-center gap-2">
+                  🏆 Топ-10 результатов
+                </h3>
+                {runId && (
+                  <span className="text-xs text-gray-500 font-mono">
+                    {runId}
+                  </span>
+                )}
+              </div>
               <div className="space-y-2 max-h-48 overflow-auto">
                 {results.slice(0, 10).map((r, i) => (
                   <div 
-                    key={i} 
+                    key={r.preset_id || i} 
                     className={`flex items-center justify-between text-sm p-2 rounded ${
                       i === 0 ? 'bg-yellow-900/30 border border-yellow-600/50' : 'bg-gray-700/50'
                     }`}
                   >
-                    <span className="text-gray-300">
-                      <span className={`mr-2 ${i === 0 ? 'text-yellow-400' : 'text-gray-500'}`}>
+                    <span className="text-gray-300 flex items-center gap-2">
+                      <span className={`w-6 text-center ${i === 0 ? 'text-yellow-400' : 'text-gray-500'}`}>
                         #{i + 1}
                       </span>
-                      {r.preset_name}
-                      <span className="text-gray-500 ml-2 text-xs">
+                      <span>{r.preset_name}</span>
+                      <span className="text-gray-500 text-xs">
                         ({r.indicator_type?.toUpperCase()})
                       </span>
+                      {r.grade && (
+                        <span className={`px-1.5 py-0.5 rounded text-xs font-bold ${
+                          r.grade === 'A' ? 'bg-green-600' :
+                          r.grade === 'B' ? 'bg-blue-600' :
+                          r.grade === 'C' ? 'bg-yellow-600' :
+                          'bg-red-600'
+                        }`}>
+                          {r.grade}
+                        </span>
+                      )}
                     </span>
-                    <span className="flex items-center gap-4">
+                    <span className="flex items-center gap-4 text-right">
                       <span className={r.avg_pnl >= 0 ? 'text-green-400' : 'text-red-400'}>
                         {r.avg_pnl >= 0 ? '+' : ''}{r.avg_pnl?.toFixed(2)}%
                       </span>
-                      <span className="text-gray-400">
-                        WR: {r.avg_win_rate?.toFixed(1)}%
+                      <span className="text-gray-400 w-16">
+                        WR: {r.avg_win_rate?.toFixed(0)}%
+                      </span>
+                      <span className="text-gray-500 w-20 text-xs">
+                        {r.positive_pairs}/{r.total_pairs} пар
                       </span>
                     </span>
                   </div>
@@ -310,7 +509,17 @@ export default function PresetOptimizerModal({ isOpen, onClose, indicatorType = 
           
           {/* Logs */}
           <div>
-            <label className="text-sm text-gray-400 mb-1 block">Логи</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-sm text-gray-400">Логи</label>
+              {!running && (
+                <button
+                  onClick={loadLatestResults}
+                  className="text-xs text-blue-400 hover:text-blue-300"
+                >
+                  📥 Загрузить последние результаты
+                </button>
+              )}
+            </div>
             <div className="bg-black rounded-lg p-3 h-40 overflow-auto font-mono text-xs border border-gray-700">
               {logs.map((log, i) => (
                 <div key={i} className={`${
