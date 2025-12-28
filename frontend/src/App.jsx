@@ -1,13 +1,14 @@
 /**
  * App.jsx - Main Application with Navigation
  * 
- * Updated in Chat #31-33:
- * - Added Presets page to navigation
+ * Updated in Chat #49:
+ * - Added Optimizer page to navigation
  * 
  * Pages:
  * - Indicator (TRG/Dominant)
  * - Data
- * - Presets (NEW)
+ * - Presets
+ * - Optimizer (NEW)
  * - Signals
  * - Bots
  * - Settings
@@ -19,6 +20,7 @@ import { useState } from 'react';
 import Indicator from './pages/Indicator';
 import Data from './pages/Data';
 import Presets from './pages/Presets';
+import Optimizer from './pages/Optimizer';
 import Settings from './pages/Settings';
 import Signals from './pages/Signals';
 import Bots from './pages/Bots';
@@ -26,7 +28,8 @@ import Bots from './pages/Bots';
 const NAV_ITEMS = [
   { path: '/', name: '📊 Индикатор', component: Indicator },
   { path: '/data', name: '📁 Данные', component: Data },
-  { path: '/presets', name: '🎛️ Пресеты', component: Presets, highlight: true },
+  { path: '/presets', name: '🎛️ Пресеты', component: Presets },
+  { path: '/optimizer', name: '🔬 Оптимизация', component: Optimizer, highlight: true },
   { divider: true },
   { path: '/signals', name: '🔔 Сигналы', component: Signals },
   { path: '/bots', name: '🤖 Боты', component: Bots },
@@ -89,7 +92,7 @@ export default function App() {
         {sidebarOpen && (
           <div className="p-4 border-t border-gray-700 text-xs text-gray-500">
             <p>© 2025 Komas Trading</p>
-            <p className="mt-1 text-gray-600">Chat #31-33</p>
+            <p className="mt-1 text-gray-600">Chat #49</p>
           </div>
         )}
       </aside>

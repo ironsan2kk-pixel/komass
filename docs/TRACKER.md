@@ -11,10 +11,10 @@
 | Метрика | Значение |
 |---------|----------|
 | **Всего чатов** | 83 (#15 — #97) |
-| **Завершено** | 34 (#15-48) |
+| **Завершено** | 35 (#15-49) |
 | **В процессе** | — |
-| **Осталось** | 49 |
-| **Прогресс** | 41% |
+| **Осталось** | 48 |
+| **Прогресс** | 42% |
 
 ---
 
@@ -27,7 +27,7 @@
 | 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
 | 4 | Signal Score | #34-36 | 3 | ✅ Завершено |
 | 5 | Общие фильтры | #37-44 | 8 | ✅ Завершено |
-| 6 | Оптимизация пресетов | #45-49 | 5 | ⏳ 4/5 завершено |
+| 6 | Оптимизация пресетов | #45-49 | 5 | ✅ Завершено |
 | 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
 | 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
 | 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
@@ -40,7 +40,7 @@
 
 ---
 
-## ⚡ ФАЗА 6: ОПТИМИЗАЦИЯ ПРЕСЕТОВ (5 чатов)
+## ⚡ ФАЗА 6: ОПТИМИЗАЦИЯ ПРЕСЕТОВ (5 чатов) ✅
 
 ### Чат #45: Multi-Pair Runner ✅
 **Статус:** ✅ Завершён  
@@ -102,25 +102,85 @@
 - [x] Export CSV button
 - [x] Unit tests (25 tests)
 
+---
+
+### Чат #49: Optimizer UI ✅
+**Статус:** ✅ Завершён  
+**Дата завершения:** 28.12.2025
+
+**Выполнено:**
+- [x] Полная страница Optimizer.jsx
+- [x] Интеграция всех компонентов (ModeSelector, ResultsPanel, HeatmapPanel, HistoryPanel)
+- [x] Навигация в App.jsx
+- [x] PresetSelector с поиском и фильтрами
+- [x] PairSelector с quick select (Majors/Top10/Top20)
+- [x] ProgressBar с elapsed time
+- [x] 4 вкладки (Оптимизация/Результаты/Heatmap/История)
+- [x] SSE streaming для запуска оптимизации
+- [x] Выбор режима (Quick/Standard/Smart/Full)
+- [x] Выбор таймфрейма (5m-1d)
+- [x] Выбор периода (start_date/end_date)
+- [x] Estimate времени выполнения
+- [x] Загрузка результатов из истории
+- [x] 50+ unit тестов
+
 **Файлы обновлены:**
-- `backend/app/api/heatmap_routes.py` (NEW)
-- `backend/app/main.py`
-- `frontend/src/components/Optimizer/HeatmapPanel.jsx` (NEW)
-- `frontend/src/components/Optimizer/index.js`
-- `frontend/src/api.js`
-- `tests/test_optimizer_heatmap.py` (NEW)
+- `frontend/src/pages/Optimizer.jsx` (NEW - 650+ lines)
+- `frontend/src/App.jsx` (добавлена навигация)
+- `tests/test_optimizer_ui.py` (NEW - 50+ tests)
 
 ---
 
-### Чат #49: QA Checkpoint #8
+## 🤖 ФАЗА 7: КОНФИГ БОТА (4 чата)
+
+### Чат #50: Bot Config Core
 **Статус:** ⏳ Следующий
 
 **Задачи:**
-- [ ] Полная проверка фазы 6
-- [ ] Тестирование всех режимов оптимизации
-- [ ] Тестирование heatmap визуализации
-- [ ] Проверка экспорта CSV/JSON
-- [ ] Исправление найденных багов
+- [ ] Структура Bot в SQLite
+- [ ] Параметры: депозит, риск %, макс позиций, leverage
+- [ ] API: CRUD для ботов
+- [ ] Валидация параметров
+- [ ] Unit тесты
+
+**Файлы:**
+- `backend/app/api/bot_routes.py`
+- `backend/app/models/bot.py`
+
+---
+
+### Чат #51: Bot Pairs Selection
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Выбор пар для бота (checkbox list)
+- [ ] Группы пар (majors, alts, defi)
+- [ ] Сохранение выбора
+- [ ] Quick actions (select all, clear)
+- [ ] Unit тесты
+
+---
+
+### Чат #52: Bot Preset Selection
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Выбор пресета для бота
+- [ ] Поддержка TRG и Dominant
+- [ ] Preview параметров пресета
+- [ ] Unit тесты
+
+---
+
+### Чат #53: Bot UI
+**Статус:** ⬜ Ожидает
+
+**Задачи:**
+- [ ] Новая страница "Боты"
+- [ ] Список ботов с карточками
+- [ ] Форма создания/редактирования
+- [ ] Статус бота (draft/active/paused)
+- [ ] Quick actions
 
 ---
 
@@ -128,6 +188,7 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
+| 28.12.2025 | #49 | ✅ Optimizer UI: полная страница, навигация, все компоненты |
 | 28.12.2025 | #48 | ✅ Heatmap visualization: matrix, colors, tooltips, zoom, export |
 | 28.12.2025 | #47 | ✅ Results display, SQLite persistence, comparison, export |
 | 28.12.2025 | #46 | ✅ Optimization modes, time estimation, ModeSelector |

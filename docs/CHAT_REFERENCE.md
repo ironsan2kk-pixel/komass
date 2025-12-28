@@ -92,31 +92,134 @@
 - `frontend/src/api.js` (updated)
 - `tests/test_optimizer_heatmap.py` (NEW)
 
+---
+
+### Chat #49 — Optimizer UI ✅
+**Дата:** 28.12.2025
+
+**Реализовано:**
+- Полная страница Optimizer.jsx с интеграцией всех компонентов
+- Навигация в App.jsx (новый пункт меню "Оптимизация")
+- 4 вкладки UI:
+  - Оптимизация (запуск, настройки)
+  - Результаты (ResultsPanel)
+  - Heatmap (HeatmapPanel)
+  - История (HistoryPanel)
+- PresetSelector компонент:
+  - Поиск по названию
+  - Фильтр по индикатору (TRG/Dominant)
+  - Select all / Clear
+  - Счётчик выбранных
+- PairSelector компонент:
+  - Поиск по паре
+  - Quick select: Majors (5), Top 10, Top 20
+  - Select all / Clear
+  - Счётчик выбранных
+- ProgressBar с elapsed time
+- SSE streaming для запуска оптимизации
+- Выбор режима (Quick/Standard/Smart/Full)
+- Выбор таймфрейма (5m, 15m, 30m, 1h, 2h, 4h, 1d)
+- Выбор периода (start_date / end_date)
+- Estimate времени выполнения
+- Загрузка результатов из истории
+- Error handling и loading states
+- 50+ unit тестов
+
+**Компоненты:**
+- Optimizer.jsx — главная страница (650+ lines)
+- PresetSelector — внутренний компонент выбора пресетов
+- PairSelector — внутренний компонент выбора пар
+- ProgressBar — компонент прогресса
+
+**Интегрированные компоненты:**
+- ModeSelector (из Chat #46)
+- ResultsPanel (из Chat #47)
+- HeatmapPanel (из Chat #48)
+- HistoryPanel (из Chat #47)
+
+**Файлы:**
+- `frontend/src/pages/Optimizer.jsx` (NEW - 650+ lines)
+- `frontend/src/App.jsx` (updated - добавлена навигация)
+- `tests/test_optimizer_ui.py` (NEW - 50+ tests)
+- `docs/TRACKER.md` (updated)
+- `docs/CHAT_REFERENCE.md` (updated)
+
 **Git commit:**
 ```
-feat: add heatmap visualization for preset optimization results
+feat: add full Optimizer page with all components integration
 
-- Add /api/optimizer/results/{run_id}/heatmap endpoint
-- Add matrix generation with color normalization
-- Add HeatmapPanel component with interactive grid
-- Add metric selector (PnL/WinRate/MaxDD/Sharpe/PF/Trades)
-- Add zoom controls (Compact/Normal/Large)
-- Add row/column highlighting on hover
-- Add tooltips with full metrics
-- Add CSV export functionality
-- Add 25 unit tests
+- Add Optimizer.jsx page (650+ lines)
+- Add navigation to App.jsx
+- Add PresetSelector with search, filters, select all
+- Add PairSelector with quick select (Majors/Top10/Top20)
+- Add ProgressBar with elapsed time display
+- Integrate ModeSelector, ResultsPanel, HeatmapPanel, HistoryPanel
+- Add 4 tabs: Optimize/Results/Heatmap/History
+- Add SSE streaming for optimization
+- Add timeframe selector (5m-1d)
+- Add date range selector (start/end)
+- Add time estimation display
+- Add history results loading
+- Add 50+ unit tests
 
-Chat #48: Preset Optimizer Heatmap
+Chat #49: Optimizer UI
 ```
 
 ---
 
-### Chat #49 — QA Checkpoint #8 ⏳
+## Фаза 7: Конфиг бота
+
+### Chat #50 — Bot Config Core ⏳
 **Статус:** Следующий
 
 **План:**
-- Полная проверка фазы 6 (оптимизация пресетов)
-- Тестирование всех режимов оптимизации
-- Тестирование heatmap визуализации
-- Проверка экспорта
-- Исправление багов
+- Структура Bot в SQLite
+- Параметры: депозит, риск %, макс позиций, leverage
+- API: CRUD для ботов
+- Валидация параметров
+- Unit тесты
+
+**Файлы (план):**
+- `backend/app/models/bot.py`
+- `backend/app/api/bot_routes.py`
+- `backend/app/db/bot_db.py`
+- `tests/test_bot_config.py`
+
+---
+
+### Chat #51 — Bot Pairs Selection ⬜
+**План:**
+- Выбор пар для бота (checkbox list)
+- Группы пар (majors, alts, defi)
+- Сохранение выбора
+- Quick actions (select all, clear)
+
+---
+
+### Chat #52 — Bot Preset Selection ⬜
+**План:**
+- Выбор пресета для бота
+- Поддержка TRG и Dominant
+- Preview параметров пресета
+
+---
+
+### Chat #53 — Bot UI ⬜
+**План:**
+- Страница "Боты"
+- Список ботов с карточками
+- Форма создания/редактирования
+- Статус бота (draft/active/paused)
+- Quick actions
+
+---
+
+## Ссылки
+
+- **GitHub:** https://github.com/ironsan2kk-pixel/komass
+- **Local API:** http://localhost:8000/docs
+- **Local Frontend:** http://localhost:5173
+
+---
+
+*Обновлено: 28.12.2025*

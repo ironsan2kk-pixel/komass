@@ -6041,3 +6041,21 @@ NameError: cannot access free variable 'e' where it is not associated with a val
 2025-12-28 16:46:23 | INFO     | app.db.optimizer_db  | save_run             | ✓ Saved optimization run: opt_20251228_164422_89e76bdc
 2025-12-28 16:46:51 | INFO     | app.api.optimizer_routes | stream_optimization_get | GET /presets/stream: 325 presets, 1 pairs, mode=full
 2025-12-28 16:46:52 | INFO     | app.services.preset_optimizer | run_optimization     | Mode 'full': 325/325 presets, 1/1 pairs
+2025-12-28 17:01:43 | ERROR    | app.services.preset_optimizer | run_optimization     | Backtest worker error: A process in the process pool was terminated abruptly while the future was running or pending.
+2025-12-28 17:01:43 | ERROR    | app.services.preset_optimizer | run_optimization     | Backtest worker error: A process in the process pool was terminated abruptly while the future was running or pending.
+2025-12-28 17:02:34 | WARNING  | app.main             | <module>             | ✗ Failed to load main routes: No module named 'app.api.routes'
+2025-12-28 17:02:34 | INFO     | app.main             | <module>             | ✔ Loaded: optimizer routes
+2025-12-28 17:02:34 | INFO     | app.main             | <module>             | ✔ Loaded: data routes
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: indicator routes
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: TRG preset routes
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: Dominant preset routes (/api/presets/*)
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: Signal score routes (/api/signal-score/*)
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: Filter routes (/api/filters/*)
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: Preset Optimizer routes (/api/optimizer/*)
+2025-12-28 17:02:35 | INFO     | app.main             | <module>             | ✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)
+2025-12-28 17:02:35 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 17:02:35 | INFO     | app.main             | lifespan             | KOMAS TRADING SERVER v4.0 - STARTING
+2025-12-28 17:02:35 | INFO     | app.main             | lifespan             | Log file: C:\Users\Administrator\Desktop\komass\backend\logs\komas_2025-12-28.log
+2025-12-28 17:02:35 | INFO     | app.main             | lifespan             | Error log: C:\Users\Administrator\Desktop\komass\backend\logs\errors_2025-12-28.log
+2025-12-28 17:02:35 | INFO     | app.main             | lifespan             | ============================================================
+2025-12-28 17:02:35 | INFO     | app.db.optimizer_db  | _get_engine          | ✓ Optimization results tables created

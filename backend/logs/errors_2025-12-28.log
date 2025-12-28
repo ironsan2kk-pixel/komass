@@ -356,3 +356,5 @@ Traceback (most recent call last):
                                                                                   ^
 NameError: cannot access free variable 'e' where it is not associated with a value in enclosing scope
 
+2025-12-28 17:01:43 | ERROR    | app.services.preset_optimizer | run_optimization     | Backtest worker error: A process in the process pool was terminated abruptly while the future was running or pending.
+2025-12-28 17:01:43 | ERROR    | app.services.preset_optimizer | run_optimization     | Backtest worker error: A process in the process pool was terminated abruptly while the future was running or pending.
