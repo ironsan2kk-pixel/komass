@@ -1,175 +1,112 @@
-# KOMAS v4.0 — CHAT REFERENCE
+# KOMAS v4.0 — Chat Reference
 
-> **Последнее обновление:** 28.12.2025  
-> **Текущий чат:** #37 — Filters Architecture ✅  
-> **GitHub:** https://github.com/ironsan2kk-pixel/komass
+> **Последнее обновление:** 28.12.2025
 
 ---
 
-## 🔍 Фаза 5: Общие фильтры
+## Чат #38: Filters Time
 
-### Chat #37 — Filters Architecture ✅
-**Статус:** Завершён  
-**Дата:** 28.12.2025
+**Дата:** 28.12.2025  
+**Статус:** ✅ Завершён
 
-**Выполнено:**
-- ✅ `filters/base.py` — BaseFilter абстрактный класс
-- ✅ `filters/registry.py` — FilterRegistry (Singleton pattern)
-- ✅ `filters/chain.py` — FilterChain с short-circuit
-- ✅ `filters/__init__.py` — экспорты модуля
-- ✅ 35+ unit тестов
+### Что сделано:
+1. **SessionFilter** — фильтр по торговым сессиям
+   - Asia: 00:00 - 08:00 UTC
+   - Europe: 08:00 - 16:00 UTC
+   - US: 13:00 - 22:00 UTC
+   - Поддержка overlap detection
 
-**Ключевые компоненты:**
+2. **WeekdayFilter** — фильтр по дням недели
+   - Настраиваемые дни (0=Monday, 6=Sunday)
+   - Timezone support
 
-```python
-# Enums
-FilterCategory: TIME, VOLATILITY, TREND, PORTFOLIO, PROTECTION
-FilterPriority: CRITICAL, HIGH, NORMAL, LOW
+3. **CooldownFilter** — пауза между сделками
+   - after_win_cooldown: 30 мин (после выигрыша)
+   - cooldown_minutes: 60 мин (default)
+   - after_loss_cooldown: 120 мин (после проигрыша)
+   - Per-symbol или global cooldown
 
-# Data Classes
-FilterResult(allowed, reason, filter_name, category, details)
-FilterConfig(name, enabled, params, priority)
-SignalContext(signal, symbol, timeframe, current_price, ...)
+### Файлы:
+```
+backend/app/filters/
+├── __init__.py
+├── base.py
+├── registry.py
+├── chain.py
+└── time_filters.py
 
-# Main Classes
-BaseFilter — abstract base class
-├── name, display_name, description
-├── category, priority, enabled
-├── can_trade(context) -> FilterResult
-└── get_config_schema() -> dict
+tests/
+└── test_time_filters.py (48 tests)
 
-FilterRegistry — Singleton for filter management
-├── register(cls), unregister(name)
-├── get(name) -> FilterClass
-├── create(name, config) -> Filter
-└── list_all(), list_by_category()
-
-FilterChain — Apply filters sequentially
-├── add(filter), remove(name)
-├── apply(context) -> ChainResult
-├── check(context) -> (bool, reason)
-└── enable/disable filters
-
-FilterChainBuilder — Fluent API
-├── add(name, **params)
-├── with_short_circuit(bool)
-└── build() -> FilterChain
+run_tests.py
+run_time_filter_tests.bat
 ```
 
-**Пример использования:**
-
-```python
-from app.filters import (
-    FilterChain, get_registry, SignalContext,
-    register_filter, BaseFilter, FilterCategory
-)
-
-# Register custom filter
-@register_filter
-class MaxPositionsFilter(BaseFilter):
-    name = "max_positions"
-    category = FilterCategory.PORTFOLIO
-    
-    def can_trade(self, context):
-        if context.position_count >= self.config.get("max_positions", 3):
-            return FilterResult.block("Max positions reached")
-        return FilterResult.allow()
-    
-    def get_config_schema(self):
-        return {"type": "object", "properties": {...}}
-
-# Create chain
-chain = FilterChain()
-chain.add_by_name("max_positions", {"max_positions": 3})
-
-# Apply to signal
-context = SignalContext(signal=signal, symbol="BTCUSDT", ...)
-result = chain.apply(context)
-
-if result.allowed:
-    print("Execute trade")
-else:
-    print(f"Blocked: {result.primary_rejection.reason}")
+### Git Commit:
 ```
+feat: Add time-based filters
 
-**Файлы созданы:**
-- `backend/app/filters/__init__.py`
-- `backend/app/filters/base.py`
-- `backend/app/filters/registry.py`
-- `backend/app/filters/chain.py`
-- `tests/test_filters_architecture.py`
-- `run_filter_tests.bat`
+- Add SessionFilter for trading session control (Asia/Europe/US)
+- Add WeekdayFilter for day-of-week filtering
+- Add CooldownFilter with win/loss-based cooldowns
+- Add timezone support (UTC/local)
+- Add session overlap detection
+- Add 48 unit tests
 
-**Git Commit:**
-```
-feat: Add filters module architecture
-
-- Add BaseFilter abstract class with can_trade interface
-- Add FilterRegistry for filter management (Singleton)
-- Add FilterChain for applying multiple filters
-- Add FilterResult and ChainResult dataclasses
-- Add SignalContext for complete signal context
-- Add FilterCategory and FilterPriority enums
-- Add JSON schema support for filter configs
-- Add AlwaysAllowFilter and AlwaysBlockFilter for testing
-- Add FilterChainBuilder for fluent API
-- Add 35+ unit tests
-
-Chat #37: Filters Architecture
+Chat #38: Filters Time
 ```
 
 ---
 
-### Chat #38 — Filters Time ⏳
-**Статус:** Следующий
+## Чат #37: Filters Architecture
 
-**Задачи:**
-- [ ] SessionFilter — торговые сессии (Asia/Europe/US)
-- [ ] WeekdayFilter — дни недели
-- [ ] CooldownFilter — пауза после сделки
-- [ ] Timezone support
-- [ ] Unit тесты
+**Дата:** 28.12.2025  
+**Статус:** ✅ Завершён
 
-**Планируемые файлы:**
-- `backend/app/filters/time_filters.py`
-- `tests/test_time_filters.py`
+### Что сделано:
+- BaseFilter abstract class
+- FilterRegistry с @register_filter decorator
+- FilterChain с short-circuit execution
+- Signal, SignalContext, FilterDecision dataclasses
+- FilterCategory, FilterPriority enums
 
 ---
 
-## 📋 Полный список чатов Фазы 5
+## Чат #36: Score UI
 
-| # | Название | Статус | Описание |
-|---|----------|--------|----------|
-| 37 | Filters Architecture | ✅ | BaseFilter, Registry, Chain |
-| 38 | Filters Time | ⏳ | Session, Weekday, Cooldown |
-| 39 | Filters Volatility | ⬜ | ATR, Volume, Extreme |
-| 40 | Filters Trend | ⬜ | BTC Trend, Multi-TF, Regime |
-| 41 | Filters Portfolio | ⬜ | Correlation, Direction, Sector |
-| 42 | Filters Protection | ⬜ | Equity Curve, DD, Streak |
-| 43 | Filters Integration | ⬜ | FilterManager, API, DB |
-| 44 | Filters UI | ⬜ | Frontend components |
+**Дата:** 27.12.2025  
+**Статус:** ✅ Завершён
+
+### Что сделано:
+- ScoreBadge component
+- Score column in TradesTable
+- Grade filter for trades
+- Grade statistics in StatsPanel
 
 ---
 
-## 🔗 Навигация
+## Чат #35: Score Multi-TF
 
-| Предыдущий | Текущий | Следующий |
-|------------|---------|-----------|
-| #36 Score UI | **#37 Filters Architecture** | #38 Filters Time |
+**Дата:** 27.12.2025  
+**Статус:** ✅ Завершён
 
----
-
-## 📊 Фаза 4: Signal Score ✅ ЗАВЕРШЕНА
-
-### Chat #34 — Signal Score Core ✅
-**Дата:** 27.12.2025
-
-### Chat #35 — Score Multi-TF ✅
-**Дата:** 28.12.2025
-
-### Chat #36 — Score UI ✅
-**Дата:** 28.12.2025
+### Что сделано:
+- MultiTFLoader with 4 trend detection methods
+- Timeframe aggregation (1h->4h, 1h->1d)
+- Integration with SignalScorer
 
 ---
 
-*Обновлено: 28.12.2025*
+## Чат #34: Score Core
+
+**Дата:** 27.12.2025  
+**Статус:** ✅ Завершён
+
+### Что сделано:
+- SignalScorer class
+- 4 scoring components (Confluence, Multi-TF, Market Context, Technical Levels)
+- Grade system (A-F)
+
+---
+
+*Следующий чат: #39 — Filters Volatility*

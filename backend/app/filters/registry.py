@@ -1,29 +1,34 @@
 """
-KOMAS Trading System - Filter Registry
-======================================
+KOMAS v4.0 — Filter Registry
+=============================
 
-Registry for managing and instantiating filters.
+Centralized registry for filter classes.
+Supports decorator-based registration and dynamic filter discovery.
 
-Features:
-- Register filter classes
-- Get filter by name
-- List all registered filters
-- Create filter instances with config
-- Filter discovery and metadata
+Usage:
+    @register_filter
+    class MyFilter(BaseFilter):
+        name = "my_filter"
+        ...
+    
+    # Get filter by name
+    filter_class = FilterRegistry.get("my_filter")
+    
+    # Get all filters
+    all_filters = FilterRegistry.get_all()
+    
+    # Get filters by category
+    time_filters = FilterRegistry.get_by_category(FilterCategory.TIME)
 
 Chat #37: Filters Architecture
 Author: KOMAS Team
 Version: 4.0
 """
 
-from typing import Dict, List, Optional, Type, Any, Set
+from typing import Dict, List, Optional, Type, Callable
 import logging
-from .base import (
-    BaseFilter,
-    FilterCategory,
-    FilterPriority,
-    FilterConfig,
-)
+
+from .base import BaseFilter, FilterCategory, FilterPriority
 
 logger = logging.getLogger(__name__)
 
@@ -34,114 +39,34 @@ logger = logging.getLogger(__name__)
 
 class FilterRegistry:
     """
-    Registry for managing filter classes.
-    
-    Provides centralized management of all available filters:
-    - Registration of filter classes
-    - Lookup by name or category
-    - Factory method for creating instances
-    - Metadata and schema access
-    
-    Usage:
-        registry = FilterRegistry()
-        registry.register(SessionFilter)
-        registry.register(ATRFilter)
-        
-        # Create filter instance
-        session_filter = registry.create("session_filter", {"sessions": ["london"]})
-        
-        # List filters by category
-        time_filters = registry.list_by_category(FilterCategory.TIME)
+    Singleton registry for filter classes.
     """
+    _filters: Dict[str, Type[BaseFilter]] = {}
+    _initialized: bool = False
     
-    _instance: Optional["FilterRegistry"] = None
-    
-    def __new__(cls) -> "FilterRegistry":
-        """Singleton pattern"""
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
-    
-    def __init__(self):
-        """Initialize registry"""
-        if self._initialized:
-            return
-        
-        self._filters: Dict[str, Type[BaseFilter]] = {}
-        self._categories: Dict[FilterCategory, Set[str]] = {
-            cat: set() for cat in FilterCategory
-        }
-        self._initialized = True
-        logger.info("FilterRegistry initialized")
-    
-    def register(self, filter_class: Type[BaseFilter]) -> bool:
+    @classmethod
+    def register(cls, filter_class: Type[BaseFilter]) -> Type[BaseFilter]:
         """
         Register a filter class.
         
         Args:
-            filter_class: Filter class to register
+            filter_class: The filter class to register
             
         Returns:
-            True if registration successful
-            
-        Raises:
-            ValueError: If filter_class is not a valid BaseFilter subclass
+            The registered filter class (for decorator use)
         """
-        # Validate
-        if not isinstance(filter_class, type):
-            raise ValueError(f"Expected a class, got {type(filter_class)}")
-        
-        if not issubclass(filter_class, BaseFilter):
-            raise ValueError(f"{filter_class} must be a subclass of BaseFilter")
-        
-        if filter_class is BaseFilter:
-            raise ValueError("Cannot register abstract BaseFilter")
-        
-        # Get filter name
         name = filter_class.name
+        if name in cls._filters:
+            logger.warning(f"Filter '{name}' already registered, overwriting")
         
-        if not name or name == "base_filter":
-            raise ValueError(f"Filter must have a unique name, got: {name}")
-        
-        # Check for duplicate
-        if name in self._filters:
-            existing = self._filters[name]
-            if existing is not filter_class:
-                logger.warning(
-                    f"Overwriting filter '{name}': {existing.__name__} -> {filter_class.__name__}"
-                )
-        
-        # Register
-        self._filters[name] = filter_class
-        self._categories[filter_class.category].add(name)
-        
+        cls._filters[name] = filter_class
         logger.debug(f"Registered filter: {name} ({filter_class.__name__})")
-        return True
+        return filter_class
     
-    def unregister(self, name: str) -> bool:
+    @classmethod
+    def get(cls, name: str) -> Optional[Type[BaseFilter]]:
         """
-        Unregister a filter by name.
-        
-        Args:
-            name: Filter name to unregister
-            
-        Returns:
-            True if unregistered, False if not found
-        """
-        if name not in self._filters:
-            logger.warning(f"Filter not found: {name}")
-            return False
-        
-        filter_class = self._filters.pop(name)
-        self._categories[filter_class.category].discard(name)
-        
-        logger.debug(f"Unregistered filter: {name}")
-        return True
-    
-    def get(self, name: str) -> Optional[Type[BaseFilter]]:
-        """
-        Get filter class by name.
+        Get a filter class by name.
         
         Args:
             name: Filter name
@@ -149,11 +74,76 @@ class FilterRegistry:
         Returns:
             Filter class or None if not found
         """
-        return self._filters.get(name)
+        return cls._filters.get(name)
     
-    def create(self, name: str, config: Optional[Dict[str, Any]] = None) -> Optional[BaseFilter]:
+    @classmethod
+    def get_all(cls) -> Dict[str, Type[BaseFilter]]:
         """
-        Create a filter instance.
+        Get all registered filters.
+        
+        Returns:
+            Dict of filter_name -> filter_class
+        """
+        return cls._filters.copy()
+    
+    @classmethod
+    def get_names(cls) -> List[str]:
+        """
+        Get all registered filter names.
+        
+        Returns:
+            List of filter names
+        """
+        return list(cls._filters.keys())
+    
+    @classmethod
+    def get_by_category(cls, category: FilterCategory) -> Dict[str, Type[BaseFilter]]:
+        """
+        Get filters by category.
+        
+        Args:
+            category: FilterCategory enum
+            
+        Returns:
+            Dict of filter_name -> filter_class
+        """
+        return {
+            name: fclass 
+            for name, fclass in cls._filters.items() 
+            if fclass.category == category
+        }
+    
+    @classmethod
+    def get_by_priority(cls, priority: FilterPriority) -> Dict[str, Type[BaseFilter]]:
+        """
+        Get filters by priority.
+        
+        Args:
+            priority: FilterPriority enum
+            
+        Returns:
+            Dict of filter_name -> filter_class
+        """
+        return {
+            name: fclass 
+            for name, fclass in cls._filters.items() 
+            if fclass.priority == priority
+        }
+    
+    @classmethod
+    def get_sorted_by_priority(cls) -> List[Type[BaseFilter]]:
+        """
+        Get all filters sorted by priority (CRITICAL first).
+        
+        Returns:
+            List of filter classes sorted by priority
+        """
+        return sorted(cls._filters.values(), key=lambda f: f.priority.value)
+    
+    @classmethod
+    def create_instance(cls, name: str, config: Optional[Dict] = None) -> Optional[BaseFilter]:
+        """
+        Create a filter instance by name.
         
         Args:
             name: Filter name
@@ -162,190 +152,70 @@ class FilterRegistry:
         Returns:
             Filter instance or None if not found
         """
-        filter_class = self.get(name)
+        filter_class = cls.get(name)
         if filter_class is None:
-            logger.warning(f"Cannot create filter, not found: {name}")
+            logger.error(f"Filter not found: {name}")
             return None
         
         try:
-            instance = filter_class(config or {})
-            logger.debug(f"Created filter instance: {name}")
-            return instance
+            return filter_class(config)
         except Exception as e:
-            logger.error(f"Error creating filter {name}: {e}")
+            logger.error(f"Failed to create filter '{name}': {e}")
             return None
     
-    def create_from_config(self, filter_config: FilterConfig) -> Optional[BaseFilter]:
+    @classmethod
+    def create_instances(cls, configs: Dict[str, Dict]) -> List[BaseFilter]:
         """
-        Create a filter instance from FilterConfig.
+        Create multiple filter instances from config dict.
         
         Args:
-            filter_config: FilterConfig object
+            configs: Dict of filter_name -> config
             
         Returns:
-            Filter instance or None if not found
+            List of filter instances
         """
-        instance = self.create(filter_config.name, filter_config.params)
-        if instance:
-            instance.enabled = filter_config.enabled
-        return instance
+        instances = []
+        for name, config in configs.items():
+            instance = cls.create_instance(name, config)
+            if instance:
+                instances.append(instance)
+        return instances
     
-    def has(self, name: str) -> bool:
-        """Check if filter is registered"""
-        return name in self._filters
-    
-    def list_all(self) -> List[str]:
+    @classmethod
+    def get_schema(cls) -> Dict[str, Dict]:
         """
-        List all registered filter names.
+        Get combined schema for all filters.
         
         Returns:
-            List of filter names
-        """
-        return list(self._filters.keys())
-    
-    def list_by_category(self, category: FilterCategory) -> List[str]:
-        """
-        List filter names by category.
-        
-        Args:
-            category: Filter category
-            
-        Returns:
-            List of filter names in that category
-        """
-        return list(self._categories.get(category, set()))
-    
-    def list_by_priority(self, priority: FilterPriority) -> List[str]:
-        """
-        List filter names by priority.
-        
-        Args:
-            priority: Filter priority
-            
-        Returns:
-            List of filter names with that priority
-        """
-        return [
-            name for name, cls in self._filters.items()
-            if cls.priority == priority
-        ]
-    
-    def get_info(self, name: str) -> Optional[Dict[str, Any]]:
-        """
-        Get filter information.
-        
-        Args:
-            name: Filter name
-            
-        Returns:
-            Dict with filter info or None
-        """
-        filter_class = self.get(name)
-        if filter_class is None:
-            return None
-        
-        return {
-            "name": filter_class.name,
-            "display_name": filter_class.display_name,
-            "description": filter_class.description,
-            "category": filter_class.category.value,
-            "priority": filter_class.priority.value,
-            "version": filter_class.version,
-        }
-    
-    def get_schema(self, name: str) -> Optional[Dict[str, Any]]:
-        """
-        Get filter configuration schema.
-        
-        Args:
-            name: Filter name
-            
-        Returns:
-            JSON schema dict or None
-        """
-        filter_class = self.get(name)
-        if filter_class is None:
-            return None
-        
-        try:
-            # Create temporary instance to get schema
-            temp = filter_class({})
-            return temp.get_config_schema()
-        except Exception as e:
-            logger.error(f"Error getting schema for {name}: {e}")
-            return None
-    
-    def get_all_info(self) -> List[Dict[str, Any]]:
-        """
-        Get information for all registered filters.
-        
-        Returns:
-            List of filter info dicts
-        """
-        result = []
-        for name in self.list_all():
-            info = self.get_info(name)
-            if info:
-                result.append(info)
-        return result
-    
-    def get_categories_summary(self) -> Dict[str, int]:
-        """
-        Get count of filters per category.
-        
-        Returns:
-            Dict mapping category name to filter count
+            Dict of filter_name -> schema
         """
         return {
-            cat.value: len(filters)
-            for cat, filters in self._categories.items()
+            name: {
+                "description": fclass.description,
+                "category": fclass.category.value,
+                "priority": fclass.priority.name,
+                "config_schema": fclass({}).get_config_schema()  # Create temp instance
+            }
+            for name, fclass in cls._filters.items()
         }
     
-    def clear(self) -> None:
-        """Clear all registered filters (for testing)"""
-        self._filters.clear()
-        for cat in self._categories:
-            self._categories[cat].clear()
-        logger.info("FilterRegistry cleared")
+    @classmethod
+    def clear(cls) -> None:
+        """Clear all registered filters (for testing)."""
+        cls._filters.clear()
+        cls._initialized = False
     
-    def __len__(self) -> int:
-        """Number of registered filters"""
-        return len(self._filters)
-    
-    def __contains__(self, name: str) -> bool:
-        """Check if filter is registered"""
-        return name in self._filters
-    
-    def __iter__(self):
-        """Iterate over filter names"""
-        return iter(self._filters)
-    
-    def __repr__(self) -> str:
-        return f"FilterRegistry(filters={len(self._filters)})"
+    @classmethod
+    def count(cls) -> int:
+        """Get number of registered filters."""
+        return len(cls._filters)
 
 
 # =============================================================================
-# GLOBAL REGISTRY INSTANCE
+# DECORATOR
 # =============================================================================
 
-# Global singleton instance
-_global_registry: Optional[FilterRegistry] = None
-
-
-def get_registry() -> FilterRegistry:
-    """
-    Get the global filter registry instance.
-    
-    Returns:
-        FilterRegistry singleton
-    """
-    global _global_registry
-    if _global_registry is None:
-        _global_registry = FilterRegistry()
-    return _global_registry
-
-
-def register_filter(filter_class: Type[BaseFilter]) -> Type[BaseFilter]:
+def register_filter(cls: Type[BaseFilter]) -> Type[BaseFilter]:
     """
     Decorator to register a filter class.
     
@@ -354,23 +224,34 @@ def register_filter(filter_class: Type[BaseFilter]) -> Type[BaseFilter]:
         class MyFilter(BaseFilter):
             name = "my_filter"
             ...
-    
-    Args:
-        filter_class: Filter class to register
-        
-    Returns:
-        The same filter class (for decorator chaining)
     """
-    get_registry().register(filter_class)
-    return filter_class
+    return FilterRegistry.register(cls)
 
 
 # =============================================================================
-# EXPORTS
+# AUTO-DISCOVERY
 # =============================================================================
 
-__all__ = [
-    "FilterRegistry",
-    "get_registry",
-    "register_filter",
-]
+def discover_filters() -> int:
+    """
+    Discover and register all filters in the filters package.
+    This is called automatically when filters are imported.
+    
+    Returns:
+        Number of filters discovered
+    """
+    if FilterRegistry._initialized:
+        return FilterRegistry.count()
+    
+    # Import filter modules to trigger registration
+    from . import time_filters
+    # Future imports:
+    # from . import volatility_filters
+    # from . import trend_filters
+    # from . import portfolio_filters
+    # from . import protection_filters
+    
+    FilterRegistry._initialized = True
+    count = FilterRegistry.count()
+    logger.info(f"Discovered {count} filters")
+    return count

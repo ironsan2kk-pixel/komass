@@ -1,15 +1,23 @@
 """
-KOMAS Trading System - Filter Chain
-====================================
+KOMAS v4.0 — Filter Chain
+==========================
 
-Filter chain for applying multiple filters to signals.
+Executes filters in priority order and aggregates results.
 
 Features:
-- Sequential filter application
-- Short-circuit on first rejection (configurable)
-- Priority-based ordering
-- Detailed rejection logging
-- Chain result aggregation
+- Priority-based execution (CRITICAL → HIGH → MEDIUM → LOW)
+- Short-circuit on first BLOCK (configurable)
+- Detailed logging and statistics
+- Batch processing support
+
+Usage:
+    chain = FilterChain([session_filter, weekday_filter, cooldown_filter])
+    result = chain.apply(signal, context)
+    
+    if result.is_blocked:
+        print(f"Signal blocked: {result.blocking_reason}")
+    else:
+        print(f"Signal passed all {len(result.passed_filters)} filters")
 
 Chat #37: Filters Architecture
 Author: KOMAS Team
@@ -18,18 +26,18 @@ Version: 4.0
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Tuple
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from .base import (
-    BaseFilter,
+    BaseFilter, 
+    Signal, 
+    SignalContext, 
+    FilterDecision,
     FilterResult,
-    FilterConfig,
-    FilterCategory,
     FilterPriority,
-    SignalContext,
+    FilterCategory
 )
-from .registry import get_registry, FilterRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -41,72 +49,61 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ChainResult:
     """
-    Result of applying the entire filter chain.
-    
-    Attributes:
-        allowed: True if signal passed all filters
-        rejections: List of FilterResults that blocked the signal
-        approvals: List of FilterResults that approved the signal
-        total_filters: Total number of filters in chain
-        active_filters: Number of enabled filters
-        execution_time_ms: Time to execute the chain
-        timestamp: When the chain was executed
+    Result of applying a filter chain to a signal.
     """
-    allowed: bool
-    rejections: List[FilterResult] = field(default_factory=list)
-    approvals: List[FilterResult] = field(default_factory=list)
-    total_filters: int = 0
-    active_filters: int = 0
-    execution_time_ms: float = 0.0
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    # Overall result
+    is_blocked: bool
+    
+    # Lists of filter names
+    passed_filters: List[str] = field(default_factory=list)
+    blocked_by: Optional[str] = None
+    skipped_filters: List[str] = field(default_factory=list)
+    
+    # Detailed decisions
+    decisions: List[FilterDecision] = field(default_factory=list)
+    
+    # Timing
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
     
     @property
-    def is_blocked(self) -> bool:
-        """True if any filter blocked the signal"""
-        return not self.allowed
+    def is_passed(self) -> bool:
+        return not self.is_blocked
     
     @property
-    def rejection_count(self) -> int:
-        """Number of filters that rejected"""
-        return len(self.rejections)
+    def blocking_reason(self) -> Optional[str]:
+        """Get the reason for blocking"""
+        if not self.is_blocked:
+            return None
+        for d in self.decisions:
+            if d.is_blocked:
+                return d.reason
+        return None
     
     @property
-    def approval_count(self) -> int:
-        """Number of filters that approved"""
-        return len(self.approvals)
+    def execution_time_ms(self) -> float:
+        """Get execution time in milliseconds"""
+        if self.start_time and self.end_time:
+            return (self.end_time - self.start_time).total_seconds() * 1000
+        return 0.0
     
     @property
-    def primary_rejection(self) -> Optional[FilterResult]:
-        """Get the first/primary rejection reason"""
-        return self.rejections[0] if self.rejections else None
-    
-    @property
-    def all_reasons(self) -> List[str]:
-        """Get all rejection reasons"""
-        return [r.reason for r in self.rejections if r.reason]
-    
-    def get_rejections_by_category(self, category: FilterCategory) -> List[FilterResult]:
-        """Get rejections filtered by category"""
-        return [r for r in self.rejections if r.filter_category == category]
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON serialization"""
+    def summary(self) -> Dict[str, Any]:
+        """Get summary statistics"""
         return {
-            "allowed": self.allowed,
-            "rejections": [r.to_dict() for r in self.rejections],
-            "approvals": [a.to_dict() for a in self.approvals],
-            "rejection_count": self.rejection_count,
-            "approval_count": self.approval_count,
-            "total_filters": self.total_filters,
-            "active_filters": self.active_filters,
-            "execution_time_ms": self.execution_time_ms,
-            "timestamp": self.timestamp.isoformat(),
-            "primary_reason": self.primary_rejection.reason if self.primary_rejection else None,
+            "passed": self.is_passed,
+            "passed_count": len(self.passed_filters),
+            "skipped_count": len(self.skipped_filters),
+            "blocked_by": self.blocked_by,
+            "blocking_reason": self.blocking_reason,
+            "execution_time_ms": self.execution_time_ms
         }
     
-    def __repr__(self) -> str:
-        status = "ALLOWED" if self.allowed else f"BLOCKED ({self.rejection_count} rejections)"
-        return f"ChainResult({status})"
+    def __str__(self) -> str:
+        if self.is_passed:
+            return f"✅ PASSED ({len(self.passed_filters)} filters)"
+        else:
+            return f"❌ BLOCKED by {self.blocked_by}: {self.blocking_reason}"
 
 
 # =============================================================================
@@ -115,452 +112,270 @@ class ChainResult:
 
 class FilterChain:
     """
-    Chain of filters applied sequentially to signals.
-    
-    The chain applies filters in priority order (CRITICAL -> HIGH -> NORMAL -> LOW).
-    By default, it short-circuits on the first rejection, but this can be disabled
-    to collect all rejections.
-    
-    Usage:
-        chain = FilterChain()
-        chain.add(SessionFilter({"sessions": ["london", "new_york"]}))
-        chain.add(ATRFilter({"min_atr": 0.5}))
-        
-        result = chain.apply(signal_context)
-        if result.allowed:
-            # Execute trade
-        else:
-            print(f"Blocked: {result.primary_rejection.reason}")
-    
-    Attributes:
-        filters: List of filters in the chain
-        short_circuit: If True, stop on first rejection
-        registry: Optional registry for filter lookup
+    Executes a chain of filters in priority order.
     """
     
     def __init__(
         self,
         filters: Optional[List[BaseFilter]] = None,
         short_circuit: bool = True,
-        registry: Optional[FilterRegistry] = None,
+        log_decisions: bool = True
     ):
         """
         Initialize filter chain.
         
         Args:
-            filters: Initial list of filters
-            short_circuit: Stop on first rejection if True
-            registry: Registry for filter lookup (uses global if None)
+            filters: List of filter instances
+            short_circuit: Stop on first BLOCK (default True)
+            log_decisions: Log each filter decision (default True)
         """
-        self._filters: List[BaseFilter] = []
+        self.filters = filters or []
         self.short_circuit = short_circuit
-        self.registry = registry or get_registry()
+        self.log_decisions = log_decisions
         
-        # Add initial filters
-        if filters:
-            for f in filters:
-                self.add(f)
+        # Sort by priority
+        self._sort_filters()
         
-        logger.debug(f"FilterChain created with {len(self._filters)} filters")
+        # Statistics
+        self._stats = {
+            "total_calls": 0,
+            "total_passed": 0,
+            "total_blocked": 0,
+            "blocks_by_filter": {},
+            "avg_execution_time_ms": 0.0
+        }
     
-    @property
-    def filters(self) -> List[BaseFilter]:
-        """Get sorted list of filters by priority"""
-        return sorted(self._filters, key=lambda f: f.priority.value)
+    def _sort_filters(self) -> None:
+        """Sort filters by priority (CRITICAL first)"""
+        self.filters = sorted(
+            self.filters, 
+            key=lambda f: f.priority.value
+        )
     
-    @property
-    def enabled_filters(self) -> List[BaseFilter]:
-        """Get only enabled filters, sorted by priority"""
-        return [f for f in self.filters if f.enabled]
-    
-    def add(self, filter_obj: BaseFilter) -> "FilterChain":
+    def add_filter(self, filter_instance: BaseFilter) -> None:
         """
         Add a filter to the chain.
         
         Args:
-            filter_obj: Filter instance to add
-            
-        Returns:
-            Self for method chaining
+            filter_instance: Filter to add
         """
-        if not isinstance(filter_obj, BaseFilter):
-            raise ValueError(f"Expected BaseFilter, got {type(filter_obj)}")
-        
-        # Check for duplicate
-        existing = self.get(filter_obj.name)
-        if existing:
-            logger.warning(f"Replacing filter: {filter_obj.name}")
-            self._filters.remove(existing)
-        
-        self._filters.append(filter_obj)
-        logger.debug(f"Added filter: {filter_obj.name}")
-        return self
+        self.filters.append(filter_instance)
+        self._sort_filters()
+        logger.debug(f"Added filter: {filter_instance.name}")
     
-    def add_by_name(
-        self, 
-        name: str, 
-        config: Optional[Dict[str, Any]] = None
-    ) -> "FilterChain":
-        """
-        Add a filter by name using the registry.
-        
-        Args:
-            name: Filter name
-            config: Filter configuration
-            
-        Returns:
-            Self for method chaining
-            
-        Raises:
-            ValueError: If filter not found in registry
-        """
-        filter_obj = self.registry.create(name, config)
-        if filter_obj is None:
-            raise ValueError(f"Filter not found: {name}")
-        
-        return self.add(filter_obj)
-    
-    def add_from_config(self, filter_config: FilterConfig) -> "FilterChain":
-        """
-        Add a filter from FilterConfig.
-        
-        Args:
-            filter_config: Filter configuration
-            
-        Returns:
-            Self for method chaining
-        """
-        filter_obj = self.registry.create_from_config(filter_config)
-        if filter_obj is None:
-            raise ValueError(f"Filter not found: {filter_config.name}")
-        
-        return self.add(filter_obj)
-    
-    def remove(self, name: str) -> bool:
+    def remove_filter(self, name: str) -> bool:
         """
         Remove a filter by name.
         
         Args:
-            name: Filter name
+            name: Filter name to remove
             
         Returns:
             True if removed, False if not found
         """
-        filter_obj = self.get(name)
-        if filter_obj:
-            self._filters.remove(filter_obj)
-            logger.debug(f"Removed filter: {name}")
-            return True
+        for i, f in enumerate(self.filters):
+            if f.name == name:
+                del self.filters[i]
+                logger.debug(f"Removed filter: {name}")
+                return True
         return False
     
-    def get(self, name: str) -> Optional[BaseFilter]:
-        """
-        Get a filter by name.
-        
-        Args:
-            name: Filter name
-            
-        Returns:
-            Filter instance or None
-        """
-        for f in self._filters:
+    def get_filter(self, name: str) -> Optional[BaseFilter]:
+        """Get a filter by name"""
+        for f in self.filters:
             if f.name == name:
                 return f
         return None
     
-    def has(self, name: str) -> bool:
-        """Check if filter exists in chain"""
-        return self.get(name) is not None
-    
-    def enable(self, name: str) -> bool:
-        """Enable a filter by name"""
-        filter_obj = self.get(name)
-        if filter_obj:
-            filter_obj.enable()
-            return True
-        return False
-    
-    def disable(self, name: str) -> bool:
-        """Disable a filter by name"""
-        filter_obj = self.get(name)
-        if filter_obj:
-            filter_obj.disable()
-            return True
-        return False
-    
-    def enable_all(self) -> None:
-        """Enable all filters"""
-        for f in self._filters:
-            f.enable()
-    
-    def disable_all(self) -> None:
-        """Disable all filters"""
-        for f in self._filters:
-            f.disable()
-    
-    def clear(self) -> None:
-        """Remove all filters from chain"""
-        self._filters.clear()
-        logger.debug("FilterChain cleared")
-    
-    def apply(self, context: SignalContext) -> ChainResult:
+    def apply(self, signal: Signal, context: SignalContext) -> ChainResult:
         """
-        Apply all enabled filters to the signal.
-        
-        Filters are applied in priority order. If short_circuit is True,
-        stops on the first rejection.
+        Apply all filters to a signal.
         
         Args:
-            context: Signal context with all relevant data
+            signal: The trading signal
+            context: Market and portfolio context
             
         Returns:
-            ChainResult with aggregate results
+            ChainResult with all decisions
         """
-        import time
-        start_time = time.perf_counter()
+        start_time = datetime.now()
+        result = ChainResult(
+            is_blocked=False,
+            start_time=start_time
+        )
         
-        rejections: List[FilterResult] = []
-        approvals: List[FilterResult] = []
+        self._stats["total_calls"] += 1
         
-        enabled = self.enabled_filters
-        
-        for filter_obj in enabled:
+        for filter_instance in self.filters:
+            # Skip disabled filters
+            if not filter_instance.enabled:
+                result.skipped_filters.append(filter_instance.name)
+                continue
+            
             try:
-                result = filter_obj.can_trade(context)
+                decision = filter_instance.should_allow(signal, context)
+                result.decisions.append(decision)
                 
-                if result.allowed:
-                    approvals.append(result)
-                else:
-                    rejections.append(result)
-                    logger.debug(
-                        f"Signal blocked by {filter_obj.name}: {result.reason}"
-                    )
+                if self.log_decisions:
+                    logger.debug(str(decision))
+                
+                if decision.result == FilterResult.PASS:
+                    result.passed_filters.append(filter_instance.name)
+                    
+                elif decision.result == FilterResult.BLOCK:
+                    result.is_blocked = True
+                    result.blocked_by = filter_instance.name
+                    
+                    # Update stats
+                    self._stats["total_blocked"] += 1
+                    self._stats["blocks_by_filter"][filter_instance.name] = \
+                        self._stats["blocks_by_filter"].get(filter_instance.name, 0) + 1
                     
                     if self.short_circuit:
+                        # Stop processing on first block
                         break
                         
+                elif decision.result == FilterResult.SKIP:
+                    result.skipped_filters.append(filter_instance.name)
+                    
             except Exception as e:
-                logger.error(f"Error in filter {filter_obj.name}: {e}")
-                # On error, block the signal for safety
-                rejections.append(FilterResult.block(
-                    reason=f"Filter error: {e}",
-                    filter_name=filter_obj.name,
-                    category=filter_obj.category,
-                ))
-                if self.short_circuit:
-                    break
+                logger.error(f"Filter error in {filter_instance.name}: {e}")
+                # Continue to next filter on error
+                result.skipped_filters.append(filter_instance.name)
         
-        execution_time = (time.perf_counter() - start_time) * 1000
+        result.end_time = datetime.now()
         
-        return ChainResult(
-            allowed=len(rejections) == 0,
-            rejections=rejections,
-            approvals=approvals,
-            total_filters=len(self._filters),
-            active_filters=len(enabled),
-            execution_time_ms=execution_time,
+        if not result.is_blocked:
+            self._stats["total_passed"] += 1
+        
+        # Update average execution time
+        current_avg = self._stats["avg_execution_time_ms"]
+        new_time = result.execution_time_ms
+        total_calls = self._stats["total_calls"]
+        self._stats["avg_execution_time_ms"] = (
+            (current_avg * (total_calls - 1) + new_time) / total_calls
         )
-    
-    def check(self, context: SignalContext) -> Tuple[bool, Optional[str]]:
-        """
-        Simple check returning (allowed, reason).
         
-        Convenience method for quick checks.
+        return result
+    
+    def apply_batch(
+        self, 
+        signals: List[Tuple[Signal, SignalContext]]
+    ) -> List[ChainResult]:
+        """
+        Apply filters to multiple signals.
         
         Args:
-            context: Signal context
+            signals: List of (signal, context) tuples
             
         Returns:
-            Tuple of (allowed: bool, rejection_reason: Optional[str])
+            List of ChainResults
         """
-        result = self.apply(context)
-        reason = result.primary_rejection.reason if result.primary_rejection else None
-        return result.allowed, reason
+        return [self.apply(signal, context) for signal, context in signals]
     
-    def get_rejections(self, context: SignalContext) -> List[str]:
+    def on_trade_complete(self, trade_result: Dict[str, Any]) -> None:
         """
-        Get all rejection reasons for a signal.
-        
-        Runs with short_circuit=False to collect all rejections.
+        Notify all filters of trade completion.
         
         Args:
-            context: Signal context
-            
-        Returns:
-            List of rejection reason strings
+            trade_result: Trade result data
         """
-        # Temporarily disable short-circuit
-        old_setting = self.short_circuit
-        self.short_circuit = False
-        
-        try:
-            result = self.apply(context)
-            return result.all_reasons
-        finally:
-            self.short_circuit = old_setting
+        for f in self.filters:
+            try:
+                f.on_trade_complete(trade_result)
+            except Exception as e:
+                logger.error(f"Error in {f.name}.on_trade_complete: {e}")
     
-    def list_filters(self) -> List[str]:
-        """List all filter names in chain"""
-        return [f.name for f in self.filters]
+    def reset(self) -> None:
+        """Reset all filters"""
+        for f in self.filters:
+            try:
+                f.reset()
+            except Exception as e:
+                logger.error(f"Error resetting {f.name}: {e}")
     
-    def list_enabled(self) -> List[str]:
-        """List enabled filter names"""
-        return [f.name for f in self.enabled_filters]
+    def get_stats(self) -> Dict[str, Any]:
+        """Get chain statistics"""
+        return self._stats.copy()
     
-    def list_disabled(self) -> List[str]:
-        """List disabled filter names"""
-        return [f.name for f in self._filters if not f.enabled]
-    
-    def get_info(self) -> Dict[str, Any]:
-        """Get chain information"""
-        return {
-            "total_filters": len(self._filters),
-            "enabled_filters": len(self.enabled_filters),
-            "short_circuit": self.short_circuit,
-            "filters": [f.get_info() for f in self.filters],
-            "by_category": {
-                cat.value: [f.name for f in self.filters if f.category == cat]
-                for cat in FilterCategory
-            },
+    def reset_stats(self) -> None:
+        """Reset statistics"""
+        self._stats = {
+            "total_calls": 0,
+            "total_passed": 0,
+            "total_blocked": 0,
+            "blocks_by_filter": {},
+            "avg_execution_time_ms": 0.0
         }
     
-    def to_config_list(self) -> List[Dict[str, Any]]:
-        """Export chain as list of filter configs"""
+    def get_filter_list(self) -> List[Dict[str, Any]]:
+        """Get list of filters with their status"""
         return [
-            FilterConfig(
-                name=f.name,
-                enabled=f.enabled,
-                params=f.config,
-                priority=f.priority,
-            ).to_dict()
-            for f in self._filters
+            {
+                "name": f.name,
+                "category": f.category.value,
+                "priority": f.priority.name,
+                "enabled": f.enabled,
+                "description": f.description
+            }
+            for f in self.filters
         ]
     
-    @classmethod
-    def from_config_list(
-        cls, 
-        config_list: List[Dict[str, Any]],
-        registry: Optional[FilterRegistry] = None,
-    ) -> "FilterChain":
-        """
-        Create chain from list of filter configs.
-        
-        Args:
-            config_list: List of filter configuration dicts
-            registry: Filter registry to use
-            
-        Returns:
-            New FilterChain instance
-        """
-        chain = cls(registry=registry)
-        
-        for config_dict in config_list:
-            filter_config = FilterConfig.from_dict(config_dict)
-            try:
-                chain.add_from_config(filter_config)
-            except ValueError as e:
-                logger.warning(f"Could not add filter: {e}")
-        
-        return chain
+    def enable_filter(self, name: str) -> bool:
+        """Enable a filter by name"""
+        f = self.get_filter(name)
+        if f:
+            f.enabled = True
+            return True
+        return False
+    
+    def disable_filter(self, name: str) -> bool:
+        """Disable a filter by name"""
+        f = self.get_filter(name)
+        if f:
+            f.enabled = False
+            return True
+        return False
     
     def __len__(self) -> int:
-        """Number of filters in chain"""
-        return len(self._filters)
-    
-    def __contains__(self, name: str) -> bool:
-        """Check if filter name in chain"""
-        return self.has(name)
-    
-    def __iter__(self):
-        """Iterate over filters in priority order"""
-        return iter(self.filters)
+        return len(self.filters)
     
     def __repr__(self) -> str:
-        enabled = len(self.enabled_filters)
-        total = len(self._filters)
-        return f"FilterChain(filters={enabled}/{total})"
+        enabled = sum(1 for f in self.filters if f.enabled)
+        return f"<FilterChain({enabled}/{len(self.filters)} enabled)>"
 
 
 # =============================================================================
-# CHAIN BUILDER
+# FACTORY FUNCTION
 # =============================================================================
 
-class FilterChainBuilder:
+def create_chain_from_config(
+    config: Dict[str, Dict],
+    short_circuit: bool = True
+) -> FilterChain:
     """
-    Builder pattern for creating filter chains.
+    Create a filter chain from configuration.
     
-    Usage:
-        chain = (
-            FilterChainBuilder()
-            .with_time_filters(sessions=["london"])
-            .with_volatility_filters(min_atr=0.5)
-            .with_protection(max_dd=10)
-            .build()
-        )
+    Args:
+        config: Dict of filter_name -> filter_config
+        short_circuit: Stop on first block
+        
+    Returns:
+        Configured FilterChain
     """
+    from .registry import FilterRegistry
     
-    def __init__(self, registry: Optional[FilterRegistry] = None):
-        """Initialize builder"""
-        self.registry = registry or get_registry()
-        self._configs: List[FilterConfig] = []
-        self._short_circuit = True
+    filters = []
+    for name, filter_config in config.items():
+        filter_class = FilterRegistry.get(name)
+        if filter_class is None:
+            logger.warning(f"Unknown filter: {name}, skipping")
+            continue
+        
+        try:
+            instance = filter_class(filter_config)
+            filters.append(instance)
+        except Exception as e:
+            logger.error(f"Failed to create filter {name}: {e}")
     
-    def add(
-        self, 
-        name: str, 
-        enabled: bool = True, 
-        **params
-    ) -> "FilterChainBuilder":
-        """
-        Add a filter configuration.
-        
-        Args:
-            name: Filter name
-            enabled: Whether filter is enabled
-            **params: Filter parameters
-            
-        Returns:
-            Self for method chaining
-        """
-        self._configs.append(FilterConfig(
-            name=name,
-            enabled=enabled,
-            params=params,
-        ))
-        return self
-    
-    def with_short_circuit(self, enabled: bool = True) -> "FilterChainBuilder":
-        """Set short-circuit behavior"""
-        self._short_circuit = enabled
-        return self
-    
-    def build(self) -> FilterChain:
-        """
-        Build the filter chain.
-        
-        Returns:
-            Configured FilterChain instance
-        """
-        chain = FilterChain(
-            short_circuit=self._short_circuit,
-            registry=self.registry,
-        )
-        
-        for config in self._configs:
-            try:
-                chain.add_from_config(config)
-            except ValueError as e:
-                logger.warning(f"Could not add filter: {e}")
-        
-        return chain
-
-
-# =============================================================================
-# EXPORTS
-# =============================================================================
-
-__all__ = [
-    "ChainResult",
-    "FilterChain",
-    "FilterChainBuilder",
-]
+    return FilterChain(filters, short_circuit=short_circuit)

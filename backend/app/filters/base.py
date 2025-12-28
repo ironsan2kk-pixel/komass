@@ -1,25 +1,27 @@
 """
-KOMAS Trading System - Filter Base Classes
+KOMAS v4.0 — Bot Filters Base Architecture
 ==========================================
 
-Base classes for the modular filter system.
+Base classes and interfaces for the modular filter system.
 
-Components:
-- FilterResult: Result of a single filter check
-- FilterCategory: Enum of filter categories
-- FilterConfig: Configuration for a filter
-- BaseFilter: Abstract base class for all filters
+Filter Categories:
+- TIME: Session, Weekday, Cooldown
+- VOLATILITY: ATR, Volume, Extreme
+- TREND: BTC trend, Multi-TF, Regime
+- PORTFOLIO: Correlation, Direction, Sector
+- PROTECTION: Equity Curve, DD, Streak, Recovery
 
 Chat #37: Filters Architecture
+Chat #38: Time Filters
 Author: KOMAS Team
 Version: 4.0
 """
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, Any, Optional, List, Type
-from enum import Enum
 from datetime import datetime
+from enum import Enum, auto
+from typing import Dict, List, Optional, Any, Tuple, Callable
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,20 +32,40 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 
 class FilterCategory(Enum):
-    """Categories of filters"""
-    TIME = "time"               # Session, weekday, cooldown
-    VOLATILITY = "volatility"   # ATR, volume, extreme conditions
-    TREND = "trend"             # BTC trend, multi-TF, regime
-    PORTFOLIO = "portfolio"     # Correlation, direction, sector limits
-    PROTECTION = "protection"   # Equity curve, DD, streak, recovery
+    """Filter categories for grouping and UI organization"""
+    TIME = "time"
+    VOLATILITY = "volatility"
+    TREND = "trend"
+    PORTFOLIO = "portfolio"
+    PROTECTION = "protection"
 
 
 class FilterPriority(Enum):
-    """Filter execution priority (lower = earlier)"""
-    CRITICAL = 1    # Protection filters run first (equity, DD)
-    HIGH = 2        # Time filters
-    NORMAL = 3      # Trend, volatility
-    LOW = 4         # Portfolio filters
+    """
+    Filter execution priority.
+    Lower values execute first.
+    """
+    CRITICAL = 1   # Protection filters (DD, Equity)
+    HIGH = 2       # Time filters (Session, Weekday)
+    MEDIUM = 3     # Trend filters (BTC, Regime)
+    LOW = 4        # Portfolio filters (Correlation)
+    
+    def __lt__(self, other):
+        if isinstance(other, FilterPriority):
+            return self.value < other.value
+        return NotImplemented
+    
+    def __le__(self, other):
+        if isinstance(other, FilterPriority):
+            return self.value <= other.value
+        return NotImplemented
+
+
+class FilterResult(Enum):
+    """Result of filter check"""
+    PASS = "pass"           # Signal allowed
+    BLOCK = "block"         # Signal blocked
+    SKIP = "skip"           # Filter not applicable
 
 
 # =============================================================================
@@ -51,199 +73,137 @@ class FilterPriority(Enum):
 # =============================================================================
 
 @dataclass
-class FilterResult:
+class Signal:
     """
-    Result of a filter check.
-    
-    Attributes:
-        allowed: True if signal passes the filter
-        reason: Human-readable reason if blocked
-        filter_name: Name of the filter that made the decision
-        filter_category: Category of the filter
-        details: Additional information about the decision
-        timestamp: When the decision was made
+    Represents a trading signal to be filtered.
     """
-    allowed: bool
-    reason: Optional[str] = None
-    filter_name: str = ""
-    filter_category: Optional[FilterCategory] = None
-    details: Dict[str, Any] = field(default_factory=dict)
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    symbol: str
+    direction: str  # 'long' or 'short'
+    entry_price: float
+    timestamp: datetime
     
-    def __repr__(self) -> str:
-        status = "ALLOWED" if self.allowed else "BLOCKED"
-        if self.reason:
-            return f"FilterResult({status}: {self.reason})"
-        return f"FilterResult({status})"
+    # Optional fields
+    timeframe: str = "1h"
+    indicator: str = "trg"
+    preset_id: Optional[str] = None
+    score: Optional[int] = None  # Signal score 0-100
+    grade: Optional[str] = None  # A/B/C/D/F
     
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON serialization"""
-        return {
-            "allowed": self.allowed,
-            "reason": self.reason,
-            "filter_name": self.filter_name,
-            "filter_category": self.filter_category.value if self.filter_category else None,
-            "details": self.details,
-            "timestamp": self.timestamp.isoformat(),
-        }
+    # Take profit / Stop loss
+    tp_levels: List[Dict] = field(default_factory=list)
+    sl_percent: float = 2.5
     
-    @classmethod
-    def allow(cls, filter_name: str = "", category: Optional[FilterCategory] = None,
-              details: Optional[Dict[str, Any]] = None) -> "FilterResult":
-        """Factory method for allowed result"""
-        return cls(
-            allowed=True,
-            filter_name=filter_name,
-            filter_category=category,
-            details=details or {},
-        )
+    # Additional metadata
+    metadata: Dict[str, Any] = field(default_factory=dict)
     
-    @classmethod
-    def block(cls, reason: str, filter_name: str = "", 
-              category: Optional[FilterCategory] = None,
-              details: Optional[Dict[str, Any]] = None) -> "FilterResult":
-        """Factory method for blocked result"""
-        return cls(
-            allowed=False,
-            reason=reason,
-            filter_name=filter_name,
-            filter_category=category,
-            details=details or {},
-        )
-
-
-@dataclass
-class FilterConfig:
-    """
-    Configuration for a filter instance.
-    
-    Attributes:
-        name: Filter name (e.g., 'session_filter')
-        enabled: Whether the filter is active
-        params: Filter-specific parameters
-        priority: Execution priority
-    """
-    name: str
-    enabled: bool = True
-    params: Dict[str, Any] = field(default_factory=dict)
-    priority: FilterPriority = FilterPriority.NORMAL
-    
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary"""
-        return {
-            "name": self.name,
-            "enabled": self.enabled,
-            "params": self.params,
-            "priority": self.priority.value,
-        }
-    
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "FilterConfig":
-        """Create from dictionary"""
-        priority = data.get("priority", FilterPriority.NORMAL.value)
-        if isinstance(priority, int):
-            priority = FilterPriority(priority)
-        elif isinstance(priority, str):
-            priority = FilterPriority[priority.upper()]
-        else:
-            priority = FilterPriority.NORMAL
-            
-        return cls(
-            name=data["name"],
-            enabled=data.get("enabled", True),
-            params=data.get("params", {}),
-            priority=priority,
-        )
+    def __post_init__(self):
+        if self.direction not in ('long', 'short'):
+            raise ValueError(f"Direction must be 'long' or 'short', got: {self.direction}")
 
 
 @dataclass
 class SignalContext:
     """
-    Context information passed to filters.
-    
-    Contains all relevant information about the current trading state.
-    
-    Attributes:
-        signal: The trade signal being evaluated
-        symbol: Trading symbol (e.g., 'BTCUSDT')
-        timeframe: Timeframe (e.g., '1h')
-        current_price: Current market price
-        current_time: Current datetime
-        open_positions: List of currently open positions
-        recent_trades: List of recent closed trades
-        equity: Current account equity
-        starting_equity: Starting account equity
-        daily_pnl: Today's P&L
-        market_data: Additional market data (OHLCV, indicators)
-        bot_config: Bot configuration parameters
-        extra: Any additional data
+    Context information for filter decisions.
+    Contains market data, portfolio state, and recent history.
     """
-    signal: Dict[str, Any]
-    symbol: str
-    timeframe: str
-    current_price: float
+    # Current time
     current_time: datetime
-    open_positions: List[Dict[str, Any]] = field(default_factory=list)
-    recent_trades: List[Dict[str, Any]] = field(default_factory=list)
-    equity: float = 10000.0
-    starting_equity: float = 10000.0
-    daily_pnl: float = 0.0
-    market_data: Optional[Dict[str, Any]] = None
-    bot_config: Optional[Dict[str, Any]] = None
-    extra: Dict[str, Any] = field(default_factory=dict)
+    
+    # Market data for the symbol
+    current_price: float
+    atr: Optional[float] = None
+    volume: Optional[float] = None
+    avg_volume: Optional[float] = None
+    
+    # Higher timeframe data
+    htf_trend: Optional[str] = None  # 'up', 'down', 'neutral'
+    htf_data: Dict[str, Any] = field(default_factory=dict)
+    
+    # BTC context (for BTC trend filter)
+    btc_trend: Optional[str] = None
+    btc_price: Optional[float] = None
+    
+    # Portfolio state
+    open_positions: List[Dict] = field(default_factory=list)
+    total_exposure: float = 0.0
+    current_equity: float = 0.0
+    starting_equity: float = 0.0
+    
+    # Recent trades (for cooldown, streak filters)
+    recent_trades: List[Dict] = field(default_factory=list)
+    
+    # Equity curve (for equity curve filter)
+    equity_curve: List[float] = field(default_factory=list)
+    
+    # Bot config reference
+    bot_config: Dict[str, Any] = field(default_factory=dict)
     
     @property
-    def direction(self) -> str:
-        """Get signal direction"""
-        return self.signal.get("direction", "long")
-    
-    @property
-    def entry_price(self) -> float:
-        """Get signal entry price"""
-        return self.signal.get("entry_price", self.current_price)
-    
-    @property
-    def current_drawdown(self) -> float:
+    def current_dd_percent(self) -> float:
         """Calculate current drawdown percentage"""
         if self.starting_equity <= 0:
             return 0.0
-        return ((self.starting_equity - self.equity) / self.starting_equity) * 100
+        if not self.equity_curve:
+            return 0.0
+        peak = max(self.equity_curve) if self.equity_curve else self.starting_equity
+        if peak <= 0:
+            return 0.0
+        return (peak - self.current_equity) / peak * 100
+
+
+@dataclass
+class FilterDecision:
+    """
+    Result of a filter evaluation.
+    """
+    result: FilterResult
+    filter_name: str
+    reason: Optional[str] = None
+    details: Dict[str, Any] = field(default_factory=dict)
     
     @property
-    def position_count(self) -> int:
-        """Number of open positions"""
-        return len(self.open_positions)
-    
-    def get_positions_by_direction(self, direction: str) -> List[Dict[str, Any]]:
-        """Get positions filtered by direction"""
-        return [p for p in self.open_positions if p.get("direction") == direction]
+    def is_blocked(self) -> bool:
+        return self.result == FilterResult.BLOCK
     
     @property
-    def long_positions(self) -> List[Dict[str, Any]]:
-        """Get long positions"""
-        return self.get_positions_by_direction("long")
+    def is_passed(self) -> bool:
+        return self.result == FilterResult.PASS
     
-    @property
-    def short_positions(self) -> List[Dict[str, Any]]:
-        """Get short positions"""
-        return self.get_positions_by_direction("short")
+    def __str__(self) -> str:
+        status = "✅ PASS" if self.is_passed else "❌ BLOCK" if self.is_blocked else "⏭️ SKIP"
+        msg = f"[{self.filter_name}] {status}"
+        if self.reason:
+            msg += f": {self.reason}"
+        return msg
+
+
+@dataclass
+class FilterConfig:
+    """
+    Configuration for a single filter.
+    Used when loading/saving filter configurations.
+    """
+    filter_name: str
+    enabled: bool = True
+    params: Dict[str, Any] = field(default_factory=dict)
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary"""
+        """Convert to dict for filter instantiation"""
         return {
-            "signal": self.signal,
-            "symbol": self.symbol,
-            "timeframe": self.timeframe,
-            "current_price": self.current_price,
-            "current_time": self.current_time.isoformat(),
-            "open_positions": self.open_positions,
-            "recent_trades": self.recent_trades,
-            "equity": self.equity,
-            "starting_equity": self.starting_equity,
-            "daily_pnl": self.daily_pnl,
-            "position_count": self.position_count,
-            "current_drawdown": self.current_drawdown,
+            "enabled": self.enabled,
+            **self.params
         }
+    
+    @classmethod
+    def from_dict(cls, name: str, data: Dict[str, Any]) -> "FilterConfig":
+        """Create from dict"""
+        enabled = data.pop("enabled", True)
+        return cls(
+            filter_name=name,
+            enabled=enabled,
+            params=data
+        )
 
 
 # =============================================================================
@@ -252,264 +212,231 @@ class SignalContext:
 
 class BaseFilter(ABC):
     """
-    Abstract base class for all trading filters.
+    Abstract base class for all filters.
     
     Each filter must implement:
-    - can_trade(): Main filter logic
-    - get_config_schema(): JSON schema for configuration
+    - should_allow(): Check if signal should pass
+    - get_config_schema(): Define configurable parameters
     
-    Attributes:
-        name: Unique filter name
-        display_name: Human-readable name
-        description: Filter description
-        category: Filter category
-        priority: Execution priority
-        enabled: Whether filter is active
-        config: Filter configuration
+    Filters can optionally implement:
+    - on_trade_complete(): Called after trade closes
+    - reset(): Reset internal state
     """
     
     # Class-level attributes (override in subclasses)
     name: str = "base_filter"
-    display_name: str = "Base Filter"
-    description: str = "Abstract base filter"
-    category: FilterCategory = FilterCategory.TREND
-    priority: FilterPriority = FilterPriority.NORMAL
-    version: str = "1.0"
+    description: str = "Base filter class"
+    category: FilterCategory = FilterCategory.TIME
+    priority: FilterPriority = FilterPriority.MEDIUM
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
         Initialize filter with configuration.
         
         Args:
-            config: Filter configuration parameters
+            config: Filter-specific configuration dict
         """
-        self.enabled = True
         self.config = config or {}
-        self._validate_and_apply_config()
-        logger.debug(f"Initialized filter: {self.name}")
-    
-    def _validate_and_apply_config(self) -> None:
-        """Validate and apply configuration"""
+        self.enabled = self.config.get("enabled", True)
+        self._validate_config()
+        
+    def _validate_config(self) -> None:
+        """
+        Validate configuration against schema.
+        Override for custom validation.
+        """
         schema = self.get_config_schema()
-        
-        # Apply defaults from schema
-        for param_name, param_schema in schema.get("properties", {}).items():
-            if param_name not in self.config and "default" in param_schema:
-                self.config[param_name] = param_schema["default"]
-        
-        # Check enabled status
-        if "enabled" in self.config:
-            self.enabled = bool(self.config["enabled"])
+        for key, props in schema.items():
+            if props.get("required", False) and key not in self.config:
+                raise ValueError(f"Required config key missing: {key}")
     
     @abstractmethod
-    def can_trade(self, context: SignalContext) -> FilterResult:
+    def should_allow(self, signal: Signal, context: SignalContext) -> FilterDecision:
         """
-        Check if the signal should be allowed.
-        
-        This is the main filter logic. Each subclass must implement this.
+        Evaluate whether the signal should be allowed.
         
         Args:
-            context: SignalContext with all relevant trading state
+            signal: The trading signal to evaluate
+            context: Market and portfolio context
             
         Returns:
-            FilterResult indicating whether signal is allowed
+            FilterDecision with result and reasoning
         """
         pass
     
     @abstractmethod
     def get_config_schema(self) -> Dict[str, Any]:
         """
-        Return JSON schema for filter configuration.
+        Return the configuration schema for this filter.
         
-        The schema should follow JSON Schema format and include:
-        - properties: Dict of parameter definitions
-        - required: List of required parameters
-        - Each property should have: type, description, default
-        
-        Returns:
-            Dict with JSON schema
+        Schema format:
+        {
+            "param_name": {
+                "type": "int" | "float" | "bool" | "str" | "list",
+                "default": value,
+                "min": optional_min,
+                "max": optional_max,
+                "options": [list_of_options],  # for str/list types
+                "description": "Human readable description",
+                "required": bool
+            }
+        }
         """
         pass
     
-    def validate_config(self, config: Dict[str, Any]) -> bool:
+    def on_trade_complete(self, trade_result: Dict[str, Any]) -> None:
         """
-        Validate configuration against schema.
+        Called when a trade completes.
+        Override to update internal state.
         
         Args:
-            config: Configuration to validate
-            
-        Returns:
-            True if valid, False otherwise
+            trade_result: Dict with trade details (pnl, exit_time, etc)
         """
-        schema = self.get_config_schema()
-        required = schema.get("required", [])
-        properties = schema.get("properties", {})
-        
-        # Check required fields
-        for field in required:
-            if field not in config:
-                logger.warning(f"Missing required field: {field}")
-                return False
-        
-        # Validate types
-        for key, value in config.items():
-            if key in properties:
-                prop_schema = properties[key]
-                expected_type = prop_schema.get("type")
-                
-                if expected_type == "number" or expected_type == "integer":
-                    if not isinstance(value, (int, float)):
-                        logger.warning(f"Invalid type for {key}: expected number")
-                        return False
-                elif expected_type == "string":
-                    if not isinstance(value, str):
-                        logger.warning(f"Invalid type for {key}: expected string")
-                        return False
-                elif expected_type == "boolean":
-                    if not isinstance(value, bool):
-                        logger.warning(f"Invalid type for {key}: expected boolean")
-                        return False
-                elif expected_type == "array":
-                    if not isinstance(value, list):
-                        logger.warning(f"Invalid type for {key}: expected array")
-                        return False
-        
-        return True
+        pass
     
-    def update_config(self, new_config: Dict[str, Any]) -> bool:
+    def reset(self) -> None:
         """
-        Update filter configuration.
-        
-        Args:
-            new_config: New configuration values
-            
-        Returns:
-            True if update successful
+        Reset internal state.
+        Override if filter maintains state.
         """
-        if self.validate_config({**self.config, **new_config}):
-            self.config.update(new_config)
-            self._validate_and_apply_config()
-            return True
-        return False
+        pass
     
-    def enable(self) -> None:
-        """Enable the filter"""
-        self.enabled = True
-        logger.info(f"Filter enabled: {self.name}")
-    
-    def disable(self) -> None:
-        """Disable the filter"""
-        self.enabled = False
-        logger.info(f"Filter disabled: {self.name}")
-    
-    def get_info(self) -> Dict[str, Any]:
-        """Get filter information"""
+    def get_ui_display(self) -> Dict[str, Any]:
+        """
+        Return UI display information.
+        """
         return {
             "name": self.name,
-            "display_name": self.display_name,
             "description": self.description,
             "category": self.category.value,
-            "priority": self.priority.value,
+            "priority": self.priority.name,
             "enabled": self.enabled,
-            "version": self.version,
             "config": self.config,
-            "config_schema": self.get_config_schema(),
+            "schema": self.get_config_schema()
         }
     
     def __repr__(self) -> str:
-        status = "enabled" if self.enabled else "disabled"
-        return f"{self.__class__.__name__}(name='{self.name}', {status})"
-    
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, BaseFilter):
-            return False
-        return self.name == other.name
-    
-    def __hash__(self) -> int:
-        return hash(self.name)
+        status = "ON" if self.enabled else "OFF"
+        return f"<{self.__class__.__name__}({self.name}) [{status}]>"
 
 
 # =============================================================================
-# EXAMPLE FILTER (for testing and reference)
+# HELPER FUNCTIONS
+# =============================================================================
+
+def create_pass_decision(filter_name: str, reason: str = None, **details) -> FilterDecision:
+    """Create a PASS decision"""
+    return FilterDecision(
+        result=FilterResult.PASS,
+        filter_name=filter_name,
+        reason=reason,
+        details=details
+    )
+
+
+def create_block_decision(filter_name: str, reason: str, **details) -> FilterDecision:
+    """Create a BLOCK decision"""
+    return FilterDecision(
+        result=FilterResult.BLOCK,
+        filter_name=filter_name,
+        reason=reason,
+        details=details
+    )
+
+
+def create_skip_decision(filter_name: str, reason: str = None, **details) -> FilterDecision:
+    """Create a SKIP decision"""
+    return FilterDecision(
+        result=FilterResult.SKIP,
+        filter_name=filter_name,
+        reason=reason,
+        details=details
+    )
+
+
+# =============================================================================
+# TEST FILTER CLASSES (for testing purposes)
 # =============================================================================
 
 class AlwaysAllowFilter(BaseFilter):
     """
-    Example filter that always allows signals.
-    Useful for testing the filter chain.
+    Test filter that always allows signals.
+    Used for testing filter chain behavior.
     """
-    
     name = "always_allow"
-    display_name = "Always Allow"
-    description = "Test filter that always allows signals"
-    category = FilterCategory.TREND
+    description = "Always allows signals (for testing)"
+    category = FilterCategory.TIME
     priority = FilterPriority.LOW
     
-    def can_trade(self, context: SignalContext) -> FilterResult:
-        """Always returns allowed"""
-        return FilterResult.allow(
-            filter_name=self.name,
-            category=self.category,
-            details={"message": "Always allowed for testing"},
-        )
+    def should_allow(self, signal: Signal, context: SignalContext) -> FilterDecision:
+        return create_pass_decision(self.name, "Always allowed")
     
     def get_config_schema(self) -> Dict[str, Any]:
-        """No configuration needed"""
         return {
-            "type": "object",
-            "properties": {},
-            "required": [],
+            "enabled": {
+                "type": "bool",
+                "default": True,
+                "description": "Enable filter"
+            }
         }
 
 
 class AlwaysBlockFilter(BaseFilter):
     """
-    Example filter that always blocks signals.
-    Useful for testing the filter chain.
+    Test filter that always blocks signals.
+    Used for testing filter chain behavior.
     """
-    
     name = "always_block"
-    display_name = "Always Block"
-    description = "Test filter that always blocks signals"
-    category = FilterCategory.PROTECTION
-    priority = FilterPriority.CRITICAL
+    description = "Always blocks signals (for testing)"
+    category = FilterCategory.TIME
+    priority = FilterPriority.LOW
     
-    def can_trade(self, context: SignalContext) -> FilterResult:
-        """Always returns blocked"""
-        block_reason = self.config.get("reason", "Blocked by always_block filter")
-        return FilterResult.block(
-            reason=block_reason,
-            filter_name=self.name,
-            category=self.category,
-            details={"message": "Always blocked for testing"},
-        )
+    def should_allow(self, signal: Signal, context: SignalContext) -> FilterDecision:
+        reason = self.config.get("reason", "Always blocked")
+        return create_block_decision(self.name, reason)
     
     def get_config_schema(self) -> Dict[str, Any]:
-        """Configuration for block reason"""
         return {
-            "type": "object",
-            "properties": {
-                "reason": {
-                    "type": "string",
-                    "description": "Custom block reason",
-                    "default": "Blocked by always_block filter",
-                },
+            "enabled": {
+                "type": "bool",
+                "default": True,
+                "description": "Enable filter"
             },
-            "required": [],
+            "reason": {
+                "type": "str",
+                "default": "Always blocked",
+                "description": "Block reason message"
+            }
         }
 
 
-# =============================================================================
-# EXPORTS
-# =============================================================================
-
-__all__ = [
-    "FilterCategory",
-    "FilterPriority",
-    "FilterResult",
-    "FilterConfig",
-    "SignalContext",
-    "BaseFilter",
-    "AlwaysAllowFilter",
-    "AlwaysBlockFilter",
-]
+class ConditionalFilter(BaseFilter):
+    """
+    Test filter with configurable pass/block behavior.
+    Used for testing filter chain behavior.
+    """
+    name = "conditional"
+    description = "Conditionally allows/blocks based on config"
+    category = FilterCategory.TIME
+    priority = FilterPriority.MEDIUM
+    
+    def should_allow(self, signal: Signal, context: SignalContext) -> FilterDecision:
+        should_pass = self.config.get("should_pass", True)
+        if should_pass:
+            return create_pass_decision(self.name, "Condition met")
+        else:
+            return create_block_decision(self.name, "Condition not met")
+    
+    def get_config_schema(self) -> Dict[str, Any]:
+        return {
+            "enabled": {
+                "type": "bool",
+                "default": True,
+                "description": "Enable filter"
+            },
+            "should_pass": {
+                "type": "bool",
+                "default": True,
+                "description": "Whether to pass or block"
+            }
+        }

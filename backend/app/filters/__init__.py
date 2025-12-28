@@ -1,142 +1,163 @@
 """
-KOMAS Trading System - Filters Module
-=====================================
+KOMAS v4.0 — Bot Filters Package
+=================================
 
-Modular filter system for trading signal validation.
+Modular filter system for controlling trade execution.
 
-Architecture:
-- BaseFilter: Abstract base class for all filters
-- FilterRegistry: Centralized filter management
-- FilterChain: Sequential filter application
-- FilterResult/ChainResult: Decision data structures
-
-Categories:
-- TIME: Session, weekday, cooldown filters
-- VOLATILITY: ATR, volume, extreme condition filters
-- TREND: BTC trend, multi-TF, market regime filters
-- PORTFOLIO: Correlation, direction, sector filters
-- PROTECTION: Equity curve, drawdown, streak filters
+Filter Categories:
+- TIME: Session, Weekday, Cooldown
+- VOLATILITY: ATR, Volume, Extreme (future)
+- TREND: BTC trend, Multi-TF, Regime (future)
+- PORTFOLIO: Correlation, Direction, Sector (future)
+- PROTECTION: Equity Curve, DD, Streak, Recovery (future)
 
 Usage:
-    from app.filters import FilterChain, get_registry, SignalContext
+    from app.filters import (
+        FilterChain,
+        SessionFilter,
+        WeekdayFilter,
+        CooldownFilter,
+        Signal,
+        SignalContext,
+        FilterRegistry
+    )
     
-    # Register custom filter
-    from app.filters import register_filter, BaseFilter
+    # Create filters
+    session_filter = SessionFilter({"sessions": ["europe", "us"]})
+    weekday_filter = WeekdayFilter({"allowed_days": [0, 1, 2, 3, 4]})
+    cooldown_filter = CooldownFilter({"cooldown_minutes": 60})
     
-    @register_filter
-    class MyFilter(BaseFilter):
-        name = "my_filter"
-        ...
-    
-    # Create filter chain
-    chain = FilterChain()
-    chain.add_by_name("session_filter", {"sessions": ["london"]})
-    chain.add_by_name("atr_filter", {"min_atr": 0.5})
+    # Create chain
+    chain = FilterChain([session_filter, weekday_filter, cooldown_filter])
     
     # Apply to signal
-    context = SignalContext(signal=signal, symbol="BTCUSDT", ...)
-    result = chain.apply(context)
+    signal = Signal(symbol="BTCUSDT", direction="long", entry_price=50000, ...)
+    context = SignalContext(current_time=datetime.now(), ...)
+    result = chain.apply(signal, context)
     
-    if result.allowed:
+    if result.is_passed:
         # Execute trade
-    else:
-        print(f"Blocked: {result.primary_rejection.reason}")
+        pass
 
 Chat #37: Filters Architecture
+Chat #38: Time Filters
 Author: KOMAS Team
 Version: 4.0
 """
 
-# =============================================================================
-# IMPORTS
-# =============================================================================
-
-# Base classes and data structures
+# Base classes
 from .base import (
     # Enums
     FilterCategory,
     FilterPriority,
-    # Data classes
     FilterResult,
-    FilterConfig,
+    
+    # Data classes
+    Signal,
     SignalContext,
+    FilterDecision,
+    FilterConfig,
+    
     # Base class
     BaseFilter,
-    # Test filters
+    
+    # Helper functions
+    create_pass_decision,
+    create_block_decision,
+    create_skip_decision,
+    
+    # Test filter classes
     AlwaysAllowFilter,
     AlwaysBlockFilter,
+    ConditionalFilter,
 )
 
 # Registry
 from .registry import (
     FilterRegistry,
-    get_registry,
     register_filter,
+    discover_filters,
 )
 
-# Filter chain
+# Chain
 from .chain import (
-    ChainResult,
     FilterChain,
-    FilterChainBuilder,
+    ChainResult,
+    create_chain_from_config,
 )
 
-
-# =============================================================================
-# REGISTER BUILT-IN TEST FILTERS
-# =============================================================================
-
-def _register_builtin_filters() -> None:
-    """Register built-in filters on module import"""
-    registry = get_registry()
+# Time filters
+from .time_filters import (
+    SessionFilter,
+    WeekdayFilter,
+    CooldownFilter,
     
-    # Register test filters
-    try:
-        registry.register(AlwaysAllowFilter)
-        registry.register(AlwaysBlockFilter)
-    except ValueError:
-        # Already registered
-        pass
+    # Constants
+    TRADING_SESSIONS,
+    SESSION_OVERLAPS,
+    WEEKDAY_NAMES,
+    
+    # Helpers
+    get_current_sessions,
+    is_in_session,
+    get_session_overlap,
+    get_time_filter_summary,
+    create_time_filter_chain,
+)
 
-
-# Register on import
-_register_builtin_filters()
-
-
-# =============================================================================
-# VERSION
-# =============================================================================
-
-__version__ = "4.0.0"
-__author__ = "KOMAS Team"
-
-
-# =============================================================================
-# EXPORTS
-# =============================================================================
-
+# All exports
 __all__ = [
-    # Version
-    "__version__",
-    "__author__",
     # Enums
     "FilterCategory",
     "FilterPriority",
-    # Data classes
     "FilterResult",
-    "FilterConfig",
+    
+    # Data classes
+    "Signal",
     "SignalContext",
-    "ChainResult",
+    "FilterDecision",
+    "FilterConfig",
+    
     # Base class
     "BaseFilter",
-    # Registry
-    "FilterRegistry",
-    "get_registry",
-    "register_filter",
-    # Chain
-    "FilterChain",
-    "FilterChainBuilder",
-    # Test filters
+    
+    # Helpers
+    "create_pass_decision",
+    "create_block_decision",
+    "create_skip_decision",
+    
+    # Test filter classes
     "AlwaysAllowFilter",
     "AlwaysBlockFilter",
+    "ConditionalFilter",
+    
+    # Registry
+    "FilterRegistry",
+    "register_filter",
+    "discover_filters",
+    
+    # Chain
+    "FilterChain",
+    "ChainResult",
+    "create_chain_from_config",
+    
+    # Time filters
+    "SessionFilter",
+    "WeekdayFilter",
+    "CooldownFilter",
+    
+    # Constants
+    "TRADING_SESSIONS",
+    "SESSION_OVERLAPS",
+    "WEEKDAY_NAMES",
+    
+    # Time helpers
+    "get_current_sessions",
+    "is_in_session",
+    "get_session_overlap",
+    "get_time_filter_summary",
+    "create_time_filter_chain",
 ]
+
+# Version
+__version__ = "4.0.0"
