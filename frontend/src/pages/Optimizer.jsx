@@ -3,27 +3,25 @@
  * =============================================
  * Full UI for preset optimization with multi-pair backtesting.
  * 
- * Features:
- * - Mode selection (Quick/Standard/Smart/Full)
- * - Preset and pair selection
- * - SSE streaming optimization progress
- * - Results display with sorting and filtering
- * - Heatmap visualization
- * - History of optimization runs
- * - Export results (CSV/JSON)
- * 
  * Chat #49: Optimizer UI
+ * Chat #49 Fix v2: Fixed symbols array (objects vs strings)
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { optimizerApi } from '../api';
-import { 
-  ModeSelector, 
-  ResultsPanel, 
-  HeatmapPanel, 
-  HistoryPanel,
-  GradeBadge 
-} from '../components/Optimizer';
+
+// Lazy load optimizer components to prevent crash if not available
+let ModeSelector, ResultsPanel, HeatmapPanel, HistoryPanel, GradeBadge;
+try {
+  const OptimizerComponents = require('../components/Optimizer');
+  ModeSelector = OptimizerComponents.ModeSelector;
+  ResultsPanel = OptimizerComponents.ResultsPanel;
+  HeatmapPanel = OptimizerComponents.HeatmapPanel;
+  HistoryPanel = OptimizerComponents.HistoryPanel;
+  GradeBadge = OptimizerComponents.GradeBadge;
+} catch (e) {
+  console.warn('Optimizer components not fully loaded:', e);
+}
 
 // API base URL for SSE
 const API_BASE = 'http://localhost:8000';
@@ -47,10 +45,18 @@ const TIMEFRAMES = [
   { value: '1d', label: '1 день' },
 ];
 
+// Default modes if API fails
+const DEFAULT_MODES = [
+  { mode: 'quick', name: 'Quick', description: 'Fast scan with top presets', max_presets: 20, max_pairs: 5, preset_selection: 'top', pair_selection: 'liquid' },
+  { mode: 'standard', name: 'Standard', description: 'Balanced optimization', max_presets: 50, max_pairs: 10, preset_selection: 'all', pair_selection: 'liquid' },
+  { mode: 'smart', name: 'Smart', description: 'Adaptive selection', max_presets: 100, max_pairs: 15, preset_selection: 'smart', pair_selection: 'smart' },
+  { mode: 'full', name: 'Full', description: 'Complete analysis', max_presets: null, max_pairs: null, preset_selection: 'all', pair_selection: 'all' },
+];
+
 /**
  * Progress bar component
  */
-const ProgressBar = ({ progress, total, current, elapsed }) => {
+const ProgressBar = ({ progress = 0, total = 0, current = '', elapsed = 0 }) => {
   const percentage = total > 0 ? Math.round((progress / total) * 100) : 0;
   
   const formatTime = (seconds) => {
@@ -81,16 +87,51 @@ const ProgressBar = ({ progress, total, current, elapsed }) => {
 };
 
 /**
+ * Simple Mode Selector (fallback if component not loaded)
+ */
+const SimpleModeSelector = ({ modes = [], selected, onChange, estimate }) => {
+  const modeIcons = { quick: '⚡', standard: '⚖️', smart: '🧠', full: '🔬' };
+  const modeColors = {
+    quick: 'border-yellow-500 bg-yellow-500/10',
+    standard: 'border-blue-500 bg-blue-500/10',
+    smart: 'border-purple-500 bg-purple-500/10',
+    full: 'border-green-500 bg-green-500/10',
+  };
+  
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {modes.map((mode) => (
+        <button
+          key={mode.mode}
+          onClick={() => onChange(mode.mode)}
+          className={`p-4 rounded-lg border-2 transition-all ${
+            selected === mode.mode 
+              ? `${modeColors[mode.mode]} ring-2 ring-offset-2 ring-offset-gray-900`
+              : 'border-gray-700 hover:border-gray-600'
+          }`}
+        >
+          <div className="text-2xl mb-2">{modeIcons[mode.mode] || '📊'}</div>
+          <div className="font-bold text-white">{mode.name}</div>
+          <div className="text-xs text-gray-400 mt-1">{mode.description}</div>
+        </button>
+      ))}
+    </div>
+  );
+};
+
+/**
  * Preset selector with search and filters
  */
-const PresetSelector = ({ presets, selected, onChange, loading }) => {
+const PresetSelector = ({ presets = [], selected = [], onChange, loading }) => {
   const [search, setSearch] = useState('');
   const [indicatorFilter, setIndicatorFilter] = useState('');
   const [selectAll, setSelectAll] = useState(false);
   
-  // Filter presets
-  const filtered = presets.filter(p => {
-    if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
+  // Safe filter presets
+  const filtered = (presets || []).filter(p => {
+    if (!p) return false;
+    const name = typeof p === 'string' ? p : (p.name || '');
+    if (search && !name.toLowerCase().includes(search.toLowerCase())) return false;
     if (indicatorFilter && p.indicator_type !== indicatorFilter) return false;
     return true;
   });
@@ -99,7 +140,7 @@ const PresetSelector = ({ presets, selected, onChange, loading }) => {
   const handleSelectAll = (checked) => {
     setSelectAll(checked);
     if (checked) {
-      onChange(filtered.map(p => p.id));
+      onChange(filtered.map(p => typeof p === 'string' ? p : p.id));
     } else {
       onChange([]);
     }
@@ -166,31 +207,39 @@ const PresetSelector = ({ presets, selected, onChange, loading }) => {
       {/* List */}
       <div className="max-h-64 overflow-y-auto p-2">
         {filtered.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">Пресеты не найдены</div>
+          <div className="text-center py-8 text-gray-500">
+            {presets.length === 0 ? 'Пресеты не загружены' : 'Пресеты не найдены'}
+          </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {filtered.map(preset => (
-              <label
-                key={preset.id}
-                className={`
-                  flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors
-                  ${selected.includes(preset.id) 
-                    ? 'bg-blue-500/20 border border-blue-500/50' 
-                    : 'bg-gray-900/50 border border-transparent hover:bg-gray-900'}
-                `}
-              >
-                <input
-                  type="checkbox"
-                  checked={selected.includes(preset.id)}
-                  onChange={() => togglePreset(preset.id)}
-                  className="w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-500 focus:ring-blue-500"
-                />
-                <div className="min-w-0">
-                  <div className="text-sm text-white truncate">{preset.name}</div>
-                  <div className="text-xs text-gray-500">{preset.indicator_type}</div>
-                </div>
-              </label>
-            ))}
+            {filtered.map(preset => {
+              const presetId = typeof preset === 'string' ? preset : preset.id;
+              const presetName = typeof preset === 'string' ? preset : preset.name;
+              const presetType = typeof preset === 'string' ? '' : preset.indicator_type;
+              
+              return (
+                <label
+                  key={presetId}
+                  className={`
+                    flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors
+                    ${selected.includes(presetId) 
+                      ? 'bg-blue-500/20 border border-blue-500/50' 
+                      : 'bg-gray-900/50 border border-transparent hover:bg-gray-900'}
+                  `}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(presetId)}
+                    onChange={() => togglePreset(presetId)}
+                    className="w-4 h-4 rounded border-gray-600 bg-gray-900 text-blue-500 focus:ring-blue-500"
+                  />
+                  <div className="min-w-0">
+                    <div className="text-sm text-white truncate">{presetName}</div>
+                    {presetType && <div className="text-xs text-gray-500">{presetType}</div>}
+                  </div>
+                </label>
+              );
+            })}
           </div>
         )}
       </div>
@@ -201,20 +250,28 @@ const PresetSelector = ({ presets, selected, onChange, loading }) => {
 /**
  * Pair selector component
  */
-const PairSelector = ({ pairs, selected, onChange, loading }) => {
+const PairSelector = ({ pairs = [], selected = [], onChange, loading }) => {
   const [search, setSearch] = useState('');
   const [selectAll, setSelectAll] = useState(false);
   
-  // Filter pairs
-  const filtered = pairs.filter(p => 
-    p.toLowerCase().includes(search.toLowerCase())
-  );
+  // Helper to get pair string from item (can be string or object)
+  const getPairString = (item) => {
+    if (typeof item === 'string') return item;
+    if (item && typeof item === 'object') return item.symbol || '';
+    return '';
+  };
+  
+  // Safe filter pairs
+  const filtered = (pairs || []).filter(p => {
+    const pairStr = getPairString(p);
+    return pairStr && pairStr.toLowerCase().includes(search.toLowerCase());
+  });
   
   // Handle select all
   const handleSelectAll = (checked) => {
     setSelectAll(checked);
     if (checked) {
-      onChange(filtered);
+      onChange(filtered.map(p => getPairString(p)));
     } else {
       onChange([]);
     }
@@ -231,11 +288,13 @@ const PairSelector = ({ pairs, selected, onChange, loading }) => {
   
   // Quick select buttons
   const quickSelect = (type) => {
+    const allPairStrings = pairs.map(p => getPairString(p)).filter(Boolean);
+    const majors = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT'].filter(p => allPairStrings.includes(p));
     const selections = {
-      majors: ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT', 'XRPUSDT'],
-      top10: pairs.slice(0, 10),
-      top20: pairs.slice(0, 20),
-      all: pairs
+      majors: majors,
+      top10: allPairStrings.slice(0, 10),
+      top20: allPairStrings.slice(0, 20),
+      all: allPairStrings
     };
     onChange(selections[type] || []);
   };
@@ -308,27 +367,38 @@ const PairSelector = ({ pairs, selected, onChange, loading }) => {
       
       {/* List */}
       <div className="max-h-48 overflow-y-auto p-2">
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-          {filtered.map(pair => (
-            <label
-              key={pair}
-              className={`
-                flex items-center gap-2 p-2 rounded cursor-pointer transition-colors
-                ${selected.includes(pair) 
-                  ? 'bg-green-500/20 border border-green-500/50' 
-                  : 'bg-gray-900/50 border border-transparent hover:bg-gray-900'}
-              `}
-            >
-              <input
-                type="checkbox"
-                checked={selected.includes(pair)}
-                onChange={() => togglePair(pair)}
-                className="w-4 h-4 rounded border-gray-600 bg-gray-900 text-green-500 focus:ring-green-500"
-              />
-              <span className="text-sm text-white">{pair.replace('USDT', '')}</span>
-            </label>
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            {pairs.length === 0 ? 'Пары не загружены' : 'Пары не найдены'}
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+            {filtered.map(item => {
+              const pair = getPairString(item);
+              const displayName = pair.replace('USDT', '');
+              
+              return (
+                <label
+                  key={pair}
+                  className={`
+                    flex items-center gap-2 p-2 rounded cursor-pointer transition-colors
+                    ${selected.includes(pair) 
+                      ? 'bg-green-500/20 border border-green-500/50' 
+                      : 'bg-gray-900/50 border border-transparent hover:bg-gray-900'}
+                  `}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(pair)}
+                    onChange={() => togglePair(pair)}
+                    className="w-4 h-4 rounded border-gray-600 bg-gray-900 text-green-500 focus:ring-green-500"
+                  />
+                  <span className="text-sm text-white">{displayName}</span>
+                </label>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -344,7 +414,7 @@ export default function Optimizer() {
   // Data state
   const [presets, setPresets] = useState([]);
   const [pairs, setPairs] = useState([]);
-  const [modes, setModes] = useState([]);
+  const [modes, setModes] = useState(DEFAULT_MODES);
   const [loadingData, setLoadingData] = useState(true);
   
   // Selection state
@@ -374,29 +444,54 @@ export default function Optimizer() {
   // Load initial data
   useEffect(() => {
     const loadData = async () => {
+      setLoadingData(true);
+      setError(null);
+      
       try {
-        setLoadingData(true);
-        
         // Load presets
         const presetsRes = await fetch(`${API_BASE}/api/presets/list?limit=500`);
-        const presetsData = await presetsRes.json();
-        setPresets(presetsData.presets || []);
-        
-        // Load pairs (from data endpoint)
-        const pairsRes = await fetch(`${API_BASE}/api/data/symbols`);
-        const pairsData = await pairsRes.json();
-        setPairs(pairsData.symbols || []);
-        
-        // Load modes
-        const modesRes = await optimizerApi.getModes();
-        setModes(modesRes.data.modes || []);
-        
+        if (presetsRes.ok) {
+          const presetsData = await presetsRes.json();
+          setPresets(presetsData?.presets || []);
+        } else {
+          console.warn('Failed to load presets:', presetsRes.status);
+          setPresets([]);
+        }
       } catch (err) {
-        console.error('Error loading data:', err);
-        setError('Ошибка загрузки данных');
-      } finally {
-        setLoadingData(false);
+        console.error('Error loading presets:', err);
+        setPresets([]);
       }
+      
+      try {
+        // Load pairs (from data endpoint) - API returns objects {symbol, baseAsset, quoteAsset}
+        const pairsRes = await fetch(`${API_BASE}/api/data/symbols`);
+        if (pairsRes.ok) {
+          const pairsData = await pairsRes.json();
+          // Keep original format - PairSelector will handle both strings and objects
+          setPairs(pairsData?.symbols || []);
+        } else {
+          console.warn('Failed to load pairs:', pairsRes.status);
+          setPairs([]);
+        }
+      } catch (err) {
+        console.error('Error loading pairs:', err);
+        setPairs([]);
+      }
+      
+      try {
+        // Load modes
+        if (optimizerApi?.getModes) {
+          const modesRes = await optimizerApi.getModes();
+          if (modesRes?.data?.modes) {
+            setModes(modesRes.data.modes);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading modes:', err);
+        // Keep default modes
+      }
+      
+      setLoadingData(false);
     };
     
     loadData();
@@ -411,14 +506,17 @@ export default function Optimizer() {
       }
       
       try {
-        const res = await optimizerApi.estimateTime(
-          selectedPresets.length,
-          selectedPairs.length,
-          selectedMode
-        );
-        setEstimate(res.data);
+        if (optimizerApi?.estimateTime) {
+          const res = await optimizerApi.estimateTime(
+            selectedPresets.length,
+            selectedPairs.length,
+            selectedMode
+          );
+          setEstimate(res?.data || null);
+        }
       } catch (err) {
         console.error('Error estimating time:', err);
+        setEstimate(null);
       }
     };
     
@@ -493,9 +591,9 @@ export default function Optimizer() {
               
               if (data.event === 'progress') {
                 setProgress({
-                  current: data.completed,
-                  total: data.total,
-                  item: `${data.preset} × ${data.pair}`
+                  current: data.completed || 0,
+                  total: data.total || 0,
+                  item: `${data.preset || ''} × ${data.pair || ''}`
                 });
               } else if (data.event === 'complete') {
                 setCurrentRunId(data.run_id);
@@ -503,11 +601,17 @@ export default function Optimizer() {
                 clearInterval(elapsedTimerRef.current);
                 
                 // Load results
-                const resultsRes = await optimizerApi.getResults(data.run_id);
-                setResults(resultsRes.data);
-                setActiveTab('results');
+                if (optimizerApi?.getResults && data.run_id) {
+                  try {
+                    const resultsRes = await optimizerApi.getResults(data.run_id);
+                    setResults(resultsRes?.data || null);
+                    setActiveTab('results');
+                  } catch (e) {
+                    console.error('Failed to load results:', e);
+                  }
+                }
               } else if (data.event === 'error') {
-                setError(data.message);
+                setError(data.message || 'Ошибка оптимизации');
                 setIsOptimizing(false);
                 clearInterval(elapsedTimerRef.current);
               }
@@ -521,7 +625,9 @@ export default function Optimizer() {
       console.error('Optimization error:', err);
       setError(`Ошибка оптимизации: ${err.message}`);
       setIsOptimizing(false);
-      clearInterval(elapsedTimerRef.current);
+      if (elapsedTimerRef.current) {
+        clearInterval(elapsedTimerRef.current);
+      }
     }
   };
   
@@ -534,7 +640,7 @@ export default function Optimizer() {
       clearInterval(elapsedTimerRef.current);
     }
     
-    if (currentRunId) {
+    if (currentRunId && optimizerApi?.cancelOptimization) {
       try {
         await optimizerApi.cancelOptimization(currentRunId);
       } catch (err) {
@@ -549,10 +655,12 @@ export default function Optimizer() {
   // Load results from history
   const loadResults = async (runId) => {
     try {
-      const res = await optimizerApi.getResults(runId);
-      setResults(res.data);
-      setCurrentRunId(runId);
-      setActiveTab('results');
+      if (optimizerApi?.getResults) {
+        const res = await optimizerApi.getResults(runId);
+        setResults(res?.data || null);
+        setCurrentRunId(runId);
+        setActiveTab('results');
+      }
     } catch (err) {
       console.error('Error loading results:', err);
       setError('Ошибка загрузки результатов');
@@ -568,12 +676,21 @@ export default function Optimizer() {
             {/* Mode selector */}
             <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">
               <h3 className="text-lg font-semibold text-white mb-4">Режим оптимизации</h3>
-              <ModeSelector
-                modes={modes}
-                selected={selectedMode}
-                onChange={setSelectedMode}
-                estimate={estimate}
-              />
+              {ModeSelector ? (
+                <ModeSelector
+                  modes={modes}
+                  selected={selectedMode}
+                  onChange={setSelectedMode}
+                  estimate={estimate}
+                />
+              ) : (
+                <SimpleModeSelector
+                  modes={modes}
+                  selected={selectedMode}
+                  onChange={setSelectedMode}
+                  estimate={estimate}
+                />
+              )}
             </div>
             
             {/* Settings row */}
@@ -638,7 +755,7 @@ export default function Optimizer() {
                   <div>
                     <span className="text-gray-400 text-sm">Комбинаций:</span>
                     <span className="ml-2 text-white font-medium">
-                      {estimate.total_combinations?.toLocaleString()}
+                      {(estimate.total_combinations || 0).toLocaleString()}
                     </span>
                   </div>
                   <div>
@@ -700,15 +817,18 @@ export default function Optimizer() {
         );
         
       case 'results':
-        return results ? (
-          <ResultsPanel 
-            result={results} 
-            onClose={() => {
-              setResults(null);
-              setCurrentRunId(null);
-            }}
-          />
-        ) : (
+        if (results && ResultsPanel) {
+          return (
+            <ResultsPanel 
+              result={results} 
+              onClose={() => {
+                setResults(null);
+                setCurrentRunId(null);
+              }}
+            />
+          );
+        }
+        return (
           <div className="bg-gray-800 rounded-lg border border-gray-700 p-8 text-center">
             <div className="text-6xl mb-4">📊</div>
             <h3 className="text-xl font-semibold text-white mb-2">Нет результатов</h3>
@@ -725,9 +845,10 @@ export default function Optimizer() {
         );
         
       case 'heatmap':
-        return currentRunId ? (
-          <HeatmapPanel runId={currentRunId} />
-        ) : (
+        if (currentRunId && HeatmapPanel) {
+          return <HeatmapPanel runId={currentRunId} />;
+        }
+        return (
           <div className="bg-gray-800 rounded-lg border border-gray-700 p-8 text-center">
             <div className="text-6xl mb-4">🗺️</div>
             <h3 className="text-xl font-semibold text-white mb-2">Нет данных для Heatmap</h3>
@@ -744,11 +865,20 @@ export default function Optimizer() {
         );
         
       case 'history':
+        if (HistoryPanel) {
+          return (
+            <HistoryPanel 
+              onLoad={loadResults}
+              currentRunId={currentRunId}
+            />
+          );
+        }
         return (
-          <HistoryPanel 
-            onLoad={loadResults}
-            currentRunId={currentRunId}
-          />
+          <div className="bg-gray-800 rounded-lg border border-gray-700 p-8 text-center">
+            <div className="text-6xl mb-4">📜</div>
+            <h3 className="text-xl font-semibold text-white mb-2">История недоступна</h3>
+            <p className="text-gray-400">Компонент истории не загружен</p>
+          </div>
         );
         
       default:
