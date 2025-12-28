@@ -1,191 +1,95 @@
-# 📚 KOMAS v4.0 — Chat Reference
+# KOMAS v4.0 — Chat Reference
 
-> **Последнее обновление:** 28.12.2025  
-> **GitHub:** https://github.com/ironsan2kk-pixel/komass
-
----
-
-## 🗂️ ОГЛАВЛЕНИЕ
-
-- [Фаза 1: Стабилизация](#фаза-1-стабилизация-15-19)
-- [Фаза 2: Dominant Indicator](#фаза-2-dominant-indicator-20-27)
-- [Фаза 3: Система пресетов](#фаза-3-система-пресетов-28-33)
-- [Фаза 4: Signal Score](#фаза-4-signal-score-34-36)
-- [Фаза 5: Общие фильтры](#фаза-5-общие-фильтры-37-44)
+> **Last updated:** 28.12.2025
 
 ---
 
-## Фаза 1: Стабилизация (#15-19)
+## Phase 5: General Filters
 
-### #15 — Bugfixes UI ✅
-- Monthly Panel белый экран fix
-- Stats Panel ошибки fix
-- UTF-8 encoding fix
-- LogsPanel авто-скролл
+### Chat #41 — Filters Portfolio ✅
+**Date:** 28.12.2025  
+**Focus:** Portfolio-based filters for position diversity and risk distribution
 
-### #16 — Bugfixes Backend ✅
-- Network Error duplicate timestamps fix
-- Endpoints validation
-- Error logging
+**Implemented:**
+- **CorrelationFilter** — Limits positions in correlated assets
+  - Uses predefined correlation groups (BTC, ETH ecosystem, meme coins, AI, etc.)
+  - Configurable max correlated positions and threshold
+  - Supports custom correlation groups
+  
+- **DirectionFilter** — Controls long/short position balance
+  - Separate limits for long and short positions
+  - Net exposure limit (max difference between longs and shorts)
+  - Option to allow/disallow both directions simultaneously
+  
+- **SectorFilter** — Enforces diversification across sectors
+  - 11 sectors: layer1, layer2, defi, meme, ai, gaming, infrastructure, exchange, privacy, oracle, rwa
+  - 60+ symbols classified by sector
+  - Configurable max positions per sector
+  - Sector exclusion support
 
-### #17 — Data Futures Only ✅
-- Убрали spot торговлю
-- Только Binance Futures
-- Обновлён список символов
-
-### #18 — Data Period Selection ✅
-- UI выбора периода
-- Datepicker компоненты
-- API start_date/end_date
-
-### #19 — Data Caching ✅
-- LRU кэш для OHLCV
-- Метрики hit/miss
-
----
-
-## Фаза 2: Dominant Indicator (#20-27)
-
-### #20 — Dominant Core ✅
-- indicators/dominant.py
-- Channel calculation
-- Fibonacci levels
-
-### #21 — Dominant Signals ✅
-- can_long / can_short
-- Trend tracking
-
-### #22 — Dominant Filters ✅
-- 5 filter types (0-4)
-
-### #23 — Dominant SL Modes ✅
-- 5 SL modes
-
-### #24 — Dominant AI Resolution ✅
-- Scoring function
-- Auto-optimization
-
-### #25 — Dominant Presets DB ✅
-- SQLite table
-- 125 presets migration
-
-### #26 — Dominant UI Integration ✅
-- Indicator selector
-- Preset dropdown
-
-### #27 — Dominant Verification ✅
-- TradingView comparison
-- Signal accuracy check
+**Files:**
+- `backend/app/filters/portfolio_filters.py` — Main filter implementations
+- `backend/app/filters/__init__.py` — Updated exports
+- `backend/app/filters/registry.py` — Updated imports
+- `tests/test_portfolio_filters.py` — 45+ unit tests
+- `run_portfolio_filter_tests.py` — Test runner
+- `run_portfolio_filter_tests.bat` — Windows batch file
 
 ---
 
-## Фаза 3: Система пресетов (#28-33)
+### Chat #40 — Filters Trend ✅
+**Date:** 28.12.2025  
+**Focus:** Trend-based filters
 
-### #28 — Presets Architecture ✅
-- Base classes
-- Registry pattern
-
-### #29 — Presets TRG Generator ✅
-- 200 presets (8×5×5)
-- Naming convention
-
-### #30 — Presets TRG Storage ✅
-- SQLite storage
-- API endpoints
-
-### #31 — Presets User CRUD ✅
-- Create/Edit/Delete
-- Clone from system
-
-### #32 — Presets Import/Export ✅
-- JSON format
-- Batch export
-
-### #33 — Presets UI ✅
-- Library page
-- Search & filters
-- Categories
+**Implemented:**
+- BTCTrendFilter — Trade with BTC trend direction
+- MultiTFFilter — Multi-timeframe confirmation
+- RegimeFilter — Market regime detection (trending/ranging)
 
 ---
 
-## Фаза 4: Signal Score (#34-36)
+### Chat #39 — Filters Volatility ✅
+**Date:** 28.12.2025  
+**Focus:** Volatility-based filters
 
-### #34 — Score Core ✅
-- 4 components × 25 points
-- Grades A-F
-- scoring/signal_score.py
-
-### #35 — Score Multi-TF ✅
-- Higher TF loading
-- Alignment calculation
-
-### #36 — Score UI ✅
-- Badge component
-- Score breakdown tooltip
-- Filter by grade
+**Implemented:**
+- ATRFilter — ATR range filtering
+- VolumeFilter — Volume threshold filtering
+- ExtremeFilter — Volatility spike protection
 
 ---
 
-## Фаза 5: Общие фильтры (#37-44)
+### Chat #38 — Filters Time ✅
+**Date:** 27.12.2025  
+**Focus:** Time-based filters
 
-### #37 — Filters Architecture ✅
-- BaseFilter class
-- FilterRegistry
-- FilterChain
-- 33 unit tests
-
-### #38 — Filters Time ✅
-- SessionFilter (Asia/Europe/US)
-- WeekdayFilter (Mon-Sun)
-- CooldownFilter (win/loss cooldowns)
-- Timezone support
-- 48 unit tests
-
-### #39 — Filters Volatility ✅
-- ATRFilter (min/max ATR range, % or absolute)
-- VolumeFilter (ratio vs MA, absolute minimum)
-- ExtremeFilter (ATR/volume spike detection, pause period)
-- Volatility profiles (conservative/balanced/aggressive)
-- Config validation
-- 40+ unit tests
-
-### #40 — Filters Trend ⏳
-- BTCTrendFilter
-- MultiTFFilter
-- RegimeFilter
-
-### #41 — Filters Portfolio ⬜
-- CorrelationFilter
-- DirectionFilter
-- SectorFilter
-
-### #42 — Filters Protection ⬜
-- EquityCurveFilter
-- DrawdownFilter
-- StreakFilter
-- RecoveryFilter
-
-### #43 — Filters Integration ⬜
-- FilterManager
-- DB config loading
-- Chain application
-
-### #44 — Filters UI ⬜
-- Filter settings section
-- Category grouping
-- Filter presets
+**Implemented:**
+- SessionFilter — Trading session control
+- WeekdayFilter — Day-of-week filtering
+- CooldownFilter — Post-trade pause
 
 ---
 
-## 📊 Статистика
+### Chat #37 — Filters Architecture ✅
+**Date:** 27.12.2025  
+**Focus:** Filter system foundation
 
-| Метрика | Значение |
-|---------|----------|
-| Всего чатов | 75 |
-| Завершено | 25 |
-| Прогресс | 33.3% |
-| Unit тестов | 150+ |
+**Implemented:**
+- BaseFilter abstract class
+- FilterRegistry with decorator
+- FilterChain for sequential execution
+- Signal and SignalContext classes
 
 ---
 
-*Обновлено: 28.12.2025*
+## Previous Phases
+
+### Phase 1-4: Completed
+- Stabilization & Base (#15-19)
+- Dominant Indicator (#20-27)
+- Preset System (#28-33)
+- Signal Score (#34-36)
+
+---
+
+*See TRACKER.md for detailed task lists*

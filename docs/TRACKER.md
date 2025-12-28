@@ -1,178 +1,177 @@
 # 🎯 KOMAS v4.0 DEVELOPMENT TRACKER
 
-> **Создано:** 27.12.2025  
-> **Последнее обновление:** 28.12.2025  
-> **Текущая версия:** v3.5 → v4.0  
+> **Last updated:** 28.12.2025  
+> **Current chat:** #41  
 > **GitHub:** https://github.com/ironsan2kk-pixel/komass
 
 ---
 
-## 📊 ОБЩИЙ ПРОГРЕСС
+## 📊 OVERALL PROGRESS
 
-| Метрика | Значение |
-|---------|----------|
-| **Всего чатов** | 75 (#15 — #89) |
-| **Завершено** | 25 (#15-39) |
-| **В процессе** | — |
-| **Осталось** | 50 |
-| **Прогресс** | 33.3% |
-
----
-
-## 🗂️ СВОДКА ПО ФАЗАМ
-
-| # | Фаза | Чаты | Кол-во | Статус |
-|---|------|------|--------|--------|
-| 1 | Стабилизация и база | #15-19 | 5 | ✅ Завершено |
-| 2 | Dominant Indicator | #20-27 | 8 | ✅ Завершено |
-| 3 | Система пресетов | #28-33 | 6 | ✅ Завершено |
-| 4 | Signal Score | #34-36 | 3 | ✅ Завершено |
-| 5 | Общие фильтры | #37-44 | 8 | ⏳ 3/8 завершено |
-| 6 | Оптимизация пресетов | #45-49 | 5 | ⬜ Ожидает |
-| 7 | Конфиг бота | #50-53 | 4 | ⬜ Ожидает |
-| 8 | Bot Backtest | #54-59 | 6 | ⬜ Ожидает |
-| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Ожидает |
-| 10 | Live Engine | #65-70 | 6 | ⬜ Ожидает |
-| 11 | Telegram | #71-76 | 6 | ⬜ Ожидает |
-| 12 | Дизайн | #77-80 | 4 | ⬜ Ожидает |
-| 13 | QA и тестирование | #81-85 | 5 | ⬜ Ожидает |
-| 14 | GitHub и деплой | #86-89 | 4 | ⬜ Ожидает |
+| Metric | Value |
+|--------|-------|
+| **Total chats** | 83 (#15 — #97) |
+| **Completed** | 27 (#15-#41) |
+| **In progress** | #42 |
+| **Remaining** | 56 |
+| **Progress** | 32.5% |
 
 ---
 
-## 🔍 ФАЗА 5: ОБЩИЕ ФИЛЬТРЫ (8 чатов)
+## 🗂️ PHASE SUMMARY
 
-### Чат #37: Filters Architecture ✅
-**Статус:** ✅ Завершён  
-**Дата завершения:** 28.12.2025
-
-**Выполнено:**
-- [x] `filters/base.py` — базовые классы (Signal, SignalContext, FilterDecision)
-- [x] `filters/registry.py` — реестр фильтров с декоратором @register_filter
-- [x] `filters/chain.py` — FilterChain для применения нескольких фильтров
-- [x] FilterCategory, FilterPriority enum'ы
-- [x] 33 unit теста
+| # | Phase | Chats | Count | Status |
+|---|-------|-------|-------|--------|
+| 1 | Stabilization & Base | #15-19 | 5 | ✅ Complete |
+| 2 | Dominant Indicator | #20-27 | 8 | ✅ Complete |
+| 3 | Preset System | #28-33 | 6 | ✅ Complete |
+| 4 | Signal Score | #34-36 | 3 | ✅ Complete |
+| 5 | General Filters | #37-44 | 8 | ⏳ 5/8 done |
+| 6 | Preset Optimization | #45-49 | 5 | ⬜ Waiting |
+| 7 | Bot Config | #50-53 | 4 | ⬜ Waiting |
+| 8 | Bot Backtest | #54-59 | 6 | ⬜ Waiting |
+| 9 | Bot Optimizer | #60-64 | 5 | ⬜ Waiting |
+| 10 | Live Engine | #65-70 | 6 | ⬜ Waiting |
+| 11 | Telegram | #71-76 | 6 | ⬜ Waiting |
+| 12 | Design | #77-80 | 4 | ⬜ Waiting |
+| 13 | QA & Testing | #81-88 | 8 | ⬜ Waiting |
+| 14 | GitHub & Deploy | #89-94 | 6 | ⬜ Waiting |
+| 15 | Finalization | #95-97 | 3 | ⬜ Waiting |
 
 ---
 
-### Чат #38: Filters Time ✅
-**Статус:** ✅ Завершён  
-**Дата завершения:** 28.12.2025
+## 🔍 PHASE 5: GENERAL FILTERS (8 chats)
 
-**Выполнено:**
-- [x] SessionFilter — торговые сессии (Asia/Europe/US)
-- [x] WeekdayFilter — дни недели (Пн-Пт/включая выходные)
-- [x] CooldownFilter — пауза между сделками
+### Chat #37: Filters Architecture
+**Status:** ✅ Complete  
+**Date:** 27.12.2025
+
+**Completed:**
+- [x] `filters/base.py` — BaseFilter, Signal, SignalContext, FilterDecision
+- [x] `filters/registry.py` — FilterRegistry with decorator
+- [x] `filters/chain.py` — FilterChain for sequential execution
+- [x] Enums: FilterCategory, FilterPriority, FilterResult
+- [x] Helper functions: create_pass/block/skip_decision
+
+---
+
+### Chat #38: Filters Time
+**Status:** ✅ Complete  
+**Date:** 27.12.2025
+
+**Completed:**
+- [x] SessionFilter — trading session control (Asia/Europe/US)
+- [x] WeekdayFilter — day-of-week filtering
+- [x] CooldownFilter — post-trade pause with win/loss variants
 - [x] Timezone support (UTC/local)
 - [x] Session overlap detection
-- [x] 48 unit тестов
+- [x] 48 unit tests
 
 ---
 
-### Чат #39: Filters Volatility ✅
-**Статус:** ✅ Завершён  
-**Дата завершения:** 28.12.2025
+### Chat #39: Filters Volatility
+**Status:** ✅ Complete  
+**Date:** 28.12.2025
 
-**Выполнено:**
-- [x] ATRFilter — фильтр по ATR (мин/макс границы)
-  - ATR как % от цены или абсолютное значение
-  - Настраиваемый период ATR
-- [x] VolumeFilter — фильтр по объёму
-  - Минимальный ratio vs MA
-  - Абсолютный минимум объёма
-- [x] ExtremeFilter — блокировка при экстремальной волатильности
-  - ATR spike detection
-  - Volume spike detection
-  - Pause period с таймером
-- [x] Helper функции (calculate_atr_percent, calculate_volume_ratio, etc.)
+**Completed:**
+- [x] ATRFilter — ATR range filtering (min/max, % or absolute)
+- [x] VolumeFilter — volume threshold filtering (ratio vs MA)
+- [x] ExtremeFilter — volatility spike protection with pause period
+- [x] Volatility calculation helpers
 - [x] Volatility profiles (conservative/balanced/aggressive)
+- [x] 40+ unit tests
+
+---
+
+### Chat #40: Filters Trend
+**Status:** ✅ Complete  
+**Date:** 28.12.2025
+
+**Completed:**
+- [x] BTCTrendFilter — trade with BTC trend
+- [x] MultiTFFilter — multi-timeframe confirmation
+- [x] RegimeFilter — market regime detection (trending/ranging)
+- [x] Trend calculation helpers
+- [x] 35+ unit tests
+
+---
+
+### Chat #41: Filters Portfolio
+**Status:** ✅ Complete  
+**Date:** 28.12.2025
+
+**Completed:**
+- [x] CorrelationFilter — limit correlated positions
+- [x] DirectionFilter — long/short position limits
+- [x] SectorFilter — sector diversification
+- [x] Sector classification data (layer1, defi, meme, ai, gaming, etc.)
+- [x] Correlation groups (BTC, ETH ecosystem, meme coins, etc.)
+- [x] Portfolio summary helpers
+- [x] Portfolio profiles (conservative/balanced/aggressive)
 - [x] Config validation
-- [x] 40+ unit тестов
-- [x] run_volatility_filter_tests.bat
+- [x] 45+ unit tests
 
-**Файлы обновлены:**
-- `backend/app/filters/volatility_filters.py` — NEW
-- `backend/app/filters/registry.py` — updated imports
-- `backend/app/filters/__init__.py` — updated exports
-- `tests/test_volatility_filters.py` — NEW
+**New Files:**
+- `backend/app/filters/portfolio_filters.py`
+- `tests/test_portfolio_filters.py`
+- `run_portfolio_filter_tests.py`
+- `run_portfolio_filter_tests.bat`
 
----
-
-### Чат #40: Filters Trend
-**Статус:** ⏳ Следующий
-
-**Задачи:**
-- [ ] BTCTrendFilter — торговля по тренду BTC
-- [ ] MultiTFFilter — согласованность таймфреймов
-- [ ] RegimeFilter — trending/ranging detection
-- [ ] Unit тесты
+**Updated Files:**
+- `backend/app/filters/__init__.py` — added portfolio exports
+- `backend/app/filters/registry.py` — added portfolio import
 
 ---
 
-### Чат #41: Filters Portfolio
-**Статус:** ⬜ Ожидает
+### Chat #42: Filters Protection
+**Status:** ⏳ Next
 
-**Задачи:**
-- [ ] CorrelationFilter — лимит коррелированных позиций
-- [ ] DirectionFilter — лимит Long/Short
-- [ ] SectorFilter — лимит по секторам
-- [ ] Unit тесты
-
----
-
-### Чат #42: Filters Protection
-**Статус:** ⬜ Ожидает
-
-**Задачи:**
-- [ ] EquityCurveFilter — торговля выше/ниже MA equity
-- [ ] DrawdownFilter — пауза при DD > X%
-- [ ] StreakFilter — стоп после N убытков
-- [ ] RecoveryFilter — постепенный вход после DD
-- [ ] Unit тесты
+**Tasks:**
+- [ ] EquityCurveFilter — trade when equity above/below MA
+- [ ] MaxDDFilter — stop trading on max drawdown
+- [ ] StreakFilter — pause after N consecutive losses
+- [ ] RecoveryFilter — reduce position size after drawdown
+- [ ] Unit tests (30+)
 
 ---
 
-### Чат #43: Filters Integration
-**Статус:** ⬜ Ожидает
+### Chat #43: Filters Integration
+**Status:** ⬜ Waiting
 
-**Задачи:**
-- [ ] FilterManager класс
-- [ ] Загрузка конфигов из БД
-- [ ] Применение цепочки к сигналам
-- [ ] Логирование причин блокировки
-- [ ] Unit тесты
-
----
-
-### Чат #44: Filters UI
-**Статус:** ⬜ Ожидает
-
-**Задачи:**
-- [ ] Секция "Фильтры" в настройках бота
-- [ ] Группировка по категориям
-- [ ] Переключатели enabled + параметры
-- [ ] Preview эффекта фильтра
-- [ ] Presets фильтров (Conservative/Balanced/Aggressive)
+**Tasks:**
+- [ ] FilterManager class
+- [ ] Load configs from database
+- [ ] Apply filter chain to signals
+- [ ] Log rejection reasons
 
 ---
 
-## 📝 ИСТОРИЯ ИЗМЕНЕНИЙ
+### Chat #44: Filters UI
+**Status:** ⬜ Waiting
 
-| Дата | Чат | Изменение |
-|------|-----|-----------|
-| 28.12.2025 | #39 | ✅ Volatility Filters: ATRFilter, VolumeFilter, ExtremeFilter |
-| 28.12.2025 | #38 | ✅ Time Filters: SessionFilter, WeekdayFilter, CooldownFilter |
-| 28.12.2025 | #37 | ✅ Filters Architecture: base.py, registry.py, chain.py |
-| 28.12.2025 | #36 | ✅ Score UI: Badge, breakdown, filter by score |
-| 28.12.2025 | #35 | ✅ Score Multi-TF: Higher timeframe alignment |
-| 28.12.2025 | #34 | ✅ Score Core: 4 components, 0-100, grades |
-| 28.12.2025 | #33 | ✅ Presets UI: Library, search, creation |
-| 28.12.2025 | #32 | ✅ Presets Import/Export: JSON format |
-| 27.12.2025 | #15 | ✅ Bugfixes UI: Monthly, Stats, UTF-8 |
+**Tasks:**
+- [ ] Filters section in bot settings
+- [ ] Category grouping
+- [ ] Enable/disable toggles + parameters
+- [ ] Filter effect preview
+- [ ] Filter presets (Conservative/Balanced/Aggressive)
 
 ---
 
-## 🔗 ССЫЛКИ
+## 📝 CHANGE HISTORY
+
+| Date | Chat | Change |
+|------|------|--------|
+| 28.12.2025 | #41 | ✅ Portfolio filters: Correlation, Direction, Sector |
+| 28.12.2025 | #40 | ✅ Trend filters: BTC trend, Multi-TF, Regime |
+| 28.12.2025 | #39 | ✅ Volatility filters: ATR, Volume, Extreme |
+| 27.12.2025 | #38 | ✅ Time filters: Session, Weekday, Cooldown |
+| 27.12.2025 | #37 | ✅ Filters architecture: base, registry, chain |
+| 27.12.2025 | #15-36 | Previous phases completed |
+
+---
+
+## 🔗 LINKS
 
 - **GitHub:** https://github.com/ironsan2kk-pixel/komass
 - **Local API:** http://localhost:8000/docs
@@ -180,4 +179,4 @@
 
 ---
 
-*Обновлено: 28.12.2025*
+*Updated: 28.12.2025*

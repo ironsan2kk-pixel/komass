@@ -23,6 +23,7 @@ Usage:
 Chat #37: Filters Architecture
 Chat #38: Filters Time
 Chat #39: Filters Volatility
+Chat #41: Filters Portfolio
 Author: KOMAS Team
 Version: 4.0
 """
@@ -263,9 +264,9 @@ def discover_filters() -> int:
     # Import filter modules to trigger registration
     from . import time_filters
     from . import volatility_filters
+    from . import portfolio_filters
     # Future imports:
     # from . import trend_filters
-    # from . import portfolio_filters
     # from . import protection_filters
     
     FilterRegistry._initialized = True

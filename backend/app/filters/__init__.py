@@ -8,7 +8,7 @@ Filter Categories:
 - TIME: Session, Weekday, Cooldown
 - VOLATILITY: ATR, Volume, Extreme
 - TREND: BTC trend, Multi-TF, Regime (future)
-- PORTFOLIO: Correlation, Direction, Sector (future)
+- PORTFOLIO: Correlation, Direction, Sector
 - PROTECTION: Equity Curve, DD, Streak, Recovery (future)
 
 Usage:
@@ -27,6 +27,11 @@ Usage:
         VolumeFilter,
         ExtremeFilter,
         
+        # Portfolio filters
+        CorrelationFilter,
+        DirectionFilter,
+        SectorFilter,
+        
         # Core classes
         Signal,
         SignalContext,
@@ -37,9 +42,15 @@ Usage:
     atr_filter = ATRFilter({"min_atr": 1.0, "max_atr": 5.0, "use_atr_percent": True})
     volume_filter = VolumeFilter({"min_volume_ratio": 1.5})
     extreme_filter = ExtremeFilter({"atr_multiplier": 3.0, "pause_minutes": 60})
+    correlation_filter = CorrelationFilter({"max_correlated_positions": 2})
+    direction_filter = DirectionFilter({"max_long_positions": 5, "max_short_positions": 5})
+    sector_filter = SectorFilter({"max_per_sector": 2})
     
     # Create chain
-    chain = FilterChain([session_filter, atr_filter, volume_filter, extreme_filter])
+    chain = FilterChain([
+        session_filter, atr_filter, volume_filter, extreme_filter,
+        correlation_filter, direction_filter, sector_filter
+    ])
     
     # Apply to signal
     signal = Signal(symbol="BTCUSDT", direction="long", entry_price=50000, ...)
@@ -53,6 +64,7 @@ Usage:
 Chat #37: Filters Architecture
 Chat #38: Time Filters
 Chat #39: Filters Volatility
+Chat #41: Filters Portfolio
 Author: KOMAS Team
 Version: 4.0
 """
@@ -145,6 +157,41 @@ from .volatility_filters import (
     validate_volatility_config,
 )
 
+# Portfolio filters
+from .portfolio_filters import (
+    CorrelationFilter,
+    DirectionFilter,
+    SectorFilter,
+    
+    # Constants
+    DEFAULT_MAX_CORRELATED_POSITIONS,
+    DEFAULT_CORRELATION_THRESHOLD,
+    DEFAULT_MAX_LONG_POSITIONS,
+    DEFAULT_MAX_SHORT_POSITIONS,
+    DEFAULT_NET_EXPOSURE_LIMIT,
+    DEFAULT_MAX_PER_SECTOR,
+    
+    # Sector data
+    SECTOR_MAPPING,
+    AVAILABLE_SECTORS,
+    CORRELATION_GROUPS,
+    
+    # Helpers
+    get_sector,
+    get_correlation_groups_for_symbol,
+    are_correlated,
+    count_correlated_positions,
+    count_positions_by_direction,
+    count_positions_by_sector,
+    get_positions_in_sector,
+    calculate_net_exposure,
+    get_portfolio_summary,
+    get_portfolio_filter_summary,
+    create_portfolio_filter_chain,
+    validate_portfolio_config,
+    create_portfolio_profile,
+)
+
 # All exports
 __all__ = [
     # Enums
@@ -223,6 +270,39 @@ __all__ = [
     "create_volatility_filter_chain",
     "create_volatility_profile",
     "validate_volatility_config",
+    
+    # Portfolio filters
+    "CorrelationFilter",
+    "DirectionFilter",
+    "SectorFilter",
+    
+    # Portfolio constants
+    "DEFAULT_MAX_CORRELATED_POSITIONS",
+    "DEFAULT_CORRELATION_THRESHOLD",
+    "DEFAULT_MAX_LONG_POSITIONS",
+    "DEFAULT_MAX_SHORT_POSITIONS",
+    "DEFAULT_NET_EXPOSURE_LIMIT",
+    "DEFAULT_MAX_PER_SECTOR",
+    
+    # Sector data
+    "SECTOR_MAPPING",
+    "AVAILABLE_SECTORS",
+    "CORRELATION_GROUPS",
+    
+    # Portfolio helpers
+    "get_sector",
+    "get_correlation_groups_for_symbol",
+    "are_correlated",
+    "count_correlated_positions",
+    "count_positions_by_direction",
+    "count_positions_by_sector",
+    "get_positions_in_sector",
+    "calculate_net_exposure",
+    "get_portfolio_summary",
+    "get_portfolio_filter_summary",
+    "create_portfolio_filter_chain",
+    "validate_portfolio_config",
+    "create_portfolio_profile",
 ]
 
 # Version
