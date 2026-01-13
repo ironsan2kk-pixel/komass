@@ -8,7 +8,10 @@
 ## Progress
 - ✅ Phase 1 DONE: `calculate.py` - 6 functions (300+ lines)
 - ✅ Phase 2 DONE: `backtest.py` - 5 functions (550+ lines)
-- ⏳ Phase 3-5: Pending
+- ✅ Phase 3 DONE: `data.py` - 8 functions (320+ lines)
+- ⏳ Optimization and routes modules deferred (can be added later)
+
+**Total extracted: 1170+ lines (28% of original 4149 lines)**
 
 ## Problem
 The file contains multiple responsibilities:
