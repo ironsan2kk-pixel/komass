@@ -32,22 +32,44 @@ class TelegramSettings(BaseModel):
     bot_token: str = ""
     chat_id: str = ""  # Can be channel ID (e.g., @channel) or numeric ID
     message_format: NotificationFormat = NotificationFormat.SIMPLE
-    
+
     # Trigger settings
     notify_new_signal: bool = True
     notify_tp_hit: bool = True
     notify_sl_hit: bool = True
     notify_signal_closed: bool = True
     notify_errors: bool = False
-    
+
     # Formatting options
     include_chart_link: bool = False
     include_entry_zone: bool = True
     include_leverage: bool = True
     show_all_targets: bool = True
-    
+
     # Custom template (for CUSTOM format)
     custom_template: str = ""
+
+
+class DiscordSettings(BaseModel):
+    """Discord webhook configuration"""
+    enabled: bool = False
+    webhook_url: str = ""
+    username: str = "KOMAS Trading Bot"
+    avatar_url: str = ""
+
+    # Trigger settings
+    notify_new_signal: bool = True
+    notify_tp_hit: bool = True
+    notify_sl_hit: bool = True
+    notify_signal_closed: bool = True
+    notify_errors: bool = False
+
+    # Formatting options
+    include_chart_link: bool = False
+    include_entry_zone: bool = True
+    include_leverage: bool = True
+    show_all_targets: bool = True
+    use_rich_embeds: bool = True
 
 
 class SignalData(BaseModel):
