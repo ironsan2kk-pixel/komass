@@ -6,7 +6,7 @@ import {
   MessageSquare, Zap, AlertTriangle, Target
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { presetsApi, symbolsApi, notificationsApi } from '../services/api'
+import { presetsApi, symbolsApi, notificationsApi, discordApi } from '../services/api'
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
@@ -14,7 +14,8 @@ export default function SettingsPage() {
   
   const tabs = [
     { id: 'presets', label: 'Пресеты', icon: Settings },
-    { id: 'notifications', label: 'Уведомления', icon: Bell },
+    { id: 'notifications', label: 'Telegram', icon: MessageSquare },
+    { id: 'discord', label: 'Discord', icon: Bell },
     { id: 'apikeys', label: 'API ключи', icon: Key },
   ]
 
@@ -46,6 +47,7 @@ export default function SettingsPage() {
       {/* Tab Content */}
       {activeTab === 'presets' && <PresetsTab />}
       {activeTab === 'notifications' && <NotificationsTab />}
+      {activeTab === 'discord' && <DiscordTab />}
       {activeTab === 'apikeys' && <ApiKeysTab />}
     </div>
   )
@@ -667,6 +669,327 @@ function NotificationsTab() {
       <div className="card">
         <div className="card-header">Опции отображения</div>
         
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { name: 'include_entry_zone', label: 'Зона входа' },
+            { name: 'include_leverage', label: 'Плечо' },
+            { name: 'show_all_targets', label: 'Все таргеты' },
+            { name: 'include_chart_link', label: 'Ссылка на график' },
+          ].map(option => (
+            <label
+              key={option.name}
+              className="flex items-center gap-2 text-sm"
+            >
+              <input
+                type="checkbox"
+                name={option.name}
+                checked={settings[option.name]}
+                onChange={handleChange}
+                className="rounded border-gray-700"
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Save Button */}
+      <div className="flex justify-end">
+        <button
+          onClick={handleSave}
+          disabled={isSaving}
+          className="btn-primary"
+        >
+          {isSaving ? (
+            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+          ) : (
+            <Save className="h-4 w-4 mr-2" />
+          )}
+          Сохранить настройки
+        </button>
+      </div>
+    </div>
+  )
+}
+
+
+// ============ DISCORD TAB ============
+
+function DiscordTab() {
+  const [settings, setSettings] = useState({
+    enabled: false,
+    webhook_url: '',
+    username: 'KOMAS Trading Bot',
+    avatar_url: '',
+    notify_new_signal: true,
+    notify_tp_hit: true,
+    notify_sl_hit: true,
+    notify_signal_closed: true,
+    notify_errors: false,
+    include_chart_link: false,
+    include_entry_zone: true,
+    include_leverage: true,
+    show_all_targets: true,
+    use_rich_embeds: true
+  })
+
+  const [showWebhook, setShowWebhook] = useState(false)
+  const [isTesting, setIsTesting] = useState(false)
+  const [isValidating, setIsValidating] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [webhookInfo, setWebhookInfo] = useState(null)
+
+  // Load settings on mount
+  useEffect(() => {
+    loadSettings()
+  }, [])
+
+  const loadSettings = async () => {
+    try {
+      const response = await discordApi.getSettings()
+      if (response.data?.settings) {
+        setSettings(response.data.settings)
+      }
+    } catch (error) {
+      console.error('Failed to load Discord settings:', error)
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setSettings(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }))
+  }
+
+  const handleValidateWebhook = async () => {
+    setIsValidating(true)
+    try {
+      const response = await discordApi.validateWebhook(settings.webhook_url)
+      if (response.data?.valid) {
+        setWebhookInfo(response.data.webhook_info)
+        toast.success(`Webhook подключён! Канал: ${response.data.webhook_info?.name}`)
+      } else {
+        toast.error(response.data?.error || 'Ошибка валидации')
+        setWebhookInfo(null)
+      }
+    } catch (error) {
+      toast.error('Ошибка подключения к Discord API')
+      setWebhookInfo(null)
+    } finally {
+      setIsValidating(false)
+    }
+  }
+
+  const handleTestNotification = async () => {
+    setIsTesting(true)
+    try {
+      const response = await discordApi.test()
+      if (response.data?.success) {
+        toast.success('Тестовое сообщение отправлено!')
+      } else {
+        toast.error(response.data?.message || 'Ошибка отправки')
+      }
+    } catch (error) {
+      toast.error('Не удалось отправить сообщение')
+    } finally {
+      setIsTesting(false)
+    }
+  }
+
+  const handleSave = async () => {
+    setIsSaving(true)
+    try {
+      await discordApi.updateSettings(settings)
+      toast.success('Настройки сохранены')
+    } catch (error) {
+      toast.error('Ошибка сохранения')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Discord Settings */}
+      <div className="card">
+        <div className="card-header flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Bell className="h-5 w-5 text-indigo-400" />
+            <span>Discord Webhook</span>
+          </div>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="enabled"
+              checked={settings.enabled}
+              onChange={handleChange}
+              className="rounded border-gray-700"
+            />
+            <span className="text-sm">Включено</span>
+          </label>
+        </div>
+
+        <div className="space-y-4">
+          {/* Webhook URL */}
+          <div>
+            <label className="label">Webhook URL</label>
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <input
+                  type={showWebhook ? 'text' : 'password'}
+                  name="webhook_url"
+                  value={settings.webhook_url}
+                  onChange={handleChange}
+                  placeholder="https://discord.com/api/webhooks/..."
+                  className="input pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowWebhook(!showWebhook)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                >
+                  {showWebhook ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              <button
+                onClick={handleValidateWebhook}
+                disabled={!settings.webhook_url || isValidating}
+                className="btn-primary btn-sm"
+              >
+                {isValidating ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  'Проверить'
+                )}
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Создайте Webhook в настройках канала Discord: Edit Channel → Integrations → Webhooks
+            </p>
+          </div>
+
+          {/* Webhook Info */}
+          {webhookInfo && (
+            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-400" />
+                <span className="text-green-400 font-medium">Webhook подключён</span>
+              </div>
+              <div className="mt-2 text-sm text-gray-400">
+                <p>Имя: {webhookInfo.name}</p>
+                <p className="text-xs">ID: {webhookInfo.id}</p>
+                <p className="text-xs">Channel ID: {webhookInfo.channel_id}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Bot customization */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="label">Имя бота</label>
+              <input
+                type="text"
+                name="username"
+                value={settings.username}
+                onChange={handleChange}
+                placeholder="KOMAS Trading Bot"
+                className="input"
+              />
+            </div>
+            <div>
+              <label className="label">Avatar URL (опционально)</label>
+              <input
+                type="text"
+                name="avatar_url"
+                value={settings.avatar_url}
+                onChange={handleChange}
+                placeholder="https://..."
+                className="input"
+              />
+            </div>
+          </div>
+
+          {/* Test Button */}
+          <div className="flex gap-2">
+            <button
+              onClick={handleTestNotification}
+              disabled={!settings.webhook_url || isTesting}
+              className="btn-secondary btn-sm"
+            >
+              {isTesting ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-1" />
+              ) : (
+                <Send className="h-4 w-4 mr-1" />
+              )}
+              Тест
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Rich Embeds */}
+      <div className="card">
+        <div className="card-header flex items-center gap-2">
+          <Zap className="h-5 w-5 text-purple-400" />
+          <span>Формат сообщений</span>
+        </div>
+
+        <div className="space-y-4">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              name="use_rich_embeds"
+              checked={settings.use_rich_embeds}
+              onChange={handleChange}
+              className="rounded border-gray-700"
+            />
+            <span className="text-sm">Использовать Rich Embeds (цветные карточки)</span>
+          </label>
+          <p className="text-xs text-gray-500">
+            Rich Embeds создают красивые цветные карточки с иконками. Отключите для простого текстового формата.
+          </p>
+        </div>
+      </div>
+
+      {/* Trigger Settings */}
+      <div className="card">
+        <div className="card-header flex items-center gap-2">
+          <Target className="h-5 w-5 text-red-400" />
+          <span>Триггеры уведомлений</span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { name: 'notify_new_signal', label: 'Новый сигнал', icon: '📈' },
+            { name: 'notify_tp_hit', label: 'TP достигнут', icon: '🎯' },
+            { name: 'notify_sl_hit', label: 'SL сработал', icon: '🛑' },
+            { name: 'notify_signal_closed', label: 'Сигнал закрыт', icon: '✅' },
+            { name: 'notify_errors', label: 'Ошибки системы', icon: '⚠️' },
+          ].map(trigger => (
+            <label
+              key={trigger.name}
+              className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-800"
+            >
+              <input
+                type="checkbox"
+                name={trigger.name}
+                checked={settings[trigger.name]}
+                onChange={handleChange}
+                className="rounded border-gray-700"
+              />
+              <span>{trigger.icon}</span>
+              <span className="text-sm">{trigger.label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Display Options */}
+      <div className="card">
+        <div className="card-header">Опции отображения</div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'include_entry_zone', label: 'Зона входа' },

@@ -115,40 +115,70 @@ export const symbolsApi = {
 }
 
 
-// ============ NOTIFICATIONS API ============
+// ============ NOTIFICATIONS API (TELEGRAM) ============
 
 export const notificationsApi = {
   // Settings
   getSettings: () => get('/notifications/settings'),
   updateSettings: (settings) => post('/notifications/settings', settings),
-  
+
   // Bot validation
   validateBot: (token) => post('/notifications/validate-bot', { bot_token: token }),
-  
+
   // Test notification
   test: (params) => post('/notifications/test', params),
-  
+
   // Statistics
   getStats: () => get('/notifications/stats'),
   resetStats: () => post('/notifications/stats/reset'),
-  
+
   // Send notifications
   sendSignal: (data) => post('/notifications/send/signal', data),
   sendTPHit: (data) => post('/notifications/send/tp-hit', data),
   sendSLHit: (data) => post('/notifications/send/sl-hit', data),
   sendClosed: (data) => post('/notifications/send/closed', data),
   sendError: (error, context) => post('/notifications/send/error', { error, context }),
-  
+
   // Formats
   getFormats: () => get('/notifications/formats'),
   previewFormat: (format) => get(`/notifications/preview/${format}`),
-  
+
   // Template validation
   validateTemplate: (template) => post('/notifications/template/validate', { template }),
-  
+
   // Enable/Disable
   enable: () => post('/notifications/enable'),
   disable: () => post('/notifications/disable'),
+}
+
+
+// ============ DISCORD NOTIFICATIONS API ============
+
+export const discordApi = {
+  // Settings
+  getSettings: () => get('/notifications/discord/settings'),
+  updateSettings: (settings) => post('/notifications/discord/settings', settings),
+
+  // Webhook validation
+  validateWebhook: (url) => post('/notifications/discord/validate', { webhook_url: url }),
+
+  // Test notification
+  test: () => post('/notifications/discord/test'),
+
+  // Statistics
+  getStats: () => get('/notifications/discord/stats'),
+  resetStats: () => post('/notifications/discord/stats/reset'),
+
+  // Send notifications
+  sendSignal: (data) => post('/notifications/discord/send/signal', data),
+  sendTPHit: (data) => post('/notifications/discord/send/tp-hit', data),
+  sendSLHit: (data) => post('/notifications/discord/send/sl-hit', data),
+  sendClosed: (data) => post('/notifications/discord/send/closed', data),
+  sendError: (error, context) => post('/notifications/discord/send/error', { error, context }),
+
+  // Enable/Disable
+  enable: () => post('/notifications/discord/enable'),
+  disable: () => post('/notifications/discord/disable'),
 }
 
 
@@ -188,6 +218,7 @@ export default {
   presets: presetsApi,
   symbols: symbolsApi,
   notifications: notificationsApi,
+  discord: discordApi,
   calendar: calendarApi,
   logs: logsApi,
   health: healthApi,
