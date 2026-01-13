@@ -3,7 +3,11 @@
 ## Current State
 - **File:** `backend/app/api/indicator_routes.py`
 - **Size:** 4149 lines, 171KB
-- **Status:** ⚠️ Too large to maintain
+- **Status:** 🟡 Refactoring in progress
+
+## Progress
+- ✅ Phase 1 STARTED: `calculate.py` created with 6 functions (300+ lines)
+- ⏳ Phase 2-5: Pending
 
 ## Problem
 The file contains multiple responsibilities:
