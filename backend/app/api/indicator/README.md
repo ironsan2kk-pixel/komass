@@ -8,7 +8,7 @@
 backend/app/api/indicator/
 ├── __init__.py              # Module exports
 ├── calculate.py             # ✅ Indicator calculations (Phase 1 DONE)
-├── backtest.py              # ⏳ Backtest engine (Phase 2 TODO)
+├── backtest.py              # ✅ Backtest engine (Phase 2 DONE)
 ├── optimize.py              # ⏳ Optimization logic (Phase 3 TODO)
 ├── data.py                  # ⏳ Data utilities (Phase 4 TODO)
 ├── routes.py                # ⏳ Route handlers (Phase 5 TODO)
@@ -39,16 +39,59 @@ df = calculate_trg(df, atr_length=45, multiplier=4.0)
 df = generate_signals(df, settings)
 ```
 
+---
+
+## ✅ Phase 2: backtest.py (COMPLETED)
+
+Extracted backtest engine functions:
+
+### Functions:
+- `calculate_trg(df, atr_length, multiplier)` - TRG indicator
+- `calculate_supertrend(df, period, multiplier)` - SuperTrend
+- `calculate_rsi(df, period)` - RSI
+- `calculate_adx(df, period)` - ADX
+- `generate_signals(df, settings)` - Signal generation
+- `apply_trg_with_filters(df, settings)` - Complete TRG pipeline
+
+### Usage Example:
+```python
+from app.api.indicator.calculate import calculate_trg, generate_signals
+
+# Calculate TRG
+df = calculate_trg(df, atr_length=45, multiplier=4.0)
+
+# Generate signals
+df = generate_signals(df, settings)
+```
+
+### Functions:
+- `run_backtest(df, settings, adaptive_mode)` - Main backtest engine
+- `quick_backtest(df, settings, tp_levels, sl_pct)` - Fast backtest for optimization
+- `check_exit(position, row, settings, tp_levels, tp_amounts)` - Exit condition checker
+- `_build_monthly_stats(trades)` - Monthly breakdown builder
+- `calculate_statistics(trades, equity_curve, settings, monthly_stats)` - Comprehensive stats
+
+### Usage Example:
+```python
+from app.api.indicator.backtest import run_backtest, calculate_statistics
+
+# Run backtest
+trades, equity, tp_stats, monthly, params = run_backtest(df, settings)
+
+# Calculate stats
+stats = calculate_statistics(trades, equity, settings, monthly)
+```
+
+---
+
 ## ⏳ Next Steps
 
-### Phase 2: backtest.py
+### Phase 3: optimize.py
 Extract from `indicator_routes.py`:
-- `run_backtest()`
-- `quick_backtest()`
-- `check_exit()`
-- `_build_monthly_stats()`
-- `calculate_statistics()`
-- `calculate_advanced_score()`
+- `run_single_backtest_*()` (6 variants)
+- `generate_*_configs()` (5 generators)
+- `calculate_optimization_score()`
+- `run_adaptive_optimization()`
 
 ### Phase 3: optimize.py
 Extract optimization functions:

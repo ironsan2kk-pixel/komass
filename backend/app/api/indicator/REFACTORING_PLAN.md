@@ -6,8 +6,9 @@
 - **Status:** 🟡 Refactoring in progress
 
 ## Progress
-- ✅ Phase 1 STARTED: `calculate.py` created with 6 functions (300+ lines)
-- ⏳ Phase 2-5: Pending
+- ✅ Phase 1 DONE: `calculate.py` - 6 functions (300+ lines)
+- ✅ Phase 2 DONE: `backtest.py` - 5 functions (550+ lines)
+- ⏳ Phase 3-5: Pending
 
 ## Problem
 The file contains multiple responsibilities:
