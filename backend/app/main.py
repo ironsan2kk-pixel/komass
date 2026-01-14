@@ -245,6 +245,9 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load data routes: {e}")
 
+# ============ INDICATOR ROUTES ============
+# Note: Modular structure ready in app/api/indicator/ for future migration
+# Currently using legacy monolithic file (all 9 endpoints)
 try:
     from app.api.indicator_routes import router as indicator_router
     app.include_router(indicator_router)

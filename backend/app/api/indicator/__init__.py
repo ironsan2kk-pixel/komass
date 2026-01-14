@@ -14,8 +14,11 @@ Structure:
 
 from fastapi import APIRouter
 
-# Create router
+# Create router (for future modular use)
 router = APIRouter(prefix="/api/indicator", tags=["Indicator"])
+
+# NOTE: Routes module exists but not imported yet to avoid conflicts with legacy indicator_routes.py
+# When ready to migrate, uncomment: from . import routes
 
 # Import models
 from .models import IndicatorSettings, ReplayRequest, AutoOptimizeMode
