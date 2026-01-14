@@ -17,7 +17,11 @@ from .models import (
     NotificationTestRequest,
     NotificationTestResponse,
     TelegramBotInfo,
-    NotificationStats
+    NotificationStats,
+    ChannelRoutingRules,
+    TelegramChannel,
+    TelegramChannelCreate,
+    TelegramChannelUpdate
 )
 
 from .formatters import (
@@ -58,6 +62,10 @@ __all__ = [
     "NotificationTestResponse",
     "TelegramBotInfo",
     "NotificationStats",
+    "ChannelRoutingRules",
+    "TelegramChannel",
+    "TelegramChannelCreate",
+    "TelegramChannelUpdate",
 
     # Formatters
     "get_formatter",

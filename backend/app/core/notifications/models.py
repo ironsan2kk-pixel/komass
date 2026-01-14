@@ -80,23 +80,27 @@ class SignalData(BaseModel):
     entry_price: float
     entry_zone_low: Optional[float] = None
     entry_zone_high: Optional[float] = None
-    
+
     # Take profits
     tp_targets: List[float] = []
     tp_amounts: List[float] = []  # Percentage of position for each TP
-    
+
     # Stop loss
     sl_price: float
     sl_percent: Optional[float] = None
     sl_mode: str = "fixed"  # fixed, breakeven, cascade
-    
+
     # Additional info
     leverage: int = 1
     timeframe: str = "1h"
     exchange: str = "binance"
     indicator_name: str = "TRG"
     winrate: Optional[float] = None  # Win rate percentage (e.g., 79)
-    
+
+    # Signal Score (for routing)
+    score: Optional[int] = None  # 0-100
+    grade: Optional[str] = None  # A, B, C, D, F
+
     # Timestamps
     created_at: Optional[datetime] = None
     
@@ -197,7 +201,7 @@ class NotificationStats(BaseModel):
     failed: int = 0
     last_sent: Optional[datetime] = None
     last_error: Optional[str] = None
-    
+
     by_trigger: Dict[str, int] = {
         "new_signal": 0,
         "tp_hit": 0,
@@ -205,3 +209,83 @@ class NotificationStats(BaseModel):
         "signal_closed": 0,
         "error": 0
     }
+
+
+class ChannelRoutingRules(BaseModel):
+    """Routing rules for filtering signals to channels"""
+    # Filter by indicator
+    indicators: List[str] = []  # e.g., ['TRG', 'Dominant']
+
+    # Filter by symbols
+    symbols: List[str] = []  # e.g., ['BTCUSDT', 'ETHUSDT']
+
+    # Filter by direction
+    directions: List[str] = []  # e.g., ['LONG', 'SHORT']
+
+    # Filter by Signal Score
+    min_score: Optional[int] = None  # 0-100
+    score_grades: List[str] = []  # e.g., ['A', 'B', 'C', 'D', 'F']
+
+    # Notification triggers for this channel
+    notify_new_signal: bool = True
+    notify_tp_hit: bool = True
+    notify_sl_hit: bool = True
+    notify_signal_closed: bool = True
+    notify_errors: bool = False
+
+
+class TelegramChannel(BaseModel):
+    """Telegram channel configuration"""
+    id: str
+    name: str
+    chat_id: str  # Telegram chat ID or @channel_name
+    enabled: bool = True
+    message_format: NotificationFormat = NotificationFormat.SIMPLE
+
+    # Routing rules
+    routing_rules: ChannelRoutingRules = Field(default_factory=ChannelRoutingRules)
+
+    # Formatting options (per channel)
+    include_chart_link: bool = False
+    include_entry_zone: bool = True
+    include_leverage: bool = True
+    show_all_targets: bool = True
+
+    # Custom template (for CUSTOM format)
+    custom_template: str = ""
+
+    # Statistics
+    messages_sent: int = 0
+    last_sent: Optional[datetime] = None
+
+    # Metadata
+    created_at: Optional[datetime] = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(default_factory=datetime.now)
+
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat() if v else None
+        }
+
+
+class TelegramChannelCreate(BaseModel):
+    """Request to create a new channel"""
+    name: str
+    chat_id: str
+    enabled: bool = True
+    message_format: NotificationFormat = NotificationFormat.SIMPLE
+    routing_rules: Optional[ChannelRoutingRules] = None
+
+
+class TelegramChannelUpdate(BaseModel):
+    """Request to update a channel"""
+    name: Optional[str] = None
+    chat_id: Optional[str] = None
+    enabled: Optional[bool] = None
+    message_format: Optional[NotificationFormat] = None
+    routing_rules: Optional[ChannelRoutingRules] = None
+    include_chart_link: Optional[bool] = None
+    include_entry_zone: Optional[bool] = None
+    include_leverage: Optional[bool] = None
+    show_all_targets: Optional[bool] = None
+    custom_template: Optional[str] = None

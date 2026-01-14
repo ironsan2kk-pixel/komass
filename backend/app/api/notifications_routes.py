@@ -20,13 +20,50 @@ from app.core.notifications import (
     NotificationFormat,
     NotificationStats,
     TelegramBotInfo,
+    TelegramChannel,
+    TelegramChannelCreate,
+    TelegramChannelUpdate,
+    ChannelRoutingRules,
     get_notifier,
     get_discord_notifier
 )
+from app.core.notifications.channel_manager import ChannelManager
+from app.core.notifications.signal_router import SignalRouter
 
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/notifications", tags=["notifications"])
+
+# Initialize channel manager and signal router
+_channel_manager = None
+_signal_router = None
+
+
+def get_channel_manager() -> ChannelManager:
+    """Get or create channel manager instance"""
+    global _channel_manager
+    if _channel_manager is None:
+        _channel_manager = ChannelManager()
+    return _channel_manager
+
+
+def get_signal_router() -> SignalRouter:
+    """Get or create signal router instance"""
+    global _signal_router
+    if _signal_router is None:
+        manager = get_channel_manager()
+        channels = manager.get_enabled_channels()
+        _signal_router = SignalRouter(channels)
+    return _signal_router
+
+
+def refresh_signal_router():
+    """Refresh signal router with latest channels"""
+    global _signal_router
+    manager = get_channel_manager()
+    channels = manager.get_enabled_channels()
+    router = get_signal_router()
+    router.update_channels(channels)
 
 
 # ============ REQUEST/RESPONSE MODELS ============
@@ -823,3 +860,199 @@ async def disable_discord_notifications():
     settings.enabled = False
     notifier.update_settings(settings)
     return {"success": True, "enabled": False}
+
+
+# ============ CHANNEL MANAGEMENT ENDPOINTS ============
+
+
+class ChannelResponse(BaseModel):
+    """Response with single channel"""
+    success: bool = True
+    channel: TelegramChannel
+
+
+class ChannelsListResponse(BaseModel):
+    """Response with list of channels"""
+    success: bool = True
+    channels: list[TelegramChannel]
+    total: int
+
+
+class ChannelStatsResponse(BaseModel):
+    """Response with channel statistics"""
+    success: bool = True
+    stats: dict
+
+
+@router.get("/channels", response_model=ChannelsListResponse)
+async def get_channels(enabled_only: bool = Query(False)):
+    """
+    Get all Telegram channels
+
+    Args:
+        enabled_only: If True, return only enabled channels
+    """
+    manager = get_channel_manager()
+
+    if enabled_only:
+        channels = manager.get_enabled_channels()
+    else:
+        channels = manager.get_all_channels()
+
+    return ChannelsListResponse(
+        channels=channels,
+        total=len(channels)
+    )
+
+
+@router.get("/channels/{channel_id}", response_model=ChannelResponse)
+async def get_channel(channel_id: str):
+    """Get channel by ID"""
+    manager = get_channel_manager()
+    channel = manager.get_channel(channel_id)
+
+    if not channel:
+        raise HTTPException(status_code=404, detail=f"Channel {channel_id} not found")
+
+    return ChannelResponse(channel=channel)
+
+
+@router.post("/channels", response_model=ChannelResponse)
+async def create_channel(channel_data: TelegramChannelCreate):
+    """
+    Create a new Telegram channel
+
+    Args:
+        channel_data: Channel creation data
+    """
+    manager = get_channel_manager()
+
+    try:
+        channel = manager.create_channel(channel_data)
+        refresh_signal_router()
+        logger.info(f"Created channel '{channel.name}' with ID {channel.id}")
+        return ChannelResponse(channel=channel)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.put("/channels/{channel_id}", response_model=ChannelResponse)
+async def update_channel(channel_id: str, update_data: TelegramChannelUpdate):
+    """
+    Update channel
+
+    Args:
+        channel_id: Channel ID to update
+        update_data: Update data
+    """
+    manager = get_channel_manager()
+
+    try:
+        channel = manager.update_channel(channel_id, update_data)
+        refresh_signal_router()
+        logger.info(f"Updated channel '{channel.name}' (ID: {channel_id})")
+        return ChannelResponse(channel=channel)
+    except ValueError as e:
+        raise HTTPException(status_code=404 if "not found" in str(e) else 400, detail=str(e))
+
+
+@router.delete("/channels/{channel_id}")
+async def delete_channel(channel_id: str):
+    """
+    Delete channel
+
+    Args:
+        channel_id: Channel ID to delete
+    """
+    manager = get_channel_manager()
+    success = manager.delete_channel(channel_id)
+
+    if not success:
+        raise HTTPException(status_code=404, detail=f"Channel {channel_id} not found")
+
+    refresh_signal_router()
+    logger.info(f"Deleted channel with ID {channel_id}")
+    return {"success": True, "message": "Channel deleted successfully"}
+
+
+@router.post("/channels/{channel_id}/enable")
+async def enable_channel(channel_id: str):
+    """Enable channel"""
+    manager = get_channel_manager()
+    channel = manager.get_channel(channel_id)
+
+    if not channel:
+        raise HTTPException(status_code=404, detail=f"Channel {channel_id} not found")
+
+    update_data = TelegramChannelUpdate(enabled=True)
+    manager.update_channel(channel_id, update_data)
+    refresh_signal_router()
+
+    return {"success": True, "enabled": True}
+
+
+@router.post("/channels/{channel_id}/disable")
+async def disable_channel(channel_id: str):
+    """Disable channel"""
+    manager = get_channel_manager()
+    channel = manager.get_channel(channel_id)
+
+    if not channel:
+        raise HTTPException(status_code=404, detail=f"Channel {channel_id} not found")
+
+    update_data = TelegramChannelUpdate(enabled=False)
+    manager.update_channel(channel_id, update_data)
+    refresh_signal_router()
+
+    return {"success": True, "enabled": False}
+
+
+@router.get("/channels/stats/overview", response_model=ChannelStatsResponse)
+async def get_channel_stats():
+    """Get channel statistics"""
+    manager = get_channel_manager()
+    stats = manager.get_stats()
+
+    return ChannelStatsResponse(stats=stats)
+
+
+@router.post("/channels/{channel_id}/test")
+async def test_channel(channel_id: str):
+    """
+    Test sending to a specific channel
+
+    Args:
+        channel_id: Channel ID to test
+    """
+    manager = get_channel_manager()
+    channel = manager.get_channel(channel_id)
+
+    if not channel:
+        raise HTTPException(status_code=404, detail=f"Channel {channel_id} not found")
+
+    # Get the notifier
+    notifier = get_notifier()
+
+    # Create temporary settings for this channel
+    temp_settings = notifier.get_settings().model_copy()
+    temp_settings.chat_id = channel.chat_id
+    temp_settings.message_format = channel.message_format
+
+    # Send test message
+    try:
+        result = await notifier.send_test(temp_settings)
+        if result.success:
+            manager.increment_message_count(channel_id)
+            return {
+                "success": True,
+                "message": f"Test message sent to channel '{channel.name}'",
+                "message_id": result.message_id
+            }
+        else:
+            return {
+                "success": False,
+                "error": result.error or "Unknown error"
+            }
+    except Exception as e:
+        logger.error(f"Failed to send test message to channel {channel_id}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
