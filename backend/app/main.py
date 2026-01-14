@@ -9,10 +9,8 @@ Chat #43: Filters Integration
 Chat #48: Preset Optimizer Heatmap
 - Added heatmap_routes router for /api/optimizer/results/* heatmap endpoints
 """
-import os
 import sys
 import logging
-import traceback
 from datetime import datetime
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -224,38 +222,9 @@ async def log_requests(request: Request, call_next):
 
 # ============ EXCEPTION HANDLERS ============
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Global exception handler for unhandled errors"""
-    tb = traceback.format_exc()
-    logger.error(f"Unhandled error on {request.url.path}:\n{tb}")
-    
-    return JSONResponse(
-        status_code=500,
-        content={
-            "error": str(exc),
-            "type": type(exc).__name__,
-            "path": str(request.url.path),
-            "timestamp": datetime.now().isoformat()
-        }
-    )
-
-
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request: Request, exc: HTTPException):
-    """Handler for HTTP exceptions"""
-    if exc.status_code >= 400:
-        logger.warning(f"HTTP {exc.status_code} on {request.url.path}: {exc.detail}")
-    
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={
-            "error": exc.detail,
-            "status_code": exc.status_code,
-            "path": str(request.url.path),
-            "timestamp": datetime.now().isoformat()
-        }
-    )
+# Register centralized error handlers
+from app.core.errors import register_exception_handlers
+register_exception_handlers(app)
 
 
 # ============ IMPORT ROUTERS ============
@@ -370,8 +339,16 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load db routes: {e}")
 
+# ============ LOGS ROUTES (Error Storage) ============
+try:
+    from app.api.log_routes import router as log_router
+    app.include_router(log_router)
+    logger.info("✔ Loaded: Log routes (/api/logs/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load log routes: {e}")
 
-# ============ LOG ENDPOINTS ============
+
+# ============ LOG ENDPOINTS (File-based) ============
 
 @app.get("/api/logs/list")
 async def list_logs():

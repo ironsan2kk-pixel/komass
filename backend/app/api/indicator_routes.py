@@ -7,7 +7,7 @@ import asyncio
 import numpy as np
 import pandas as pd
 import aiohttp
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -1731,7 +1731,6 @@ async def auto_optimize(request: AutoOptimizeMode):
 
 
 from fastapi.responses import StreamingResponse
-import asyncio
 
 # Number of workers for parallel processing
 
