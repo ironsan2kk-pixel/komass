@@ -8,6 +8,9 @@ Chat #43: Filters Integration
 
 Chat #48: Preset Optimizer Heatmap
 - Added heatmap_routes router for /api/optimizer/results/* heatmap endpoints
+
+Chat #XX: Signals Management
+- Added signals router for /api/signals/* endpoints (SSE stream)
 """
 import sys
 import logging
@@ -35,7 +38,7 @@ ERROR_LOG_FILE = LOGS_DIR / f"errors_{datetime.now().strftime('%Y-%m-%d')}.log"
 
 class ColorFormatter(logging.Formatter):
     """Colored formatter for console output"""
-    
+
     COLORS = {
         logging.DEBUG: "\x1b[38;5;244m",     # Gray
         logging.INFO: "\x1b[38;5;39m",        # Blue
@@ -44,7 +47,7 @@ class ColorFormatter(logging.Formatter):
         logging.CRITICAL: "\x1b[31;1m",       # Bold Red
     }
     RESET = "\x1b[0m"
-    
+
     def format(self, record):
         color = self.COLORS.get(record.levelno, "")
         record.levelname = f"{color}{record.levelname}{self.RESET}"
@@ -53,47 +56,47 @@ class ColorFormatter(logging.Formatter):
 
 def setup_logging():
     """Setup comprehensive logging to file and console"""
-    
+
     # Clear existing handlers
     root = logging.getLogger()
     root.handlers = []
     root.setLevel(logging.DEBUG)
-    
+
     # File format (detailed)
     file_format = logging.Formatter(
         '%(asctime)s | %(levelname)-8s | %(name)-20s | %(funcName)-20s | %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
-    
+
     # Console format (compact)
     console_format = ColorFormatter(
         '%(asctime)s | %(levelname)-8s | %(message)s',
         datefmt='%H:%M:%S'
     )
-    
+
     # Main log file handler (all logs)
     file_handler = logging.FileHandler(LOG_FILE, encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_format)
     root.addHandler(file_handler)
-    
+
     # Error log file handler (errors only)
     error_handler = logging.FileHandler(ERROR_LOG_FILE, encoding='utf-8')
     error_handler.setLevel(logging.ERROR)
     error_handler.setFormatter(file_format)
     root.addHandler(error_handler)
-    
+
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(console_format)
     root.addHandler(console_handler)
-    
+
     # Reduce noise from libraries
     logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    
+
     return logging.getLogger(__name__)
 
 
@@ -194,22 +197,22 @@ app.add_middleware(
 async def log_requests(request: Request, call_next):
     """Log all requests with timing"""
     start_time = time.time()
-    
+
     # Skip logging for health checks
     if request.url.path in ["/health", "/favicon.ico"]:
         return await call_next(request)
-    
+
     try:
         response = await call_next(request)
         duration = time.time() - start_time
-        
+
         # Log only if slow or error
         if duration > 1.0 or response.status_code >= 400:
             logger.info(
                 f"{request.method} {request.url.path} "
                 f"→ {response.status_code} ({duration:.2f}s)"
             )
-        
+
         return response
     except Exception as e:
         duration = time.time() - start_time
@@ -350,6 +353,14 @@ try:
 except ImportError as e:
     logger.warning(f"✗ Failed to load log routes: {e}")
 
+# ============ SIGNALS MANAGEMENT ROUTES (SSE Stream) ============
+try:
+    from app.api.signals import router as signals_router
+    app.include_router(signals_router)
+    logger.info("✔ Loaded: Signals routes (/api/signals/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load signals routes: {e}")
+
 
 # ============ LOG ENDPOINTS (File-based) ============
 
@@ -371,11 +382,11 @@ async def get_today_log(lines: int = 100):
     """Get last N lines of today's log"""
     if not LOG_FILE.exists():
         return {"error": "No log file for today", "lines": []}
-    
+
     with open(LOG_FILE, 'r', encoding='utf-8') as f:
         all_lines = f.readlines()
         last_lines = all_lines[-lines:] if len(all_lines) > lines else all_lines
-    
+
     return {
         "file": LOG_FILE.name,
         "total_lines": len(all_lines),
@@ -389,11 +400,11 @@ async def get_errors(lines: int = 50):
     """Get last N lines of error log"""
     if not ERROR_LOG_FILE.exists():
         return {"error": "No error log for today", "lines": []}
-    
+
     with open(ERROR_LOG_FILE, 'r', encoding='utf-8') as f:
         all_lines = f.readlines()
         last_lines = all_lines[-lines:] if len(all_lines) > lines else all_lines
-    
+
     return {
         "file": ERROR_LOG_FILE.name,
         "total_lines": len(all_lines),
@@ -408,10 +419,10 @@ async def download_log(filename: str):
     filepath = LOGS_DIR / filename
     if not filepath.exists() or not filepath.is_file():
         raise HTTPException(404, "Log file not found")
-    
+
     if not str(filepath).startswith(str(LOGS_DIR)):
         raise HTTPException(403, "Access denied")
-    
+
     return FileResponse(
         filepath,
         filename=filename,
@@ -424,13 +435,13 @@ async def clear_old_logs(days: int = 7):
     """Delete logs older than N days"""
     cutoff = datetime.now().timestamp() - (days * 24 * 60 * 60)
     deleted = []
-    
+
     for f in LOGS_DIR.glob("*.log"):
         if f.stat().st_mtime < cutoff:
             f.unlink()
             deleted.append(f.name)
             logger.info(f"Deleted old log: {f.name}")
-    
+
     return {"deleted": deleted, "kept_days": days}
 
 
@@ -459,7 +470,8 @@ async def root():
             "presets": "/api/presets/list",
             "dominant_presets": "/api/presets/dominant/list",
             "filters": "/api/filters/available",
-            "optimizer_heatmap": "/api/optimizer/results/{run_id}/heatmap"
+            "optimizer_heatmap": "/api/optimizer/results/{run_id}/heatmap",
+            "signals_stream": "/api/signals/sse/stream"
         }
     }
 
