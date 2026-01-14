@@ -301,7 +301,7 @@ class BotOptimizer:
             take_profits=self._generate_tp_levels(tp_count),
             sl_percent=sl_percent,
             sl_mode=StopLossMode.BREAKEVEN,
-            leverage=self.base_config.strategy.leverage if self.base_config.strategy else 1
+            leverage=self.base_config.leverage if self.base_config else 1
         )
 
         return BotConfig(

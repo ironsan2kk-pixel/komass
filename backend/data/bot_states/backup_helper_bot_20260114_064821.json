@@ -1,0 +1,54 @@
+{
+  "bot_id": "test_bot_1",
+  "name": "Test Bot",
+  "status": "running",
+  "initial_capital": 10000.0,
+  "current_capital": 10100.0,
+  "peak_capital": 10150.0,
+  "positions": [
+    {
+      "symbol": "BTCUSDT",
+      "direction": "long",
+      "size": 0.1,
+      "entry_price": 50000.0,
+      "current_price": 51000.0,
+      "entry_time": "2026-01-14T06:48:21.855895",
+      "take_profit_levels": [
+        {
+          "price": 52000.0,
+          "amount": 50.0
+        },
+        {
+          "price": 54000.0,
+          "amount": 50.0
+        }
+      ],
+      "stop_loss_price": 48000.0,
+      "pnl": 100.0,
+      "pnl_percent": 2.0
+    }
+  ],
+  "total_trades": 5,
+  "winning_trades": 3,
+  "losing_trades": 2,
+  "total_pnl": 100.0,
+  "total_pnl_percent": 1.0,
+  "max_drawdown": 2.5,
+  "current_drawdown": 0.0,
+  "started_at": "2026-01-14T06:48:21.855939",
+  "last_updated": "2026-01-14T06:48:21.855941",
+  "last_trade_at": "2026-01-14T06:48:21.855942",
+  "daily_pnl": {
+    "2024-01-01": 50.0,
+    "2024-01-02": 50.0
+  },
+  "daily_trades": {
+    "2024-01-01": 3,
+    "2024-01-02": 2
+  },
+  "_metadata": {
+    "version": "1.0",
+    "saved_at": "2026-01-14T06:48:21.856860",
+    "bot_id": "helper_bot"
+  }
+}

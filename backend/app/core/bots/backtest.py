@@ -366,10 +366,10 @@ class PortfolioBacktest:
         entry_price = float(candle['close'])
 
         # Calculate position size
-        position_size = self.capital * (symbol_config.position_size_percent / 100.0)
+        position_size = self.capital * (symbol_config.allocation_percent / 100.0)
 
         # Apply leverage
-        leverage = self.bot_config.strategy.leverage if self.bot_config.strategy else 1
+        leverage = self.bot_config.leverage if self.bot_config else 1
         position_size *= leverage
 
         # Calculate TP levels
@@ -424,11 +424,11 @@ class PortfolioBacktest:
 
         for tp in strategy.take_profits:
             if direction == SignalDirection.LONG:
-                tp_price = entry_price * (1 + tp.price_percent / 100)
+                tp_price = entry_price * (1 + tp.percent / 100)
             else:
-                tp_price = entry_price * (1 - tp.price_percent / 100)
+                tp_price = entry_price * (1 - tp.percent / 100)
 
-            tp_levels.append((tp_price, tp.close_percent))
+            tp_levels.append((tp_price, tp.amount))
 
         return tp_levels
 

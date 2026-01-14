@@ -135,7 +135,7 @@ def test_backtest_single_symbol(temp_data_dir):
                 symbol="BTCUSDT",
                 enabled=True,
                 timeframe="1h",
-                position_size_percent=100.0
+                allocation_percent=100.0
             )
         ],
         strategy=StrategyConfig(
@@ -143,9 +143,9 @@ def test_backtest_single_symbol(temp_data_dir):
             multiplier=4.0,
             tp_count=3,
             take_profits=[
-                TakeProfitLevel(price_percent=2.0, close_percent=50.0),
-                TakeProfitLevel(price_percent=4.0, close_percent=30.0),
-                TakeProfitLevel(price_percent=6.0, close_percent=20.0)
+                TakeProfitLevel(level=1, percent=2.0, amount=50.0),
+                TakeProfitLevel(level=2, percent=4.0, amount=30.0),
+                TakeProfitLevel(level=3, percent=6.0, amount=20.0)
             ],
             sl_percent=3.0
         )
@@ -180,13 +180,13 @@ def test_backtest_multi_symbol_portfolio(temp_data_dir):
                 symbol="BTCUSDT",
                 enabled=True,
                 timeframe="1h",
-                position_size_percent=50.0
+                allocation_percent=50.0
             ),
             BotSymbolConfig(
                 symbol="ETHUSDT",
                 enabled=True,
                 timeframe="1h",
-                position_size_percent=50.0
+                allocation_percent=50.0
             )
         ],
         strategy=StrategyConfig(
@@ -194,8 +194,8 @@ def test_backtest_multi_symbol_portfolio(temp_data_dir):
             multiplier=3.0,
             tp_count=2,
             take_profits=[
-                TakeProfitLevel(price_percent=3.0, close_percent=60.0),
-                TakeProfitLevel(price_percent=6.0, close_percent=40.0)
+                TakeProfitLevel(level=1, percent=3.0, amount=60.0),
+                TakeProfitLevel(level=2, percent=6.0, amount=40.0)
             ],
             sl_percent=4.0
         )
@@ -232,9 +232,9 @@ def test_backtest_tp_levels():
         strategy=StrategyConfig(
             tp_count=3,
             take_profits=[
-                TakeProfitLevel(price_percent=2.0, close_percent=50.0),
-                TakeProfitLevel(price_percent=4.0, close_percent=30.0),
-                TakeProfitLevel(price_percent=6.0, close_percent=20.0)
+                TakeProfitLevel(level=1, percent=2.0, amount=50.0),
+                TakeProfitLevel(level=2, percent=4.0, amount=30.0),
+                TakeProfitLevel(level=3, percent=6.0, amount=20.0)
             ]
         )
     )
