@@ -386,7 +386,6 @@ export default function Signals() {
 
         eventSource.onopen = () => {
           setIsSSEConnected(true)
-          console.log('SSE: Connected to signals stream')
         }
 
         eventSource.onmessage = (event) => {

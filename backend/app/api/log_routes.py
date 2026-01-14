@@ -3,7 +3,7 @@ Log API Routes
 ==============
 Endpoints for accessing logs and errors from UI.
 """
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, Query
 from pathlib import Path
