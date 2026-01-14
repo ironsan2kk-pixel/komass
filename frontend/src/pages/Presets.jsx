@@ -15,6 +15,7 @@ import { useState, useEffect, useCallback } from 'react';
 import PresetCard from '../components/Presets/PresetCard';
 import PresetModal from '../components/Presets/PresetModal';
 import PresetOptimizerModal from '../components/Presets/PresetOptimizerModal';
+import { Button, Card, Input, Select, Spinner, Alert } from '../components/ui';
 
 // API base URL
 const API_URL = 'http://localhost:8000';
@@ -487,178 +488,157 @@ export default function Presets() {
         </div>
         
         <div className="flex gap-2">
-          <button
-            onClick={handleCreate}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center gap-2"
-          >
+          <Button variant="primary" onClick={handleCreate}>
             ➕ Создать
-          </button>
-          <button
-            onClick={handleImport}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg flex items-center gap-2"
-          >
+          </Button>
+          <Button variant="success" onClick={handleImport}>
             📥 Импорт
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
             onClick={handleBackup}
-            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center gap-2"
+            className="bg-purple-600 hover:bg-purple-700 border-purple-600"
           >
             💾 Бэкап
-          </button>
-          <button
-            onClick={handleRestore}
-            className="px-4 py-2 bg-orange-600 hover:bg-orange-700 rounded-lg flex items-center gap-2"
-          >
+          </Button>
+          <Button variant="warning" onClick={handleRestore}>
             📤 Восстановить
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="warning"
             onClick={handleSeedTrg}
             disabled={seedingTrg}
-            className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
-              seedingTrg 
-                ? 'bg-gray-600 cursor-not-allowed' 
-                : 'bg-yellow-600 hover:bg-yellow-700'
-            }`}
             title="Сгенерировать 200 системных TRG пресетов"
+            className="bg-yellow-600 hover:bg-yellow-700 border-yellow-600"
           >
             {seedingTrg ? '⏳' : '📈'} Seed TRG (200)
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
             onClick={handleSeedDominant}
             disabled={seedingDominant}
-            className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
-              seedingDominant 
-                ? 'bg-gray-600 cursor-not-allowed' 
-                : 'bg-teal-600 hover:bg-teal-700'
-            }`}
             title="Сгенерировать 125 системных Dominant пресетов из GG Pine Script"
+            className="bg-teal-600 hover:bg-teal-700 border-teal-600"
           >
             {seedingDominant ? '⏳' : '🎯'} Seed Dominant (125)
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="warning"
             onClick={() => setOptimizerOpen(true)}
-            className="px-4 py-2 rounded-lg flex items-center gap-2 bg-orange-600 hover:bg-orange-700"
             title="Оптимизация пресетов по нескольким парам"
           >
             🔥 Оптимизация
-          </button>
+          </Button>
         </div>
       </div>
       
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg p-4 mb-6">
-        <div className="flex flex-wrap gap-4 items-center">
-          {/* Search */}
-          <div className="flex-1 min-w-[200px]">
-            <input
-              type="text"
-              placeholder="🔍 Поиск по названию..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none"
-            />
+      <Card>
+        <Card.Body className="p-4">
+          <div className="flex flex-wrap gap-4 items-center">
+            {/* Search */}
+            <div className="flex-1 min-w-[200px]">
+              <Input
+                type="text"
+                placeholder="🔍 Поиск по названию..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            {/* Indicator */}
+            <Select
+              value={indicator}
+              onChange={(e) => setIndicator(e.target.value)}
+            >
+              {INDICATORS.map(ind => (
+                <option key={ind.value} value={ind.value}>
+                  {ind.icon} {ind.label}
+                </option>
+              ))}
+            </Select>
+
+            {/* Category */}
+            <Select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {CATEGORIES.map(cat => (
+                <option key={cat.value} value={cat.value}>
+                  {cat.icon} {cat.label}
+                </option>
+              ))}
+            </Select>
+
+            {/* Source */}
+            <Select
+              value={source}
+              onChange={(e) => setSource(e.target.value)}
+            >
+              {SOURCES.map(src => (
+                <option key={src.value} value={src.value}>
+                  {src.icon} {src.label}
+                </option>
+              ))}
+            </Select>
+
+            {/* Favorites toggle */}
+            <Button
+              variant={showFavorites ? 'warning' : 'secondary'}
+              onClick={() => setShowFavorites(!showFavorites)}
+              className={showFavorites ? 'bg-yellow-600 border-yellow-500' : ''}
+            >
+              ⭐ Избранные
+            </Button>
+
+            {/* Select mode */}
+            <Button
+              variant={selectMode ? 'danger' : 'secondary'}
+              onClick={() => {
+                setSelectMode(!selectMode);
+                if (selectMode) setSelectedIds(new Set());
+              }}
+            >
+              ✓ Выбор
+            </Button>
           </div>
-          
-          {/* Indicator */}
-          <select
-            value={indicator}
-            onChange={(e) => setIndicator(e.target.value)}
-            className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none"
-          >
-            {INDICATORS.map(ind => (
-              <option key={ind.value} value={ind.value}>
-                {ind.icon} {ind.label}
-              </option>
-            ))}
-          </select>
-          
-          {/* Category */}
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none"
-          >
-            {CATEGORIES.map(cat => (
-              <option key={cat.value} value={cat.value}>
-                {cat.icon} {cat.label}
-              </option>
-            ))}
-          </select>
-          
-          {/* Source */}
-          <select
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-            className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none"
-          >
-            {SOURCES.map(src => (
-              <option key={src.value} value={src.value}>
-                {src.icon} {src.label}
-              </option>
-            ))}
-          </select>
-          
-          {/* Favorites toggle */}
-          <button
-            onClick={() => setShowFavorites(!showFavorites)}
-            className={`px-4 py-2 rounded-lg border ${
-              showFavorites 
-                ? 'bg-yellow-600 border-yellow-500 text-white' 
-                : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            ⭐ Избранные
-          </button>
-          
-          {/* Select mode */}
-          <button
-            onClick={() => {
-              setSelectMode(!selectMode);
-              if (selectMode) setSelectedIds(new Set());
-            }}
-            className={`px-4 py-2 rounded-lg border ${
-              selectMode 
-                ? 'bg-red-600 border-red-500 text-white' 
-                : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            ✓ Выбор
-          </button>
-        </div>
         
-        {/* Batch actions */}
-        {selectMode && selectedIds.size > 0 && (
-          <div className="mt-4 flex items-center gap-4 p-3 bg-gray-700 rounded-lg">
-            <span className="text-gray-300">
-              Выбрано: <span className="text-white font-bold">{selectedIds.size}</span>
-            </span>
-            <button
-              onClick={handleSelectAll}
-              className="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded text-sm"
-            >
-              {presets.every(p => selectedIds.has(p.id)) ? 'Снять все' : 'Выбрать все'}
-            </button>
-            <button
-              onClick={handleBatchDelete}
-              className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm"
-            >
-              🗑️ Удалить выбранные
-            </button>
-          </div>
-        )}
-      </div>
+          {/* Batch actions */}
+          {selectMode && selectedIds.size > 0 && (
+            <div className="mt-4 flex items-center gap-4 p-3 bg-gray-700 rounded-lg">
+              <span className="text-gray-300">
+                Выбрано: <span className="text-white font-bold">{selectedIds.size}</span>
+              </span>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleSelectAll}
+              >
+                {presets.every(p => selectedIds.has(p.id)) ? 'Снять все' : 'Выбрать все'}
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={handleBatchDelete}
+              >
+                🗑️ Удалить выбранные
+              </Button>
+            </div>
+          )}
+        </Card.Body>
+      </Card>
       
       {/* Error */}
       {error && (
-        <div className="bg-red-900/50 border border-red-500 text-red-200 p-4 rounded-lg mb-6">
+        <Alert variant="danger" className="mb-6">
           ⚠️ {error}
-        </div>
+        </Alert>
       )}
-      
+
       {/* Loading */}
       {loading && (
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin text-4xl">⏳</div>
+          <Spinner size="lg" />
           <span className="ml-3 text-gray-400">Загрузка пресетов...</span>
         </div>
       )}
@@ -696,25 +676,25 @@ export default function Presets() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2">
-              <button
+              <Button
+                variant="secondary"
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 ◀ Назад
-              </button>
-              
+              </Button>
+
               <span className="px-4 py-2 text-gray-400">
                 Страница {page} из {totalPages} ({totalPresets} пресетов)
               </span>
-              
-              <button
+
+              <Button
+                variant="secondary"
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Вперед ▶
-              </button>
+              </Button>
             </div>
           )}
         </>
