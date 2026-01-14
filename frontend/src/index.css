@@ -2,42 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
+/* ============================================
+   DARK THEME (default)
+   ============================================ */
+
+/* Custom scrollbar - Dark */
+.dark ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
+.dark ::-webkit-scrollbar-track {
   background: rgb(31, 41, 55);
 }
 
-::-webkit-scrollbar-thumb {
+.dark ::-webkit-scrollbar-thumb {
   background: rgb(75, 85, 99);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.dark ::-webkit-scrollbar-thumb:hover {
   background: rgb(107, 114, 128);
 }
 
-/* Smaller scrollbar for preset list */
-.custom-scrollbar::-webkit-scrollbar {
+/* Smaller scrollbar for preset list - Dark */
+.dark .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgb(55, 65, 81);
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgb(75, 85, 99);
 }
 
-/* Custom selection */
-::selection {
+/* Custom selection - Dark */
+.dark ::selection {
   background: rgba(59, 130, 246, 0.5);
 }
+
+/* ============================================
+   LIGHT THEME
+   ============================================ */
+
+/* Custom scrollbar - Light */
+.light ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.light ::-webkit-scrollbar-track {
+  background: rgb(241, 245, 249);
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgb(203, 213, 225);
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgb(148, 163, 184);
+}
+
+/* Smaller scrollbar for preset list - Light */
+.light .custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.light .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(226, 232, 240);
+}
+
+.light .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(203, 213, 225);
+}
+
+/* Custom selection - Light */
+.light ::selection {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* ============================================
+   COMMON STYLES
+   ============================================ */
 
 /* Smooth transitions */
 * {
@@ -61,4 +110,16 @@ input[type="number"] {
 .writing-vertical {
   writing-mode: vertical-rl;
   text-orientation: mixed;
+}
+
+/* Light mode background colors */
+.light {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* Dark mode background colors (default) */
+.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
 }
