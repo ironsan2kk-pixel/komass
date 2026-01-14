@@ -22,6 +22,7 @@ import { Routes, Route, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ThemeToggle } from './components/ui';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Pages
 import Indicator from './pages/Indicator';
@@ -119,11 +120,13 @@ export default function App() {
 
       {/* Main Content */}
         <main className="flex-1 overflow-auto bg-dark-900 dark:bg-dark-900 light:bg-gray-50">
-          <Routes>
-            {NAV_ITEMS.filter(item => !item.divider).map(item => (
-              <Route key={item.path} path={item.path} element={<item.component />} />
-            ))}
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              {NAV_ITEMS.filter(item => !item.divider).map(item => (
+                <Route key={item.path} path={item.path} element={<item.component />} />
+              ))}
+            </Routes>
+          </ErrorBoundary>
         </main>
       </div>
     </ThemeProvider>

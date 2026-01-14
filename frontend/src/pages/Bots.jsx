@@ -67,26 +67,37 @@ export default function Bots() {
 
   // Fetch bots on mount
   useEffect(() => {
+    console.log('[Bots] Component mounted, fetching data...');
+    console.log('[Bots] API URL:', API_URL);
     fetchBots();
     fetchPresets();
-    
+
     // Refresh every 10 seconds
     const interval = setInterval(fetchBots, 10000);
     return () => clearInterval(interval);
   }, []);
 
   const fetchBots = async () => {
+    console.log('[Bots] fetchBots called, loading...', { timestamp: new Date().toISOString() });
     try {
+      console.log('[Bots] Fetching from:', `${API_URL}/api/bots/`);
       const response = await fetch(`${API_URL}/api/bots/`);
+      console.log('[Bots] Response received:', { status: response.status, ok: response.ok });
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       const data = await response.json();
+      console.log('[Bots] Data parsed successfully:', { botsCount: data.bots?.length, total: data.total });
+      console.log('[Bots] Full data:', data);
+
       setBots(data.bots || []);
       setError(null); // Clear any previous errors
       setLoading(false);
+      console.log('[Bots] State updated, loading complete');
     } catch (err) {
-      console.error('Error fetching bots:', err);
+      console.error('[Bots] ❌ Error fetching bots:', err);
+      console.error('[Bots] Error details:', { name: err.name, message: err.message, stack: err.stack });
 
       // Provide helpful error messages
       let errorMessage = 'Не удалось загрузить список ботов';
