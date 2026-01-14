@@ -17,6 +17,7 @@
 
 import { useState, useEffect } from 'react';
 import { FilterSettings } from '../components/Filters';
+import { Button, Card, Input, Select, Spinner, Badge } from '../components/ui';
 
 // API base
 const API_URL = 'http://localhost:8000';
@@ -182,7 +183,7 @@ export default function Bots() {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <Spinner size="lg" className="mx-auto mb-4" />
           <p className="text-gray-400">Загрузка ботов...</p>
         </div>
       </div>
@@ -193,14 +194,15 @@ export default function Bots() {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-400 text-xl mb-2">❌ Ошибка</p>
+          <p className="text-danger-400 text-xl mb-2">❌ Ошибка</p>
           <p className="text-gray-400">{error}</p>
-          <button
+          <Button
+            variant="primary"
             onClick={fetchBots}
-            className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="mt-4"
           >
             Повторить
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -209,22 +211,22 @@ export default function Bots() {
   return (
     <div className="h-full flex gap-4 p-4">
       {/* Left Panel - Bot List */}
-      <div className="w-80 flex-shrink-0 bg-gray-800 rounded-lg border border-gray-700 flex flex-col">
-        {/* Header */}
-        <div className="p-4 border-b border-gray-700">
+      <Card className="w-80 flex-shrink-0 flex flex-col">
+        <Card.Header className="border-b border-dark-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white">Боты</h2>
-            <button
+            <h2 className="text-lg font-bold">Боты</h2>
+            <Button
+              variant="primary"
+              size="sm"
               onClick={() => setShowCreateModal(true)}
-              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-sm"
             >
               + Создать
-            </button>
+            </Button>
           </div>
           <p className="text-sm text-gray-400 mt-1">
             {bots.length} ботов • {bots.filter(b => b.status === 'running').length} активных
           </p>
-        </div>
+        </Card.Header>
 
         {/* Bot List */}
         <div className="flex-1 overflow-y-auto">
@@ -266,10 +268,10 @@ export default function Bots() {
             </div>
           )}
         </div>
-      </div>
+      </Card>
 
       {/* Right Panel - Bot Details */}
-      <div className="flex-1 bg-gray-800 rounded-lg border border-gray-700 flex flex-col overflow-hidden">
+      <Card className="flex-1 flex flex-col overflow-hidden">
         {selectedBot ? (
           <>
             {/* Bot Header */}
@@ -289,48 +291,55 @@ export default function Bots() {
                 <div className="flex items-center gap-2">
                   {selectedBot.status === 'running' ? (
                     <>
-                      <button
+                      <Button
+                        variant="warning"
+                        size="sm"
                         onClick={() => controlBot(selectedBot.id, 'pause')}
-                        className="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-500 text-white rounded text-sm"
                       >
                         ⏸️ Пауза
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
                         onClick={() => controlBot(selectedBot.id, 'stop')}
-                        className="px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded text-sm"
                       >
                         ⏹️ Стоп
-                      </button>
+                      </Button>
                     </>
                   ) : selectedBot.status === 'paused' ? (
                     <>
-                      <button
+                      <Button
+                        variant="success"
+                        size="sm"
                         onClick={() => controlBot(selectedBot.id, 'resume')}
-                        className="px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white rounded text-sm"
                       >
                         ▶️ Продолжить
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
                         onClick={() => controlBot(selectedBot.id, 'stop')}
-                        className="px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded text-sm"
                       >
                         ⏹️ Стоп
-                      </button>
+                      </Button>
                     </>
                   ) : (
-                    <button
+                    <Button
+                      variant="success"
+                      size="sm"
                       onClick={() => controlBot(selectedBot.id, 'start')}
-                      className="px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white rounded text-sm"
                     >
                       ▶️ Запустить
-                    </button>
+                    </Button>
                   )}
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => deleteBot(selectedBot.id)}
-                    className="px-3 py-1.5 bg-gray-700 hover:bg-red-600 text-gray-300 hover:text-white rounded text-sm"
+                    className="hover:bg-danger-600 hover:text-white"
                   >
                     🗑️
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -384,7 +393,7 @@ export default function Bots() {
             </div>
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Create Bot Modal */}
       {showCreateModal && (
@@ -545,7 +554,7 @@ function BotTrades({ bot, formatPercent }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <Spinner size="md" />
       </div>
     );
   }
@@ -555,17 +564,14 @@ function BotTrades({ bot, formatPercent }) {
       {/* Filters */}
       <div className="flex gap-2">
         {['all', 'win', 'loss', 'long', 'short'].map((f) => (
-          <button
+          <Button
             key={f}
+            variant={filter === f ? 'primary' : 'secondary'}
+            size="sm"
             onClick={() => setFilter(f)}
-            className={`px-3 py-1.5 rounded text-sm ${
-              filter === f
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-700 text-gray-400 hover:text-white'
-            }`}
           >
             {f === 'all' ? 'Все' : f === 'win' ? '✓ Win' : f === 'loss' ? '✗ Loss' : f === 'long' ? '🟢 Long' : '🔴 Short'}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -650,75 +656,57 @@ function BotSettings({ bot, onUpdate }) {
 
   return (
     <div className="space-y-6 max-w-md">
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Название</label>
-        <input
-          type="text"
-          value={settings.name}
-          onChange={(e) => setSettings({ ...settings, name: e.target.value })}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                   text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <Input
+        label="Название"
+        type="text"
+        value={settings.name}
+        onChange={(e) => setSettings({ ...settings, name: e.target.value })}
+      />
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Капитал ($)</label>
-        <input
-          type="number"
-          value={settings.capital}
-          onChange={(e) => setSettings({ ...settings, capital: parseFloat(e.target.value) })}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                   text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <Input
+        label="Капитал ($)"
+        type="number"
+        value={settings.capital}
+        onChange={(e) => setSettings({ ...settings, capital: parseFloat(e.target.value) })}
+      />
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Риск на сделку (%)</label>
-        <input
-          type="number"
-          value={settings.risk_per_trade}
-          onChange={(e) => setSettings({ ...settings, risk_per_trade: parseFloat(e.target.value) })}
-          min={0.1}
-          max={10}
-          step={0.1}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                   text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <Input
+        label="Риск на сделку (%)"
+        type="number"
+        value={settings.risk_per_trade}
+        onChange={(e) => setSettings({ ...settings, risk_per_trade: parseFloat(e.target.value) })}
+        min={0.1}
+        max={10}
+        step={0.1}
+      />
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Макс. позиций</label>
-        <input
-          type="number"
-          value={settings.max_positions}
-          onChange={(e) => setSettings({ ...settings, max_positions: parseInt(e.target.value) })}
-          min={1}
-          max={20}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                   text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <Input
+        label="Макс. позиций"
+        type="number"
+        value={settings.max_positions}
+        onChange={(e) => setSettings({ ...settings, max_positions: parseInt(e.target.value) })}
+        min={1}
+        max={20}
+      />
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">Плечо (x)</label>
-        <input
-          type="number"
-          value={settings.leverage}
-          onChange={(e) => setSettings({ ...settings, leverage: parseInt(e.target.value) })}
-          min={1}
-          max={125}
-          className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                   text-white focus:outline-none focus:border-blue-500"
-        />
-      </div>
+      <Input
+        label="Плечо (x)"
+        type="number"
+        value={settings.leverage}
+        onChange={(e) => setSettings({ ...settings, leverage: parseInt(e.target.value) })}
+        min={1}
+        max={125}
+      />
 
-      <button
+      <Button
+        variant="primary"
+        className="w-full"
         onClick={handleSave}
         disabled={saving}
-        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50"
+        loading={saving}
       >
         {saving ? 'Сохранение...' : 'Сохранить настройки'}
-      </button>
+      </Button>
     </div>
   );
 }
@@ -727,99 +715,85 @@ function BotSettings({ bot, onUpdate }) {
 function CreateBotModal({ newBot, setNewBot, presets, onClose, onCreate }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-700">
-        <h2 className="text-xl font-bold text-white mb-4">Создать бота</h2>
-        
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Название</label>
-            <input
-              type="text"
-              value={newBot.name}
-              onChange={(e) => setNewBot({ ...newBot, name: e.target.value })}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                       text-white focus:outline-none focus:border-blue-500"
-              placeholder="Мой бот"
-            />
-          </div>
+      <Card className="w-full max-w-md">
+        <Card.Header>
+          <h2 className="text-xl font-bold">Создать бота</h2>
+        </Card.Header>
+
+        <Card.Body className="space-y-4">
+          <Input
+            label="Название"
+            type="text"
+            value={newBot.name}
+            onChange={(e) => setNewBot({ ...newBot, name: e.target.value })}
+            placeholder="Мой бот"
+          />
+
+          <Input
+            label="Капитал ($)"
+            type="number"
+            value={newBot.capital}
+            onChange={(e) => setNewBot({ ...newBot, capital: parseFloat(e.target.value) })}
+          />
+
+          <Input
+            label="Символы"
+            type="text"
+            value={newBot.symbols.join(', ')}
+            onChange={(e) => setNewBot({
+              ...newBot,
+              symbols: e.target.value.split(',').map(s => s.trim().toUpperCase()).filter(Boolean)
+            })}
+            placeholder="BTCUSDT, ETHUSDT"
+            helper="Через запятую"
+          />
+
+          <Select
+            label="Пресет настроек"
+            value={newBot.preset_id}
+            onChange={(e) => setNewBot({ ...newBot, preset_id: e.target.value })}
+          >
+            <option value="default">Default (стандартный)</option>
+            <option value="conservative">Conservative (низкий риск)</option>
+            <option value="aggressive">Aggressive (высокий риск)</option>
+            <option value="scalper">Scalper (быстрые сделки)</option>
+            {presets.map((preset) => (
+              <option key={preset.id} value={preset.id}>
+                {preset.name}
+              </option>
+            ))}
+          </Select>
 
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Капитал ($)</label>
-            <input
-              type="number"
-              value={newBot.capital}
-              onChange={(e) => setNewBot({ ...newBot, capital: parseFloat(e.target.value) })}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                       text-white focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Символы</label>
-            <input
-              type="text"
-              value={newBot.symbols.join(', ')}
-              onChange={(e) => setNewBot({ 
-                ...newBot, 
-                symbols: e.target.value.split(',').map(s => s.trim().toUpperCase()).filter(Boolean)
-              })}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                       text-white focus:outline-none focus:border-blue-500"
-              placeholder="BTCUSDT, ETHUSDT"
-            />
-            <p className="text-xs text-gray-500 mt-1">Через запятую</p>
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Пресет настроек</label>
-            <select
-              value={newBot.preset_id}
-              onChange={(e) => setNewBot({ ...newBot, preset_id: e.target.value })}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                       text-white focus:outline-none focus:border-blue-500"
-            >
-              <option value="default">Default (стандартный)</option>
-              <option value="conservative">Conservative (низкий риск)</option>
-              <option value="aggressive">Aggressive (высокий риск)</option>
-              <option value="scalper">Scalper (быстрые сделки)</option>
-              {presets.map((preset) => (
-                <option key={preset.id} value={preset.id}>
-                  {preset.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-400 mb-1">Описание</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Описание</label>
             <textarea
               value={newBot.description}
               onChange={(e) => setNewBot({ ...newBot, description: e.target.value })}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 
-                       text-white focus:outline-none focus:border-blue-500 h-20 resize-none"
+              className="w-full bg-dark-800 border border-dark-600 rounded-lg px-3 py-2
+                       text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 h-20 resize-none"
               placeholder="Описание бота..."
             />
           </div>
-        </div>
 
-        <div className="flex gap-3 mt-6">
-          <button
-            onClick={onClose}
-            className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 
-                     text-white rounded-lg"
-          >
-            Отмена
-          </button>
-          <button
-            onClick={onCreate}
-            disabled={!newBot.name}
-            className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 
-                     text-white rounded-lg disabled:opacity-50"
-          >
-            Создать
-          </button>
-        </div>
-      </div>
+          <div className="flex gap-3 mt-6">
+            <Button
+              variant="secondary"
+              className="flex-1"
+              onClick={onClose}
+            >
+              Отмена
+            </Button>
+            <Button
+              variant="primary"
+              className="flex-1"
+              onClick={onCreate}
+              disabled={!newBot.name}
+            >
+              Создать
+            </Button>
+          </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 }
