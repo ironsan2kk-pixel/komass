@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOMAS Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #22c55e;
+        }
+        .error {
+            background: #ef4444;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        pre {
+            background: #2a2a2a;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 KOMAS Connection Test</h1>
+
+    <div id="results"></div>
+
+    <button onclick="testBackend()">🚀 Test Backend Connection</button>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        const resultsDiv = document.getElementById('results');
+
+        async function testBackend() {
+            resultsDiv.innerHTML = '<p>Testing...</p>';
+            const results = [];
+
+            // Test 1: Health endpoint
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                results.push({
+                    test: 'Health Check',
+                    status: 'success',
+                    message: `Backend is ${data.status}`,
+                    data: JSON.stringify(data, null, 2)
+                });
+            } catch (error) {
+                results.push({
+                    test: 'Health Check',
+                    status: 'error',
+                    message: `Error: ${error.message}`
+                });
+            }
+
+            // Test 2: Bots endpoint
+            try {
+                const response = await fetch(`${API_URL}/api/bots/`);
+                const data = await response.json();
+                results.push({
+                    test: 'Bots API',
+                    status: 'success',
+                    message: `Found ${data.total} bot(s)`,
+                    data: JSON.stringify(data, null, 2)
+                });
+            } catch (error) {
+                results.push({
+                    test: 'Bots API',
+                    status: 'error',
+                    message: `Error: ${error.message}`
+                });
+            }
+
+            // Test 3: Settings endpoint
+            try {
+                const response = await fetch(`${API_URL}/api/settings/presets`);
+                const data = await response.json();
+                results.push({
+                    test: 'Settings API',
+                    status: 'success',
+                    message: `Found ${data.count} presets`,
+                    data: JSON.stringify(data, null, 2)
+                });
+            } catch (error) {
+                results.push({
+                    test: 'Settings API',
+                    status: 'error',
+                    message: `Error: ${error.message}`
+                });
+            }
+
+            // Display results
+            resultsDiv.innerHTML = results.map(r => `
+                <div class="test-result ${r.status}">
+                    <h3>${r.test}: ${r.message}</h3>
+                    ${r.data ? `<pre>${r.data}</pre>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Auto-test on load
+        window.onload = () => {
+            setTimeout(testBackend, 500);
+        };
+    </script>
+</body>
+</html>
