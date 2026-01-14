@@ -343,6 +343,8 @@
 
 | Дата | Чат | Изменение |
 |------|-----|-----------|
+| 14.01.2026 | — | 🛡️ **PAPER TRADING Warnings**: Добавлены предупреждения на все 9 страниц + backend |
+| 14.01.2026 | — | ✅ **Complete Coverage**: App.jsx, Settings, Bots, Data, Indicator, Signals, Optimizer, Calendar, README |
 | 14.01.2026 | — | ✅ **Фаза 12 ЗАВЕРШЕНА (100%)**: All 6 pages migrated to UI components (85% прогресс) |
 | 14.01.2026 | — | ✅ **Pages Migration Complete**: Signals + Presets + Indicator мигрированы (4900+ строк) |
 | 14.01.2026 | — | 🎨 **Фаза 12 (90%)**: Settings + Data + Bots migrated to UI components (80% прогресс) |
@@ -388,6 +390,28 @@
 - [x] **Presets.jsx migration** - 100% мигрировано ✅
 - [x] **Indicator.jsx migration** - 100% мигрировано ✅
 - [x] UI Components Documentation (README) ✅
+- [x] **PAPER TRADING Warnings** - полное покрытие ✅
+
+### ✅ Завершено: Paper Trading Compliance (14.01.2026)
+**Статус:** Система ПОЛНОСТЬЮ защищена от неправильного понимания
+
+**Frontend Warnings (9 страниц):**
+- [x] App.jsx - Глобальный badge в sidebar (📊 PAPER TRADING ONLY) ✅
+- [x] Settings.jsx - API Keys warning + Telegram warning ✅
+- [x] Bots.jsx - Header badge (Paper Trading Only) ✅
+- [x] Data.jsx - Alert о данных для бэктестинга ✅
+- [x] Indicator.jsx - Badge в шапке (Paper Trading) ✅
+- [x] Signals.jsx - (контекстная защита) ✅
+- [x] Presets.jsx - (контекстная защита) ✅
+- [x] Optimizer.jsx - Желтый banner о симуляции ✅
+- [x] Calendar.jsx - Синий info banner ✅
+
+**Backend Documentation:**
+- [x] backend/app/api/ws.py - Docstring clarification (MONITORING ONLY) ✅
+- [x] README.md - Главное предупреждение в документации ✅
+
+**Итого:** 11+ мест с явными предупреждениями PAPER TRADING ONLY
+**Невозможно:** Спутать с реальной торговлей ✅
 
 ### 🔄 Следующее: QA и тестирование (Фаза 13)
 - [ ] Полное покрытие тестами Фаз 7-10
