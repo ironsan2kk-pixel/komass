@@ -17,7 +17,7 @@
 
 import { useState, useEffect } from 'react';
 import { FilterSettings } from '../components/Filters';
-import { Button, Card, Input, Select, Spinner, Badge } from '../components/ui';
+import { Button, Card, Input, Select, Spinner, Badge, Alert } from '../components/ui';
 
 // API base
 const API_URL = 'http://localhost:8000';
@@ -78,13 +78,34 @@ export default function Bots() {
   const fetchBots = async () => {
     try {
       const response = await fetch(`${API_URL}/api/bots/`);
-      if (!response.ok) throw new Error('Failed to fetch bots');
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
       const data = await response.json();
       setBots(data.bots || []);
+      setError(null); // Clear any previous errors
       setLoading(false);
     } catch (err) {
       console.error('Error fetching bots:', err);
-      setError(err.message);
+
+      // Provide helpful error messages
+      let errorMessage = 'Не удалось загрузить список ботов';
+      let errorDetails = '';
+
+      if (err.message.includes('Failed to fetch') || err.name === 'TypeError') {
+        errorMessage = 'Backend сервер не отвечает';
+        errorDetails = 'Убедитесь, что backend запущен на http://localhost:8000';
+      } else if (err.message.includes('HTTP 404')) {
+        errorMessage = 'API endpoint не найден';
+        errorDetails = 'Проверьте, что используется правильная версия backend';
+      } else if (err.message.includes('HTTP 500')) {
+        errorMessage = 'Внутренняя ошибка сервера';
+        errorDetails = 'Проверьте логи backend для деталей';
+      } else {
+        errorDetails = err.message;
+      }
+
+      setError({ message: errorMessage, details: errorDetails });
       setLoading(false);
     }
   };
@@ -191,18 +212,60 @@ export default function Bots() {
   }
 
   if (error) {
+    const isBackendDown = error.message?.includes('Backend сервер не отвечает');
+
     return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-danger-400 text-xl mb-2">❌ Ошибка</p>
-          <p className="text-gray-400">{error}</p>
-          <Button
-            variant="primary"
-            onClick={fetchBots}
-            className="mt-4"
-          >
-            Повторить
-          </Button>
+      <div className="h-full flex items-center justify-center p-8">
+        <div className="max-w-2xl w-full space-y-4">
+          <Alert variant="danger">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">❌</span>
+                <div className="flex-1">
+                  <p className="font-semibold text-lg mb-1">
+                    {typeof error === 'string' ? error : error.message}
+                  </p>
+                  {error.details && (
+                    <p className="text-sm opacity-90">{error.details}</p>
+                  )}
+                </div>
+              </div>
+
+              {isBackendDown && (
+                <div className="mt-3 p-3 bg-dark-700/50 rounded border border-dark-600">
+                  <p className="font-medium mb-2">📝 Как запустить backend:</p>
+                  <div className="text-sm space-y-1 font-mono bg-dark-800 p-2 rounded">
+                    <div>cd backend</div>
+                    <div>python3 -m uvicorn app.main:app --reload</div>
+                  </div>
+                  <p className="text-xs mt-2 opacity-75">
+                    Подробнее: <a href="https://github.com/ironsan2kk-pixel/komass/blob/main/QUICKSTART.md" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-400">QUICKSTART.md</a>
+                  </p>
+                </div>
+              )}
+
+              <div className="flex gap-2 mt-4">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    setError(null);
+                    setLoading(true);
+                    fetchBots();
+                  }}
+                >
+                  🔄 Повторить попытку
+                </Button>
+                {isBackendDown && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => window.open('http://localhost:8000/health', '_blank')}
+                  >
+                    🏥 Проверить backend
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Alert>
         </div>
       </div>
     );
