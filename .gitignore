@@ -1,4 +1,8 @@
-# Python
+# ====================
+# KOMAS Trading System
+# ====================
+
+# ===== Python =====
 __pycache__/
 *.py[cod]
 *$py.class
@@ -23,80 +27,101 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual Environment
+# ===== Virtual Environment =====
 venv/
 ENV/
 env/
-.venv
+.venv/
+.env/
+virtualenv/
+.virtualenv/
 
-# IDEs
+# ===== IDEs =====
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
+*.sublime-project
+*.sublime-workspace
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# ===== Jupyter Notebook =====
+.ipynb_checkpoints/
 
-# pytest
+# ===== Testing =====
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
 
-# mypy
+# ===== mypy =====
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
-# Backup files
+# ===== Backup files =====
 *.bak
 *.backup
 *.tmp
 *.old
 *~
+*.orig
 
-# Logs
+# ===== Logs =====
 *.log
 logs/
 backend/logs/
+frontend/logs/
 
-# Database
+# ===== Database =====
 *.db
 *.sqlite
 *.sqlite3
 data/*.db
 data/komas.db
+data/komas_signals.db
+backend/data/*.db
 
-# Data files
+# ===== Data files =====
 *.parquet
 *.csv
 *.xlsx
 data/*.parquet
 backend/data/*.parquet
 
-# Cache files
+# ===== Cache files =====
 backend/data/calendar/events_cache.json
 *_cache.json
 *.cache
+.cache/
 
-# Environment variables
+# ===== Environment variables =====
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
+*.env
 
-# Node
+# ===== Node =====
 node_modules/
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
+.npm/
+.yarn/
 
-# Frontend build
+# ===== Frontend build =====
 frontend/dist/
 frontend/build/
 frontend/.vite/
 
-# Backups and patches
+# ===== Backups and patches =====
 backup_*/
 backups/
 patch/
@@ -105,7 +130,13 @@ komas_ui_fix*/
 chat*_files/
 *.patch
 
-# Versioned duplicates
+# ===== Temporary files =====
+temp/
+tmp/
+*.tmp
+.temp/
+
+# ===== Versioned duplicates =====
 *_v1.*
 *_v2.*
 *_v3.*
@@ -114,16 +145,38 @@ chat*_files/
 * (14).*
 * (15).*
 
-# Temporary files
-temp/
-tmp/
-*.tmp
-
-# OS files
+# ===== OS files =====
 Thumbs.db
 .DS_Store
+Desktop.ini
+*.lnk
 
-# Misc
+# ===== Archives =====
 *.zip
 *.tar.gz
 *.rar
+*.7z
+*.tar
+*.gz
+
+# ===== Temporary MD reports =====
+COMPREHENSIVE_TEST_REPORT.md
+DIAGNOSTIC_SUMMARY.md
+FINAL_STATUS.md
+GIT_PUSH_STATUS.md
+MERGE_INSTRUCTIONS.md
+PROJECT_REVIEW.md
+REBUILD_PLAN.md
+REDESIGN_PLAN.md
+
+# ===== Test scripts (keep in root) =====
+# check_imports.py
+# test_imports.py
+# test_api_endpoints.sh
+
+# ===== Secrets =====
+secrets/
+*.pem
+*.key
+credentials.json
+service_account.json
