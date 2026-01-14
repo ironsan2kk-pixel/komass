@@ -1,6 +1,0 @@
-# Settings API Dependencies
-# Add these to your existing requirements.txt
-
-cryptography>=41.0.0    # API key encryption
-httpx>=0.25.0           # Async HTTP client for API testing
-psutil>=5.9.0           # System monitoring
