@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { 
-  Settings, Save, Plus, Trash2, Copy, Loader2, 
+import {
+  Settings, Save, Plus, Trash2, Copy, Loader2,
   Bell, Key, Send, CheckCircle, XCircle, Eye, EyeOff,
-  MessageSquare, Zap, AlertTriangle, Target
+  MessageSquare, Zap, AlertTriangle, Target, List
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { presetsApi, symbolsApi, notificationsApi, discordApi } from '../services/api'
+import TelegramChannels from '../components/TelegramChannels'
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
@@ -329,6 +330,8 @@ function PresetsTab() {
 // ============ NOTIFICATIONS TAB ============
 
 function NotificationsTab() {
+  const [telegramSubTab, setTelegramSubTab] = useState('settings')
+
   const [settings, setSettings] = useState({
     enabled: false,
     bot_token: '',
@@ -345,7 +348,7 @@ function NotificationsTab() {
     show_all_targets: true,
     custom_template: ''
   })
-  
+
   const [showToken, setShowToken] = useState(false)
   const [isTesting, setIsTesting] = useState(false)
   const [isValidating, setIsValidating] = useState(false)
@@ -438,26 +441,55 @@ function NotificationsTab() {
 
   return (
     <div className="space-y-6">
-      {/* Telegram Settings */}
-      <div className="card">
-        <div className="card-header flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5 text-blue-400" />
-            <span>Telegram</span>
-          </div>
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="enabled"
-              checked={settings.enabled}
-              onChange={handleChange}
-              className="rounded border-gray-700"
-            />
-            <span className="text-sm">Включено</span>
-          </label>
-        </div>
-        
-        <div className="space-y-4">
+      {/* Sub Tabs */}
+      <div className="flex gap-2 border-b border-gray-800">
+        <button
+          onClick={() => setTelegramSubTab('settings')}
+          className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+            telegramSubTab === 'settings'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          <Settings className="h-4 w-4" />
+          Настройки
+        </button>
+        <button
+          onClick={() => setTelegramSubTab('channels')}
+          className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+            telegramSubTab === 'channels'
+              ? 'border-blue-500 text-blue-400'
+              : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          <List className="h-4 w-4" />
+          Каналы (Multi-Channel)
+        </button>
+      </div>
+
+      {/* Settings Sub Tab */}
+      {telegramSubTab === 'settings' && (
+        <>
+          {/* Telegram Settings */}
+          <div className="card">
+            <div className="card-header flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5 text-blue-400" />
+                <span>Telegram</span>
+              </div>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  name="enabled"
+                  checked={settings.enabled}
+                  onChange={handleChange}
+                  className="rounded border-gray-700"
+                />
+                <span className="text-sm">Включено</span>
+              </label>
+            </div>
+
+            <div className="space-y-4">
           {/* Bot Token */}
           <div>
             <label className="label">Bot Token</label>
@@ -708,6 +740,13 @@ function NotificationsTab() {
           Сохранить настройки
         </button>
       </div>
+        </>
+      )}
+
+      {/* Channels Sub Tab */}
+      {telegramSubTab === 'channels' && (
+        <TelegramChannels />
+      )}
     </div>
   )
 }

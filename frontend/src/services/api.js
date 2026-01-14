@@ -149,6 +149,19 @@ export const notificationsApi = {
   // Enable/Disable
   enable: () => post('/notifications/enable'),
   disable: () => post('/notifications/disable'),
+
+  // Channels (Multi-Channel Support)
+  channels: {
+    getAll: (enabledOnly = false) => get(`/notifications/channels?enabled_only=${enabledOnly}`),
+    getById: (id) => get(`/notifications/channels/${id}`),
+    create: (data) => post('/notifications/channels', data),
+    update: (id, data) => put(`/notifications/channels/${id}`, data),
+    delete: (id) => del(`/notifications/channels/${id}`),
+    enable: (id) => post(`/notifications/channels/${id}/enable`),
+    disable: (id) => post(`/notifications/channels/${id}/disable`),
+    test: (id) => post(`/notifications/channels/${id}/test`),
+    getStats: () => get('/notifications/channels/stats/overview'),
+  },
 }
 
 
