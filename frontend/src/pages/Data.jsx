@@ -223,6 +223,21 @@ export default function Data() {
         </Badge>
       </div>
 
+      {/* Paper Trading Warning */}
+      <Alert variant="warning" className="mb-6">
+        <div className="flex items-start gap-2">
+          <span className="text-lg">📊</span>
+          <div>
+            <p className="font-medium">Данные для бэктестинга (Paper Trading)</p>
+            <p className="text-sm mt-1 opacity-90">
+              Исторические данные используются ТОЛЬКО для бэктестинга стратегий.
+              Загрузка данных НЕ предназначена для реальной торговли.
+              Все тесты выполняются на исторических данных Binance Futures.
+            </p>
+          </div>
+        </div>
+      </Alert>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left */}
         <div className="space-y-4">

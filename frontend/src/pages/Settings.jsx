@@ -532,6 +532,21 @@ function NotificationsTab() {
             </Card.Header>
 
             <Card.Body className="space-y-4">
+              {/* Paper Trading Warning */}
+              <Alert variant="warning">
+                <div className="flex items-start gap-2">
+                  <span className="text-lg">📊</span>
+                  <div>
+                    <p className="font-medium">Telegram сигналы для бумажной торговли</p>
+                    <p className="text-sm mt-1 opacity-90">
+                      Telegram бот отправляет сигналы ТОЛЬКО для симуляции (paper trading).
+                      Все сигналы генерируются на основе бэктестов исторических данных.
+                      НЕ используйте эти сигналы для реальной торговли.
+                    </p>
+                  </div>
+                </div>
+              </Alert>
+
           {/* Bot Token */}
           <div>
             <div className="flex gap-2">

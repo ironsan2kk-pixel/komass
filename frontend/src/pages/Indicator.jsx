@@ -859,7 +859,12 @@ const Indicator = () => {
               >
                 {indicatorType.toUpperCase()}
               </Badge>
-              
+
+              {/* Paper Trading badge */}
+              <Badge variant="warning" className="text-xs">
+                📊 Paper Trading
+              </Badge>
+
               {/* Trade levels toggle (Chat #28) */}
               <label className="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer">
                 <input

@@ -59,6 +59,9 @@ export default function App() {
                 <div>
                   <h1 className="text-xl font-bold text-white dark:text-white light:text-gray-900">KOMAS</h1>
                   <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">Trading Server v4.0</p>
+                  <div className="mt-2 px-2 py-1 bg-yellow-600/20 border border-yellow-600/40 rounded text-xs text-yellow-400 font-medium">
+                    📊 PAPER TRADING ONLY
+                  </div>
                 </div>
               )}
               <button
