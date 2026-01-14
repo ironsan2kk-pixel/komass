@@ -26,6 +26,7 @@ import {
   HeatmapPanel,
   AutoOptimizePanel
 } from '../components/Indicator';
+import { Button, Input, Badge } from '../components/ui';
 
 const TIMEFRAMES = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '1d'];
 
@@ -800,34 +801,37 @@ const Indicator = () => {
             <div className="flex items-center gap-3">
               {/* Symbol selector */}
               <div className="relative">
-                <button
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => setShowSymbolDropdown(!showSymbolDropdown)}
-                  className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-sm"
                 >
                   <span className="font-bold">{settings.symbol}</span>
-                  <span className="text-gray-400">▼</span>
-                </button>
-                
+                  <span className="text-gray-400 ml-1">▼</span>
+                </Button>
+
                 {showSymbolDropdown && (
                   <div className="absolute top-full left-0 mt-1 w-48 bg-gray-800 border border-gray-700 rounded shadow-lg z-50 max-h-64 overflow-y-auto">
-                    <input
+                    <Input
                       type="text"
                       placeholder="Search..."
                       value={symbolSearch}
                       onChange={(e) => setSymbolSearch(e.target.value)}
-                      className="w-full px-3 py-2 bg-gray-700 text-white text-sm border-b border-gray-600"
+                      className="border-b border-gray-600 rounded-none text-sm"
                       autoFocus
                     />
                     {filteredSymbols.map(s => (
-                      <button
+                      <Button
                         key={s}
+                        variant={settings.symbol === s ? 'primary' : 'ghost'}
+                        size="sm"
                         onClick={() => selectSymbol(s)}
-                        className={`w-full px-3 py-1.5 text-left text-sm hover:bg-gray-700 ${
+                        className={`w-full justify-start rounded-none ${
                           settings.symbol === s ? 'bg-purple-600' : ''
                         }`}
                       >
                         {s}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 )}
@@ -836,26 +840,25 @@ const Indicator = () => {
               {/* Timeframe selector */}
               <div className="flex gap-1">
                 {TIMEFRAMES.map(tf => (
-                  <button
+                  <Button
                     key={tf}
+                    variant={settings.timeframe === tf ? 'primary' : 'secondary'}
+                    size="sm"
                     onClick={() => updateSetting('timeframe', tf)}
-                    className={`px-2 py-1 text-xs rounded ${
-                      settings.timeframe === tf 
-                        ? 'bg-purple-600 text-white' 
-                        : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
-                    }`}
+                    className={`text-xs ${settings.timeframe === tf ? 'bg-purple-600' : ''}`}
                   >
                     {tf}
-                  </button>
+                  </Button>
                 ))}
               </div>
 
               {/* Indicator badge */}
-              <span className={`px-2 py-1 text-xs rounded font-medium ${
-                indicatorType === 'trg' ? 'bg-purple-600' : 'bg-blue-600'
-              }`}>
+              <Badge
+                variant={indicatorType === 'trg' ? 'secondary' : 'primary'}
+                className={`${indicatorType === 'trg' ? 'bg-purple-600' : 'bg-blue-600'}`}
+              >
                 {indicatorType.toUpperCase()}
-              </span>
+              </Badge>
               
               {/* Trade levels toggle (Chat #28) */}
               <label className="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer">
@@ -870,59 +873,59 @@ const Indicator = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <button
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={() => calculate()}
                 disabled={loading}
-                className={`px-4 py-1.5 rounded text-sm font-medium ${
-                  loading 
-                    ? 'bg-gray-600 text-gray-400' 
-                    : 'bg-purple-600 hover:bg-purple-500 text-white'
-                }`}
+                loading={loading}
+                className="bg-purple-600 hover:bg-purple-500"
               >
-                {loading ? '⏳ Расчёт...' : '▶️ Рассчитать'}
-              </button>
-              
-              <button
+                {loading ? 'Расчёт...' : '▶️ Рассчитать'}
+              </Button>
+
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={() => calculate(true)}
                 disabled={loading}
-                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm"
                 title="Принудительный пересчёт (без кэша)"
               >
                 🔄
-              </button>
+              </Button>
 
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={exportCSV}
                 disabled={!result?.trades?.length}
-                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm disabled:opacity-50"
               >
                 📄 CSV
-              </button>
+              </Button>
 
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={exportJSON}
                 disabled={!result}
-                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded text-sm disabled:opacity-50"
               >
                 📄 JSON
-              </button>
+              </Button>
             </div>
           </div>
 
           {/* Tabs */}
           <div className="flex gap-1 mt-2">
             {tabs.map(tab => (
-              <button
+              <Button
                 key={tab.id}
+                variant={activeTab === tab.id ? 'secondary' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3 py-1.5 rounded text-sm ${
-                  activeTab === tab.id 
-                    ? 'bg-gray-700 text-white' 
-                    : 'text-gray-400 hover:text-white'
-                }`}
+                className={activeTab === tab.id ? 'bg-gray-700' : ''}
               >
                 {tab.icon} {tab.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
