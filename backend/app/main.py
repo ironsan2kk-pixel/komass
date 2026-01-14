@@ -260,12 +260,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 # ============ IMPORT ROUTERS ============
 
-try:
-    from app.api.routes import router as main_router
-    app.include_router(main_router, prefix="/api")
-    logger.info("✔ Loaded: main routes")
-except ImportError as e:
-    logger.warning(f"✗ Failed to load main routes: {e}")
+# Note: Legacy routes.py removed - all routes now split into specific modules
 
 try:
     from app.api.optimizer_routes import router as optimizer_router
@@ -342,6 +337,38 @@ try:
     logger.info("✔ Loaded: Bots routes (/api/bots/*)")
 except ImportError as e:
     logger.warning(f"✗ Failed to load bots routes: {e}")
+
+# ============ SETTINGS ROUTES ============
+try:
+    from app.api.settings_routes import router as settings_router
+    app.include_router(settings_router)
+    logger.info("✔ Loaded: Settings routes (/api/settings/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load settings routes: {e}")
+
+# ============ CALENDAR ROUTES ============
+try:
+    from app.api.calendar_routes import router as calendar_router
+    app.include_router(calendar_router)
+    logger.info("✔ Loaded: Calendar routes (/api/calendar/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load calendar routes: {e}")
+
+# ============ NOTIFICATIONS ROUTES ============
+try:
+    from app.api.notifications_routes import router as notifications_router
+    app.include_router(notifications_router)
+    logger.info("✔ Loaded: Notifications routes (/api/notifications/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load notifications routes: {e}")
+
+# ============ DATABASE ROUTES ============
+try:
+    from app.api.db_routes import router as db_router
+    app.include_router(db_router)
+    logger.info("✔ Loaded: Database routes (/api/db/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load db routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
