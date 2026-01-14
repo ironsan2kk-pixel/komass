@@ -154,6 +154,121 @@ DEFAULT_WORKERS = None  # None = use all available cores
 
 
 # =============================================================================
+# DOMINANT INDICATOR CLASS (BaseIndicator)
+# =============================================================================
+
+from .base.indicator import BaseIndicator, IndicatorParameter, SignalType
+
+
+class DominantIndicator(BaseIndicator):
+    """
+    Dominant Indicator - Channel + Fibonacci Levels.
+
+    Uses price channel with Fibonacci retracement levels for entries.
+    Inherits from BaseIndicator for unified plugin system.
+
+    Parameters:
+        sensitivity: Channel period (12-60, default 21)
+        filter_type: Signal filter (0-4)
+        sl_mode: Stop-loss mode (0-4)
+
+    Output columns:
+        - high_channel, low_channel, mid_channel
+        - fib_236, fib_382, fib_500, fib_618 (from low)
+        - fib_236_high, fib_382_high, fib_500_high, fib_618_high (from high)
+        - signal: Trading signal (1=long, -1=short, 0=none)
+    """
+
+    def __init__(self, params=None):
+        """Initialize Dominant indicator."""
+        super().__init__(params)
+        self.sensitivity = self._params.get('sensitivity', SENSITIVITY_DEFAULT)
+        self.filter_type = self._params.get('filter_type', FILTER_NONE)
+        self.sl_mode = self._params.get('sl_mode', SL_MODE_CASCADE)
+
+    def get_id(self) -> str:
+        return "dominant"
+
+    def get_name(self) -> str:
+        return "Dominant Indicator"
+
+    def get_parameters(self):
+        return [
+            IndicatorParameter(
+                name="sensitivity",
+                display_name="Sensitivity",
+                param_type="int",
+                default=SENSITIVITY_DEFAULT,
+                min_value=SENSITIVITY_MIN,
+                max_value=SENSITIVITY_MAX,
+                step=1,
+                description="Channel period for price range",
+                group="main"
+            ),
+            IndicatorParameter(
+                name="filter_type",
+                display_name="Filter Type",
+                param_type="int",
+                default=FILTER_NONE,
+                min_value=0,
+                max_value=4,
+                step=1,
+                options=list(FILTER_NAMES.keys()),
+                description="Signal filter: 0=None, 1=ATR, 2=RSI, 3=Combined, 4=Volatility",
+                group="filters"
+            ),
+            IndicatorParameter(
+                name="sl_mode",
+                display_name="SL Mode",
+                param_type="int",
+                default=SL_MODE_CASCADE,
+                min_value=0,
+                max_value=4,
+                step=1,
+                options=list(SL_MODE_NAMES.keys()),
+                description="Stop-loss mode: 0=Fixed, 1-3=Breakeven, 4=Cascade",
+                group="risk"
+            )
+        ]
+
+    def calculate(self, df):
+        """Calculate Dominant indicator using existing function."""
+        return calculate_dominant(df, self.sensitivity)
+
+    def generate_signals(self, df):
+        """Generate trading signals using existing function."""
+        if 'mid_channel' not in df.columns:
+            df = self.calculate(df)
+
+        if self.filter_type == FILTER_NONE:
+            return generate_signals(df)
+        else:
+            return generate_signals_with_filter(df, self.filter_type)
+
+    def get_description(self) -> str:
+        return "Channel-based indicator with Fibonacci retracement levels"
+
+    def get_version(self) -> str:
+        return "4.0.4"
+
+    def warmup_period(self) -> int:
+        return max(self.sensitivity + 10, 50)
+
+    def get_chart_config(self):
+        return {
+            "overlays": True,
+            "lines": [
+                {"name": "high_channel", "color": "#ef4444", "width": 1},
+                {"name": "low_channel", "color": "#22c55e", "width": 1},
+                {"name": "mid_channel", "color": "#3b82f6", "width": 2, "style": "dashed"}
+            ],
+            "bands": [
+                {"upper": "high_channel", "lower": "low_channel", "color": "#3b82f6", "opacity": 0.1}
+            ]
+        }
+
+
+# =============================================================================
 # VALIDATION
 # =============================================================================
 
