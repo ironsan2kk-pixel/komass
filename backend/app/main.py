@@ -113,7 +113,60 @@ async def lifespan(app: FastAPI):
     logger.info(f"Log file: {LOG_FILE}")
     logger.info(f"Error log: {ERROR_LOG_FILE}")
     logger.info("=" * 60)
+
+    # Initialize bot runner with data fetcher and notifications
+    try:
+        from app.core.bots import get_bots_runner
+        from app.core.bots.data_integration import (
+            create_runner_data_fetcher,
+            create_live_price_fetcher
+        )
+        from app.core.bots.notification_integration import setup_notifications_for_runner
+
+        runner = get_bots_runner()
+
+        # Setup data fetcher (historical OHLCV from Parquet)
+        data_fetcher = create_runner_data_fetcher()
+        runner.set_data_fetcher(data_fetcher)
+        logger.info("✔ Bot runner data fetcher configured")
+
+        # Setup live price fetcher (WebSocket + Parquet fallback)
+        live_price_fetcher = create_live_price_fetcher()
+        # Note: Runner uses live prices internally for TP/SL checks
+        logger.info("✔ Live price fetcher configured")
+
+        # Setup notification callbacks (Telegram/Discord)
+        setup_notifications_for_runner(runner)
+        logger.info("✔ Bot runner notifications configured")
+
+        # Auto-start runner if there are running bots (state recovery)
+        from app.core.bots import get_bots_manager
+        manager = get_bots_manager()
+        running_bots = manager.get_running_bots()
+
+        if running_bots:
+            runner.start()
+            logger.info(f"✔ Auto-started bot runner for {len(running_bots)} running bot(s)")
+            for bot in running_bots:
+                logger.info(f"  → Resumed bot: {bot.config.name} (ID: {bot.id})")
+        else:
+            logger.info("ℹ No running bots - runner in standby mode")
+
+    except Exception as e:
+        logger.error(f"✗ Failed to initialize bot runner: {e}")
+
     yield
+
+    # Shutdown: stop bot runner
+    try:
+        from app.core.bots import get_bots_runner
+        runner = get_bots_runner()
+        if runner.is_running():
+            runner.stop()
+            logger.info("✔ Bot runner stopped")
+    except Exception as e:
+        logger.error(f"✗ Error stopping bot runner: {e}")
+
     logger.info("=" * 60)
     logger.info("KOMAS TRADING SERVER - SHUTDOWN")
     logger.info("=" * 60)
@@ -281,6 +334,14 @@ try:
     logger.info("✔ Loaded: Optimizer Heatmap routes (/api/optimizer/results/*/heatmap)")
 except ImportError as e:
     logger.warning(f"✗ Failed to load heatmap routes: {e}")
+
+# ============ BOTS ROUTES ============
+try:
+    from app.api.bots_routes import router as bots_router
+    app.include_router(bots_router)
+    logger.info("✔ Loaded: Bots routes (/api/bots/*)")
+except ImportError as e:
+    logger.warning(f"✗ Failed to load bots routes: {e}")
 
 
 # ============ LOG ENDPOINTS ============
