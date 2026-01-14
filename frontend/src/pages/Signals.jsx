@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { 
+import {
   Zap, Filter, Download, RefreshCw, X, TrendingUp, TrendingDown,
   ChevronLeft, ChevronRight, Search, AlertCircle, CheckCircle2,
   Clock, DollarSign, Percent, Target, Activity
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { signalsApi } from '../api'
+import { Button, Card, Input, Select, Badge, Spinner } from '../components/ui'
 
 // === Статистика сигналов ===
 function SignalsStats({ stats }) {
@@ -48,13 +49,15 @@ function SignalsStats({ stats }) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
       {items.map((item, i) => (
-        <div key={i} className="card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <item.icon className={`h-4 w-4 ${item.color}`} />
-            <span className="text-xs text-gray-500">{item.label}</span>
-          </div>
-          <p className={`text-xl font-bold ${item.color}`}>{item.value}</p>
-        </div>
+        <Card key={i}>
+          <Card.Body className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <item.icon className={`h-4 w-4 ${item.color}`} />
+              <span className="text-xs text-gray-500">{item.label}</span>
+            </div>
+            <p className={`text-xl font-bold ${item.color}`}>{item.value}</p>
+          </Card.Body>
+        </Card>
       ))}
     </div>
   )
@@ -63,70 +66,73 @@ function SignalsStats({ stats }) {
 // === Фильтры ===
 function SignalsFilters({ filters, onChange, symbols }) {
   return (
-    <div className="card p-4">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-gray-500" />
-          <span className="text-sm text-gray-400">Фильтры:</span>
+    <Card>
+      <Card.Body className="p-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-gray-500" />
+            <span className="text-sm text-gray-400">Фильтры:</span>
+          </div>
+
+          {/* Поиск */}
+          <div className="relative w-48">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 z-10" />
+            <Input
+              type="text"
+              placeholder="Поиск..."
+              value={filters.search || ''}
+              onChange={(e) => onChange({ ...filters, search: e.target.value })}
+              className="pl-9"
+            />
+          </div>
+
+          {/* Символ */}
+          <Select
+            value={filters.symbol || ''}
+            onChange={(e) => onChange({ ...filters, symbol: e.target.value })}
+            className="w-36"
+          >
+            <option value="">Все пары</option>
+            {symbols?.map(s => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </Select>
+
+          {/* Направление */}
+          <Select
+            value={filters.direction || ''}
+            onChange={(e) => onChange({ ...filters, direction: e.target.value })}
+            className="w-32"
+          >
+            <option value="">Все</option>
+            <option value="long">Long</option>
+            <option value="short">Short</option>
+          </Select>
+
+          {/* Статус */}
+          <Select
+            value={filters.status || ''}
+            onChange={(e) => onChange({ ...filters, status: e.target.value })}
+            className="w-36"
+          >
+            <option value="">Все статусы</option>
+            <option value="active">Активные</option>
+            <option value="closed">Закрытые</option>
+            <option value="cancelled">Отменённые</option>
+          </Select>
+
+          {/* Сброс */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onChange({ status: '', symbol: '', direction: '', search: '' })}
+            icon={<X className="h-4 w-4" />}
+          >
+            Сбросить
+          </Button>
         </div>
-
-        {/* Поиск */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Поиск..."
-            value={filters.search || ''}
-            onChange={(e) => onChange({ ...filters, search: e.target.value })}
-            className="input pl-9 w-48"
-          />
-        </div>
-
-        {/* Символ */}
-        <select
-          value={filters.symbol || ''}
-          onChange={(e) => onChange({ ...filters, symbol: e.target.value })}
-          className="select w-36"
-        >
-          <option value="">Все пары</option>
-          {symbols?.map(s => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-
-        {/* Направление */}
-        <select
-          value={filters.direction || ''}
-          onChange={(e) => onChange({ ...filters, direction: e.target.value })}
-          className="select w-32"
-        >
-          <option value="">Все</option>
-          <option value="long">Long</option>
-          <option value="short">Short</option>
-        </select>
-
-        {/* Статус */}
-        <select
-          value={filters.status || ''}
-          onChange={(e) => onChange({ ...filters, status: e.target.value })}
-          className="select w-36"
-        >
-          <option value="">Все статусы</option>
-          <option value="active">Активные</option>
-          <option value="closed">Закрытые</option>
-          <option value="cancelled">Отменённые</option>
-        </select>
-
-        {/* Сброс */}
-        <button
-          onClick={() => onChange({ status: '', symbol: '', direction: '', search: '' })}
-          className="btn-ghost text-sm"
-        >
-          <X className="h-4 w-4" />
-          Сбросить
-        </button>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   )
 }
 
@@ -139,12 +145,12 @@ function SignalsTable({ signals, onClose, isClosing }) {
   }
 
   const getStatusBadge = (status) => {
-    const styles = {
-      active: 'bg-yellow-500/20 text-yellow-400',
-      closed: 'bg-gray-500/20 text-gray-400',
-      tp_hit: 'bg-green-500/20 text-green-400',
-      sl_hit: 'bg-red-500/20 text-red-400',
-      cancelled: 'bg-gray-500/20 text-gray-500',
+    const variants = {
+      active: 'warning',
+      closed: 'secondary',
+      tp_hit: 'success',
+      sl_hit: 'danger',
+      cancelled: 'secondary',
     }
     const labels = {
       active: 'Активен',
@@ -154,9 +160,9 @@ function SignalsTable({ signals, onClose, isClosing }) {
       cancelled: 'Отменён',
     }
     return (
-      <span className={`badge ${styles[status] || styles.closed}`}>
+      <Badge variant={variants[status] || 'secondary'}>
         {labels[status] || status}
-      </span>
+      </Badge>
     )
   }
 
@@ -186,15 +192,17 @@ function SignalsTable({ signals, onClose, isClosing }) {
 
   if (!signals?.length) {
     return (
-      <div className="card py-16 text-center">
-        <Zap className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-        <p className="text-gray-500">Нет сигналов по выбранным фильтрам</p>
-      </div>
+      <Card>
+        <Card.Body className="py-16 text-center">
+          <Zap className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+          <p className="text-gray-500">Нет сигналов по выбранным фильтрам</p>
+        </Card.Body>
+      </Card>
     )
   }
 
   return (
-    <div className="card overflow-hidden">
+    <Card className="overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-800/50">
@@ -250,13 +258,14 @@ function SignalsTable({ signals, onClose, isClosing }) {
                 </td>
                 <td className="px-4 py-3">
                   {signal.status === 'active' && (
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => onClose(signal.id)}
                       disabled={isClosing}
-                      className="btn-ghost btn-sm text-red-400 hover:text-red-300"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
+                      className="text-red-400 hover:text-red-300"
+                      icon={<X className="h-4 w-4" />}
+                    />
                   )}
                 </td>
               </tr>
@@ -264,7 +273,7 @@ function SignalsTable({ signals, onClose, isClosing }) {
           </tbody>
         </table>
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -274,25 +283,25 @@ function Pagination({ page, totalPages, onPageChange }) {
 
   return (
     <div className="flex items-center justify-center gap-2">
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="btn-ghost btn-sm disabled:opacity-50"
-      >
-        <ChevronLeft className="h-4 w-4" />
-      </button>
-      
+        icon={<ChevronLeft className="h-4 w-4" />}
+      />
+
       <span className="text-sm text-gray-400">
         Страница {page} из {totalPages}
       </span>
-      
-      <button
+
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className="btn-ghost btn-sm disabled:opacity-50"
-      >
-        <ChevronRight className="h-4 w-4" />
-      </button>
+        icon={<ChevronRight className="h-4 w-4" />}
+      />
     </div>
   )
 }
@@ -453,10 +462,9 @@ export default function Signals() {
 
           {/* Экспорт */}
           <div className="relative group">
-            <button className="btn-secondary">
-              <Download className="h-4 w-4" />
+            <Button variant="secondary" icon={<Download className="h-4 w-4" />}>
               Экспорт
-            </button>
+            </Button>
             <div className="absolute right-0 top-full mt-1 bg-gray-800 rounded-lg shadow-lg border border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
               <button
                 onClick={() => handleExport('csv')}
@@ -474,10 +482,13 @@ export default function Signals() {
           </div>
 
           {/* Обновить */}
-          <button onClick={() => refetch()} className="btn-secondary">
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          <Button
+            variant="secondary"
+            onClick={() => refetch()}
+            icon={<RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />}
+          >
             Обновить
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -493,13 +504,15 @@ export default function Signals() {
 
       {/* Таблица */}
       {isLoading ? (
-        <div className="card py-12 text-center">
-          <RefreshCw className="h-8 w-8 animate-spin text-blue-500 mx-auto" />
-          <p className="text-gray-500 mt-2">Загрузка сигналов...</p>
-        </div>
+        <Card>
+          <Card.Body className="py-12 text-center">
+            <Spinner size="lg" className="mx-auto" />
+            <p className="text-gray-500 mt-2">Загрузка сигналов...</p>
+          </Card.Body>
+        </Card>
       ) : (
-        <SignalsTable 
-          signals={signals} 
+        <SignalsTable
+          signals={signals}
           onClose={(id) => closeMutation.mutate(id)}
           isClosing={closeMutation.isPending}
         />
