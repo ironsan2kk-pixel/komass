@@ -25,6 +25,7 @@ import { ThemeToggle } from './components/ui';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // Pages
+import Dashboard from './pages/Dashboard';
 import Indicator from './pages/Indicator';
 import Data from './pages/Data';
 import Presets from './pages/Presets';
@@ -34,7 +35,8 @@ import Signals from './pages/Signals';
 import Bots from './pages/Bots';
 
 const NAV_ITEMS = [
-  { path: '/', name: '📊 Индикатор', component: Indicator },
+  { path: '/', name: '🏠 Dashboard', component: Dashboard },
+  { path: '/indicator', name: '📊 Индикатор', component: Indicator },
   { path: '/data', name: '📁 Данные', component: Data },
   { path: '/presets', name: '🎛️ Пресеты', component: Presets },
   { path: '/optimizer', name: '🔬 Оптимизация', component: Optimizer, highlight: true },
