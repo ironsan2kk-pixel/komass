@@ -214,7 +214,12 @@ export default function Bots() {
       <Card className="w-80 flex-shrink-0 flex flex-col">
         <Card.Header className="border-b border-dark-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Боты</h2>
+            <div>
+              <h2 className="text-lg font-bold">Боты</h2>
+              <Badge variant="warning" className="mt-1 text-xs">
+                📊 Paper Trading Only
+              </Badge>
+            </div>
             <Button
               variant="primary"
               size="sm"
@@ -223,7 +228,7 @@ export default function Bots() {
               + Создать
             </Button>
           </div>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-gray-400 mt-2">
             {bots.length} ботов • {bots.filter(b => b.status === 'running').length} активных
           </p>
         </Card.Header>

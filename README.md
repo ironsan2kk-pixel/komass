@@ -2,13 +2,18 @@
 
 Professional-grade cryptocurrency trading platform with automated bots, technical indicators, backtesting, and portfolio management.
 
+> **⚠️ IMPORTANT: PAPER TRADING ONLY**
+> KOMAS v4.0 operates **exclusively in paper trading mode** (simulation).
+> All trades are executed on historical data for backtesting purposes only.
+> **NO REAL TRADING** - API keys are NOT used for live order execution.
+
 ## 🚀 Features
 
-### Trading Bots System
-- **Live Trading Engine** - Automated strategy execution with real-time market monitoring
+### Trading Bots System (Paper Trading)
+- **Paper Trading Engine** - Automated strategy simulation on historical data
+- **Backtest Engine** - Test strategies across multiple symbols and timeframes
 - **Position Risk Manager** - Multi-layered risk control with drawdown protection
-- **State Persistence** - Automatic state saving and recovery after crashes
-- **Portfolio Backtest** - Test strategies on historical data across multiple symbols
+- **State Persistence** - Automatic state saving and recovery
 - **Configuration Optimizer** - Find optimal bot settings using grid search
 
 ### Technical Indicators
