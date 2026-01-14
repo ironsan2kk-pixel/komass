@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
-  Settings, Save, Plus, Trash2, Copy, Loader2,
+  Settings, Save, Plus, Trash2, Copy,
   Bell, Key, Send, CheckCircle, XCircle, Eye, EyeOff,
   MessageSquare, Zap, AlertTriangle, Target, List
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { presetsApi, symbolsApi, notificationsApi, discordApi } from '../services/api'
 import TelegramChannels from '../components/TelegramChannels'
+import { Button, Card, Input, Select, Spinner, Alert } from '../components/ui'
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
@@ -28,20 +29,21 @@ export default function SettingsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-800">
+      <div className="flex gap-2 border-b border-dark-700 dark:border-dark-700 light:border-gray-200">
         {tabs.map(tab => (
-          <button
+          <Button
             key={tab.id}
+            variant="ghost"
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+            className={`border-b-2 rounded-none ${
               activeTab === tab.id
                 ? 'border-primary-500 text-primary-400'
                 : 'border-transparent text-gray-500 hover:text-gray-300'
             }`}
+            icon={<tab.icon className="h-4 w-4" />}
           >
-            <tab.icon className="h-4 w-4" />
             {tab.label}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -160,21 +162,21 @@ function PresetsTab() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
       {/* Presets List */}
-      <div className="card">
-        <div className="card-header flex items-center justify-between">
+      <Card>
+        <Card.Header className="flex items-center justify-between">
           <span>Пресеты</span>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => {
               setIsCreating(true)
               setSelectedPreset(null)
               setForm(prev => ({ ...prev, name: 'Новый пресет' }))
             }}
-            className="btn-ghost btn-sm"
-          >
-            <Plus className="h-4 w-4" />
-          </button>
-        </div>
-        <div className="space-y-2">
+            icon={<Plus className="h-4 w-4" />}
+          />
+        </Card.Header>
+        <Card.Body className="space-y-2">
           {presets?.items?.map((preset) => (
             <div
               key={preset.id}
@@ -188,15 +190,15 @@ function PresetsTab() {
               <div className="flex items-center justify-between">
                 <span className="font-medium">{preset.name}</span>
                 <div className="flex gap-1">
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={(e) => {
                       e.stopPropagation()
                       duplicateMutation.mutate(preset.id)
                     }}
-                    className="p-1 hover:bg-gray-700 rounded"
-                  >
-                    <Copy className="h-3 w-3 text-gray-500" />
-                  </button>
+                    icon={<Copy className="h-3 w-3" />}
+                  />
                 </div>
               </div>
               <p className="text-xs text-gray-500 mt-1">
@@ -207,121 +209,159 @@ function PresetsTab() {
           {(!presets?.items || presets.items.length === 0) && (
             <p className="text-gray-500 text-sm text-center py-4">Нет пресетов</p>
           )}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Preset Editor */}
-      <div className="lg:col-span-3 card">
+      <Card className="lg:col-span-3">
         {(selectedPreset || isCreating) ? (
-          <div className="space-y-6">
-            <div className="card-header flex items-center justify-between">
+          <>
+            <Card.Header className="flex items-center justify-between">
               <span>{isCreating ? 'Новый пресет' : 'Редактирование'}</span>
               <div className="flex gap-2">
                 {selectedPreset && (
-                  <button
+                  <Button
+                    variant="danger"
+                    size="sm"
                     onClick={() => deleteMutation.mutate(selectedPreset.id)}
-                    className="btn-danger btn-sm"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                    icon={<Trash2 className="h-4 w-4" />}
+                  />
                 )}
-                <button onClick={handleSave} className="btn-primary btn-sm">
-                  <Save className="h-4 w-4 mr-1" />
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleSave}
+                  icon={<Save className="h-4 w-4" />}
+                >
                   Сохранить
-                </button>
+                </Button>
               </div>
-            </div>
+            </Card.Header>
+
+            <Card.Body className="space-y-6">
 
             {/* Basic Settings */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
-                <label className="label">Название</label>
-                <input type="text" name="name" value={form.name} onChange={handleChange} className="input" />
-              </div>
-              <div>
-                <label className="label">Символ</label>
-                <select name="symbol" value={form.symbol} onChange={handleChange} className="select">
-                  {symbols?.items?.map(s => (
-                    <option key={s.symbol} value={s.symbol}>{s.symbol}</option>
-                  ))}
-                  <option value="BTCUSDT">BTCUSDT</option>
-                  <option value="ETHUSDT">ETHUSDT</option>
-                </select>
-              </div>
-              <div>
-                <label className="label">Биржа</label>
-                <select name="exchange" value={form.exchange} onChange={handleChange} className="select">
-                  <option value="binance">Binance</option>
-                  <option value="bybit">Bybit</option>
-                  <option value="okx">OKX</option>
-                </select>
-              </div>
-              <div>
-                <label className="label">Таймфрейм</label>
-                <select name="timeframe" value={form.timeframe} onChange={handleChange} className="select">
-                  <option value="1m">1m</option>
-                  <option value="5m">5m</option>
-                  <option value="15m">15m</option>
-                  <option value="1h">1h</option>
-                  <option value="4h">4h</option>
-                  <option value="1d">1d</option>
-                </select>
-              </div>
+              <Input
+                label="Название"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+              />
+              <Select
+                label="Символ"
+                name="symbol"
+                value={form.symbol}
+                onChange={handleChange}
+              >
+                {symbols?.items?.map(s => (
+                  <option key={s.symbol} value={s.symbol}>{s.symbol}</option>
+                ))}
+                <option value="BTCUSDT">BTCUSDT</option>
+                <option value="ETHUSDT">ETHUSDT</option>
+              </Select>
+              <Select
+                label="Биржа"
+                name="exchange"
+                value={form.exchange}
+                onChange={handleChange}
+              >
+                <option value="binance">Binance</option>
+                <option value="bybit">Bybit</option>
+                <option value="okx">OKX</option>
+              </Select>
+              <Select
+                label="Таймфрейм"
+                name="timeframe"
+                value={form.timeframe}
+                onChange={handleChange}
+              >
+                <option value="1m">1m</option>
+                <option value="5m">5m</option>
+                <option value="15m">15m</option>
+                <option value="1h">1h</option>
+                <option value="4h">4h</option>
+                <option value="1d">1d</option>
+              </Select>
             </div>
 
             {/* TRG Settings */}
-            <div className="border-t border-gray-800 pt-4">
+            <div className="border-t border-dark-700 dark:border-dark-700 light:border-gray-200 pt-4">
               <h4 className="text-sm font-medium text-gray-400 mb-3">TRG Индикатор</h4>
               <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <label className="label">Length</label>
-                  <input type="number" name="trg_length" value={form.trg_length} onChange={handleChange} className="input" />
-                </div>
-                <div>
-                  <label className="label">ATR Length</label>
-                  <input type="number" name="trg_atr_length" value={form.trg_atr_length} onChange={handleChange} className="input" />
-                </div>
-                <div>
-                  <label className="label">Multiplier</label>
-                  <input type="number" step="0.1" name="trg_multiplier" value={form.trg_multiplier} onChange={handleChange} className="input" />
-                </div>
+                <Input
+                  label="Length"
+                  type="number"
+                  name="trg_length"
+                  value={form.trg_length}
+                  onChange={handleChange}
+                />
+                <Input
+                  label="ATR Length"
+                  type="number"
+                  name="trg_atr_length"
+                  value={form.trg_atr_length}
+                  onChange={handleChange}
+                />
+                <Input
+                  label="Multiplier"
+                  type="number"
+                  step="0.1"
+                  name="trg_multiplier"
+                  value={form.trg_multiplier}
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
             {/* SL Settings */}
-            <div className="border-t border-gray-800 pt-4">
+            <div className="border-t border-dark-700 dark:border-dark-700 light:border-gray-200 pt-4">
               <h4 className="text-sm font-medium text-gray-400 mb-3">Stop Loss</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                  <label className="label">Режим</label>
-                  <select name="sl_mode" value={form.sl_mode} onChange={handleChange} className="select">
-                    <option value="static">Static</option>
-                    <option value="breakeven">Breakeven</option>
-                    <option value="trailing">Trailing</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="label">SL %</label>
-                  <input type="number" step="0.1" name="sl_percent" value={form.sl_percent} onChange={handleChange} className="input" />
-                </div>
-                <div>
-                  <label className="label">Активация на TP</label>
-                  <input type="number" name="sl_activate_at_tp" value={form.sl_activate_at_tp} onChange={handleChange} className="input" />
-                </div>
-                <div>
-                  <label className="label">Trailing offset %</label>
-                  <input type="number" step="0.1" name="sl_trailing_offset" value={form.sl_trailing_offset} onChange={handleChange} className="input" />
-                </div>
+                <Select
+                  label="Режим"
+                  name="sl_mode"
+                  value={form.sl_mode}
+                  onChange={handleChange}
+                >
+                  <option value="static">Static</option>
+                  <option value="breakeven">Breakeven</option>
+                  <option value="trailing">Trailing</option>
+                </Select>
+                <Input
+                  label="SL %"
+                  type="number"
+                  step="0.1"
+                  name="sl_percent"
+                  value={form.sl_percent}
+                  onChange={handleChange}
+                />
+                <Input
+                  label="Активация на TP"
+                  type="number"
+                  name="sl_activate_at_tp"
+                  value={form.sl_activate_at_tp}
+                  onChange={handleChange}
+                />
+                <Input
+                  label="Trailing offset %"
+                  type="number"
+                  step="0.1"
+                  name="sl_trailing_offset"
+                  value={form.sl_trailing_offset}
+                  onChange={handleChange}
+                />
               </div>
             </div>
-          </div>
+            </Card.Body>
+          </>
         ) : (
-          <div className="py-16 text-center">
+          <Card.Body className="py-16 text-center">
             <Settings className="h-12 w-12 text-gray-600 mx-auto mb-4" />
             <p className="text-gray-500">Выберите пресет для редактирования</p>
-          </div>
+          </Card.Body>
         )}
-      </div>
+      </Card>
     </div>
   )
 }
@@ -442,37 +482,39 @@ function NotificationsTab() {
   return (
     <div className="space-y-6">
       {/* Sub Tabs */}
-      <div className="flex gap-2 border-b border-gray-800">
-        <button
+      <div className="flex gap-2 border-b border-dark-700 dark:border-dark-700 light:border-gray-200">
+        <Button
+          variant="ghost"
           onClick={() => setTelegramSubTab('settings')}
-          className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+          className={`border-b-2 rounded-none ${
             telegramSubTab === 'settings'
               ? 'border-blue-500 text-blue-400'
               : 'border-transparent text-gray-500 hover:text-gray-300'
           }`}
+          icon={<Settings className="h-4 w-4" />}
         >
-          <Settings className="h-4 w-4" />
           Настройки
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="ghost"
           onClick={() => setTelegramSubTab('channels')}
-          className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-colors ${
+          className={`border-b-2 rounded-none ${
             telegramSubTab === 'channels'
               ? 'border-blue-500 text-blue-400'
               : 'border-transparent text-gray-500 hover:text-gray-300'
           }`}
+          icon={<List className="h-4 w-4" />}
         >
-          <List className="h-4 w-4" />
           Каналы (Multi-Channel)
-        </button>
+        </Button>
       </div>
 
       {/* Settings Sub Tab */}
       {telegramSubTab === 'settings' && (
         <>
           {/* Telegram Settings */}
-          <div className="card">
-            <div className="card-header flex items-center justify-between">
+          <Card>
+            <Card.Header className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <MessageSquare className="h-5 w-5 text-blue-400" />
                 <span>Telegram</span>
@@ -487,103 +529,92 @@ function NotificationsTab() {
                 />
                 <span className="text-sm">Включено</span>
               </label>
-            </div>
+            </Card.Header>
 
-            <div className="space-y-4">
+            <Card.Body className="space-y-4">
           {/* Bot Token */}
           <div>
-            <label className="label">Bot Token</label>
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <input
+                <Input
+                  label="Bot Token"
                   type={showToken ? 'text' : 'password'}
                   name="bot_token"
                   value={settings.bot_token}
                   onChange={handleChange}
                   placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz"
-                  className="input pr-10"
+                  helper="Получите токен у @BotFather в Telegram"
                 />
                 <button
                   type="button"
                   onClick={() => setShowToken(!showToken)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                  className="absolute right-2 top-9 text-gray-500 hover:text-gray-300"
                 >
                   {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              <button
-                onClick={handleValidateBot}
-                disabled={!settings.bot_token || isValidating}
-                className="btn-primary btn-sm"
-              >
-                {isValidating ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  'Проверить'
-                )}
-              </button>
+              <div className="pt-6">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleValidateBot}
+                  disabled={!settings.bot_token || isValidating}
+                  loading={isValidating}
+                >
+                  Проверить
+                </Button>
+              </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
-              Получите токен у @BotFather в Telegram
-            </p>
           </div>
 
           {/* Bot Info */}
           {botInfo && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+            <Alert variant="success">
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                <span className="text-green-400 font-medium">Бот подключён</span>
+                <CheckCircle className="h-5 w-5" />
+                <span className="font-medium">Бот подключён</span>
               </div>
-              <div className="mt-2 text-sm text-gray-400">
+              <div className="mt-2 text-sm">
                 <p>@{botInfo.username} ({botInfo.first_name})</p>
-                <p className="text-xs">ID: {botInfo.id}</p>
+                <p className="text-xs opacity-80">ID: {botInfo.id}</p>
               </div>
-            </div>
+            </Alert>
           )}
 
           {/* Chat ID */}
-          <div>
-            <label className="label">Chat ID / Channel</label>
-            <input
-              type="text"
-              name="chat_id"
-              value={settings.chat_id}
-              onChange={handleChange}
-              placeholder="@channel или -1001234567890"
-              className="input"
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              ID чата, канала (@channel) или группы. Используйте @userinfobot для получения ID.
-            </p>
-          </div>
+          <Input
+            label="Chat ID / Channel"
+            name="chat_id"
+            value={settings.chat_id}
+            onChange={handleChange}
+            placeholder="@channel или -1001234567890"
+            helper="ID чата, канала (@channel) или группы. Используйте @userinfobot для получения ID."
+          />
 
           {/* Test Button */}
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleTestNotification}
               disabled={!settings.bot_token || !settings.chat_id || isTesting}
-              className="btn-secondary btn-sm"
+              loading={isTesting}
+              icon={<Send className="h-4 w-4" />}
             >
-              {isTesting ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-1" />
-              ) : (
-                <Send className="h-4 w-4 mr-1" />
-              )}
               Тест
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+            </Card.Body>
+          </Card>
 
       {/* Message Format */}
-      <div className="card">
-        <div className="card-header flex items-center gap-2">
+      <Card>
+        <Card.Header className="flex items-center gap-2">
           <Zap className="h-5 w-5 text-yellow-400" />
           <span>Формат сообщений</span>
-        </div>
-        
-        <div className="space-y-4">
+        </Card.Header>
+
+        <Card.Body className="space-y-4">
           <div className="grid grid-cols-3 gap-3">
             {[
               { id: 'simple', name: 'Simple', desc: 'Читаемый формат с эмодзи' },
@@ -647,31 +678,31 @@ function NotificationsTab() {
           {/* Custom Template */}
           {settings.message_format === 'custom' && (
             <div>
-              <label className="label">Шаблон</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Шаблон</label>
               <textarea
                 name="custom_template"
                 value={settings.custom_template}
                 onChange={handleChange}
                 rows={6}
                 placeholder={`📈 {direction} {symbol}\n\nEntry: {entry_price}\nTargets: {tp_targets}\nSL: {sl_price}\n\nLeverage: {leverage}x`}
-                className="input font-mono text-sm"
+                className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-100 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Доступные переменные: {'{symbol}'}, {'{direction}'}, {'{entry_price}'}, {'{tp_targets}'}, {'{sl_price}'}, {'{leverage}'}, {'{timeframe}'}
               </p>
             </div>
           )}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Trigger Settings */}
-      <div className="card">
-        <div className="card-header flex items-center gap-2">
+      <Card>
+        <Card.Header className="flex items-center gap-2">
           <Target className="h-5 w-5 text-red-400" />
           <span>Триггеры уведомлений</span>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        </Card.Header>
+
+        <Card.Body className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[
             { name: 'notify_new_signal', label: 'Новый сигнал', icon: '📈' },
             { name: 'notify_tp_hit', label: 'TP достигнут', icon: '🎯' },
@@ -694,14 +725,14 @@ function NotificationsTab() {
               <span className="text-sm">{trigger.label}</span>
             </label>
           ))}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Display Options */}
-      <div className="card">
-        <div className="card-header">Опции отображения</div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <Card>
+        <Card.Header>Опции отображения</Card.Header>
+
+        <Card.Body className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'include_entry_zone', label: 'Зона входа' },
             { name: 'include_leverage', label: 'Плечо' },
@@ -722,23 +753,20 @@ function NotificationsTab() {
               <span>{option.label}</span>
             </label>
           ))}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <button
+        <Button
+          variant="primary"
           onClick={handleSave}
           disabled={isSaving}
-          className="btn-primary"
+          loading={isSaving}
+          icon={<Save className="h-4 w-4" />}
         >
-          {isSaving ? (
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-          ) : (
-            <Save className="h-4 w-4 mr-2" />
-          )}
           Сохранить настройки
-        </button>
+        </Button>
       </div>
         </>
       )}
@@ -852,8 +880,8 @@ function DiscordTab() {
   return (
     <div className="space-y-6">
       {/* Discord Settings */}
-      <div className="card">
-        <div className="card-header flex items-center justify-between">
+      <Card>
+        <Card.Header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Bell className="h-5 w-5 text-indigo-400" />
             <span>Discord Webhook</span>
@@ -868,114 +896,101 @@ function DiscordTab() {
             />
             <span className="text-sm">Включено</span>
           </label>
-        </div>
+        </Card.Header>
 
-        <div className="space-y-4">
+        <Card.Body className="space-y-4">
           {/* Webhook URL */}
           <div>
-            <label className="label">Webhook URL</label>
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <input
+                <Input
+                  label="Webhook URL"
                   type={showWebhook ? 'text' : 'password'}
                   name="webhook_url"
                   value={settings.webhook_url}
                   onChange={handleChange}
                   placeholder="https://discord.com/api/webhooks/..."
-                  className="input pr-10"
+                  helper="Создайте Webhook в настройках канала Discord: Edit Channel → Integrations → Webhooks"
                 />
                 <button
                   type="button"
                   onClick={() => setShowWebhook(!showWebhook)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                  className="absolute right-2 top-9 text-gray-500 hover:text-gray-300"
                 >
                   {showWebhook ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
-              <button
-                onClick={handleValidateWebhook}
-                disabled={!settings.webhook_url || isValidating}
-                className="btn-primary btn-sm"
-              >
-                {isValidating ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  'Проверить'
-                )}
-              </button>
+              <div className="pt-6">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleValidateWebhook}
+                  disabled={!settings.webhook_url || isValidating}
+                  loading={isValidating}
+                >
+                  Проверить
+                </Button>
+              </div>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
-              Создайте Webhook в настройках канала Discord: Edit Channel → Integrations → Webhooks
-            </p>
           </div>
 
           {/* Webhook Info */}
           {webhookInfo && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+            <Alert variant="success">
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                <span className="text-green-400 font-medium">Webhook подключён</span>
+                <CheckCircle className="h-5 w-5" />
+                <span className="font-medium">Webhook подключён</span>
               </div>
-              <div className="mt-2 text-sm text-gray-400">
+              <div className="mt-2 text-sm">
                 <p>Имя: {webhookInfo.name}</p>
-                <p className="text-xs">ID: {webhookInfo.id}</p>
-                <p className="text-xs">Channel ID: {webhookInfo.channel_id}</p>
+                <p className="text-xs opacity-80">ID: {webhookInfo.id}</p>
+                <p className="text-xs opacity-80">Channel ID: {webhookInfo.channel_id}</p>
               </div>
-            </div>
+            </Alert>
           )}
 
           {/* Bot customization */}
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="label">Имя бота</label>
-              <input
-                type="text"
-                name="username"
-                value={settings.username}
-                onChange={handleChange}
-                placeholder="KOMAS Trading Bot"
-                className="input"
-              />
-            </div>
-            <div>
-              <label className="label">Avatar URL (опционально)</label>
-              <input
-                type="text"
-                name="avatar_url"
-                value={settings.avatar_url}
-                onChange={handleChange}
-                placeholder="https://..."
-                className="input"
-              />
-            </div>
+            <Input
+              label="Имя бота"
+              name="username"
+              value={settings.username}
+              onChange={handleChange}
+              placeholder="KOMAS Trading Bot"
+            />
+            <Input
+              label="Avatar URL (опционально)"
+              name="avatar_url"
+              value={settings.avatar_url}
+              onChange={handleChange}
+              placeholder="https://..."
+            />
           </div>
 
           {/* Test Button */}
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleTestNotification}
               disabled={!settings.webhook_url || isTesting}
-              className="btn-secondary btn-sm"
+              loading={isTesting}
+              icon={<Send className="h-4 w-4" />}
             >
-              {isTesting ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-1" />
-              ) : (
-                <Send className="h-4 w-4 mr-1" />
-              )}
               Тест
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Rich Embeds */}
-      <div className="card">
-        <div className="card-header flex items-center gap-2">
+      <Card>
+        <Card.Header className="flex items-center gap-2">
           <Zap className="h-5 w-5 text-purple-400" />
           <span>Формат сообщений</span>
-        </div>
+        </Card.Header>
 
-        <div className="space-y-4">
+        <Card.Body className="space-y-4">
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -989,17 +1004,17 @@ function DiscordTab() {
           <p className="text-xs text-gray-500">
             Rich Embeds создают красивые цветные карточки с иконками. Отключите для простого текстового формата.
           </p>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Trigger Settings */}
-      <div className="card">
-        <div className="card-header flex items-center gap-2">
+      <Card>
+        <Card.Header className="flex items-center gap-2">
           <Target className="h-5 w-5 text-red-400" />
           <span>Триггеры уведомлений</span>
-        </div>
+        </Card.Header>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <Card.Body className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[
             { name: 'notify_new_signal', label: 'Новый сигнал', icon: '📈' },
             { name: 'notify_tp_hit', label: 'TP достигнут', icon: '🎯' },
@@ -1022,14 +1037,14 @@ function DiscordTab() {
               <span className="text-sm">{trigger.label}</span>
             </label>
           ))}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Display Options */}
-      <div className="card">
-        <div className="card-header">Опции отображения</div>
+      <Card>
+        <Card.Header>Опции отображения</Card.Header>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card.Body className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: 'include_entry_zone', label: 'Зона входа' },
             { name: 'include_leverage', label: 'Плечо' },
@@ -1050,23 +1065,20 @@ function DiscordTab() {
               <span>{option.label}</span>
             </label>
           ))}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <button
+        <Button
+          variant="primary"
           onClick={handleSave}
           disabled={isSaving}
-          className="btn-primary"
+          loading={isSaving}
+          icon={<Save className="h-4 w-4" />}
         >
-          {isSaving ? (
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-          ) : (
-            <Save className="h-4 w-4 mr-2" />
-          )}
           Сохранить настройки
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -1106,98 +1118,87 @@ function ApiKeysTab() {
   return (
     <div className="space-y-6">
       {exchanges.map(exchange => (
-        <div key={exchange.id} className="card">
-          <div className="card-header flex items-center gap-2">
+        <Card key={exchange.id}>
+          <Card.Header className="flex items-center gap-2">
             <div className={`w-3 h-3 rounded-full bg-${exchange.color}-400`} />
             <span>{exchange.name}</span>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="label">API Key</label>
-              <input
-                type="text"
-                name={`${exchange.id}_key`}
-                value={keys[`${exchange.id}_key`]}
+          </Card.Header>
+
+          <Card.Body className="space-y-4">
+            <Input
+              label="API Key"
+              name={`${exchange.id}_key`}
+              value={keys[`${exchange.id}_key`]}
+              onChange={handleChange}
+              placeholder="Enter API Key"
+            />
+
+            <div className="relative">
+              <Input
+                label="API Secret"
+                type={showSecrets[`${exchange.id}_secret`] ? 'text' : 'password'}
+                name={`${exchange.id}_secret`}
+                value={keys[`${exchange.id}_secret`]}
                 onChange={handleChange}
-                placeholder="Enter API Key"
-                className="input"
+                placeholder="Enter API Secret"
               />
+              <button
+                type="button"
+                onClick={() => toggleSecret(`${exchange.id}_secret`)}
+                className="absolute right-2 top-9 text-gray-500 hover:text-gray-300"
+              >
+                {showSecrets[`${exchange.id}_secret`] ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
             </div>
-            
-            <div>
-              <label className="label">API Secret</label>
+
+            {exchange.id === 'okx' && (
               <div className="relative">
-                <input
-                  type={showSecrets[`${exchange.id}_secret`] ? 'text' : 'password'}
-                  name={`${exchange.id}_secret`}
-                  value={keys[`${exchange.id}_secret`]}
+                <Input
+                  label="Passphrase"
+                  type={showSecrets.okx_passphrase ? 'text' : 'password'}
+                  name="okx_passphrase"
+                  value={keys.okx_passphrase}
                   onChange={handleChange}
-                  placeholder="Enter API Secret"
-                  className="input pr-10"
+                  placeholder="Enter Passphrase"
                 />
                 <button
                   type="button"
-                  onClick={() => toggleSecret(`${exchange.id}_secret`)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                  onClick={() => toggleSecret('okx_passphrase')}
+                  className="absolute right-2 top-9 text-gray-500 hover:text-gray-300"
                 >
-                  {showSecrets[`${exchange.id}_secret`] ? (
+                  {showSecrets.okx_passphrase ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
                   )}
                 </button>
               </div>
-            </div>
-
-            {exchange.id === 'okx' && (
-              <div>
-                <label className="label">Passphrase</label>
-                <div className="relative">
-                  <input
-                    type={showSecrets.okx_passphrase ? 'text' : 'password'}
-                    name="okx_passphrase"
-                    value={keys.okx_passphrase}
-                    onChange={handleChange}
-                    placeholder="Enter Passphrase"
-                    className="input pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => toggleSecret('okx_passphrase')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
-                  >
-                    {showSecrets.okx_passphrase ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
             )}
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
       ))}
 
-      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+      <Alert variant="warning">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-yellow-400 font-medium">Безопасность</p>
-            <p className="text-sm text-gray-400 mt-1">
-              API ключи хранятся локально и используются только для торговли. 
+            <p className="font-medium">Безопасность</p>
+            <p className="text-sm mt-1 opacity-90">
+              API ключи хранятся локально и используются только для торговли.
               Рекомендуется использовать ключи с ограниченными правами (только торговля, без вывода).
             </p>
           </div>
         </div>
-      </div>
+      </Alert>
 
       <div className="flex justify-end">
-        <button className="btn-primary">
-          <Save className="h-4 w-4 mr-2" />
+        <Button variant="primary" icon={<Save className="h-4 w-4" />}>
           Сохранить ключи
-        </button>
+        </Button>
       </div>
     </div>
   )
