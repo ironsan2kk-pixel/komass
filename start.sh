@@ -34,7 +34,7 @@ if lsof -Pi :5173 -sTCP:LISTEN -t >/dev/null ; then
 else
     echo -e "${BLUE}🎨 Starting Frontend (port 5173)...${NC}"
     cd frontend
-    npm run dev > /dev/null 2>&1 &
+    node dev-server.cjs > /dev/null 2>&1 &
     FRONTEND_PID=$!
     cd ..
     echo -e "${GREEN}✅ Frontend started (PID: $FRONTEND_PID)${NC}"
