@@ -65,9 +65,10 @@ class OptimizationConfig:
     max_symbols: int = 3  # Maximum symbols in portfolio
     min_symbols: int = 1  # Minimum symbols in portfolio
 
-    # Validation
-    use_walk_forward: bool = False
-    walk_forward_periods: int = 3
+    # Walk-forward validation
+    use_walk_forward: bool = True  # Enable walk-forward by default
+    train_ratio: float = 0.7  # 70% for training
+    walk_forward_periods: int = 3  # Number of validation periods
 
     # Performance
     max_workers: int = 4  # Parallel backtest workers
@@ -82,6 +83,19 @@ class OptimizationConfig:
             'metric': self.metric,
             'max_combinations': self.max_combinations
         }
+
+
+@dataclass
+class WalkForwardResult:
+    """Result of walk-forward validation"""
+    train_score: float = 0.0
+    test_score: float = 0.0
+    train_pnl: float = 0.0
+    test_pnl: float = 0.0
+    train_win_rate: float = 0.0
+    test_win_rate: float = 0.0
+    degradation: float = 0.0  # Score drop from train to test (%)
+    is_valid: bool = False  # Passes validation if test_score > 0
 
 
 @dataclass
@@ -104,8 +118,11 @@ class OptimizationResult:
     # Metric used
     metric: str = "sharpe"
 
+    # Walk-forward validation results
+    walk_forward: Optional[WalkForwardResult] = None
+
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        result = {
             'best_config': {
                 'name': self.best_config.name,
                 'symbols': [s.symbol for s in self.best_config.symbols],
@@ -121,6 +138,21 @@ class OptimizationResult:
                 'metric': self.metric
             }
         }
+
+        # Add walk-forward validation results if available
+        if self.walk_forward:
+            result['walk_forward'] = {
+                'train_score': round(self.walk_forward.train_score, 4),
+                'test_score': round(self.walk_forward.test_score, 4),
+                'train_pnl': round(self.walk_forward.train_pnl, 2),
+                'test_pnl': round(self.walk_forward.test_pnl, 2),
+                'train_win_rate': round(self.walk_forward.train_win_rate, 2),
+                'test_win_rate': round(self.walk_forward.test_win_rate, 2),
+                'degradation': round(self.walk_forward.degradation, 2),
+                'is_valid': self.walk_forward.is_valid
+            }
+
+        return result
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -199,6 +231,12 @@ class BotOptimizer:
             for cfg, backtest, score in self.results
         ]
 
+        # Run walk-forward validation on best config if enabled
+        walk_forward_result = None
+        if self.opt_config.use_walk_forward:
+            walk_forward_result = self._run_walk_forward_validation(best_config)
+            optimization_time = time.time() - start_time  # Update time
+
         return OptimizationResult(
             best_config=best_config,
             best_score=best_score,
@@ -207,7 +245,8 @@ class BotOptimizer:
             total_combinations=len(configs),
             combinations_tested=len(self.results),
             optimization_time=optimization_time,
-            metric=self.opt_config.metric
+            metric=self.opt_config.metric,
+            walk_forward=walk_forward_result
         )
 
     def _generate_configurations(self) -> List[BotConfig]:
@@ -379,6 +418,107 @@ class BotOptimizer:
                 result.profit_factor * 0.3 +
                 result.win_rate * 0.3
             )
+
+    def _run_walk_forward_validation(
+        self,
+        config: BotConfig
+    ) -> WalkForwardResult:
+        """
+        Run walk-forward validation on a configuration.
+
+        Splits data into train (70%) and test (30%) periods.
+        Optimizes on train data, validates on test data.
+
+        Args:
+            config: Configuration to validate
+
+        Returns:
+            WalkForwardResult with train/test metrics
+        """
+        logger.info("Running walk-forward validation (70/30 split)...")
+
+        # Parse dates
+        if self.start_date and self.end_date:
+            try:
+                start_dt = datetime.fromisoformat(self.start_date.replace('Z', '+00:00'))
+                end_dt = datetime.fromisoformat(self.end_date.replace('Z', '+00:00'))
+            except:
+                start_dt = datetime.strptime(self.start_date[:10], '%Y-%m-%d')
+                end_dt = datetime.strptime(self.end_date[:10], '%Y-%m-%d')
+        else:
+            # Default: last 365 days
+            end_dt = datetime.now()
+            start_dt = end_dt - timedelta(days=365)
+
+        # Calculate split point (70/30)
+        total_days = (end_dt - start_dt).days
+        train_days = int(total_days * self.opt_config.train_ratio)
+        split_dt = start_dt + timedelta(days=train_days)
+
+        train_start = start_dt.strftime('%Y-%m-%d')
+        train_end = split_dt.strftime('%Y-%m-%d')
+        test_start = split_dt.strftime('%Y-%m-%d')
+        test_end = end_dt.strftime('%Y-%m-%d')
+
+        logger.info(f"Train period: {train_start} to {train_end} ({train_days} days)")
+        logger.info(f"Test period: {test_start} to {test_end} ({total_days - train_days} days)")
+
+        # Run backtest on TRAIN data
+        try:
+            train_backtest = PortfolioBacktest(
+                bot_config=config,
+                start_date=train_start,
+                end_date=train_end
+            )
+            train_result = train_backtest.run()
+            train_score = self._calculate_score(train_result)
+        except Exception as e:
+            logger.error(f"Train backtest failed: {e}")
+            return WalkForwardResult(is_valid=False)
+
+        # Run backtest on TEST data (out-of-sample validation)
+        try:
+            test_backtest = PortfolioBacktest(
+                bot_config=config,
+                start_date=test_start,
+                end_date=test_end
+            )
+            test_result = test_backtest.run()
+            test_score = self._calculate_score(test_result)
+        except Exception as e:
+            logger.error(f"Test backtest failed: {e}")
+            return WalkForwardResult(
+                train_score=train_score,
+                train_pnl=train_result.total_pnl_percent,
+                train_win_rate=train_result.win_rate,
+                is_valid=False
+            )
+
+        # Calculate degradation (how much score dropped from train to test)
+        degradation = 0.0
+        if train_score > 0:
+            degradation = ((train_score - test_score) / train_score) * 100
+
+        # Validation passes if test score is positive and degradation < 50%
+        is_valid = test_score > 0 and degradation < 50
+
+        wf_result = WalkForwardResult(
+            train_score=train_score,
+            test_score=test_score,
+            train_pnl=train_result.total_pnl_percent,
+            test_pnl=test_result.total_pnl_percent,
+            train_win_rate=train_result.win_rate,
+            test_win_rate=test_result.win_rate,
+            degradation=degradation,
+            is_valid=is_valid
+        )
+
+        logger.info(f"Walk-forward results:")
+        logger.info(f"  Train: score={train_score:.2f}, PnL={train_result.total_pnl_percent:.1f}%, WR={train_result.win_rate:.1f}%")
+        logger.info(f"  Test:  score={test_score:.2f}, PnL={test_result.total_pnl_percent:.1f}%, WR={test_result.win_rate:.1f}%")
+        logger.info(f"  Degradation: {degradation:.1f}%, Valid: {is_valid}")
+
+        return wf_result
 
 
 # ═══════════════════════════════════════════════════════════════════
