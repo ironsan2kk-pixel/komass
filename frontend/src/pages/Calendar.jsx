@@ -206,7 +206,7 @@ export default function CalendarPage() {
           <p className="text-gray-500">Предстоящие экономические события</p>
         </div>
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={() => saveBlockSettingsMutation.mutate()}
             className="btn-secondary"
           >
@@ -217,6 +217,21 @@ export default function CalendarPage() {
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Обновить
           </button>
+        </div>
+      </div>
+
+      {/* Paper Trading Warning */}
+      <div className="bg-blue-600/20 border border-blue-600/40 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <Calendar className="h-5 w-5 text-blue-400 mt-0.5" />
+          <div>
+            <h3 className="text-blue-400 font-semibold mb-1">Календарь для симуляции (Paper Trading)</h3>
+            <p className="text-blue-200/90 text-sm">
+              Блокировка торговли работает ТОЛЬКО в режиме бумажной торговли (симуляция).
+              Экономический календарь используется для тестирования стратегий на исторических данных
+              и не влияет на реальную торговлю.
+            </p>
+          </div>
         </div>
       </div>
 

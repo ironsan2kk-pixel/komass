@@ -897,7 +897,22 @@ export default function Optimizer() {
           Multi-pair бэктестирование и поиск лучших универсальных пресетов
         </p>
       </div>
-      
+
+      {/* Paper Trading Warning */}
+      <div className="mb-6 bg-yellow-600/20 border border-yellow-600/40 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">📊</span>
+          <div>
+            <h3 className="text-yellow-400 font-semibold mb-1">Оптимизация для бумажной торговли (Paper Trading)</h3>
+            <p className="text-yellow-200/90 text-sm">
+              Оптимизатор тестирует пресеты ТОЛЬКО на исторических данных для поиска лучших параметров.
+              Все результаты являются симуляцией прошлого и НЕ гарантируют будущую прибыльность.
+              Используйте результаты исключительно для бэктестинга стратегий.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Tabs */}
       <div className="flex gap-2 mb-6 border-b border-gray-700 pb-2">
         {TABS.map(tab => (

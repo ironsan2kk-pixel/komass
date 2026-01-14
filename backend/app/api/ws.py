@@ -585,14 +585,18 @@ async def sse_trades(
 ):
     """
     Server-Sent Events stream for trade updates
-    
-    Subscribe to real-time trade updates.
-    
+
+    Subscribe to real-time trade updates for MONITORING ONLY (Paper Trading).
+
+    NOTE: This endpoint streams market data from Binance for visualization
+    and backtesting purposes ONLY. No real trading occurs.
+    All data is used for paper trading simulation.
+
     Args:
         symbol: Trading pair (e.g., "BTCUSDT")
-        
+
     Returns:
-        SSE stream with trade updates
+        SSE stream with trade updates (for monitoring only)
     """
     symbol = symbol.upper()
     stream_id = f"{symbol.lower()}@aggTrade"
