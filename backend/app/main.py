@@ -9,7 +9,6 @@ Chat #43: Filters Integration
 Chat #48: Preset Optimizer Heatmap
 - Added heatmap_routes router for /api/optimizer/results/* heatmap endpoints
 """
-import os
 import sys
 import logging
 import traceback

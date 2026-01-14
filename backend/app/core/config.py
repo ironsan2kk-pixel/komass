@@ -14,7 +14,6 @@ Komas Trading System - Configuration
     print(settings.DEBUG)
 """
 
-from pathlib import Path
 from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
