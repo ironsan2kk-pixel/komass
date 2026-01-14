@@ -6,6 +6,10 @@ Connects bot runner callbacks to Telegram/Discord notification systems.
 Functions:
 - setup_notifications: Initialize notification callbacks for bot runner
 - Bridges runner events to Telegram/Discord notifiers
+
+NEW: Multi-Channel Support
+- Uses TelegramBotIntegration with SignalRouter for multi-channel routing
+- Supports filtering by indicator, symbol, direction, score, grade
 """
 
 import asyncio
@@ -23,6 +27,7 @@ from ..notifications.models import (
     SignalDirection
 )
 from ..logger import get_logger
+from .telegram_integration import get_telegram_integration
 
 logger = get_logger("bots.notifications")
 
@@ -322,9 +327,44 @@ def setup_bot_runner_notifications(runner):
     return runner
 
 
+def setup_multi_channel_integration(runner):
+    """
+    Setup Multi-Channel Telegram integration with Signal Router.
+
+    This enables routing signals to multiple Telegram channels based on
+    filtering rules (indicator, symbol, direction, score, grade).
+
+    Args:
+        runner: BotsRunner instance
+    """
+    try:
+        # Get telegram integration (singleton)
+        telegram_integration = get_telegram_integration()
+
+        # Register callback for new signals from runner
+        async def on_signal_event(event):
+            """Handle SignalEvent from BotRunner"""
+            try:
+                # Route to multi-channel system
+                await telegram_integration.handle_new_signal(event)
+            except Exception as e:
+                logger.error(f"Error in multi-channel signal handler: {e}", exc_info=True)
+
+        # Add callback to runner
+        runner.add_signal_callback(on_signal_event)
+        logger.info("✔ Multi-Channel Telegram integration configured")
+
+    except Exception as e:
+        logger.error(f"✗ Failed to setup multi-channel integration: {e}")
+
+
 def setup_notifications_for_runner(runner):
     """
     Convenience function to setup all notification integrations.
+
+    Sets up:
+    - Legacy single-channel notifications (Telegram/Discord)
+    - NEW: Multi-Channel Telegram with Signal Router
 
     Args:
         runner: BotsRunner instance
@@ -337,10 +377,13 @@ def setup_notifications_for_runner(runner):
         get_telegram_notifier()
         get_discord_notifier()
 
-        # Setup callbacks
+        # Setup legacy callbacks (single-channel)
         setup_bot_runner_notifications(runner)
 
-        logger.info("✔ Notification integration completed")
+        # NEW: Setup Multi-Channel Telegram integration
+        setup_multi_channel_integration(runner)
+
+        logger.info("✔ Notification integration completed (single + multi-channel)")
         return runner
 
     except Exception as e:
