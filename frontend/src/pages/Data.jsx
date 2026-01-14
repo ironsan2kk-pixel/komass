@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Button, Card, Input, Select, Spinner, Alert, Badge } from '../components/ui';
 
 const TIMEFRAMES = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '1d'];
 
@@ -214,112 +215,114 @@ export default function Data() {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">📊 Управление данными</h1>
-        <div className="flex items-center gap-2">
-          <span className="px-3 py-1 bg-orange-600/30 text-orange-400 rounded-lg text-sm font-medium">
-            🔥 Binance Futures Only
-          </span>
-        </div>
+        <h1 className="text-2xl font-bold text-gray-100 dark:text-gray-100 light:text-gray-900">
+          📊 Управление данными
+        </h1>
+        <Badge variant="warning" className="px-3 py-1 text-sm font-medium">
+          🔥 Binance Futures Only
+        </Badge>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left */}
         <div className="space-y-4">
           {/* Download Settings */}
-          <div className="bg-gray-800 rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-white mb-4">⬇️ Загрузка с Binance Futures</h3>
-
-            <div className="mb-4">
-              <label className="text-gray-400 text-sm block mb-2">Таймфрейм</label>
-              <select
+          <Card>
+            <Card.Header>
+              <h3 className="text-lg font-semibold">⬇️ Загрузка с Binance Futures</h3>
+            </Card.Header>
+            <Card.Body className="space-y-4">
+              <Select
+                label="Таймфрейм"
                 value={downloadTimeframe}
                 onChange={(e) => setDownloadTimeframe(e.target.value)}
-                className="w-full bg-gray-700 text-white rounded px-4 py-2"
               >
                 {TIMEFRAMES.map((tf) => (
                   <option key={tf} value={tf}>{tf}</option>
                 ))}
-              </select>
+              </Select>
+
+            <div className="flex flex-wrap gap-2">
+              <Button variant="primary" size="sm" onClick={() => selectTop(10)}>Топ 10</Button>
+              <Button variant="primary" size="sm" onClick={() => selectTop(20)}>Топ 20</Button>
+              <Button variant="primary" size="sm" onClick={() => selectTop(50)}>Топ 50</Button>
+              <Button variant="success" size="sm" onClick={selectAll}>Все</Button>
+              <Button variant="secondary" size="sm" onClick={clearSelection}>Очистить</Button>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-4">
-              <button onClick={() => selectTop(10)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 10</button>
-              <button onClick={() => selectTop(20)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 20</button>
-              <button onClick={() => selectTop(50)} className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Топ 50</button>
-              <button onClick={selectAll} className="px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">Все</button>
-              <button onClick={clearSelection} className="px-3 py-1.5 bg-gray-600 text-white text-sm rounded hover:bg-gray-700">Очистить</button>
-            </div>
-
-            <div className="text-gray-400 text-sm mb-4">
+            <div className="text-gray-400 text-sm">
               Выбрано: <span className="text-white font-bold">{selectedSymbols.length}</span> пар
             </div>
 
-            <button
+            <Button
+              variant="primary"
+              className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
               onClick={startDownload}
               disabled={downloading || selectedSymbols.length === 0}
-              className={`w-full py-3 rounded-lg font-bold text-white ${
-                downloading || selectedSymbols.length === 0
-                  ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600'
-              }`}
+              loading={downloading}
             >
               {downloading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  {progress.current} {progress.current_progress}
-                </span>
+                `${progress.current} ${progress.current_progress}`
               ) : (
                 `🚀 Загрузить ${selectedSymbols.length} пар (Futures)`
               )}
-            </button>
+            </Button>
 
             {downloading && (
-              <div className="mt-3">
+              <div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-orange-500 h-2 rounded-full transition-all" 
-                    style={{ width: `${progress.total ? (progress.completed / progress.total * 100) : 0}%` }} 
+                  <div
+                    className="bg-orange-500 h-2 rounded-full transition-all"
+                    style={{ width: `${progress.total ? (progress.completed / progress.total * 100) : 0}%` }}
                   />
                 </div>
                 <div className="text-gray-500 text-xs mt-1">{progress.completed || 0} / {progress.total || 0}</div>
               </div>
             )}
-          </div>
+            </Card.Body>
+          </Card>
 
           {/* Auto-Sync */}
-          <div className="bg-gray-800 rounded-lg p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-white">🔄 Автоподкачка</h3>
+          <Card>
+            <Card.Header className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">🔄 Автоподкачка</h3>
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={autoSync} onChange={(e) => setAutoSync(e.target.checked)} className="w-5 h-5" />
-                <span className={autoSync ? 'text-green-400' : 'text-gray-400'}>{autoSync ? 'Вкл' : 'Выкл'}</span>
+                <input type="checkbox" checked={autoSync} onChange={(e) => setAutoSync(e.target.checked)} className="w-5 h-5 rounded" />
+                <span className={autoSync ? 'text-success-400' : 'text-gray-400'}>{autoSync ? 'Вкл' : 'Выкл'}</span>
               </label>
-            </div>
-            <div className="flex items-center gap-3">
-              <select value={syncInterval} onChange={(e) => setSyncInterval(parseInt(e.target.value))} className="bg-gray-700 text-white rounded px-3 py-2">
-                <option value={1}>1 мин</option>
-                <option value={5}>5 мин</option>
-                <option value={15}>15 мин</option>
-              </select>
-              <button onClick={syncLatest} className="px-4 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">Синхр.</button>
-              {lastSync && <span className="text-gray-500 text-sm">{lastSync}</span>}
-            </div>
-          </div>
+            </Card.Header>
+            <Card.Body>
+              <div className="flex items-center gap-3">
+                <Select
+                  value={syncInterval}
+                  onChange={(e) => setSyncInterval(parseInt(e.target.value))}
+                  className="flex-shrink-0"
+                >
+                  <option value={1}>1 мин</option>
+                  <option value={5}>5 мин</option>
+                  <option value={15}>15 мин</option>
+                </Select>
+                <Button variant="primary" size="sm" onClick={syncLatest}>
+                  Синхр.
+                </Button>
+                {lastSync && <span className="text-gray-500 text-sm">{lastSync}</span>}
+              </div>
+            </Card.Body>
+          </Card>
 
           {/* Symbols */}
-          <div className="bg-gray-800 rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-white mb-3">🔍 Выбор пар ({ALL_SYMBOLS.length})</h3>
-            <input
-              type="text"
-              value={symbolSearch}
-              onChange={(e) => setSymbolSearch(e.target.value)}
-              placeholder="Поиск... BTC, ETH, SOL"
-              className="w-full bg-gray-700 text-white rounded px-4 py-2 mb-3"
-            />
-            <div className="h-72 overflow-y-auto space-y-1">
+          <Card>
+            <Card.Header>
+              <h3 className="text-lg font-semibold">🔍 Выбор пар ({ALL_SYMBOLS.length})</h3>
+            </Card.Header>
+            <Card.Body className="space-y-3">
+              <Input
+                type="text"
+                value={symbolSearch}
+                onChange={(e) => setSymbolSearch(e.target.value)}
+                placeholder="Поиск... BTC, ETH, SOL"
+              />
+              <div className="h-72 overflow-y-auto space-y-1">
               {filteredSymbols.map((symbol) => (
                 <label
                   key={symbol}
@@ -338,27 +341,32 @@ export default function Data() {
                   <span className="text-white font-mono text-sm">{symbol}</span>
                 </label>
               ))}
-            </div>
-            <div className="mt-2 text-gray-500 text-sm">Найдено: {filteredSymbols.length}</div>
-          </div>
+              </div>
+              <div className="text-gray-500 text-sm">Найдено: {filteredSymbols.length}</div>
+            </Card.Body>
+          </Card>
         </div>
 
         {/* Right */}
         <div className="space-y-4">
-          <div className="bg-gray-800 rounded-lg p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-white">💾 Загруженные ({availableData.length})</h3>
+          <Card>
+            <Card.Header className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">💾 Загруженные ({availableData.length})</h3>
               <div className="flex gap-2">
-                <button 
-                  onClick={continueAllOutdated} 
-                  className="px-3 py-1 bg-green-700 text-white text-sm rounded hover:bg-green-600"
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={continueAllOutdated}
                   title="Докачать все неполные"
                 >
                   ⬇️ Докачать всё
-                </button>
-                <button onClick={fetchAvailableData} className="px-3 py-1 bg-gray-700 text-white text-sm rounded hover:bg-gray-600">🔄</button>
+                </Button>
+                <Button variant="secondary" size="sm" onClick={fetchAvailableData}>
+                  🔄
+                </Button>
               </div>
-            </div>
+            </Card.Header>
+            <Card.Body>
 
             {loadingData ? (
               <div className="text-gray-400 text-center py-8">Загрузка...</div>
@@ -386,15 +394,24 @@ export default function Data() {
                     </div>
                     <div className="flex items-center gap-1">
                       {isOutdated && (
-                        <button 
-                          onClick={() => continueDownload(file.symbol, file.timeframe)} 
-                          className="p-2 text-green-400 hover:bg-green-600/20 rounded text-sm"
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => continueDownload(file.symbol, file.timeframe)}
+                          className="text-success-400 hover:bg-success-600/20"
                           title="Докачать до текущей даты"
                         >
                           ⬇️
-                        </button>
+                        </Button>
                       )}
-                      <button onClick={() => deleteFile(file.filename)} className="p-2 text-red-400 hover:bg-red-600/20 rounded">🗑️</button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => deleteFile(file.filename)}
+                        className="text-danger-400 hover:bg-danger-600/20"
+                      >
+                        🗑️
+                      </Button>
                     </div>
                   </div>
                 )})}
@@ -402,22 +419,23 @@ export default function Data() {
             )}
 
             {availableData.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between text-sm">
+              <div className="pt-4 border-t border-dark-700 dark:border-dark-700 light:border-gray-200 flex justify-between text-sm">
                 <span className="text-gray-400">Всего: {availableData.reduce((s, f) => s + (f.size_mb || 0), 0).toFixed(1)} MB</span>
               </div>
             )}
-          </div>
+            </Card.Body>
+          </Card>
 
-          <div className="bg-orange-900/20 border border-orange-500/30 rounded-lg p-4 text-sm text-gray-400">
-            <div className="font-medium text-orange-400 mb-2">🔥 Binance Futures Only</div>
-            <ul className="space-y-1">
+          <Alert variant="warning" className="text-sm">
+            <div className="font-medium mb-2">🔥 Binance Futures Only</div>
+            <ul className="space-y-1 text-xs opacity-90">
               <li>• Данные с Binance Futures с сентября 2019</li>
               <li>• Только фьючерсные USDT-M пары</li>
               <li>• Автоподкачка добавляет только новые свечи</li>
               <li>• ~5 MB на пару для 1h за всю историю</li>
               <li>• Spot API удалён в версии 4.0</li>
             </ul>
-          </div>
+          </Alert>
         </div>
       </div>
     </div>
