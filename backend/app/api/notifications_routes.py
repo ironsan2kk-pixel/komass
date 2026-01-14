@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 
 from app.core.notifications import (
     TelegramSettings,
+    DiscordSettings,
     SignalData,
     TPHitData,
     SLHitData,
@@ -19,7 +20,8 @@ from app.core.notifications import (
     NotificationFormat,
     NotificationStats,
     TelegramBotInfo,
-    get_notifier
+    get_notifier,
+    get_discord_notifier
 )
 
 
@@ -523,6 +525,300 @@ async def enable_notifications():
 async def disable_notifications():
     """Disable notifications"""
     notifier = get_notifier()
+    settings = notifier.get_settings()
+    settings.enabled = False
+    notifier.update_settings(settings)
+    return {"success": True, "enabled": False}
+
+
+# ============ DISCORD ENDPOINTS ============
+
+
+class DiscordSettingsResponse(BaseModel):
+    """Response with Discord settings"""
+    success: bool = True
+    settings: DiscordSettings
+
+
+class DiscordTestResponse(BaseModel):
+    """Response from Discord test"""
+    success: bool
+    message: str
+    webhook_info: Optional[Dict[str, Any]] = None
+
+
+class DiscordWebhookInfo(BaseModel):
+    """Discord webhook information"""
+    valid: bool
+    webhook_info: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+
+@router.get("/discord/settings", response_model=DiscordSettingsResponse)
+async def get_discord_settings():
+    """Get current Discord notification settings"""
+    notifier = get_discord_notifier()
+    settings = notifier.get_settings()
+
+    # Mask webhook URL for security
+    masked_settings = settings.model_copy()
+    if masked_settings.webhook_url:
+        url = masked_settings.webhook_url
+        if len(url) > 30:
+            masked_settings.webhook_url = url[:20] + "..." + url[-10:]
+
+    return DiscordSettingsResponse(settings=masked_settings)
+
+
+@router.post("/discord/settings", response_model=DiscordSettingsResponse)
+async def update_discord_settings(settings: DiscordSettings):
+    """Update Discord notification settings"""
+    notifier = get_discord_notifier()
+
+    # If URL is masked, keep the old one
+    if settings.webhook_url and "..." in settings.webhook_url:
+        settings.webhook_url = notifier.get_settings().webhook_url
+
+    notifier.update_settings(settings)
+    logger.info("Discord settings updated")
+
+    return DiscordSettingsResponse(settings=settings)
+
+
+@router.post("/discord/validate", response_model=DiscordWebhookInfo)
+async def validate_discord_webhook(
+    webhook_url: Optional[str] = Body(None, embed=True)
+):
+    """Validate Discord webhook URL"""
+    notifier = get_discord_notifier()
+
+    # Use provided URL or existing one
+    if webhook_url and "..." not in webhook_url:
+        temp_settings = notifier.get_settings().model_copy()
+        temp_settings.webhook_url = webhook_url
+        notifier.update_settings(temp_settings)
+
+    valid, webhook_info, error = await notifier.validate_webhook()
+
+    return DiscordWebhookInfo(
+        valid=valid,
+        webhook_info=webhook_info,
+        error=error
+    )
+
+
+@router.post("/discord/test", response_model=DiscordTestResponse)
+async def send_discord_test():
+    """Send a test Discord notification"""
+    notifier = get_discord_notifier()
+
+    # Validate webhook first
+    valid, webhook_info, error = await notifier.validate_webhook()
+    if not valid:
+        return DiscordTestResponse(
+            success=False,
+            message=f"Webhook validation failed: {error}",
+            webhook_info=webhook_info
+        )
+
+    # Send test message
+    result = await notifier.send_test_notification()
+
+    return DiscordTestResponse(
+        success=result.success,
+        message="Test notification sent successfully!" if result.success else f"Failed: {result.error}",
+        webhook_info=webhook_info
+    )
+
+
+@router.get("/discord/stats", response_model=StatsResponse)
+async def get_discord_stats():
+    """Get Discord notification statistics"""
+    notifier = get_discord_notifier()
+    return StatsResponse(stats=notifier.get_stats())
+
+
+@router.post("/discord/stats/reset")
+async def reset_discord_stats():
+    """Reset Discord notification statistics"""
+    notifier = get_discord_notifier()
+    notifier._stats = NotificationStats()
+    return {"success": True, "message": "Discord statistics reset"}
+
+
+@router.post("/discord/send/signal", response_model=NotificationResultResponse)
+async def send_discord_signal(request: SendSignalRequest):
+    """Send new signal notification to Discord"""
+    notifier = get_discord_notifier()
+
+    signal = SignalData(
+        symbol=request.symbol,
+        direction=request.direction,
+        entry_price=request.entry_price,
+        entry_zone_low=request.entry_zone_low,
+        entry_zone_high=request.entry_zone_high,
+        tp_targets=request.tp_targets,
+        tp_amounts=request.tp_amounts,
+        sl_price=request.sl_price,
+        sl_percent=request.sl_percent,
+        sl_mode=request.sl_mode,
+        leverage=request.leverage,
+        timeframe=request.timeframe,
+        exchange=request.exchange,
+        indicator_name=request.indicator_name,
+        created_at=datetime.now()
+    )
+
+    result = await notifier.notify_new_signal(signal)
+
+    if result is None:
+        return NotificationResultResponse(
+            success=False,
+            error="Discord notifications disabled or new_signal notifications off"
+        )
+
+    return NotificationResultResponse(
+        success=result.success,
+        message_id=result.message_id,
+        error=result.error
+    )
+
+
+@router.post("/discord/send/tp-hit", response_model=NotificationResultResponse)
+async def send_discord_tp_hit(request: SendTPHitRequest):
+    """Send TP hit notification to Discord"""
+    notifier = get_discord_notifier()
+
+    data = TPHitData(
+        signal_id=request.signal_id,
+        symbol=request.symbol,
+        direction=request.direction,
+        tp_level=request.tp_level,
+        tp_price=request.tp_price,
+        entry_price=request.entry_price,
+        profit_percent=request.profit_percent,
+        amount_closed=request.amount_closed,
+        remaining_position=request.remaining_position,
+        timestamp=datetime.now()
+    )
+
+    result = await notifier.notify_tp_hit(data)
+
+    if result is None:
+        return NotificationResultResponse(
+            success=False,
+            error="Discord notifications disabled or tp_hit notifications off"
+        )
+
+    return NotificationResultResponse(
+        success=result.success,
+        message_id=result.message_id,
+        error=result.error
+    )
+
+
+@router.post("/discord/send/sl-hit", response_model=NotificationResultResponse)
+async def send_discord_sl_hit(request: SendSLHitRequest):
+    """Send SL hit notification to Discord"""
+    notifier = get_discord_notifier()
+
+    data = SLHitData(
+        signal_id=request.signal_id,
+        symbol=request.symbol,
+        direction=request.direction,
+        sl_price=request.sl_price,
+        entry_price=request.entry_price,
+        loss_percent=request.loss_percent,
+        sl_mode=request.sl_mode,
+        timestamp=datetime.now()
+    )
+
+    result = await notifier.notify_sl_hit(data)
+
+    if result is None:
+        return NotificationResultResponse(
+            success=False,
+            error="Discord notifications disabled or sl_hit notifications off"
+        )
+
+    return NotificationResultResponse(
+        success=result.success,
+        message_id=result.message_id,
+        error=result.error
+    )
+
+
+@router.post("/discord/send/closed", response_model=NotificationResultResponse)
+async def send_discord_closed(request: SendClosedRequest):
+    """Send signal closed notification to Discord"""
+    notifier = get_discord_notifier()
+
+    data = SignalClosedData(
+        signal_id=request.signal_id,
+        symbol=request.symbol,
+        direction=request.direction,
+        entry_price=request.entry_price,
+        exit_price=request.exit_price,
+        pnl_percent=request.pnl_percent,
+        pnl_usd=request.pnl_usd,
+        duration_hours=request.duration_hours,
+        close_reason=request.close_reason,
+        tp_hits=request.tp_hits,
+        timestamp=datetime.now()
+    )
+
+    result = await notifier.notify_signal_closed(data)
+
+    if result is None:
+        return NotificationResultResponse(
+            success=False,
+            error="Discord notifications disabled or signal_closed notifications off"
+        )
+
+    return NotificationResultResponse(
+        success=result.success,
+        message_id=result.message_id,
+        error=result.error
+    )
+
+
+@router.post("/discord/send/error", response_model=NotificationResultResponse)
+async def send_discord_error(
+    error: str = Body(..., embed=True),
+    context: Optional[Dict[str, Any]] = Body(None, embed=True)
+):
+    """Send error notification to Discord"""
+    notifier = get_discord_notifier()
+
+    result = await notifier.notify_error(error, context)
+
+    if result is None:
+        return NotificationResultResponse(
+            success=False,
+            error="Discord notifications disabled or error notifications off"
+        )
+
+    return NotificationResultResponse(
+        success=result.success,
+        message_id=result.message_id,
+        error=result.error
+    )
+
+
+@router.post("/discord/enable")
+async def enable_discord_notifications():
+    """Enable Discord notifications"""
+    notifier = get_discord_notifier()
+    settings = notifier.get_settings()
+    settings.enabled = True
+    notifier.update_settings(settings)
+    return {"success": True, "enabled": True}
+
+
+@router.post("/discord/disable")
+async def disable_discord_notifications():
+    """Disable Discord notifications"""
+    notifier = get_discord_notifier()
     settings = notifier.get_settings()
     settings.enabled = False
     notifier.update_settings(settings)

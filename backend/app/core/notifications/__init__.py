@@ -7,6 +7,7 @@ from .models import (
     NotificationFormat,
     NotificationTrigger,
     TelegramSettings,
+    DiscordSettings,
     SignalData,
     TPHitData,
     SLHitData,
@@ -34,12 +35,19 @@ from .telegram import (
     init_notifier
 )
 
+from .discord import (
+    DiscordNotifier,
+    get_discord_notifier,
+    init_discord_notifier
+)
+
 
 __all__ = [
     # Models
     "NotificationFormat",
     "NotificationTrigger",
     "TelegramSettings",
+    "DiscordSettings",
     "SignalData",
     "TPHitData",
     "SLHitData",
@@ -50,7 +58,7 @@ __all__ = [
     "NotificationTestResponse",
     "TelegramBotInfo",
     "NotificationStats",
-    
+
     # Formatters
     "get_formatter",
     "format_error_message",
@@ -58,9 +66,14 @@ __all__ = [
     "SimpleFormatter",
     "CornixFormatter",
     "CustomFormatter",
-    
+
     # Telegram
     "TelegramNotifier",
     "get_notifier",
     "init_notifier",
+
+    # Discord
+    "DiscordNotifier",
+    "get_discord_notifier",
+    "init_discord_notifier",
 ]
