@@ -32,7 +32,6 @@ import Optimizer from './pages/Optimizer';
 import Settings from './pages/Settings';
 import Signals from './pages/Signals';
 import Bots from './pages/Bots';
-import BotsSimple from './pages/BotsSimple';
 
 const NAV_ITEMS = [
   { path: '/', name: '📊 Индикатор', component: Indicator },
@@ -42,7 +41,6 @@ const NAV_ITEMS = [
   { divider: true },
   { path: '/signals', name: '🔔 Сигналы', component: Signals },
   { path: '/bots', name: '🤖 Боты', component: Bots },
-  { path: '/bots-test', name: '🧪 Боты (Тест)', component: BotsSimple },
   { divider: true },
   { path: '/settings', name: '⚙️ Настройки', component: Settings },
 ];
