@@ -774,3 +774,110 @@ async def quick_backtest(
             success=False,
             error=str(e)
         )
+
+
+# ============ OPTIMIZATION ============
+
+class OptimizeRequest(BaseModel):
+    """Request to optimize bot configuration"""
+    bot_id: str
+    symbols: Optional[List[str]] = None  # Symbol candidates
+    metric: str = "sharpe"  # sharpe, profit_factor, win_rate, pnl_percent
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    max_combinations: int = 50
+
+
+class OptimizeResponse(BaseModel):
+    """Optimization results response"""
+    success: bool
+    result: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+
+@router.post("/optimize", response_model=OptimizeResponse)
+async def optimize_bot_config(request: OptimizeRequest):
+    """
+    Optimize bot configuration parameters.
+
+    Tests different symbol combinations and strategy parameters
+    to find optimal configuration based on specified metric.
+    """
+    from app.core.bots.optimizer import quick_optimize
+
+    manager = get_bots_manager()
+
+    # Get base bot configuration
+    bot = manager.get_bot(request.bot_id)
+    if not bot:
+        raise HTTPException(status_code=404, detail="Bot not found")
+
+    try:
+        logger.info(f"Starting optimization for bot {bot.config.name}")
+
+        result = quick_optimize(
+            base_config=bot.config,
+            symbols=request.symbols,
+            metric=request.metric,
+            start_date=request.start_date,
+            end_date=request.end_date
+        )
+
+        logger.info(f"Optimization complete: best score={result.best_score:.4f}")
+
+        return OptimizeResponse(
+            success=True,
+            result=result.to_dict()
+        )
+
+    except Exception as e:
+        logger.error(f"Optimization failed: {e}", exc_info=True)
+        return OptimizeResponse(
+            success=False,
+            error=str(e)
+        )
+
+
+@router.get("/{bot_id}/optimize-quick")
+async def quick_optimize_bot(
+    bot_id: str,
+    metric: str = Query(default="sharpe", description="Optimization metric"),
+    days: int = Query(default=30, ge=7, le=90, description="Days to optimize over")
+):
+    """
+    Quick optimization using last N days.
+
+    Tests top 5 crypto symbols with default parameter ranges.
+    """
+    from app.core.bots.optimizer import quick_optimize
+    from datetime import datetime, timedelta
+
+    manager = get_bots_manager()
+
+    bot = manager.get_bot(bot_id)
+    if not bot:
+        raise HTTPException(status_code=404, detail="Bot not found")
+
+    # Date range
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=days)
+
+    try:
+        result = quick_optimize(
+            base_config=bot.config,
+            metric=metric,
+            start_date=start_date.strftime("%Y-%m-%d"),
+            end_date=end_date.strftime("%Y-%m-%d")
+        )
+
+        return OptimizeResponse(
+            success=True,
+            result=result.to_dict()
+        )
+
+    except Exception as e:
+        logger.error(f"Quick optimization failed: {e}", exc_info=True)
+        return OptimizeResponse(
+            success=False,
+            error=str(e)
+        )
