@@ -7,7 +7,11 @@ Professional-grade cryptocurrency trading platform with automated bots, technica
 > All trades are executed on historical data for backtesting purposes only.
 > **NO REAL TRADING** - API keys are NOT used for live order execution.
 
-## 🚀 Features
+## 🚀 Quick Start
+
+**New to KOMAS?** See **[QUICKSTART.md](./QUICKSTART.md)** for step-by-step installation and setup instructions.
+
+## 🎯 Features
 
 ### Trading Bots System (Paper Trading)
 - **Paper Trading Engine** - Automated strategy simulation on historical data
