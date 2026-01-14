@@ -76,6 +76,11 @@ data/komas.db
 data/*.parquet
 backend/data/*.parquet
 
+# Cache files
+backend/data/calendar/events_cache.json
+*_cache.json
+*.cache
+
 # Environment variables
 .env
 .env.local
